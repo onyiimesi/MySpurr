@@ -62,5 +62,5 @@ jobs:
         with:
           app-name: 'myspurr'
           slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_e968f7ffbe53482daa6a9644a0272938 }}
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile }}
           package: .
