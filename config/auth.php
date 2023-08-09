@@ -40,6 +40,17 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'api' => [
+            'driver' => 'session',
+            'provider' => 'users',
+            'hash' => true,
+        ],
+
+        'talents' => [
+            'driver' => 'session',
+            'provider' => 'talent',
+        ],
     ],
 
     /*
@@ -63,6 +74,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+
+        'talent' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\V1\Talent::class,
         ],
 
         // 'users' => [
