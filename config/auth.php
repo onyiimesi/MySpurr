@@ -51,6 +51,11 @@ return [
             'driver' => 'session',
             'provider' => 'talent',
         ],
+
+        'businesses' => [
+            'driver' => 'session',
+            'provider' => 'business',
+        ],
     ],
 
     /*
@@ -79,6 +84,11 @@ return [
         'talent' => [
             'driver' => 'eloquent',
             'model' => App\Models\V1\Talent::class,
+        ],
+
+        'business' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\V1\Business::class,
         ],
 
         // 'users' => [

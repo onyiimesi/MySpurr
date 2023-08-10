@@ -57,7 +57,7 @@ class TalentOnboardingController extends Controller
 
         if($request->image){
             $file = $request->image;
-            $folderName = 'https://schoolmate.powershellerp.com/public/talents';
+            $folderName = 'https://myspurr.azurewebsites.net/public/talents';
             $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
             $replace = substr($file, 0, strpos($file, ',')+1);
             $sig = str_replace($replace, '', $file);

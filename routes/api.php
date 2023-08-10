@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\V1\AuthController;
+use App\Http\Controllers\V1\BusinessOnboardingController;
 use App\Http\Controllers\V1\TalentOnboardingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,14 +24,25 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('v1/login', [AuthController::class, 'login']);
 Route::post('v1/talent-register', [AuthController::class, 'talentRegister']);
+Route::post('v1/business-register', [AuthController::class, 'businessRegister']);
 
 Route::get('/verify/{token}', [AuthController::class, 'verify'])->name('verification.verify');
+Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name('verification.verifys');
 // Route::get('/auth/google', [AuthController::class, 'redirectToGoogle']);
 // Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
 
+    // Talent
     Route::post('v1/talent-work-details', [TalentOnboardingController::class, 'workDetails']);
     Route::post('v1/talent-portfolio', [TalentOnboardingController::class, 'portfolio']);
+
+
+
+
+
+    // Business
+    Route::post('v1/business-details', [BusinessOnboardingController::class, 'businessDetails']);
+    Route::post('v1/business-portfolio', [BusinessOnboardingController::class, 'portfolio']);
 
 });
