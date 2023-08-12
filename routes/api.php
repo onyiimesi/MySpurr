@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\V1\AuthController;
 use App\Http\Controllers\V1\BusinessOnboardingController;
+use App\Http\Controllers\V1\JobController;
 use App\Http\Controllers\V1\TalentOnboardingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +47,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('v1/business-details', [BusinessOnboardingController::class, 'businessDetails']);
     Route::post('v1/business-portfolio', [BusinessOnboardingController::class, 'portfolio']);
     Route::patch('v1/business-edit-profile', [BusinessOnboardingController::class, 'editProfile']);
+    Route::resource('v1/job', JobController::class);
 
 
     Route::post('v1/logout', [AuthController::class, 'logout']);
