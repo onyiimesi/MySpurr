@@ -36,6 +36,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     // Talent
     Route::post('v1/talent-work-details', [TalentOnboardingController::class, 'workDetails']);
     Route::post('v1/talent-portfolio', [TalentOnboardingController::class, 'portfolio']);
+    Route::patch('v1/talent-edit-profile', [TalentOnboardingController::class, 'editProfile']);
 
 
 
@@ -44,6 +45,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     // Business
     Route::post('v1/business-details', [BusinessOnboardingController::class, 'businessDetails']);
     Route::post('v1/business-portfolio', [BusinessOnboardingController::class, 'portfolio']);
+    Route::patch('v1/business-edit-profile', [BusinessOnboardingController::class, 'editProfile']);
 
 
     Route::post('v1/logout', [AuthController::class, 'logout']);
