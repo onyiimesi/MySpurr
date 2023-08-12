@@ -175,4 +175,16 @@ class AuthController extends Controller
             "message" => 'Verification successful'
         ];
     }
+
+    public function logout() {
+
+        $user = request()->user();
+        $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
+
+        // Auth::user()->currentAccessToken()->delete();
+
+        return $this->success([
+            'message' => 'You have successfully logged out and your token has been deleted'
+        ]);
+    }
 }

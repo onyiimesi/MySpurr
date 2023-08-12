@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 
 Route::post('v1/login', [AuthController::class, 'login']);
@@ -28,8 +28,8 @@ Route::post('v1/business-register', [AuthController::class, 'businessRegister'])
 
 Route::get('/verify/{token}', [AuthController::class, 'verify'])->name('verification.verify');
 Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name('verification.verifys');
-// Route::get('/auth/google', [AuthController::class, 'redirectToGoogle']);
-// Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+Route::get('/auth/google', [AuthController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
 
@@ -45,4 +45,6 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('v1/business-details', [BusinessOnboardingController::class, 'businessDetails']);
     Route::post('v1/business-portfolio', [BusinessOnboardingController::class, 'portfolio']);
 
+
+    Route::post('v1/logout', [AuthController::class, 'logout']);
 });
