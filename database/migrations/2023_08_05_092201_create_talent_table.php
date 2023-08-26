@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('otp')->nullable();
             $table->string('verify_status')->nullable();
-            $table->string('hear_about_us')->nullable();
+            $table->string('type')->nullable();
             $table->string('status');
             $table->softDeletes();
             $table->timestamps();

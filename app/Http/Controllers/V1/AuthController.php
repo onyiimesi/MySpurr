@@ -65,7 +65,7 @@ class AuthController extends Controller
             'last_name' => $request->last_name,
             'email_address' => $request->email_address,
             'password' => Hash::make($request->password),
-            'hear_about_us' => $request->hear_about_us,
+            'type' => 'talent',
             'otp' => Str::random(60),
             'status' => 'Inactive',
         ]);
@@ -140,7 +140,7 @@ class AuthController extends Controller
             'last_name' => $request->last_name,
             'email_address' => $request->email_address,
             'password' => Hash::make($request->password),
-            'hear_about_us' => $request->hear_about_us,
+            'type' => 'business',
             'terms' => $request->terms,
             'otp' => Str::random(60),
             'status' => 'Inactive',

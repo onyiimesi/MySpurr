@@ -32,7 +32,7 @@ class Business extends Authenticatable
         'otp',
         'verify_status',
         'status',
-        'hear_about_us',
+        'type',
         'terms'
     ];
 }
