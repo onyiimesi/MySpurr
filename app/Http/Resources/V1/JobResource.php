@@ -22,7 +22,8 @@ class JobResource extends JsonResource
             'commitment' => (string)$this->commitment,
             'job_type' => (string)$this->job_type,
             'capacity' => (string)$this->capacity,
-            'status' => (string)$this->status
+            'status' => (string)$this->status,
+            'questions' => $this->questions
         ];
     }
 }

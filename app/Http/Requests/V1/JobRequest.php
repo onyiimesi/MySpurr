@@ -29,6 +29,8 @@ class JobRequest extends FormRequest
             'commitment' => ['required'],
             'job_type' => ['required'],
             'capacity' => ['required'],
+            'questions' => 'required|array|min:1',
+            'questions.*.question' => 'required|string',
         ];
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\V1\JobRequest;
 use App\Http\Resources\V1\JobResource;
 use App\Models\V1\Business;
 use App\Models\V1\Job;
+use App\Models\V1\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,7 +50,7 @@ class JobController extends Controller
             return $this->error('', 'Error', 401);
         }
 
-        $jobs = Job::create([
+        $job = Job::create([
             'business_id' => $business->id,
             'job_title' => $request->job_title,
             'location' => $request->location,
@@ -61,10 +62,15 @@ class JobController extends Controller
             'status' => 'active',
         ]);
 
+        foreach ($request->questions as $questionData) {
+            $question = new Question($questionData);
+            $job->questions()->save($question);
+        }
+
         return [
             "status" => 'true',
             "message" => 'Job Created Successfully',
-            "data" => $jobs
+            "data" => $job
         ];
 
     }
