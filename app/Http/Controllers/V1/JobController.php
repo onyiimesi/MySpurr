@@ -17,12 +17,19 @@ class JobController extends Controller
      */
     public function index()
     {
-        $job = Job::where('status', 'active')->get();
+
+        $user = Auth::user();
+
+        $job = Job::where('business_id', $user->id)
+        ->where('status', 'active')
+        ->get();
+
+        $jobs = JobResource::collection($job);
 
         return [
             'status' => 'true',
             'message' => 'Job List',
-            'data' => $job
+            'data' => $jobs
         ];
     }
 

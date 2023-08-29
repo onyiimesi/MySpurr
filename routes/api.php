@@ -3,6 +3,7 @@
 use App\Http\Controllers\V1\AuthController;
 use App\Http\Controllers\V1\BusinessOnboardingController;
 use App\Http\Controllers\V1\JobController;
+use App\Http\Controllers\V1\TalentJobsController;
 use App\Http\Controllers\V1\TalentOnboardingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('v1/talent-work-details', [TalentOnboardingController::class, 'workDetails']);
     Route::post('v1/talent-portfolio', [TalentOnboardingController::class, 'portfolio']);
     Route::patch('v1/talent-edit-profile', [TalentOnboardingController::class, 'editProfile']);
+    Route::get('v1/get-jobs', [TalentJobsController::class, 'jobs']);
 
 
 

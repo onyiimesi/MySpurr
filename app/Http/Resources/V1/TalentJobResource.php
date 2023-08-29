@@ -5,7 +5,7 @@ namespace App\Http\Resources\V1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class JobResource extends JsonResource
+class TalentJobResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,6 +15,9 @@ class JobResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'user' => [
+                'business_name' => (string)$this->business->business_name
+            ],
             'job_title' => (string)$this->job_title,
             'location' => (string)$this->location,
             'skills' => (string)$this->skills,

@@ -35,4 +35,5 @@ class Talent extends Authenticatable
         'type',
         'availability'
     ];
+    
 }

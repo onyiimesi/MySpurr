@@ -35,4 +35,6 @@ class Business extends Authenticatable
         'type',
         'terms'
     ];
+
+    
 }
