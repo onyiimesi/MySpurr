@@ -44,7 +44,7 @@ class TalentJobsController extends Controller
 
         if($request->resume){
             $file = $request->resume;
-            $folderName = 'https://myspurr.azurewebsites.net/public/files';
+            $folderName = 'https://myspurr.azurewebsites.net/files';
             $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
             $replace = substr($file, 0, strpos($file, ',')+1);
             $sig = str_replace($replace, '', $file);
@@ -60,7 +60,7 @@ class TalentJobsController extends Controller
 
         if(!empty($request->other_file)){
             $file = $request->other_file;
-            $folderName = 'https://myspurr.azurewebsites.net/public/files';
+            $folderName = 'https://myspurr.azurewebsites.net/files';
             $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
             $replace = substr($file, 0, strpos($file, ',')+1);
             $sig = str_replace($replace, '', $file);

@@ -58,7 +58,7 @@ class BusinessOnboardingController extends Controller
 
         if($request->company_logo){
             $file = $request->company_logo;
-            $folderName = 'https://myspurr.azurewebsites.net/public/business';
+            $folderName = 'https://myspurr.azurewebsites.net/business';
             $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
             $replace = substr($file, 0, strpos($file, ',')+1);
             $sig = str_replace($replace, '', $file);
@@ -100,7 +100,7 @@ class BusinessOnboardingController extends Controller
 
         if($request->company_logo){
             $file = $request->company_logo;
-            $folderName = 'https://myspurr.azurewebsites.net/public/business';
+            $folderName = 'https://myspurr.azurewebsites.net/business';
             $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
             $replace = substr($file, 0, strpos($file, ',')+1);
             $sig = str_replace($replace, '', $file);
