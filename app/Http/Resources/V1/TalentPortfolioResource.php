@@ -20,7 +20,6 @@ class TalentPortfolioResource extends JsonResource
             'portfolio_description' => (string)$this->portfolio_description,
             'image' => (string)$this->image,
             'social_media_link' => (string)$this->social_media_link,
-
         ];
     }
 }

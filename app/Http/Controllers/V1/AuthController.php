@@ -23,7 +23,8 @@ class AuthController extends Controller
 {
     use HttpResponses;
 
-    public function login(LoginUserRequest $request){
+    public function login(LoginUserRequest $request)
+    {
 
         $request->validated($request->all());
 
@@ -32,31 +33,59 @@ class AuthController extends Controller
 
         if ($talentGuard->attempt($request->only(['email_address', 'password']))) {
             $user = Talent::where('email_address', $request->email_address)->first();
+
+            if (empty($user->skill_title) || empty($user->top_skills) || empty($user->highest_education) || empty($user->year_obtained) || empty($user->work_history) || empty($user->certificate_earned) || empty($user->availability)) {
+                $onboarding = "false";
+            } else {
+                $onboarding = "true";
+            }
+
+            if (empty($user->compensation) || empty($user->portfolio_title) || empty($user->portfolio_description) || empty($user->image)) {
+                $port = "false";
+            } else {
+                $port = "true";
+            }
+
             $users = new LoginUserResource($user);
-            $token = $user->createToken('API Token of '. $user->first_name);
+            $token = $user->createToken('API Token of ' . $user->first_name);
 
             return $this->success([
                 'user' => $users,
+                'work_details' => $onboarding,
+                'portofolio' => $port,
                 'token' => $token->plainTextToken
             ]);
-        }
-
-        elseif ($businessGuard->attempt($request->only(['email_address', 'password']))) {
+        } elseif ($businessGuard->attempt($request->only(['email_address', 'password']))) {
             $stud = Business::where('email_address', $request->email_address)->first();
+
+            if (empty($stud->business_name) || empty($stud->location) || empty($stud->industry) || empty($stud->about_business) || empty($stud->website) || empty($stud->business_service) || empty($stud->business_email)) {
+                $onboarding = "false";
+            } else {
+                $onboarding = "true";
+            }
+
+            if (empty($stud->company_logo) || empty($stud->company_type) || empty($stud->social_media)) {
+                $port = "false";
+            } else {
+                $port = "true";
+            }
+
             $studs = new LoginUserResource($stud);
-            $token = $stud->createToken('API Token of '. $stud->first_name);
+            $token = $stud->createToken('API Token of ' . $stud->first_name);
 
             return $this->success([
                 'user' => $studs,
+                'business_details' => $onboarding,
+                'portofolio' => $port,
                 'token' => $token->plainTextToken
             ]);
         }
 
         return $this->error('', 'Credentials do not match', 401);
-
     }
 
-    public function talentRegister(StoreTalentRequest $request) {
+    public function talentRegister(StoreTalentRequest $request)
+    {
 
         $request->validated($request->all());
 
@@ -113,9 +142,9 @@ class AuthController extends Controller
             $user = Socialite::driver('google')->user();
             $finduser = Talent::where('email_address', $user->getEmail())->first();
 
-            if ($finduser){
+            if ($finduser) {
                 return 'Hii';
-            }else {
+            } else {
                 $newUser = Talent::create([
                     'first_name' => $user->name,
                     'email_address' => $user->email,
@@ -124,14 +153,13 @@ class AuthController extends Controller
                 ]);
                 return 'Hiaaai';
             }
-
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
-
     }
 
-    public function businessRegister(StoreBusinessRequest $request) {
+    public function businessRegister(StoreBusinessRequest $request)
+    {
 
         $request->validated($request->all());
 
@@ -176,7 +204,8 @@ class AuthController extends Controller
         ];
     }
 
-    public function logout() {
+    public function logout()
+    {
 
         $user = request()->user();
         $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
