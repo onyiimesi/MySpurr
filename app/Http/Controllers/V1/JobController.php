@@ -47,7 +47,7 @@ class JobController extends Controller
         $business = Business::where('email_address', $user->email_address)->first();
 
         if(!$business){
-            return $this->error('', 'Error', 401);
+            return $this->error('', 401, 'Error');
         }
 
         $job = Job::create([

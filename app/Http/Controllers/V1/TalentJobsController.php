@@ -39,7 +39,7 @@ class TalentJobsController extends Controller
         $question = Question::where('job_id', $id)->first();
 
         if(!$talent){
-            return $this->error('', 'Error', 401);
+            return $this->error('', 401, 'Error');
         }
 
         if($request->resume){

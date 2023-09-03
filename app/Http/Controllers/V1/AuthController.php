@@ -81,7 +81,7 @@ class AuthController extends Controller
             ]);
         }
 
-        return $this->error('', 'Credentials do not match', 401);
+        return $this->error('', 401, 'Credentials do not match',);
     }
 
     public function talentRegister(StoreTalentRequest $request)
@@ -114,7 +114,7 @@ class AuthController extends Controller
         // Check if the user with the token exists
         if (!$user) {
             // Token not found or invalid
-            return $this->error('', 'Error', 422);
+            return $this->error('', 422, 'Error');
         }
 
         // Update the status and remove the verification token

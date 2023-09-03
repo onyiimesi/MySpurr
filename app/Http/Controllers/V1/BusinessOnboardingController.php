@@ -24,7 +24,7 @@ class BusinessOnboardingController extends Controller
         $business = Business::where('email_address', $user->email_address)->first();
 
         if(!$business){
-            return $this->error('', 'Error', 401);
+            return $this->error('', 401, 'Error');
         }
 
         $business->update([
@@ -53,7 +53,7 @@ class BusinessOnboardingController extends Controller
         $talent = Business::where('email_address', $user->email_address)->first();
 
         if(!$talent){
-            return $this->error('', 'Error', 401);
+            return $this->error('', 401, 'Error');
         }
 
         if($request->company_logo){
@@ -95,7 +95,7 @@ class BusinessOnboardingController extends Controller
         $business = Business::where('email_address', $user->email_address)->first();
 
         if(!$business){
-            return $this->error('', 'Error', 401);
+            return $this->error('', 401, 'Error');
         }
 
         if($request->company_logo){
