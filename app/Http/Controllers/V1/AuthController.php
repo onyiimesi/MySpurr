@@ -35,15 +35,15 @@ class AuthController extends Controller
             $user = Talent::where('email_address', $request->email_address)->first();
 
             if (empty($user->skill_title) || empty($user->top_skills) || empty($user->highest_education) || empty($user->year_obtained) || empty($user->work_history) || empty($user->certificate_earned) || empty($user->availability)) {
-                $onboarding = "false";
+                $onboarding = false;
             } else {
-                $onboarding = "true";
+                $onboarding = true;
             }
 
             if (empty($user->compensation) || empty($user->portfolio_title) || empty($user->portfolio_description) || empty($user->image)) {
-                $port = "false";
+                $port = false;
             } else {
-                $port = "true";
+                $port = true;
             }
 
             $users = new LoginUserResource($user);
@@ -59,15 +59,15 @@ class AuthController extends Controller
             $stud = Business::where('email_address', $request->email_address)->first();
 
             if (empty($stud->business_name) || empty($stud->location) || empty($stud->industry) || empty($stud->about_business) || empty($stud->website) || empty($stud->business_service) || empty($stud->business_email)) {
-                $onboarding = "false";
+                $onboarding = false;
             } else {
-                $onboarding = "true";
+                $onboarding = true;
             }
 
             if (empty($stud->company_logo) || empty($stud->company_type) || empty($stud->social_media)) {
-                $port = "false";
+                $port = false;
             } else {
-                $port = "true";
+                $port = true;
             }
 
             $studs = new LoginUserResource($stud);
