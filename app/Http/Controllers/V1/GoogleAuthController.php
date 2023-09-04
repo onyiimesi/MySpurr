@@ -17,7 +17,9 @@ class GoogleAuthController extends Controller
 
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->stateless()->redirect();
+        return Socialite::driver('google')->stateless()
+            ->redirectUrl(config('services.google.talent.redirect'))
+            ->redirect();
     }
 
     public function handleGoogleCallback()
@@ -71,7 +73,9 @@ class GoogleAuthController extends Controller
 
     public function redirectToGoogleBusiness()
     {
-        return Socialite::driver('google')->stateless()->redirect();
+        return Socialite::driver('google')->stateless()
+            ->redirectUrl(config('services.google.business.redirect'))
+            ->redirect();
     }
 
     public function handleGoogleCallbackBusiness()

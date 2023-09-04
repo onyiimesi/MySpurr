@@ -32,11 +32,11 @@ Route::post('v1/business-register', [AuthController::class, 'businessRegister'])
 Route::get('/verify/{token}', [AuthController::class, 'verify'])->name('verification.verify');
 Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name('verification.verifys');
 
-Route::get('/auth/google', [GoogleAuthController::class, 'redirectToGoogle']);
-Route::get('/auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+Route::get('/auth/talent/google', [GoogleAuthController::class, 'redirectToGoogle']);
+Route::get('/auth/talent/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
 
-Route::get('/business/auth/google', [GoogleAuthController::class, 'redirectToGoogleBusiness']);
-Route::get('/business/auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallbackBusiness']);
+Route::get('/auth/business/google', [GoogleAuthController::class, 'redirectToGoogleBusiness']);
+Route::get('/auth/business/google/callback', [GoogleAuthController::class, 'handleGoogleCallbackBusiness']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
 
