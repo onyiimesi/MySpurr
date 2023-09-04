@@ -8,9 +8,13 @@ use App\Models\V1\Talent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
+use App\Traits\HttpResponses;
 
 class GoogleAuthController extends Controller
 {
+
+    use HttpResponses;
+
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->stateless()->redirect();
