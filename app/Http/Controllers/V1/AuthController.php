@@ -136,7 +136,7 @@ class AuthController extends Controller
 
         $query = http_build_query([
             'client_id' => '762091720399-a52pvivgs08fojnqp08fkh9q8fp28tej.apps.googleusercontent.com',
-            'redirect_uri' => 'https://myspurr-backend.azurewebsites.net/auth/google/callback',
+            'redirect_uri' => 'https://myspurr.azurewebsites.net/api/auth/google/callback',
             'response_type' => 'code',
             'scope' => 'https://www.googleapis.com/auth/userinfo.email', // Define the scopes you need
         ]);
@@ -154,12 +154,22 @@ class AuthController extends Controller
                 'grant_type' => 'authorization_code',
                 'client_id' => '762091720399-a52pvivgs08fojnqp08fkh9q8fp28tej.apps.googleusercontent.com',
                 'client_secret' => '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',
-                'redirect_uri' => 'https://myspurr-backend.azurewebsites.net/auth/google/callback',
+                'redirect_uri' => 'https://myspurr.azurewebsites.net/api/auth/google/callback',
                 'code' => $code,
             ],
         ]);
 
-        $accessToken = json_decode($response->body(), true)['access_token'];
+        // Check if the response contains an error
+        if ($response->json() && array_key_exists('error', $response->json())) {
+            return 'Error: ' . $response->json()['error'];
+        }
+
+        // Extract the access token from the response
+        $accessToken = $response->json()['access_token'] ?? null;
+
+        if (!$accessToken) {
+            return 'Access token not found in the response.';
+        }
 
         try {
 
