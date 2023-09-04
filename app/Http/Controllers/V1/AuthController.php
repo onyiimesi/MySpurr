@@ -145,20 +145,36 @@ class AuthController extends Controller
 
             $user = Talent::where('email_address', $googleUser->email)->first();
 
+            if (empty($user->skill_title) || empty($user->top_skills) || empty($user->highest_education) || empty($user->year_obtained) || empty($user->work_history) || empty($user->certificate_earned) || empty($user->availability)) {
+                $onboarding = false;
+            } else {
+                $onboarding = true;
+            }
+
+            if (empty($user->compensation) || empty($user->portfolio_title) || empty($user->portfolio_description) || empty($user->image)) {
+                $port = false;
+            } else {
+                $port = true;
+            }
+
             if (!$user) {
 
                 $user = Talent::create([
-                    'first_name' => $user->name,
-                    'email_address' => $user->email,
-
-                    'password' => encrypt('123456dummy')
+                    'first_name' => $googleUser->name,
+                    'email_address' => $googleUser->email,
+                    'password' => Hash::make('12345678')
                 ]);
 
             }
 
             $token = $user->createToken('token-name')->plainTextToken;
 
-            return response()->json(['access_token' => $token]);
+            return $this->success([
+                'user' => $user,
+                'work_details' => $onboarding,
+                'portofolio' => $port,
+                'token' => $token
+            ]);
 
 
         } catch (\Exception $e) {
