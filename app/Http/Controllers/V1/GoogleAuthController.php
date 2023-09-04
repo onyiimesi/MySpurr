@@ -17,17 +17,13 @@ class GoogleAuthController extends Controller
 
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->stateless()
-            ->redirectUrl(config('services.google.talent.redirect'))
-            ->redirect();
+        return Socialite::driver('google')->stateless()->redirect();
     }
 
     public function handleGoogleCallback()
     {
 
-        $googleUser = Socialite::driver('google')->stateless()
-        ->redirectUrl(config('services.google.talent.redirect'))
-        ->user();
+        $googleUser = Socialite::driver('google')->stateless()->user();
 
         try {
 

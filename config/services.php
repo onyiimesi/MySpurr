@@ -31,21 +31,11 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+
     'google' => [
-
-        'talent' => [
-            'client_id' => env('GOOGLE_TALENT_CLIENT_ID'),
-            'client_secret' => env('GOOGLE_TALENT_CLIENT_SECRET'),
-            'redirect' => env('GOOGLE_TALENT_REDIRECT_URI'),
-        ],
-
-        'business' => [
-            'client_id' => env('GOOGLE_BUSINESS_CLIENT_ID'),
-            'client_secret' => env('GOOGLE_BUSINESS_CLIENT_SECRET'),
-            'redirect' => env('GOOGLE_BUSINESS_REDIRECT_URI'),
-        ],
-
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_TALENT_REDIRECT_URI'),
     ],
-
 
 ];
