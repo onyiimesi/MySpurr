@@ -134,49 +134,16 @@ class AuthController extends Controller
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->stateless()->redirect();
-
-        // $query = http_build_query([
-        //     'client_id' => '762091720399-a52pvivgs08fojnqp08fkh9q8fp28tej.apps.googleusercontent.com',
-        //     'redirect_uri' => 'https://myspurr.azurewebsites.net/api/auth/google/callback',
-        //     'response_type' => 'code',
-        //     'scope' => 'https://www.googleapis.com/auth/userinfo.email', // Define the scopes you need
-        // ]);
-
-        // return redirect('https://accounts.google.com/o/oauth2/auth?' . $query);
     }
 
     public function handleGoogleCallback()
     {
 
-        // $code = request('code');
-
-        // $response = Http::asForm()->post('https://accounts.google.com/o/oauth2/token', [
-        //     'grant_type' => 'authorization_code',
-        //     'client_id' => '762091720399-a52pvivgs08fojnqp08fkh9q8fp28tej.apps.googleusercontent.com',
-        //     'client_secret' => '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',
-        //     'redirect_uri' => 'https://myspurr.azurewebsites.net/api/auth/google/callback',
-        //     'code' => $code,
-        // ]);
-
-        // // Check if the response contains an error
-        // if ($response->json() && array_key_exists('error', $response->json())) {
-        //     return 'Error: ' . $response->json()['error'];
-        // }
-
-        // // Extract the access token from the response
-        // $accessToken = $response->json()['access_token'] ?? null;
-
-        // if (!$accessToken) {
-        //     return 'Access token not found in the response.';
-        // }
-
-        // return $accessToken;
-
         $googleUser = Socialite::driver('google')->stateless()->user();
 
         try {
 
-            $user = Talent::where('email_address', $googleUser->email_address)->first();
+            $user = Talent::where('email_address', $googleUser->email)->first();
 
             if (!$user) {
 
