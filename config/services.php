@@ -34,14 +34,14 @@ return [
     'google' => [
 
         'talent' => [
-            'client_id' => env('GOOGLE_CLIENT_ID'),
-            'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+            'client_id' => env('GOOGLE_TALENT_CLIENT_ID'),
+            'client_secret' => env('GOOGLE_TALENT_CLIENT_SECRET'),
             'redirect' => env('GOOGLE_TALENT_REDIRECT_URI'),
         ],
 
         'business' => [
-            'client_id' => env('GOOGLE_CLIENT_ID'),
-            'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+            'client_id' => env('GOOGLE_BUSINESS_CLIENT_ID'),
+            'client_secret' => env('GOOGLE_BUSINESS_CLIENT_SECRET'),
             'redirect' => env('GOOGLE_BUSINESS_REDIRECT_URI'),
         ],
 
