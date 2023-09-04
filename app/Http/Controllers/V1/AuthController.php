@@ -161,8 +161,11 @@ class AuthController extends Controller
 
                 $user = Talent::create([
                     'first_name' => $googleUser->name,
+                    'last_name' => $googleUser->name,
                     'email_address' => $googleUser->email,
-                    'password' => Hash::make('12345678')
+                    'password' => Hash::make('12345678'),
+                    'type' => 'talent',
+                    'status' => 'Active'
                 ]);
 
             }
