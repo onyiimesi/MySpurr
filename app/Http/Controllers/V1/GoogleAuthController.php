@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\LoginUserResource;
 use App\Models\V1\Business;
 use App\Models\V1\Talent;
 use Illuminate\Http\Request;
@@ -54,10 +55,12 @@ class GoogleAuthController extends Controller
 
             }
 
+            $users = new LoginUserResource($user);
+
             $token = $user->createToken('token-name')->plainTextToken;
 
             return $this->success([
-                'user' => $user,
+                'user' => $users,
                 'work_details' => $onboarding,
                 'portofolio' => $port,
                 'token' => $token
@@ -112,10 +115,12 @@ class GoogleAuthController extends Controller
 
             }
 
+            $users = new LoginUserResource($user);
+
             $token = $user->createToken('API Token')->plainTextToken;
 
             return $this->success([
-                'user' => $user,
+                'user' => $users,
                 'business_details' => $onboarding,
                 'portofolio' => $port,
                 'token' => $token
