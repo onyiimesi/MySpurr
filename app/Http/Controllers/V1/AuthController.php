@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Http;
 
 class AuthController extends Controller
 {
@@ -131,16 +132,39 @@ class AuthController extends Controller
 
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->redirect();
+        // return Socialite::driver('google')->stateless()->redirect();
+
+        $query = http_build_query([
+            'client_id' => '762091720399-a52pvivgs08fojnqp08fkh9q8fp28tej.apps.googleusercontent.com',
+            'redirect_uri' => 'https://myspurr-backend.azurewebsites.net/auth/google/callback',
+            'response_type' => 'code',
+            'scope' => 'https://www.googleapis.com/auth/userinfo.email', // Define the scopes you need
+        ]);
+
+        return redirect('https://accounts.google.com/o/oauth2/auth?' . $query);
     }
 
     public function handleGoogleCallback()
     {
 
+        $code = request('code');
+
+        $response = Http::post('https://accounts.google.com/o/oauth2/token', [
+            'form_params' => [
+                'grant_type' => 'authorization_code',
+                'client_id' => '762091720399-a52pvivgs08fojnqp08fkh9q8fp28tej.apps.googleusercontent.com',
+                'client_secret' => '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',
+                'redirect_uri' => 'https://myspurr-backend.azurewebsites.net/auth/google/callback',
+                'code' => $code,
+            ],
+        ]);
+
+        $accessToken = json_decode($response->body(), true)['access_token'];
+
         try {
 
-            $user = Socialite::driver('google')->user();
-            $finduser = Talent::where('email_address', $user->getEmail())->first();
+            $user = Auth::user();
+            $finduser = Talent::where('email_address', $user->email_address)->first();
 
             if ($finduser) {
                 return 'Hii';
