@@ -31,7 +31,7 @@ Route::post('v1/business-register', [AuthController::class, 'businessRegister'])
 Route::get('/verify/{token}', [AuthController::class, 'verify'])->name('verification.verify');
 Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name('verification.verifys');
 Route::get('/auth/google', [AuthController::class, 'redirectToGoogle']);
-Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+Route::post('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
 
