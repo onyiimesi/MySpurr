@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\V1\AuthController;
 use App\Http\Controllers\V1\BusinessOnboardingController;
+use App\Http\Controllers\V1\GoogleAuthController;
 use App\Http\Controllers\V1\JobController;
 use App\Http\Controllers\V1\TalentJobsController;
 use App\Http\Controllers\V1\TalentOnboardingController;
@@ -30,8 +31,12 @@ Route::post('v1/business-register', [AuthController::class, 'businessRegister'])
 
 Route::get('/verify/{token}', [AuthController::class, 'verify'])->name('verification.verify');
 Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name('verification.verifys');
-Route::get('/auth/google', [AuthController::class, 'redirectToGoogle']);
-Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+
+Route::get('/auth/google', [GoogleAuthController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+
+Route::get('/business/auth/google', [GoogleAuthController::class, 'redirectToGoogleBusiness']);
+Route::get('/business/auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallbackBusiness']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
 
