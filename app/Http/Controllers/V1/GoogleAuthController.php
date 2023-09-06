@@ -72,63 +72,63 @@ class GoogleAuthController extends Controller
         }
     }
 
-    public function redirectToGoogleBusiness()
-    {
-        return Socialite::driver('google')->stateless()
-            ->redirectUrl(config('services.google.business.redirect'))
-            ->redirect();
-    }
+    // public function redirectToGoogleBusiness()
+    // {
+    //     return Socialite::driver('google')->stateless()
+    //         ->redirectUrl(config('services.google.business.redirect'))
+    //         ->redirect();
+    // }
 
-    public function handleGoogleCallbackBusiness()
-    {
+    // public function handleGoogleCallbackBusiness()
+    // {
 
-        $googleUser = Socialite::driver('google')->stateless()
-        ->redirectUrl(config('services.google.business.redirect'))
-        ->user();
+    //     $googleUser = Socialite::driver('google')->stateless()
+    //     ->redirectUrl(config('services.google.business.redirect'))
+    //     ->user();
 
-        try {
+    //     try {
 
-            $user = Business::where('email_address', $googleUser->email)->first();
+    //         $user = Business::where('email_address', $googleUser->email)->first();
 
-            if (empty($user->business_name) || empty($user->location) || empty($user->industry) || empty($user->about_business) || empty($user->website) || empty($user->business_service) || empty($user->business_email)) {
-                $onboarding = false;
-            } else {
-                $onboarding = true;
-            }
+    //         if (empty($user->business_name) || empty($user->location) || empty($user->industry) || empty($user->about_business) || empty($user->website) || empty($user->business_service) || empty($user->business_email)) {
+    //             $onboarding = false;
+    //         } else {
+    //             $onboarding = true;
+    //         }
 
-            if (empty($user->company_logo) || empty($user->company_type) || empty($user->social_media)) {
-                $port = false;
-            } else {
-                $port = true;
-            }
+    //         if (empty($user->company_logo) || empty($user->company_type) || empty($user->social_media)) {
+    //             $port = false;
+    //         } else {
+    //             $port = true;
+    //         }
 
-            if (!$user) {
+    //         if (!$user) {
 
-                $user = Business::create([
-                    'first_name' => $googleUser->name,
-                    'last_name' => $googleUser->name,
-                    'email_address' => $googleUser->email,
-                    'password' => Hash::make('12345678'),
-                    'type' => 'business',
-                    'status' => 'Active'
-                ]);
+    //             $user = Business::create([
+    //                 'first_name' => $googleUser->name,
+    //                 'last_name' => $googleUser->name,
+    //                 'email_address' => $googleUser->email,
+    //                 'password' => Hash::make('12345678'),
+    //                 'type' => 'business',
+    //                 'status' => 'Active'
+    //             ]);
 
-            }
+    //         }
 
-            $users = new LoginUserResource($user);
+    //         $users = new LoginUserResource($user);
 
-            $token = $user->createToken('API Token')->plainTextToken;
+    //         $token = $user->createToken('API Token')->plainTextToken;
 
-            return $this->success([
-                'user' => $users,
-                'business_details' => $onboarding,
-                'portofolio' => $port,
-                'token' => $token
-            ]);
+    //         return $this->success([
+    //             'user' => $users,
+    //             'business_details' => $onboarding,
+    //             'portofolio' => $port,
+    //             'token' => $token
+    //         ]);
 
 
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
-    }
+    //     } catch (\Exception $e) {
+    //         dd($e->getMessage());
+    //     }
+    // }
 }

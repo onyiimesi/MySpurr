@@ -35,8 +35,8 @@ Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name
 Route::get('/auth/talent/google', [GoogleAuthController::class, 'redirectToGoogle']);
 Route::get('/auth/talent/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
 
-Route::get('/auth/business/google', [GoogleAuthController::class, 'redirectToGoogleBusiness']);
-Route::get('/auth/business/google/callback', [GoogleAuthController::class, 'handleGoogleCallbackBusiness']);
+// Route::get('/auth/business/google', [GoogleAuthController::class, 'redirectToGoogleBusiness']);
+// Route::get('/auth/business/google/callback', [GoogleAuthController::class, 'handleGoogleCallbackBusiness']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
 
