@@ -46,15 +46,14 @@ class AuthController extends Controller
                 $port = true;
             }
 
-            $users = new LoginUserResource($user);
             $token = $user->createToken('API Token of ' . $user->first_name);
 
             return $this->success([
-                'user' => $users,
                 'work_details' => $onboarding,
                 'portofolio' => $port,
                 'token' => $token->plainTextToken
             ]);
+            
         } elseif ($businessGuard->attempt($request->only(['email_address', 'password']))) {
             $stud = Business::where('email_address', $request->email_address)->first();
 
@@ -70,11 +69,9 @@ class AuthController extends Controller
                 $port = true;
             }
 
-            $studs = new LoginUserResource($stud);
             $token = $stud->createToken('API Token of ' . $stud->first_name);
 
             return $this->success([
-                'user' => $studs,
                 'business_details' => $onboarding,
                 'portofolio' => $port,
                 'token' => $token->plainTextToken

@@ -8,6 +8,7 @@ use App\Http\Requests\V1\TalentWorkDetailsRequest;
 use App\Http\Resources\V1\TalentPortfolioResource;
 use App\Http\Resources\V1\TalentWorkDetailsResource;
 use App\Models\V1\Talent;
+use App\Models\V1\TopSkill;
 use Illuminate\Http\Request;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
@@ -28,13 +29,17 @@ class TalentOnboardingController extends Controller
 
         $talent->update([
             'skill_title' => $request->skill_title,
-            'top_skills' => $request->top_skills,
             'highest_education' => $request->highest_education,
             'year_obtained' => $request->year_obtained,
             'work_history' => $request->work_history,
             'certificate_earned' => $request->certificate_earned,
             'availability' => $request->availability
         ]);
+
+        foreach ($request->top_skills as $skills) {
+            $skill = new TopSkill($skills);
+            $talent->topskills()->save($skill);
+        }
 
         $talents = new TalentWorkDetailsResource($talent);
 
@@ -75,8 +80,7 @@ class TalentOnboardingController extends Controller
             'compensation' => $request->compensation,
             'portfolio_title' => $request->portfolio_title,
             'portfolio_description' => $request->portfolio_description,
-            'image' => $pathss,
-            'social_media_link' => $request->social_media_link,
+            'image' => $pathss
         ]);
 
         $talents = new TalentPortfolioResource($talent);

@@ -35,5 +35,10 @@ class Talent extends Authenticatable
         'type',
         'availability'
     ];
-    
+
+    public function topskills()
+    {
+        return $this->hasMany(TopSkill::class);
+    }
+
 }

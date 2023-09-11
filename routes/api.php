@@ -4,6 +4,7 @@ use App\Http\Controllers\V1\AuthController;
 use App\Http\Controllers\V1\BusinessOnboardingController;
 use App\Http\Controllers\V1\GoogleAuthController;
 use App\Http\Controllers\V1\JobController;
+use App\Http\Controllers\V1\ProfileController;
 use App\Http\Controllers\V1\TalentJobsController;
 use App\Http\Controllers\V1\TalentOnboardingController;
 use Illuminate\Http\Request;
@@ -57,6 +58,8 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::patch('v1/business-edit-profile', [BusinessOnboardingController::class, 'editProfile']);
     Route::resource('v1/job', JobController::class);
 
+
+    Route::get('v1/profile', [ProfileController::class, 'profile']);
 
     Route::post('v1/logout', [AuthController::class, 'logout']);
 });

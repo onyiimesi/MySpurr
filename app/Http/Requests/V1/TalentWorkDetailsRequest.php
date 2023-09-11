@@ -23,7 +23,8 @@ class TalentWorkDetailsRequest extends FormRequest
     {
         return [
             'skill_title' => ['required', 'string'],
-            'top_skills' => ['required', 'string'],
+            'top_skills' => 'required|array|min:1',
+            'top_skills.*.name' => 'required|string',
             'highest_education' => ['required', 'string'],
             'year_obtained' => ['required', 'string'],
             'work_history' => ['required', 'string'],

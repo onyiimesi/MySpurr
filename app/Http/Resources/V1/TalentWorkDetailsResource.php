@@ -16,7 +16,7 @@ class TalentWorkDetailsResource extends JsonResource
     {
         return [
             'skill_title' => (string)$this->skill_title,
-            'top_skills' => (string)$this->top_skills,
+            'top_skills' => $this->topskills,
             'highest_education' => (string)$this->highest_education,
             'year_obtained' => (string)$this->year_obtained,
             'work_history' => (string)$this->work_history,
