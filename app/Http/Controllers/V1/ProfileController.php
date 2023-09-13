@@ -24,7 +24,7 @@ class ProfileController extends Controller
 
         if($user->type === 'talent'){
 
-            if (empty($user->skill_title) || empty($user->top_skills) || empty($user->highest_education) || empty($user->year_obtained) || empty($user->work_history) || empty($user->certificate_earned) || empty($user->availability)) {
+            if (empty($user->skill_title) || empty($user->topskills) || empty($user->highest_education) || empty($user->year_obtained) || empty($user->work_history) || empty($user->certificate_earned) || empty($user->availability)) {
                 $onboarding = false;
             } else {
                 $onboarding = true;
