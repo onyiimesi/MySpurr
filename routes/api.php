@@ -5,6 +5,7 @@ use App\Http\Controllers\V1\BusinessOnboardingController;
 use App\Http\Controllers\V1\GoogleAuthController;
 use App\Http\Controllers\V1\JobController;
 use App\Http\Controllers\V1\ProfileController;
+use App\Http\Controllers\V1\SkillsController;
 use App\Http\Controllers\V1\TalentJobsController;
 use App\Http\Controllers\V1\TalentOnboardingController;
 use Illuminate\Http\Request;
@@ -38,6 +39,8 @@ Route::get('/auth/talent/google/callback', [GoogleAuthController::class, 'handle
 
 // Route::get('/auth/business/google', [GoogleAuthController::class, 'redirectToGoogleBusiness']);
 // Route::get('/auth/business/google/callback', [GoogleAuthController::class, 'handleGoogleCallbackBusiness']);
+
+Route::resource('v1/skills', SkillsController::class);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
 
