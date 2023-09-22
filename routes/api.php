@@ -41,6 +41,7 @@ Route::get('/auth/talent/google/callback', [GoogleAuthController::class, 'handle
 // Route::get('/auth/business/google/callback', [GoogleAuthController::class, 'handleGoogleCallbackBusiness']);
 
 Route::resource('v1/skills', SkillsController::class);
+Route::get('v1/list-jobs', [TalentJobsController::class, 'listjobs']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
 

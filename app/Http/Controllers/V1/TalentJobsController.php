@@ -28,6 +28,19 @@ class TalentJobsController extends Controller
         ];
     }
 
+    public function listjobs()
+    {
+        $job = Job::where('status', 'active')->get();
+
+        $jobs = TalentJobResource::collection($job);
+
+        return [
+            'status' => 'true',
+            'message' => 'Job List',
+            'data' => $jobs
+        ];
+    }
+
     public function apply(JobApplyRequest $request, $id)
     {
         $request->validated($request->all());
