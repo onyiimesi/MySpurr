@@ -14,6 +14,7 @@ use App\Models\V1\Talent;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -90,6 +91,8 @@ class AuthController extends Controller
 
         $request->validated($request->all());
 
+        DB::beginTransaction();
+
         $user = Talent::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -100,7 +103,16 @@ class AuthController extends Controller
             'status' => 'Inactive'
         ]);
 
-        Mail::to($request->email_address)->send(new TalentVerifyEmail($user));
+        try {
+
+            Mail::to($request->email_address)->send(new TalentVerifyEmail($user));
+
+            DB::commit();
+
+        } catch (\Exception $e){
+            DB::rollBack();
+            return $this->error('error', 'Email sending failed!. Try again');
+        }
 
         return $this->success([
             'message' => "Account created successfully"
@@ -109,21 +121,16 @@ class AuthController extends Controller
 
     public function verify($token)
     {
-        // Find the user with the provided token
         $user = Talent::where('otp', $token)->first();
 
-        // Check if the user with the token exists
         if (!$user) {
-            // Token not found or invalid
             return $this->error('', 422, 'Error');
         }
 
-        // Update the status and remove the verification token
         $user->status = 'Active';
         $user->otp = null;
         $user->save();
 
-        // You can redirect the user to a success page or any other desired destination
         return [
             "status" => 'true',
             "message" => 'Verification successful'
@@ -134,6 +141,8 @@ class AuthController extends Controller
     {
 
         $request->validated($request->all());
+
+        DB::beginTransaction();
 
         $user = Business::create([
             'first_name' => $request->first_name,
@@ -146,7 +155,16 @@ class AuthController extends Controller
             'status' => 'Inactive'
         ]);
 
-        Mail::to($request->email_address)->send(new BusinessVerifyEmail($user));
+        try {
+
+            Mail::to($request->email_address)->send(new BusinessVerifyEmail($user));
+
+            DB::commit();
+
+        } catch (\Exception $e){
+            DB::rollBack();
+            return $this->error('error', 'Email sending failed!. Try again');
+        }
 
         return $this->success([
             'message' => "Account created successfully"
@@ -155,21 +173,16 @@ class AuthController extends Controller
 
     public function verifys($token)
     {
-        // Find the user with the provided token
         $user = Business::where('otp', $token)->first();
 
-        // Check if the user with the token exists
         if (!$user) {
-            // Token not found or invalid
             return $this->error('', 'Error', 422);
         }
 
-        // Update the status and remove the verification token
         $user->status = 'Active';
         $user->otp = null;
         $user->save();
 
-        // You can redirect the user to a success page or any other desired destination
         return [
             "status" => 'true',
             "message" => 'Verification successful'

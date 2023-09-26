@@ -61,34 +61,28 @@ class TalentOnboardingController extends Controller
             return $this->error('', 401, 'Error');
         }
 
+        if($request->image){
+            $file = $request->image;
+            $folderName = 'https://myspurr.azurewebsites.net/talents';
+            $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
+            $replace = substr($file, 0, strpos($file, ',')+1);
+            $sig = str_replace($replace, '', $file);
+
+            $sig = str_replace(' ', '+', $sig);
+            $file_name = time().'.'.$extension;
+            file_put_contents(public_path().'/talents/'.$file_name, base64_decode($sig));
+
+            $pathss = $folderName.'/'.$file_name;
+        }else{
+            $pathss = "";
+        }
 
         $talent->update([
+            'image' => $pathss,
             'compensation' => $request->compensation,
             'portfolio_title' => $request->portfolio_title,
             'portfolio_description' => $request->portfolio_description
         ]);
-
-        foreach ($request->image as $image) {
-
-            if($image){
-                $file = $image;
-                $folderName = 'https://myspurr.azurewebsites.net/talents';
-                $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
-                $replace = substr($file, 0, strpos($file, ',')+1);
-                $sig = str_replace($replace, '', $file);
-
-                $sig = str_replace(' ', '+', $sig);
-                $file_name = time().'.'.$extension;
-                file_put_contents(public_path().'/talents/'.$file_name, base64_decode($sig));
-
-                $pathss = $folderName.'/'.$file_name;
-            }else{
-                $pathss = "";
-            }
-
-            $img = new TalentImages(['image' => $pathss]);
-            $talent->questions()->save($img);
-        }
 
         $talents = new TalentPortfolioResource($talent);
 

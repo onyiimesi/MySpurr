@@ -16,6 +16,7 @@ class TalentResource extends JsonResource
     {
         return [
             'id' => (string)$this->id,
+            'uniqueId' => (string)$this->uuid,
             'first_name' => (string)$this->first_name,
             'last_name' => (string)$this->last_name,
             'email_address' => (string)$this->email_address,
@@ -36,7 +37,7 @@ class TalentResource extends JsonResource
             'social_media_link' => (string)$this->social_media_link,
             'availability' => (string)$this->availability,
             'type' => (string)$this->type,
-            'status' => (string)$this->status,
+            'status' => (string)$this->status
         ];
     }
 }

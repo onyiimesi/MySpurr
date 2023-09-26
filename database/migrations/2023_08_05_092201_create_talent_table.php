@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('compensation')->nullable();
             $table->string('portfolio_title')->nullable();
             $table->longText('portfolio_description')->nullable();
+            $table->string('image')->nullable();
             $table->string('social_media_link')->nullable();
             $table->string('password');
             $table->string('otp')->nullable();

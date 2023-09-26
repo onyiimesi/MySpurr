@@ -6,6 +6,7 @@ use App\Http\Controllers\V1\GoogleAuthController;
 use App\Http\Controllers\V1\JobController;
 use App\Http\Controllers\V1\ProfileController;
 use App\Http\Controllers\V1\SkillsController;
+use App\Http\Controllers\V1\TalentController;
 use App\Http\Controllers\V1\TalentJobsController;
 use App\Http\Controllers\V1\TalentOnboardingController;
 use Illuminate\Http\Request;
@@ -42,6 +43,9 @@ Route::get('/auth/talent/google/callback', [GoogleAuthController::class, 'handle
 
 Route::resource('v1/skills', SkillsController::class);
 Route::get('v1/list-jobs', [TalentJobsController::class, 'listjobs']);
+
+Route::get('v1/talents', [TalentController::class, 'listtalents']);
+Route::get('v1/talent/{uuid}', [TalentController::class, 'talentbyid']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
 
