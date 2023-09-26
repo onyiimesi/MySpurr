@@ -41,4 +41,9 @@ class Talent extends Authenticatable
         return $this->hasMany(TopSkill::class);
     }
 
+    public function talentimage()
+    {
+        return $this->hasMany(TalentImages::class);
+    }
+
 }
