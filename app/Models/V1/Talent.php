@@ -2,6 +2,7 @@
 
 namespace App\Models\V1;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -35,6 +36,16 @@ class Talent extends Authenticatable
         'type',
         'availability'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::creating(function($model) {
+            $model->uuid = (string) Str::uuid();
+        });
+
+    }
 
     public function topskills()
     {

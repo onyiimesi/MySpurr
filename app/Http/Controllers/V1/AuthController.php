@@ -97,13 +97,13 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'type' => 'talent',
             'otp' => Str::random(60),
-            'status' => 'Inactive',
+            'status' => 'Inactive'
         ]);
 
         Mail::to($request->email_address)->send(new TalentVerifyEmail($user));
 
         return $this->success([
-            'talent' => $user,
+            'message' => "Account created successfully"
         ]);
     }
 
@@ -143,13 +143,13 @@ class AuthController extends Controller
             'type' => 'business',
             'terms' => $request->terms,
             'otp' => Str::random(60),
-            'status' => 'Inactive',
+            'status' => 'Inactive'
         ]);
 
         Mail::to($request->email_address)->send(new BusinessVerifyEmail($user));
 
         return $this->success([
-            'talent' => $user,
+            'message' => "Account created successfully"
         ]);
     }
 
