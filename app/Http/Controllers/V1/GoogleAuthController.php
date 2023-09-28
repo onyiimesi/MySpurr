@@ -24,7 +24,7 @@ class GoogleAuthController extends Controller
     public function handleGoogleCallback()
     {
 
-        return redirect()->to('http://localhost:8080/callback');
+        return redirect()->to('http://localhost:5173');
     }
 
     public function handleGoogleInfo()
