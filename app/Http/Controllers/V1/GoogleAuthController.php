@@ -60,10 +60,17 @@ class GoogleAuthController extends Controller
             $token = $user->createToken('token-name')->plainTextToken;
 
             $responseData = [
-                'user' => $user,
+                'user' => [
+                    'uuid' => $user->uuid,
+                    'first_name' => $user->first_name,
+                    'last_name' => $googleUser->name,
+                    'email_address' => $googleUser->email,
+                    'type' => 'talent',
+                    'status' => 'Active'
+                ],
                 'work_details' => $onboarding,
-                'portofolio' => $port,
-                'token' => $token
+                'portfolio' => $port,
+                'token' => $token,
             ];
 
             return redirect()->to('http://localhost:5173?' . http_build_query($responseData));
