@@ -24,12 +24,6 @@ class GoogleAuthController extends Controller
     public function handleGoogleCallback()
     {
 
-        return redirect()->to('http://localhost:5173');
-    }
-
-    public function handleGoogleInfo()
-    {
-
         $googleUser = Socialite::driver('google')->stateless()->user();
 
         try {
@@ -65,17 +59,19 @@ class GoogleAuthController extends Controller
 
             $token = $user->createToken('token-name')->plainTextToken;
 
-            return $this->success([
+            $responseData = [
                 'user' => $users,
                 'work_details' => $onboarding,
                 'portofolio' => $port,
                 'token' => $token
-            ]);
+            ];
+
+            return redirect()->to('http://localhost:5173?' . http_build_query($responseData));
+
 
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
-
     }
 
     // public function redirectToGoogleBusiness()
