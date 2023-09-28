@@ -34,9 +34,9 @@ class TalentController extends Controller
     {
         $talents = Talent::where('status', 'Active')
         ->where('uuid', $request->uuid)
-        ->get();
+        ->firstOrFail();
 
-        $talent = TalentResource::collection($talents);
+        $talent = new TalentResource($talents);
 
         return [
             'status' => 'true',
