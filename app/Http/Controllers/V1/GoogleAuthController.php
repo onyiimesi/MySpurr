@@ -60,7 +60,7 @@ class GoogleAuthController extends Controller
             $token = $user->createToken('token-name')->plainTextToken;
 
             $responseData = [
-                'user' => $users,
+                'user' => $user,
                 'work_details' => $onboarding,
                 'portofolio' => $port,
                 'token' => $token
