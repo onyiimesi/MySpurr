@@ -24,6 +24,12 @@ class GoogleAuthController extends Controller
     public function handleGoogleCallback()
     {
 
+        return redirect()->to('http://localhost:8080/callback');
+    }
+
+    public function handleGoogleInfo()
+    {
+
         $googleUser = Socialite::driver('google')->stateless()->user();
 
         try {
@@ -66,10 +72,10 @@ class GoogleAuthController extends Controller
                 'token' => $token
             ]);
 
-
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
+
     }
 
     // public function redirectToGoogleBusiness()
