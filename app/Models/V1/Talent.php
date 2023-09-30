@@ -5,19 +5,22 @@ namespace App\Models\V1;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\V1\ResetPasswordNotification;
+
 
 class Talent extends Authenticatable
 {
-    use HasFactory, SoftDeletes, HasApiTokens;
+    use HasFactory, SoftDeletes, HasApiTokens, Notifiable;
 
     protected $fillable = [
         'id',
         'first_name',
         'last_name',
-        'email_address',
+        'email',
         'skill_title',
         'top_skills',
         'highest_education',
@@ -57,4 +60,11 @@ class Talent extends Authenticatable
         return $this->hasMany(TalentImages::class);
     }
 
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $url = 'https://example.com/reset-password?token='.$token;
+
+        $this->notify(new ResetPasswordNotification($url));
+    }
 }

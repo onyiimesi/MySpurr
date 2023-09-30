@@ -16,7 +16,7 @@ class TalentJobResource extends JsonResource
     {
         return [
             'user' => [
-                'business_name' => (string)$this->business->business_name
+                'business_name' => (string)$this->business?->business_name
             ],
             'job_title' => (string)$this->job_title,
             'location' => (string)$this->location,

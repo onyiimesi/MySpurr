@@ -32,8 +32,8 @@ class AuthController extends Controller
         $talentGuard = Auth::guard('talents');
         $businessGuard = Auth::guard('businesses');
 
-        if ($talentGuard->attempt($request->only(['email_address', 'password']))) {
-            $user = Talent::where('email_address', $request->email_address)->first();
+        if ($talentGuard->attempt($request->only(['email', 'password']))) {
+            $user = Talent::where('email', $request->email)->first();
 
             if (empty($user->skill_title) || empty($user->topskills) || empty($user->highest_education) || empty($user->year_obtained) || empty($user->work_history) || empty($user->certificate_earned) || empty($user->availability)) {
                 $onboarding = false;
@@ -57,8 +57,8 @@ class AuthController extends Controller
                 'token' => $token->plainTextToken
             ]);
 
-        } elseif ($businessGuard->attempt($request->only(['email_address', 'password']))) {
-            $stud = Business::where('email_address', $request->email_address)->first();
+        } elseif ($businessGuard->attempt($request->only(['email', 'password']))) {
+            $stud = Business::where('email', $request->email)->first();
 
             if (empty($stud->business_name) || empty($stud->location) || empty($stud->industry) || empty($stud->about_business) || empty($stud->website) || empty($stud->business_service) || empty($stud->business_email)) {
                 $onboarding = false;
@@ -96,7 +96,7 @@ class AuthController extends Controller
         $user = Talent::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'email_address' => $request->email_address,
+            'email' => $request->email,
             'password' => Hash::make($request->password),
             'type' => 'talent',
             'otp' => Str::random(60),
@@ -105,13 +105,13 @@ class AuthController extends Controller
 
         try {
 
-            Mail::to($request->email_address)->send(new TalentVerifyEmail($user));
+            Mail::to($request->email)->send(new TalentVerifyEmail($user));
 
             DB::commit();
 
         } catch (\Exception $e){
             DB::rollBack();
-            return $this->error('error', 'Email sending failed!. Try again');
+            return $this->error('error', 400, 'Email sending failed!. Try again');
         }
 
         return $this->success('', 'Account created successfully');
@@ -143,7 +143,7 @@ class AuthController extends Controller
         $user = Business::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'email_address' => $request->email_address,
+            'email' => $request->email,
             'password' => Hash::make($request->password),
             'type' => 'business',
             'terms' => $request->terms,
@@ -153,13 +153,13 @@ class AuthController extends Controller
 
         try {
 
-            Mail::to($request->email_address)->send(new BusinessVerifyEmail($user));
+            Mail::to($request->email)->send(new BusinessVerifyEmail($user));
 
             DB::commit();
 
         } catch (\Exception $e){
             DB::rollBack();
-            return $this->error('error', 'Email sending failed!. Try again');
+            return $this->error('error', 400, 'Email sending failed!. Try again');
         }
 
         return $this->success('', 'Account created successfully');

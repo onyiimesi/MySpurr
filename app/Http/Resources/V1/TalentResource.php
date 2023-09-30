@@ -19,7 +19,7 @@ class TalentResource extends JsonResource
             'uniqueId' => (string)$this->uuid,
             'first_name' => (string)$this->first_name,
             'last_name' => (string)$this->last_name,
-            'email_address' => (string)$this->email_address,
+            'email' => (string)$this->email,
             'skill_title' => (string)$this->skill_title,
             'top_skills' => $this->topskills->map(function($skill) {
                 return [

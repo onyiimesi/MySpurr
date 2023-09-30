@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('uuid');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('email_address')->unique();
+            $table->string('email')->unique();
             $table->string('skill_title')->nullable();
             $table->string('top_skills')->nullable();
             $table->string('highest_education')->nullable();

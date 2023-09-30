@@ -123,6 +123,13 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+
+        'talents' => [
+            'provider' => 'talent',
+            'table' => 'talent_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
     ],
 
     /*

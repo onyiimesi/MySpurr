@@ -25,7 +25,7 @@ class StoreBusinessRequest extends FormRequest
         return [
             'first_name' => ['required', 'string',],
             'last_name' => ['required', 'string', 'max:255'],
-            'email_address' => ['required', 'string', 'max:255', 'unique:businesses'],
+            'email' => ['required', 'string', 'max:255', 'unique:businesses'],
             'password' => ['string', Rules\Password::defaults()],
             'status' => ['string', 'max:20']
         ];

@@ -19,7 +19,7 @@ class BusinessResource extends JsonResource
             'uniqueId' => (string)$this->uuid,
             'first_name' => (string)$this->first_name,
             'last_name' => (string)$this->last_name,
-            'email_address' => (string)$this->email_address,
+            'email' => (string)$this->email,
             'business_name' => (string)$this->business_name,
             'location' => (string)$this->location,
             'industry' => (string)$this->industry,

@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\V1\AuthController;
 use App\Http\Controllers\V1\BusinessOnboardingController;
+use App\Http\Controllers\V1\ForgotPasswordController;
 use App\Http\Controllers\V1\GoogleAuthController;
 use App\Http\Controllers\V1\JobController;
 use App\Http\Controllers\V1\ProfileController;
+use App\Http\Controllers\v1\ResetPasswordController;
 use App\Http\Controllers\V1\SkillsController;
 use App\Http\Controllers\V1\TalentController;
 use App\Http\Controllers\V1\TalentJobsController;
@@ -31,6 +33,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('v1/login', [AuthController::class, 'login']);
 Route::post('v1/talent-register', [AuthController::class, 'talentRegister']);
 Route::post('v1/business-register', [AuthController::class, 'businessRegister']);
+
+Route::post('v1/forgot-password', [ForgotPasswordController::class, 'forgot']);
+Route::post('v1/reset-password', [ResetPasswordController::class, 'reset']);
 
 Route::get('/verify/{token}', [AuthController::class, 'verify'])->name('verification.verify');
 Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name('verification.verifys');
