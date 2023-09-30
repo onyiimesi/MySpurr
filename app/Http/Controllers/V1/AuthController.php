@@ -114,9 +114,7 @@ class AuthController extends Controller
             return $this->error('error', 'Email sending failed!. Try again');
         }
 
-        return $this->success([
-            'message' => "Account created successfully"
-        ]);
+        return $this->success('', 'Account created successfully');
     }
 
     public function verify($token)
@@ -131,10 +129,8 @@ class AuthController extends Controller
         $user->otp = null;
         $user->save();
 
-        return [
-            "status" => 'true',
-            "message" => 'Verification successful'
-        ];
+        return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login');
+
     }
 
     public function businessRegister(StoreBusinessRequest $request)
@@ -166,9 +162,7 @@ class AuthController extends Controller
             return $this->error('error', 'Email sending failed!. Try again');
         }
 
-        return $this->success([
-            'message' => "Account created successfully"
-        ]);
+        return $this->success('', 'Account created successfully');
     }
 
     public function verifys($token)
@@ -197,8 +191,6 @@ class AuthController extends Controller
 
         // Auth::user()->currentAccessToken()->delete();
 
-        return $this->success([
-            'message' => 'You have successfully logged out and your token has been deleted'
-        ]);
+        return $this->success('', 'You have successfully logged out and your token has been deleted');
     }
 }
