@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('verify_status')->nullable();
             $table->string('type')->nullable();
             $table->string('status');
-            $table->string('terms');
+            $table->string('terms')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -63,7 +63,7 @@ class Talent extends Authenticatable
 
     public function sendPasswordResetNotification($token): void
     {
-        $url = 'https://example.com/reset-password?token='.$token;
+        $url = 'https://mango-glacier-097715310.3.azurestaticapps.net/reset-password?token='.$token;
 
         $this->notify(new ResetPasswordNotification($url));
     }
