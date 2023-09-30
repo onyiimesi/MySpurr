@@ -122,7 +122,7 @@ class AuthController extends Controller
         $user = Talent::where('otp', $token)->first();
 
         if (!$user) {
-            return $this->error('', 422, 'Error');
+            return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login');
         }
 
         $user->status = 'Active';
