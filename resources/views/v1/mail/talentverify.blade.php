@@ -66,7 +66,7 @@
  <body>
     <div>
         <div class="logo">
-            <img src="https://myspurr.azurewebsites.net/logo/logo.svg" width="240px" height="52px" alt="">
+            <img src="{{ asset('logo/logo.svg') }}" width="240px" height="52px" alt="">
         </div>
         <h1>Welcome to My Spurr!</h1>
 
