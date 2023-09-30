@@ -124,7 +124,7 @@ return [
             'throttle' => 60,
         ],
 
-        'talents' => [
+        'talent' => [
             'provider' => 'talent',
             'table' => 'talent_reset_tokens',
             'expire' => 60,
