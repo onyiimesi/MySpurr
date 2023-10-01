@@ -60,6 +60,11 @@ class Talent extends Authenticatable
         return $this->hasMany(TalentImages::class);
     }
 
+    public function bankAccount()
+    {
+        return $this->hasMany(BankAccount::class);
+    }
+
 
     public function sendPasswordResetNotification($token): void
     {

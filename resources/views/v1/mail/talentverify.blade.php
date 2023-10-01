@@ -62,7 +62,7 @@
         <div class="logo">
             <img src="https://myspurr.azurewebsites.net/logo/logo.svg" width="240px" height="52px" alt="">
         </div>
-        <H3>Verify your email address</H3>
+        <h3>Verify your email address</h3>
 
         <p class="trial">
             Welcome to MySpurr! Click on the following link to verify your email address
