@@ -4,7 +4,9 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\BankAccountRequest;
+use App\Http\Resources\V1\BankResource;
 use App\Mail\V1\BankAccountVerifyMail;
+use App\Models\V1\Bank;
 use App\Models\V1\BankAccount;
 use App\Models\V1\Talent;
 use Illuminate\Http\Request;
@@ -17,6 +19,19 @@ class BankAccountController extends Controller
 {
 
     use HttpResponses;
+
+    public function banks()
+    {
+        $banks = Bank::get();
+
+        $allbanks = BankResource::collection($banks);
+
+        return [
+            "status" => "true",
+            "message" => "Bank List",
+            "data" => $allbanks
+        ];
+    }
     
     public function add(BankAccountRequest $request)
     {

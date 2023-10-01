@@ -61,6 +61,8 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::patch('v1/talent-edit-profile', [TalentOnboardingController::class, 'editProfile']);
     Route::get('v1/get-jobs', [TalentJobsController::class, 'jobs']);
     Route::post('v1/job-apply/{id}', [TalentJobsController::class, 'apply']);
+
+    Route::get('v1/bank-list', [BankAccountController::class, 'banks']);
     Route::post('v1/add-bank-account', [BankAccountController::class, 'add']);
     Route::post('v1/withdrawal-pin', [BankAccountController::class, 'pin']);
     Route::post('v1/verify-pin', [BankAccountController::class, 'verify']);
