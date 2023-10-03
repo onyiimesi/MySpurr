@@ -129,7 +129,7 @@ class AuthController extends Controller
         $user->otp = null;
         $user->save();
 
-        return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login');
+        return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=true');
 
     }
 

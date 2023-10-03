@@ -60,7 +60,7 @@
  <body>
     <div>
         <div class="logo">
-            <img src="https://myspurr.azurewebsites.net/logo/logo.svg" width="240px" height="52px" alt="">
+            <img src="https://media.istockphoto.com/id/517188688/photo/mountain-landscape.jpg?s=612x612&w=0&k=20&c=A63koPKaCyIwQWOTFBRWXj_PwCrR4cEoOw2S9Q7yVl8=" width="240px" height="52px" alt="">
         </div>
         <h3>Verify your email address</h3>
 
