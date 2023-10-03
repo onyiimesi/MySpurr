@@ -80,7 +80,7 @@
             You can showcase your portfolio, connect directly with creative talents like yourself, create and send invoices, apply for jobs in the creative industry, receive payments for your services and access a growing list of global businesses always on the look out for creative talents.
            </p>
            <div>
-               <a href=""><button>CREATE YOUR PROFILE</button></a>
+               <a href="https://mango-glacier-097715310.3.azurestaticapps.net/login"><button>CREATE YOUR PROFILE</button></a>
            </div>
            <p>
                 Thanks again for trying out MySpurr! <br><br>
