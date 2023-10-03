@@ -89,19 +89,21 @@
                 P.S. Lets connect on LinkedIn, I’d love you hear of your incredible journey with us
            </p>
 
-           <div style="margin-bottom: 30px;">
+           <div style="margin: 30px 0;">
                 <img src="https://myspurr.azurewebsites.net/logo/ceo.png" alt="">
-                <span>
-                    <strong>Tobi Akinyele</strong>
-                </span>
-                <br>
-                <span>
-                    CEO & Founder MySpurr
-                </span>
+                <div>
+                    <span>
+                        <strong>Tobi Akinyele</strong>
+                    </span>
+                    <br>
+                    <span>
+                        CEO & Founder MySpurr
+                    </span>
+                </div>
            </div>
 
            <p>
-                <a href="https://www.instagram.com/">Instagram</a> <a href="https://www.facebook.com/">Facebook</a> <a href="https://www.linkedin.com/">LinkedIn</a> <a href="https://twitter.com/i/flow/login">X (formerly twitter)</a>
+                <a href="https://www.instagram.com/usemyspurr/">Instagram</a> <a href="https://web.facebook.com/usemyspurr">Facebook</a> <a href="https://www.linkedin.com/company/usemyspurr/ ">LinkedIn</a> <a href="https://twitter.com/usemyspurr">X (formerly twitter)</a>
            </p>
        </div>
 

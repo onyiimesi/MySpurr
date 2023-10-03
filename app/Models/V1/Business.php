@@ -31,6 +31,7 @@ class Business extends Authenticatable
         'social_media_two',
         'password',
         'otp',
+        'otp_expires_at',
         'verify_status',
         'status',
         'type',

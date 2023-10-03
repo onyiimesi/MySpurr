@@ -77,7 +77,7 @@
             If you didn’t request this email or if you think something is wrong, feel free to
             contact our support team at hello@myspurr.net. We’re available to help! <br><br>
 
-            <a href="https://www.instagram.com/">Instagram</a> <a href="https://www.facebook.com/">Facebook</a> <a href="https://www.linkedin.com/">LinkedIn</a> <a href="https://twitter.com/i/flow/login">X (formerly twitter)</a>
+            <a href="https://www.instagram.com/usemyspurr/">Instagram</a> <a href="https://web.facebook.com/usemyspurr">Facebook</a> <a href="https://www.linkedin.com/company/usemyspurr/ ">LinkedIn</a> <a href="https://twitter.com/usemyspurr">X (formerly twitter)</a>
         </p>
 
     </div>

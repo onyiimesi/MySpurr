@@ -34,6 +34,7 @@ class Talent extends Authenticatable
         'social_media_link',
         'password',
         'otp',
+        'otp_expires_at',
         'verify_status',
         'status',
         'type',

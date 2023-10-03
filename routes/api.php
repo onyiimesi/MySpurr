@@ -41,6 +41,8 @@ Route::post('v1/reset-password', [ResetPasswordController::class, 'reset']);
 Route::get('/verify/{token}', [AuthController::class, 'verify'])->name('verification.verify');
 Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name('verification.verifys');
 
+Route::post('/v1/resend', [AuthController::class, 'resend'])->name('verification.resend');
+
 Route::get('/auth/talent/google', [GoogleAuthController::class, 'redirectToGoogle']);
 Route::get('/auth/talent/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
 

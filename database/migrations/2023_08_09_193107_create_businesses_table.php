@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('social_media_two')->nullable();
             $table->string('password');
             $table->string('otp')->nullable();
+            $table->timestamp('otp_expires_at')->nullable();
             $table->string('verify_status')->nullable();
             $table->string('type')->nullable();
             $table->string('status');
