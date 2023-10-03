@@ -60,7 +60,7 @@
  <body>
     <div>
         <div class="logo">
-            <img src="https://media.istockphoto.com/id/517188688/photo/mountain-landscape.jpg?s=612x612&w=0&k=20&c=A63koPKaCyIwQWOTFBRWXj_PwCrR4cEoOw2S9Q7yVl8=" width="240px" height="52px" alt="">
+            <img src="https://myspurr.azurewebsites.net/logo/logo.svg" width="240px" height="52px" alt="">
         </div>
         <h3>Verify your email address</h3>
 
@@ -74,7 +74,7 @@
             If you didn’t request this email or if you think something is wrong, feel free to
             contact our support team at hello@myspurr.net. We’re available to help! <br><br>
 
-            <a href="">Instagram</a> <a href="">Facebook</a> <a href="">LinkedIn</a> <a href="">X (formerly twitter)</a>
+            <a href="https://www.instagram.com/">Instagram</a> <a href="https://www.facebook.com/">Facebook</a> <a href="https://www.linkedin.com/">LinkedIn</a> <a href="https://twitter.com/i/flow/login">X (formerly twitter)</a>
         </p>
 
     </div>
