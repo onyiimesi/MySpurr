@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Events\v1\TalentWelcomeEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\LoginUserRequest;
 use App\Http\Requests\V1\StoreBusinessRequest;
@@ -9,6 +10,7 @@ use App\Http\Requests\V1\StoreTalentRequest;
 use App\Http\Resources\V1\LoginUserResource;
 use App\Mail\V1\BusinessVerifyEmail;
 use App\Mail\V1\TalentVerifyEmail;
+use App\Mail\v1\TalentWelcomeMail;
 use App\Models\V1\Business;
 use App\Models\V1\Talent;
 use App\Traits\HttpResponses;
@@ -129,7 +131,19 @@ class AuthController extends Controller
         $user->otp = null;
         $user->save();
 
-        return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=true');
+        try {
+
+            // Mail::to($user->email)->send(new TalentWelcomeMail());
+            event(new TalentWelcomeEvent($user->email));
+
+            return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=true');
+
+            DB::commit();
+
+        } catch (\Exception $e){
+            DB::rollBack();
+            return $this->error('error', 400, 'Email sending failed!. Try again');
+        }
 
     }
 
