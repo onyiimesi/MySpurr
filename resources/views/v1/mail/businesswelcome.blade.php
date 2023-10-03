@@ -67,32 +67,34 @@
                <img src="https://myspurr.azurewebsites.net/logo/logo.png" alt="">
            </div>
            <p>
-                Dear {{ $name->first_name }} {{ $name->last_name }},
+                Dear {{ $name->business_name }},
            </p>
-           <h3>Welcome to MySpurr!</h3>
+           <h3>Welcome to MySpurr for Businesses!</h3>
            <p>
-            MySpurr was created with the sole purpose of nurturing and championing creative talents like you. We are thrilled that you've joined our vibrant community where creative aspirations flourish, and opportunities abound.
+            We're delighted to have you join MySpurr, we specialize in simplifying the creative talent acquisition process, connecting you with exceptional professional talents.
            </p>
            <p>
-            Here's a glimpse of what MySpurr has to offer: <br>
+            At MySpurr, we understand that finding the right talent is pivotal to your success. Our mission is to make this journey easier and more effective for your organization.
+           </p>
+           <p>
+            Here's how MySpurr can empower your talent search: <br>
 
-            1. <strong>Showcase Your Portfolio</strong>: Put your best work on display for the world to see. Share your creativity and talents with a global audience. <br>
+            1. <strong>Access to Top Talent</strong>: Gain access to a diverse pool of skilled professionals and creative talents. <br>
 
-            2. <strong>Connect with Fellow Creatives</strong>: Forge valuable connections within our community of like-minded creative talents. Collaborate, learn, and grow together. <br>
+            2. <strong>Streamlined Hiring</strong>: Our platform streamlines the hiring process, from posting jobs to reviewing applications, and ultimately selecting the ideal candidates for your team. <br>
 
-            3. <strong>Seamless Invoicing</strong>: Effortlessly create and send invoices for your projects, ensuring you get compensated fairly and promptly. <br>
+            3. <strong>Effortless Communication</strong>: Communicate seamlessly with potential hires through our messaging system, making it easier to evaluate their fit for your organization. <br>
 
-            4. <strong>Explore Creative Job Opportunities</strong>: Browse and apply for exciting job opportunities in the creative industry, tailored to your skills and interests. <br>
+            4. <strong>Secure Payments</strong>: We facilitate secure payment processes to ensure that you and your talents can focus on your projects without worrying about financial logistics. <br>
 
-            5. <strong>Get Paid for Your Services</strong>: Receive payments securely and efficiently for your creative services, so you can focus on what you do best. <br>
+            5. <strong>Tailored Solutions</strong>: Our team is here to assist you every step of the way. We offer tailored solutions to meet your unique talent acquisition needs. <br>
 
-            6. <strong>Access a World of Opportunities</strong>: MySpurr connects you with a growing list of global businesses actively seeking creative talents like you. <br>
            </p>
            <p class="trial">
-             Ready to start your creative journey?
+                Ready to start finding the perfect talent for your business?
            </p>
            <div>
-               <a href="https://mango-glacier-097715310.3.azurestaticapps.net/login"><button>UPDATE YOUR PROFILE</button></a>
+               <a href="https://mango-glacier-097715310.3.azurestaticapps.net/login"><button>LOG IN TO YOUR ACCOUNT</button></a>
            </div>
            <p>
                 P.S. Lets connect on LinkedIn, I’d love you hear of your incredible journey with us

@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\v1\BusinessWelcomeEvent;
 use App\Events\v1\TalentWelcomeEvent;
+use App\Listeners\v1\BusinessWelcome;
 use App\Listeners\v1\TalentWelcome;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         TalentWelcomeEvent::class => [
             TalentWelcome::class
+        ],
+        BusinessWelcomeEvent::class => [
+            BusinessWelcome::class
         ]
     ];
 

@@ -17,7 +17,7 @@ class Business extends Authenticatable
         'id',
         'first_name',
         'last_name',
-        'email_address',
+        'email',
         'business_name',
         'location',
         'industry',

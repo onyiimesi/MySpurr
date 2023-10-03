@@ -2,13 +2,13 @@
 
 namespace App\Listeners\v1;
 
-use App\Events\v1\TalentWelcomeEvent;
-use App\Mail\v1\TalentWelcomeMail;
+use App\Events\v1\BusinessWelcomeEvent;
+use App\Mail\v1\BusinessWelcomeMail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
-class TalentWelcome
+class BusinessWelcome
 {
     /**
      * Create the event listener.
@@ -21,8 +21,8 @@ class TalentWelcome
     /**
      * Handle the event.
      */
-    public function handle(TalentWelcomeEvent $event): void
+    public function handle(BusinessWelcomeEvent $event): void
     {
-        Mail::to($event->user->email)->send(new TalentWelcomeMail($event->user));
+        Mail::to($event->user->email)->send(new BusinessWelcomeMail($event->user));
     }
 }

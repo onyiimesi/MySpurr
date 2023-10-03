@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Events\v1\BusinessWelcomeEvent;
 use App\Events\v1\TalentWelcomeEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\LoginUserRequest;
@@ -146,7 +147,7 @@ class AuthController extends Controller
 
             try {
 
-                event(new TalentWelcomeEvent($user->email));
+                event(new TalentWelcomeEvent($user));
 
                 return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=true');
 
@@ -162,8 +163,6 @@ class AuthController extends Controller
             return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=false');
         }
 
-
-
     }
 
     public function businessRegister(StoreBusinessRequest $request)
@@ -173,13 +172,17 @@ class AuthController extends Controller
 
         DB::beginTransaction();
 
+        $otpExpiresAt = now()->addMinutes(5);
+
         $user = Business::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
+            'business_name' => $request->business_name,
             'password' => Hash::make($request->password),
             'type' => 'business',
             'terms' => $request->terms,
+            'otp_expires_at' => $otpExpiresAt,
             'otp' => Str::random(60),
             'status' => 'Inactive'
         ]);
@@ -200,20 +203,42 @@ class AuthController extends Controller
 
     public function verifys($token)
     {
-        $user = Business::where('otp', $token)->first();
+        $user = Business::where('otp', $token)
+        ->where('otp_expires_at', '>', now())
+        ->first();
 
         if (!$user) {
-            return $this->error('', 'Error', 422);
+            return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=false');
         }
 
-        $user->status = 'Active';
-        $user->otp = null;
-        $user->save();
+        if($user->otp == ""){
+            return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login');
+        }
 
-        return [
-            "status" => 'true',
-            "message" => 'Verification successful'
-        ];
+        if($user){
+
+            $user->status = 'active';
+            $user->otp = null;
+            $user->otp_expires_at = NULL;
+            $user->save();
+
+            try {
+
+                event(new BusinessWelcomeEvent($user));
+
+                return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=true');
+
+                DB::commit();
+
+            } catch (\Exception $e){
+                DB::rollBack();
+                return $this->error('error', 400, 'Email sending failed!. Try again');
+            }
+
+        } else {
+            // return $this->error('error', 400, 'OTP is invalid or expired');
+            return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=false');
+        }
     }
 
     public function logout()
