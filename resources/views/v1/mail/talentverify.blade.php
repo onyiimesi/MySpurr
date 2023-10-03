@@ -54,13 +54,16 @@
     button:hover{
         cursor: pointer;
     }
+    a:hover{
+        cursor: pointer;
+    }
  </style>
 
  </head>
  <body>
     <div>
         <div class="logo">
-            <img src="https://myspurr.azurewebsites.net/logo/logo.svg" width="240px" height="52px" alt="">
+            <img src="https://myspurr.azurewebsites.net/logo/logo.png" width="240px" height="52px" alt="">
         </div>
         <h3>Verify your email address</h3>
 
