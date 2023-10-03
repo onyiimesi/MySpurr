@@ -63,7 +63,7 @@
  <body>
     <div>
         <div class="logo">
-            <img src="https://myspurr.azurewebsites.net/logo/logo.png" width="240px" height="52px" alt="">
+            <img src="https://myspurr.azurewebsites.net/logo/logo.png" width="200px" height="50px" alt="">
         </div>
         <h3>Verify your email address</h3>
 
