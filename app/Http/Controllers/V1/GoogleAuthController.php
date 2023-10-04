@@ -28,7 +28,7 @@ class GoogleAuthController extends Controller
 
         try {
 
-            $user = Talent::where('email_address', $googleUser->email)->first();
+            $user = Talent::where('email', $googleUser->email)->first();
 
             if (empty($user->skill_title) || empty($user->top_skills) || empty($user->highest_education) || empty($user->year_obtained) || empty($user->work_history) || empty($user->certificate_earned) || empty($user->availability)) {
                 $onboarding = false;
@@ -97,7 +97,7 @@ class GoogleAuthController extends Controller
 
     //     try {
 
-    //         $user = Business::where('email_address', $googleUser->email)->first();
+    //         $user = Business::where('email', $googleUser->email)->first();
 
     //         if (empty($user->business_name) || empty($user->location) || empty($user->industry) || empty($user->about_business) || empty($user->website) || empty($user->business_service) || empty($user->business_email)) {
     //             $onboarding = false;
@@ -116,7 +116,7 @@ class GoogleAuthController extends Controller
     //             $user = Business::create([
     //                 'first_name' => $googleUser->name,
     //                 'last_name' => $googleUser->name,
-    //                 'email_address' => $googleUser->email,
+    //                 'email' => $googleUser->email,
     //                 'password' => Hash::make('12345678'),
     //                 'type' => 'business',
     //                 'status' => 'Active'
