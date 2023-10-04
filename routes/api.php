@@ -43,7 +43,7 @@ Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name
 
 Route::post('/v1/resend', [AuthController::class, 'resend'])->name('verification.resend');
 
-Route::get('/auth/talent/google', [GoogleAuthController::class, 'redirectToGoogle']);
+Route::get('v1/auth/talent/google', [GoogleAuthController::class, 'redirectToGoogle']);
 Route::get('/auth/talent/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
 
 // Route::get('/auth/business/google', [GoogleAuthController::class, 'redirectToGoogleBusiness']);
