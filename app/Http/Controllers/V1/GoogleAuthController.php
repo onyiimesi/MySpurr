@@ -47,7 +47,7 @@ class GoogleAuthController extends Controller
                 $user = Talent::create([
                     'first_name' => $googleUser->name,
                     'last_name' => $googleUser->name,
-                    'email_address' => $googleUser->email,
+                    'email' => $googleUser->email,
                     'password' => Hash::make('12345678'),
                     'type' => 'talent',
                     'status' => 'Active'
@@ -64,7 +64,7 @@ class GoogleAuthController extends Controller
                     'uuid' => $user->uuid,
                     'first_name' => $user->first_name,
                     'last_name' => $googleUser->name,
-                    'email_address' => $googleUser->email,
+                    'email' => $googleUser->email,
                     'type' => 'talent',
                     'status' => 'Active'
                 ],
