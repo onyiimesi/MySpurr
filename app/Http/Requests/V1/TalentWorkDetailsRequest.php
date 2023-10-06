@@ -26,10 +26,21 @@ class TalentWorkDetailsRequest extends FormRequest
             'top_skills' => 'required|array|min:1',
             'top_skills.*.name' => 'required|string',
             'highest_education' => ['required', 'string'],
-            'year_obtained' => ['required', 'string'],
-            'work_history' => ['required', 'string'],
-            'certificate_earned' => ['required', 'string'],
-            'availability' => ['required', 'string']
+            'availability' => ['required', 'string'],
+            'education.school_name' => ['required'],
+            'education.degree' => ['required'],
+            'education.field_of_study' => ['required'],
+            'education.start_date' => ['required'],
+            'education.end_date' => ['required'],
+            'employment_details.company_name' => ['required'],
+            'employment_details.title' => ['required'],
+            'employment_details.employment_type' => ['required'],
+            'employment_details.start_date' => ['required'],
+            'employment_details.end_date' => ['required'],
+            'certificate.title' => ['required'],
+            'certificate.institute' => ['required'],
+            'certificate.certificate_date' => ['required'],
+            'certificate.certificate_year' => ['required']
         ];
     }
 }

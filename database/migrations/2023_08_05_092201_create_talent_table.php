@@ -17,12 +17,13 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
+            $table->longText('overview')->nullable();
             $table->string('skill_title')->nullable();
             $table->string('top_skills')->nullable();
+            $table->longText('location')->nullable();
             $table->string('highest_education')->nullable();
-            $table->string('year_obtained')->nullable();
-            $table->string('work_history')->nullable();
-            $table->string('certificate_earned')->nullable();
+            $table->string('employment_type')->nullable();
+            $table->string('rate')->nullable();
             $table->string('availability')->nullable();
             $table->string('compensation')->nullable();
             $table->string('portfolio_title')->nullable();

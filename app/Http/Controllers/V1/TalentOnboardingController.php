@@ -22,7 +22,7 @@ class TalentOnboardingController extends Controller
     {
         $user = Auth::user();
 
-        $talent = Talent::where('email_address', $user->email_address)->first();
+        $talent = Talent::where('email', $user->email)->first();
 
         if(!$talent){
             return $this->error('', 401, 'Error');
@@ -30,24 +30,65 @@ class TalentOnboardingController extends Controller
 
         $talent->update([
             'skill_title' => $request->skill_title,
+            'overview' => $request->overview,
+            'location' => $request->location,
+            'employment_type' => $request->employment_type,
             'highest_education' => $request->highest_education,
-            'year_obtained' => $request->year_obtained,
-            'work_history' => $request->work_history,
-            'certificate_earned' => $request->certificate_earned,
+            'rate' => $request->rate,
             'availability' => $request->availability
         ]);
+
+        try {
+            
+            $talent->educations()->create([
+                'school_name' => $request->education['school_name'],
+                'degree' => $request->education['degree'],
+                'field_of_study' => $request->education['field_of_study'],
+                'start_date' => $request->education['start_date'],
+                'end_date' => $request->education['end_date']
+            ]);
+
+        } catch (\Exception $e) {
+            return $e;
+        }
+
+        try {
+
+            $talent->employments()->create([
+                'company_name' => $request->employment_details['company_name'],
+                'title' => $request->employment_details['title'],
+                'employment_type' => $request->employment_details['employment_type'],
+                'start_date' => $request->employment_details['start_date'],
+                'end_date' => $request->employment_details['end_date']
+            ]);
+
+        } catch (\Exception $e) {
+            return $e;
+        }
+
+        try {
+
+            $talent->certificates()->create([
+                'title' => $request->certificate['title'],
+                'institute' => $request->certificate['institute'],
+                'certificate_date' => $request->certificate['certificate_date'],
+                'certificate_year' => $request->certificate['certificate_year'],
+                'certificate_link' => $request->certificate['certificate_link'],
+                'currently_working_here' => $request->certificate['currently_working_here']
+            ]);
+
+        } catch (\Exception $e) {
+            return $e;
+        }
 
         foreach ($request->top_skills as $skills) {
             $skill = new TopSkill($skills);
             $talent->topskills()->save($skill);
         }
 
-        $talents = new TalentWorkDetailsResource($talent);
-
         return [
             "status" => 'true',
             "message" => 'Updated Successfully',
-            "data" => $talents
         ];
     }
 

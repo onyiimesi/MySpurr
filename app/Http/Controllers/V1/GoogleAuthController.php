@@ -73,7 +73,7 @@ class GoogleAuthController extends Controller
                 'token' => $token,
             ];
 
-            return redirect()->to('http://localhost:5173?' . http_build_query($responseData));
+            return redirect()->to('http://localhost:5173/login?' . http_build_query($responseData));
 
 
         } catch (\Exception $e) {

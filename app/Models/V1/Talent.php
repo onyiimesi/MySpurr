@@ -66,6 +66,21 @@ class Talent extends Authenticatable
         return $this->hasMany(BankAccount::class);
     }
 
+    public function educations()
+    {
+        return $this->hasMany(TalentEducation::class, 'talent_id');
+    }
+
+    public function employments()
+    {
+        return $this->hasMany(TalentEmployment::class, 'talent_id');
+    }
+
+    public function certificates()
+    {
+        return $this->hasMany(TalentCertificate::class, 'talent_id');
+    }
+
 
     public function sendPasswordResetNotification($token): void
     {
