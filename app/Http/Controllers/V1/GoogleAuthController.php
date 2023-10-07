@@ -61,8 +61,6 @@ class GoogleAuthController extends Controller
 
                     event(new TalentWelcomeEvent($user));
 
-                    return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=true');
-
                 } catch (\Exception $e){
                     return $this->error('error', 400, 'Email sending failed!. Try again');
                 }
