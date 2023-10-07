@@ -18,6 +18,8 @@ class ProfileController extends Controller
     public function profile()
     {
         $user = Auth::user();
+        dd(env('GOOGLE_AUTH_REDIRECT_URL'));
+        die;
 
         if(!$user){
             return $this->error('', 401, 'Error');
