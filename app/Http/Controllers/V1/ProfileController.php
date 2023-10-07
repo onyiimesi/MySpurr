@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\BusinessResource;
 use App\Http\Resources\V1\LoginUserResource;
 use App\Http\Resources\V1\TalentResource;
+use App\Models\V1\Talent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\HttpResponses;
@@ -24,7 +25,7 @@ class ProfileController extends Controller
 
         if($user->type === 'talent'){
 
-            if (empty($user->skill_title) || empty($user->topskills) || empty($user->highest_education) || empty($user->year_obtained) || empty($user->work_history) || empty($user->certificate_earned) || empty($user->availability)) {
+            if (empty($user->skill_title) || empty($user->topskills) || empty($user->educations) || empty($user->employments) || empty($user->certificates) || empty($user->availability)) {
                 $onboarding = false;
             } else {
                 $onboarding = true;

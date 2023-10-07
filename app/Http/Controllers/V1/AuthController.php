@@ -39,7 +39,7 @@ class AuthController extends Controller
         if ($talentGuard->attempt($request->only(['email', 'password']))) {
             $user = Talent::where('email', $request->email)->first();
 
-            if (empty($user->skill_title) || empty($user->topskills) || empty($user->highest_education) || empty($user->year_obtained) || empty($user->work_history) || empty($user->certificate_earned) || empty($user->availability)) {
+            if (empty($user->skill_title) || empty($user->topskills) || empty($user->educations) || empty($user->employments) || empty($user->certificates) || empty($user->availability)) {
                 $onboarding = false;
             } else {
                 $onboarding = true;
