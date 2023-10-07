@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 use App\Traits\HttpResponses;
+use Illuminate\Support\Env;
 
 class GoogleAuthController extends Controller
 {
@@ -73,7 +74,9 @@ class GoogleAuthController extends Controller
                 'token' => $token,
             ];
 
-            $redirectUrl = env('GOOGLE_AUTH_REDIRECT_URL') . http_build_query($responseData);
+            $googleRedirectUrl = Env::get('GOOGLE_AUTH_REDIRECT_URL');
+
+            $redirectUrl = $googleRedirectUrl . http_build_query($responseData);
 
             return redirect()->to($redirectUrl);
 
