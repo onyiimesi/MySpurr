@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Events\v1\TalentWelcomeEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\LoginUserResource;
 use App\Models\V1\Business;
@@ -44,14 +45,27 @@ class GoogleAuthController extends Controller
 
             if (!$user) {
 
+                $fullName = $googleUser->name;
+                list($firstName, $lastName) = explode(' ', $fullName, 2);
+
                 $user = Talent::create([
-                    'first_name' => $googleUser->name,
-                    'last_name' => $googleUser->name,
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
                     'email' => $googleUser->email,
                     'password' => Hash::make('12345678'),
                     'type' => 'talent',
                     'status' => 'Active'
                 ]);
+
+                try {
+
+                    event(new TalentWelcomeEvent($user));
+
+                    return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=true');
+
+                } catch (\Exception $e){
+                    return $this->error('error', 400, 'Email sending failed!. Try again');
+                }
 
             }
 
