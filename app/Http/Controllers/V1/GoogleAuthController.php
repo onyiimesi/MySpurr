@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 use App\Traits\HttpResponses;
-use Illuminate\Support\Env;
 
 class GoogleAuthController extends Controller
 {
@@ -74,11 +73,7 @@ class GoogleAuthController extends Controller
                 'token' => $token,
             ];
 
-            $googleRedirectUrl = Env::get('GOOGLE_AUTH_REDIRECT_URL');
-
-            $redirectUrl = $googleRedirectUrl . http_build_query($responseData);
-
-            return redirect()->to($redirectUrl);
+            return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?' . http_build_query($responseData));
 
 
         } catch (\Exception $e) {
