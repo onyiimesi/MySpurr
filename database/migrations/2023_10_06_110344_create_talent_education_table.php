@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('field_of_study');
             $table->string('start_date');
             $table->string('end_date');
+            $table->string('description');
 
             $table->foreign('talent_id')->references('id')->on('talent')->onDelete('cascade');
             $table->timestamps();

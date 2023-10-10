@@ -30,7 +30,7 @@ class TalentVerifyEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Talent Verify Email',
+            subject: 'Verify your Email',
         );
     }
 

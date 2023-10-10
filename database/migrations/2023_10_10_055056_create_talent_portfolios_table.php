@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('talent_employments', function (Blueprint $table) {
+        Schema::create('talent_portfolios', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('talent_id');
-            $table->string('company_name');
             $table->string('title');
-            $table->string('employment_type');
-            $table->string('start_date');
-            $table->string('end_date');
-            $table->string('description');
+            $table->string('client_name');
+            $table->string('job_type');
+            $table->string('location');
+            $table->string('rate');
+            $table->json('tags');
+            $table->string('cover_image');
+            $table->longText('body');
 
             $table->foreign('talent_id')->references('id')->on('talent')->onDelete('cascade');
             $table->timestamps();
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('talent_employments');
+        Schema::dropIfExists('talent_portfolios');
     }
 };

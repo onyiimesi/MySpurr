@@ -39,6 +39,7 @@ class TalentResource extends JsonResource
                     'field_of_study' => $edu->field_of_study,
                     'start_date' => Carbon::parse($edu->start_date)->format('j M Y'),
                     'end_date' => Carbon::parse($edu->end_date)->format('j M Y'),
+                    'description' => $edu->description
                 ];
             })->toArray(),
             'employment' => $this->employments->map(function($emp) {
@@ -48,6 +49,7 @@ class TalentResource extends JsonResource
                     'employment_type' => $emp->employment_type,
                     'start_date' => Carbon::parse($emp->start_date)->format('j M Y'),
                     'end_date' => Carbon::parse($emp->end_date)->format('j M Y'),
+                    'description' => $emp->description
                 ];
             })->toArray(),
             'certificate' => $this->certificates->map(function($cert) {
@@ -60,9 +62,19 @@ class TalentResource extends JsonResource
                     'curently_working_here' => $cert->curently_working_here
                 ];
             })->toArray(),
+            'portfolio' => $this->portfolios->map(function($port) {
+                return [
+                    'title' => $port->title,
+                    'client_name' => $port->client_name,
+                    'job_type' => $port->job_type,
+                    'location' => $port->location,
+                    'rate' => $port->rate,
+                    'tags' => json_decode($port->tags),
+                    'cover_image' => $port->cover_image,
+                    'body' =>  $port->body
+                ];
+            })->toArray(),
             'compensation' => (string)$this->compensation,
-            'portfolio_title' => (string)$this->portfolio_title,
-            'portfolio_description' => (string)$this->portfolio_description,
             'image' => (string)$this->image,
             'social_media_link' => (string)$this->social_media_link,
             'availability' => (string)$this->availability,

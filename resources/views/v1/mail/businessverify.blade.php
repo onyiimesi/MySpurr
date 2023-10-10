@@ -6,7 +6,7 @@
 
     <style>
        body{
-           background: #F9F9F9;
+           background: #fff;
            padding: 50px 100px;
            font-family: 'Satoshi', sans-serif;
        }
@@ -58,11 +58,18 @@
        a:hover{
            cursor: pointer;
        }
+       .main{
+            background: #fff;
+            box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 5px;
+        }
     </style>
 
     </head>
     <body>
-       <div>
+       <div class="main">
            <div class="logo">
                <img src="https://myspurr.azurewebsites.net/logo/logo.png" alt="">
            </div>

@@ -6,7 +6,7 @@
 
  <style>
     body{
-        background: #F9F9F9;
+        background: #fff;
         padding: 50px 100px;
         font-family: 'Satoshi', sans-serif;
     }
@@ -42,7 +42,7 @@
         font-weight: 700;
         line-height: 69.237px;
     }
-    button{
+    .button{
         border: 0;
         border-radius: 35px;
         background: #43D0DF;
@@ -51,18 +51,26 @@
         margin: 10px 0;
         font-weight: 500;
         font-size: 13px;
+        text-decoration: none;
     }
-    button:hover{
+    .button:hover{
         cursor: pointer;
     }
     a:hover{
         cursor: pointer;
     }
+    .main{
+        background: #fff;
+        box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 5px;
+    }
  </style>
 
  </head>
  <body>
-    <div>
+    <div class="main">
         <div class="logo">
             <img src="https://myspurr.azurewebsites.net/logo/logo.png" alt="">
         </div>
@@ -72,7 +80,7 @@
             Welcome to MySpurr! Click on the following link to verify your email address
         </p>
         <div>
-            <a href="{{ $otp }}"><button>VERIFY EMAIL ADDRESS</button></a>
+            <a href="{{ $otp }}" class="button">VERIFY EMAIL ADDRESS</a>
         </div>
         <p>
             If you didn’t request this email or if you think something is wrong, feel free to

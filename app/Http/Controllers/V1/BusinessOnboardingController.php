@@ -21,7 +21,7 @@ class BusinessOnboardingController extends Controller
     {
         $user = Auth::user();
 
-        $business = Business::where('email_address', $user->email_address)->first();
+        $business = Business::where('email', $user->email)->first();
 
         if(!$business){
             return $this->error('', 401, 'Error');
@@ -50,7 +50,7 @@ class BusinessOnboardingController extends Controller
     {
         $user = Auth::user();
 
-        $talent = Business::where('email_address', $user->email_address)->first();
+        $talent = Business::where('email', $user->email)->first();
 
         if(!$talent){
             return $this->error('', 401, 'Error');
@@ -92,7 +92,7 @@ class BusinessOnboardingController extends Controller
 
         $user = Auth::user();
 
-        $business = Business::where('email_address', $user->email_address)->first();
+        $business = Business::where('email', $user->email)->first();
 
         if(!$business){
             return $this->error('', 401, 'Error');

@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Business extends Authenticatable
+class Business extends Authenticatable implements Auditable
 {
     use HasFactory, SoftDeletes, HasApiTokens;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'id',

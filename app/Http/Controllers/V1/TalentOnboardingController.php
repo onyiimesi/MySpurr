@@ -39,13 +39,14 @@ class TalentOnboardingController extends Controller
         ]);
 
         try {
-            
+
             $talent->educations()->create([
                 'school_name' => $request->education['school_name'],
                 'degree' => $request->education['degree'],
                 'field_of_study' => $request->education['field_of_study'],
                 'start_date' => $request->education['start_date'],
-                'end_date' => $request->education['end_date']
+                'end_date' => $request->education['end_date'],
+                'description' => $request->education['description']
             ]);
 
         } catch (\Exception $e) {
@@ -59,7 +60,8 @@ class TalentOnboardingController extends Controller
                 'title' => $request->employment_details['title'],
                 'employment_type' => $request->employment_details['employment_type'],
                 'start_date' => $request->employment_details['start_date'],
-                'end_date' => $request->employment_details['end_date']
+                'end_date' => $request->employment_details['end_date'],
+                'description' => $request->education['description']
             ]);
 
         } catch (\Exception $e) {
@@ -88,49 +90,54 @@ class TalentOnboardingController extends Controller
 
         return [
             "status" => 'true',
-            "message" => 'Updated Successfully',
+            "message" => 'Updated Successfully'
         ];
     }
 
-    public function portfolio(TalentPortfolioRequest $request)
+    public function portfolio(Request $request)
     {
+
+        // $request->validated();
         $user = Auth::user();
 
-        $talent = Talent::where('email_address', $user->email_address)->first();
+        $talent = Talent::where('email', $user->email)->first();
 
         if(!$talent){
             return $this->error('', 401, 'Error');
         }
 
-        if($request->image){
-            $file = $request->image;
-            $folderName = 'https://myspurr.azurewebsites.net/talents';
+        if($request->portfolio['cover_image']){
+            $file = $request->portfolio['cover_image'];
+            $folderName = 'https://myspurr.azurewebsites.net/portfolio';
             $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
             $replace = substr($file, 0, strpos($file, ',')+1);
             $sig = str_replace($replace, '', $file);
 
             $sig = str_replace(' ', '+', $sig);
             $file_name = time().'.'.$extension;
-            file_put_contents(public_path().'/talents/'.$file_name, base64_decode($sig));
+            file_put_contents(public_path().'/portfolio/'.$file_name, base64_decode($sig));
 
             $pathss = $folderName.'/'.$file_name;
         }else{
             $pathss = "";
         }
 
-        $talent->update([
-            'image' => $pathss,
-            'compensation' => $request->compensation,
-            'portfolio_title' => $request->portfolio_title,
-            'portfolio_description' => $request->portfolio_description
-        ]);
+        $body = $request->portfolio['body'];
 
-        $talents = new TalentPortfolioResource($talent);
+        $talent->portfolios()->create([
+            'title' => $request->portfolio['title'],
+            'client_name' => $request->portfolio['client_name'],
+            'job_type' => $request->portfolio['job_type'],
+            'location' => $request->portfolio['location'],
+            'rate' => $request->portfolio['rate'],
+            'tags' => json_encode($request->portfolio['tags']),
+            'cover_image' => $pathss,
+            'body' => $body
+        ]);
 
         return [
             "status" => 'true',
-            "message" => 'Updated Successfully',
-            "data" => $talents
+            "message" => 'Created Successfully'
         ];
     }
 
@@ -138,7 +145,7 @@ class TalentOnboardingController extends Controller
 
         $user = Auth::user();
 
-        $talent = Talent::where('email_address', $user->email_address)->first();
+        $talent = Talent::where('email', $user->email)->first();
 
         if(!$talent){
             return $this->error('', 401, 'Error');

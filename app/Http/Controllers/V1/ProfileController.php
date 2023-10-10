@@ -31,7 +31,7 @@ class ProfileController extends Controller
                 $onboarding = true;
             }
 
-            if (empty($user->compensation) || empty($user->portfolio_title) || empty($user->portfolio_description) || empty($user->image)) {
+            if (empty($user->portfolios)) {
                 $port = false;
             } else {
                 $port = true;

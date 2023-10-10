@@ -22,9 +22,13 @@ class TalentPortfolioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'compensation' => ['required', 'string'],
-            'portfolio_title' => ['required', 'string'],
-            'portfolio_description' => ['required', 'string']
+            'portfolio.title' => ['required', 'string'],
+            'portfolio.client_name' => ['required', 'string'],
+            'portfolio.job_type' => ['required', 'string'],
+            'portfolio.location' => ['required', 'string'],
+            'portfolio.rate' => ['required', 'string'],
+            'portfolio.cover_image' => ['required'],
+            'portfolio.body' => ['required']
         ];
     }
 }

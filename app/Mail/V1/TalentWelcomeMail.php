@@ -29,7 +29,7 @@ class TalentWelcomeMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Talent Welcome Mail',
+            subject: 'Welcome to MySpurr',
         );
     }
 

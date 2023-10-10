@@ -4,19 +4,23 @@ namespace App\Models\V1;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class TalentEmployment extends Model
+class TalentPortfolio extends Model implements Auditable
 {
     use HasFactory;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'talent_id',
-        'company_name',
         'title',
-        'employment_type',
-        'start_date',
-        'end_date',
-        'description'
+        'client_name',
+        'job_type',
+        'location',
+        'rate',
+        'tags',
+        'cover_image',
+        'body'
     ];
 
     public function talent()

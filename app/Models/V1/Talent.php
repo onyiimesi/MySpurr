@@ -10,11 +10,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\V1\ResetPasswordNotification;
+use OwenIt\Auditing\Contracts\Auditable;
 
 
-class Talent extends Authenticatable
+class Talent extends Authenticatable implements Auditable
 {
     use HasFactory, SoftDeletes, HasApiTokens, Notifiable;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'id',
@@ -80,6 +82,11 @@ class Talent extends Authenticatable
     public function certificates()
     {
         return $this->hasMany(TalentCertificate::class, 'talent_id');
+    }
+
+    public function portfolios()
+    {
+        return $this->hasMany(TalentPortfolio::class, 'talent_id');
     }
 
 
