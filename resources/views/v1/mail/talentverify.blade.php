@@ -6,7 +6,6 @@
 
  <style>
     body{
-        background: #fff;
         padding: 50px 100px;
         font-family: 'Satoshi', sans-serif;
     }
@@ -16,7 +15,6 @@
         font-size: 22px;
         font-style: normal;
         font-weight: 700;
-        line-height: 52.078px;
     }
     p{
         color: #011B1F;
@@ -24,7 +22,6 @@
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
-        line-height: 37.471px;
     }
     h3{
         color: #007582;
@@ -46,7 +43,6 @@
         border: 0;
         border-radius: 35px;
         background: #43D0DF;
-        color: #000;
         padding: 15px 25px;
         margin: 10px 0;
         font-weight: 500;
@@ -56,30 +52,41 @@
     .button:hover{
         cursor: pointer;
     }
+    a{
+        color: #000 !important;
+    }
     a:hover{
         cursor: pointer;
     }
     .main{
+        width: 650px;
+        height: 100%;
         background: #fff;
         box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
         margin: 0 auto;
         padding: 20px;
         border-radius: 5px;
     }
+    .logo{
+        width: 100%;
+        height: 100%;
+        margin: 0 auto 10px auto;
+        text-align: center;
+    }
  </style>
 
  </head>
  <body>
+    <div class="logo">
+        <img src="https://myspurr.azurewebsites.net/logo/logo.png" alt="">
+    </div>
     <div class="main">
-        <div class="logo">
-            <img src="https://myspurr.azurewebsites.net/logo/logo.png" alt="">
-        </div>
         <h3>Verify your email address</h3>
 
         <p class="trial">
             Welcome to MySpurr! Click on the following link to verify your email address
         </p>
-        <div>
+        <div style="margin: 3em 0;">
             <a href="{{ $otp }}" class="button">VERIFY EMAIL ADDRESS</a>
         </div>
         <p>

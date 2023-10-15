@@ -51,6 +51,7 @@ Route::get('/auth/talent/google/callback', [GoogleAuthController::class, 'handle
 
 Route::resource('v1/skills', SkillsController::class);
 Route::get('v1/list-jobs', [TalentJobsController::class, 'listjobs']);
+Route::get('v1/job-title', [TalentController::class, 'jobtitle']);
 
 Route::get('v1/talents', [TalentController::class, 'listtalents']);
 Route::get('v1/talent/{uuid}', [TalentController::class, 'talentbyid']);

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\JobTitleResource;
 use App\Http\Resources\V1\TalentListResource;
 use App\Http\Resources\V1\TalentResource;
+use App\Models\V1\JobTitle;
 use App\Models\V1\Talent;
 use Illuminate\Http\Request;
 
@@ -42,6 +44,18 @@ class TalentController extends Controller
             'status' => 'true',
             'message' => 'Talent Details',
             'data' => $talent
+        ];
+    }
+
+    public function jobtitle()
+    {
+        $title = JobTitle::get();
+        $titles = JobTitleResource::collection($title);
+
+        return [
+            "status" => 'true',
+            "message" => 'Job Title List',
+            "data" => $titles
         ];
     }
 }
