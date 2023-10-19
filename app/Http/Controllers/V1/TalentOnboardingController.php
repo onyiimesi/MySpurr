@@ -43,7 +43,6 @@ class TalentOnboardingController extends Controller
             $talent->educations()->create([
                 'school_name' => $request->education['school_name'],
                 'degree' => $request->education['degree'],
-                'field_of_study' => $request->education['field_of_study'],
                 'start_date' => $request->education['start_date'],
                 'end_date' => $request->education['end_date'],
                 'description' => $request->education['description']
@@ -173,15 +172,10 @@ class TalentOnboardingController extends Controller
             'skill_title' => $request->skill_title,
             'top_skills' => $request->top_skills,
             'highest_education' => $request->highest_education,
-            'year_obtained' => $request->year_obtained,
-            'work_history' => $request->work_history,
-            'certificate_earned' => $request->certificate_earned,
-            'availability' => $request->availability,
+            'employment_type' => $request->employment_type,
             'compensation' => $request->compensation,
-            'portfolio_title' => $request->portfolio_title,
-            'portfolio_description' => $request->portfolio_description,
             'image' => $pathss,
-            'social_media_link' => $request->social_media_link,
+            'social_media_link' => $request->social_media_link
         ]);
 
         return [

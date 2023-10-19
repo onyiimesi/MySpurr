@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('talent_id');
             $table->string('school_name');
             $table->string('degree');
-            $table->string('field_of_study');
+            $table->string('field_of_study')->nullable();
             $table->string('start_date');
             $table->string('end_date');
             $table->string('description');
