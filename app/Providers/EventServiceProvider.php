@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\v1\BusinessWelcomeEvent;
+use App\Events\V1\MessagingEvent;
 use App\Events\v1\TalentWelcomeEvent;
 use App\Listeners\v1\BusinessWelcome;
 use App\Listeners\v1\TalentWelcome;

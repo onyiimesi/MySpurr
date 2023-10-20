@@ -6,6 +6,7 @@ use App\Http\Controllers\V1\BusinessOnboardingController;
 use App\Http\Controllers\V1\ForgotPasswordController;
 use App\Http\Controllers\V1\GoogleAuthController;
 use App\Http\Controllers\V1\JobController;
+use App\Http\Controllers\V1\MessageController;
 use App\Http\Controllers\V1\ProfileController;
 use App\Http\Controllers\v1\ResetPasswordController;
 use App\Http\Controllers\V1\SkillsController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\V1\TalentController;
 use App\Http\Controllers\V1\TalentJobsController;
 use App\Http\Controllers\V1\TalentOnboardingController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +31,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Broadcast::routes(['prefix' => 'api', 'middleware' => ['auth:api']]);
 
 
 Route::post('v1/login', [AuthController::class, 'login']);
@@ -79,6 +83,11 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('v1/business-portfolio', [BusinessOnboardingController::class, 'portfolio']);
     Route::patch('v1/business-edit-profile', [BusinessOnboardingController::class, 'editProfile']);
     Route::resource('v1/job', JobController::class);
+
+
+    // Messaging
+    Route::get('v1/message/{id}', [MessageController::class, 'index']);
+    Route::post('v1/message', [MessageController::class, 'store']);
 
 
     Route::get('v1/profile', [ProfileController::class, 'profile']);
