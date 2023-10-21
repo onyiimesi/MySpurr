@@ -142,7 +142,7 @@ class TalentOnboardingController extends Controller
 
     public function editProfile(Request $request){
 
-        $user = Auth::user();
+        $user = $request->user();
 
         $talent = Talent::where('email', $user->email)->first();
 
@@ -166,14 +166,10 @@ class TalentOnboardingController extends Controller
             $pathss = $talent->image;
         }
 
-        $talent->update([
+        $user->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'skill_title' => $request->skill_title,
-            'top_skills' => $request->top_skills,
-            'highest_education' => $request->highest_education,
-            'employment_type' => $request->employment_type,
-            'compensation' => $request->compensation,
+            'overview' => $request->overview,
             'image' => $pathss,
             'social_media_link' => $request->social_media_link
         ]);

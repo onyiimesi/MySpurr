@@ -32,9 +32,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Broadcast::routes(['prefix' => 'api', 'middleware' => ['auth:api']]);
-
-
 Route::post('v1/login', [AuthController::class, 'login']);
 Route::post('v1/talent-register', [AuthController::class, 'talentRegister']);
 Route::post('v1/business-register', [AuthController::class, 'businessRegister']);
@@ -86,8 +83,8 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
 
     // Messaging
-    Route::get('v1/message/{id}', [MessageController::class, 'index']);
-    Route::post('v1/message', [MessageController::class, 'store']);
+    Route::get('v1/message/{recieverId}', [MessageController::class, 'index']);
+    Route::post('v1/message/{recieverId}', [MessageController::class, 'store']);
 
 
     Route::get('v1/profile', [ProfileController::class, 'profile']);

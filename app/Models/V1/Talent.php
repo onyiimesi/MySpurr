@@ -89,6 +89,11 @@ class Talent extends Authenticatable implements Auditable
         return $this->hasMany(TalentPortfolio::class, 'talent_id');
     }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
 
     public function sendPasswordResetNotification($token): void
     {

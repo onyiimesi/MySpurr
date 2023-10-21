@@ -15,4 +15,14 @@ class Message extends Model
         'message',
         'status'
     ];
+
+    public function sender()
+    {
+        return $this->belongsTo(Talent::class, 'sender_id');
+    }
+
+    public function receiver()
+    {
+        return $this->belongsTo(Talent::class, 'receiver_id');
+    }
 }
