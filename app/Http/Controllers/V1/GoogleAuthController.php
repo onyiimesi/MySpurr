@@ -7,6 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\LoginUserResource;
 use App\Models\V1\Business;
 use App\Models\V1\Talent;
+use App\Models\V1\TalentCertificate;
+use App\Models\V1\TalentEducation;
+use App\Models\V1\TalentEmployment;
+use App\Models\V1\TalentPortfolio;
+use App\Models\V1\TopSkill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
@@ -31,16 +36,22 @@ class GoogleAuthController extends Controller
 
             $user = Talent::where('email', $googleUser->email)->first();
 
-            if (empty($user->skill_title) || empty($user->topskills) || empty($user->educations) || empty($user->employments) || empty($user->certificates) || empty($user->availability)) {
-                $onboarding = false;
-            } else {
+            $portfolios = $user->portfolios;
+            $topSkills = $user->topskills;
+            $educations = $user->educations;
+            $employments = $user->employments;
+            $certificates = $user->certificates;
+
+            if (!empty($user->skill_title) && $topSkills->isNotEmpty() && $educations->isNotEmpty() &&$employments->isNotEmpty() && $certificates->isNotEmpty() && !empty($user->availability)) {
                 $onboarding = true;
+            } else {
+                $onboarding = false;
             }
 
-            if (empty($user->compensation) || empty($user->portfolio_title) || empty($user->portfolio_description) || empty($user->image)) {
-                $port = false;
-            } else {
+            if ($portfolios->isNotEmpty()) {
                 $port = true;
+            } else {
+                $port = false;
             }
 
             if (!$user) {

@@ -29,7 +29,7 @@ class TalentWorkDetailsRequest extends FormRequest
             'availability' => ['required', 'string'],
             'education.school_name' => ['required'],
             'education.degree' => ['required'],
-            'education.field_of_study' => ['required'],
+            'education.description' => ['required'],
             'education.start_date' => ['required'],
             'employment_details.company_name' => ['required'],
             'employment_details.title' => ['required'],

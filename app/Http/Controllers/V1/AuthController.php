@@ -15,6 +15,11 @@ use App\Mail\V1\TalentVerifyEmail;
 use App\Mail\v1\TalentWelcomeMail;
 use App\Models\V1\Business;
 use App\Models\V1\Talent;
+use App\Models\V1\TalentCertificate;
+use App\Models\V1\TalentEducation;
+use App\Models\V1\TalentEmployment;
+use App\Models\V1\TalentPortfolio;
+use App\Models\V1\TopSkill;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,16 +44,22 @@ class AuthController extends Controller
         if ($talentGuard->attempt($request->only(['email', 'password']))) {
             $user = Talent::where('email', $request->email)->first();
 
-            if (empty($user->skill_title) || empty($user->topskills) || empty($user->educations) || empty($user->employments) || empty($user->certificates) || empty($user->availability)) {
-                $onboarding = false;
-            } else {
+            $portfolios = $user->portfolios;
+            $topSkills = $user->topskills;
+            $educations = $user->educations;
+            $employments = $user->employments;
+            $certificates = $user->certificates;
+
+            if (!empty($user->skill_title) && $topSkills->isNotEmpty() && $educations->isNotEmpty() &&$employments->isNotEmpty() && $certificates->isNotEmpty() && !empty($user->availability)) {
                 $onboarding = true;
+            } else {
+                $onboarding = false;
             }
 
-            if (empty($user->portfolios)) {
-                $port = false;
-            } else {
+            if ($portfolios->isNotEmpty()) {
                 $port = true;
+            } else {
+                $port = false;
             }
 
             $token = $user->createToken('API Token of ' . $user->first_name);

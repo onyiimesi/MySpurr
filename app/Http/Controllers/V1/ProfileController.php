@@ -7,6 +7,7 @@ use App\Http\Resources\V1\BusinessResource;
 use App\Http\Resources\V1\LoginUserResource;
 use App\Http\Resources\V1\TalentResource;
 use App\Models\V1\Talent;
+use App\Models\V1\TalentPortfolio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\HttpResponses;
@@ -23,18 +24,24 @@ class ProfileController extends Controller
             return $this->error('', 401, 'Error');
         }
 
+        $portfolios = $user->portfolios;
+        $topSkills = $user->topskills;
+        $educations = $user->educations;
+        $employments = $user->employments;
+        $certificates = $user->certificates;
+
         if($user->type === 'talent'){
 
-            if (empty($user->skill_title) || empty($user->topskills) || empty($user->educations) || empty($user->employments) || empty($user->certificates) || empty($user->availability)) {
-                $onboarding = false;
-            } else {
+            if (!empty($user->skill_title) && $topSkills->isNotEmpty() && $educations->isNotEmpty() &&$employments->isNotEmpty() && $certificates->isNotEmpty() && !empty($user->availability)) {
                 $onboarding = true;
+            } else {
+                $onboarding = false;
             }
 
-            if (empty($user->portfolios)) {
-                $port = false;
-            } else {
+            if ($portfolios->isNotEmpty()) {
                 $port = true;
+            } else {
+                $port = false;
             }
 
             $details = new TalentResource($user);
