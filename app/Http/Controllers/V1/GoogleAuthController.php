@@ -36,22 +36,42 @@ class GoogleAuthController extends Controller
 
             $user = Talent::where('email', $googleUser->email)->first();
 
-            $portfolio = TalentPortfolio::where('talent_id', $user->id)->first();
-            $topskills = TopSkill::where('talent_id', $user->id)->first();
-            $educations = TalentEducation::where('talent_id', $user->id)->first();
-            $employments = TalentEducation::where('talent_id', $user->id)->first();
-            $certificates = TalentCertificate::where('talent_id', $user->id)->first();
+            if($user){
+                $portfolio = TalentPortfolio::where('talent_id', $user->id)->first();
+                $topskills = TopSkill::where('talent_id', $user->id)->first();
+                $educations = TalentEducation::where('talent_id', $user->id)->first();
+                $employments = TalentEducation::where('talent_id', $user->id)->first();
+                $certificates = TalentCertificate::where('talent_id', $user->id)->first();
 
-            if (!empty($user->skill_title) && $topskills->isNotEmpty() && $educations->isNotEmpty() &&$employments->isNotEmpty() && $certificates->isNotEmpty() && !empty($user->availability)) {
-                $onboarding = true;
-            } else {
-                $onboarding = false;
-            }
+                if (!empty($user->skill_title) && $topskills->isNotEmpty() && $educations->isNotEmpty() &&$employments->isNotEmpty() && $certificates->isNotEmpty() && !empty($user->availability)) {
+                    $onboarding = true;
+                } else {
+                    $onboarding = false;
+                }
 
-            if ($portfolio->isNotEmpty()) {
-                $port = true;
-            } else {
-                $port = false;
+                if ($portfolio->isNotEmpty()) {
+                    $port = true;
+                } else {
+                    $port = false;
+                }
+
+                $token = $user->createToken('token-name')->plainTextToken;
+
+                $responseData = [
+                    'user' => [
+                        'uuid' => $user->uuid,
+                        'first_name' => $user->first_name,
+                        'last_name' => $googleUser->name,
+                        'email' => $googleUser->email,
+                        'type' => 'talent',
+                        'status' => 'Active'
+                    ],
+                    'work_details' => $onboarding,
+                    'portfolio' => $port,
+                    'token' => $token,
+                ];
+
+                return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?' . http_build_query($responseData));
             }
 
 
@@ -77,29 +97,27 @@ class GoogleAuthController extends Controller
                     return $this->error('error', 400, 'Email sending failed!. Try again');
                 }
 
+                $onboarding = false;
+                $port = false;
+
+                $token = $user->createToken('token-name')->plainTextToken;
+
+                $responseData = [
+                    'user' => [
+                        'uuid' => $user->uuid,
+                        'first_name' => $user->first_name,
+                        'last_name' => $googleUser->name,
+                        'email' => $googleUser->email,
+                        'type' => 'talent',
+                        'status' => 'Active'
+                    ],
+                    'work_details' => $onboarding,
+                    'portfolio' => $port,
+                    'token' => $token,
+                ];
+
+                return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?' . http_build_query($responseData));
             }
-
-            $users = new LoginUserResource($user);
-
-            $token = $user->createToken('token-name')->plainTextToken;
-
-            $responseData = [
-                'user' => [
-                    'uuid' => $user->uuid,
-                    'first_name' => $user->first_name,
-                    'last_name' => $googleUser->name,
-                    'email' => $googleUser->email,
-                    'type' => 'talent',
-                    'status' => 'Active'
-                ],
-                'work_details' => $onboarding,
-                'portfolio' => $port,
-                'token' => $token,
-            ];
-
-            return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?' . http_build_query($responseData));
-
-
 
         } catch (\Exception $e) {
             dd($e->getMessage());
