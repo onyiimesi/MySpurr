@@ -36,14 +36,14 @@ class GoogleAuthController extends Controller
 
             $user = Talent::where('email', $googleUser->email)->first();
 
-            
+
                 if (!empty($user->skill_title) && $user->topskills->isNotEmpty() && $user->educations->isNotEmpty() &&$user->employments->isNotEmpty() && $user->certificates->isNotEmpty() && !empty($user->availability)) {
                     $onboarding = true;
                 } else {
                     $onboarding = false;
                 }
 
-                if ($user->portfolios->isNotEmpty()) {
+                if ($user->topskills->isNotEmpty()) {
                     $port = true;
                 } else {
                     $port = false;
