@@ -36,68 +36,71 @@ class GoogleAuthController extends Controller
 
             $user = Talent::where('email', $googleUser->email)->first();
 
-            $portfolios = $user->portfolios;
-            $topSkills = $user->topskills;
-            $educations = $user->educations;
-            $employments = $user->employments;
-            $certificates = $user->certificates;
+            if($user){
+                $portfolios = $user->portfolios;
+                $topSkills = $user->topskills;
+                $educations = $user->educations;
+                $employments = $user->employments;
+                $certificates = $user->certificates;
 
-            if (!empty($user->skill_title) && $topSkills->isNotEmpty() && $educations->isNotEmpty() &&$employments->isNotEmpty() && $certificates->isNotEmpty() && !empty($user->availability)) {
-                $onboarding = true;
-            } else {
-                $onboarding = false;
-            }
-
-            if ($portfolios->isNotEmpty()) {
-                $port = true;
-            } else {
-                $port = false;
-            }
-
-            if (!$user) {
-
-                $fullName = $googleUser->name;
-                list($firstName, $lastName) = explode(' ', $fullName, 2);
-
-                $user = Talent::create([
-                    'first_name' => $firstName,
-                    'last_name' => $lastName,
-                    'email' => $googleUser->email,
-                    'password' => Hash::make('12345678'),
-                    'type' => 'talent',
-                    'status' => 'Active'
-                ]);
-
-                try {
-
-                    event(new TalentWelcomeEvent($user));
-
-                } catch (\Exception $e){
-                    return $this->error('error', 400, 'Email sending failed!. Try again');
+                if (!empty($user->skill_title) && $topSkills->isNotEmpty() && $educations->isNotEmpty() &&$employments->isNotEmpty() && $certificates->isNotEmpty() && !empty($user->availability)) {
+                    $onboarding = true;
+                } else {
+                    $onboarding = false;
                 }
 
+                if ($portfolios->isNotEmpty()) {
+                    $port = true;
+                } else {
+                    $port = false;
+                }
+
+                if (!$user) {
+
+                    $fullName = $googleUser->name;
+                    list($firstName, $lastName) = explode(' ', $fullName, 2);
+
+                    $user = Talent::create([
+                        'first_name' => $firstName,
+                        'last_name' => $lastName,
+                        'email' => $googleUser->email,
+                        'password' => Hash::make('12345678'),
+                        'type' => 'talent',
+                        'status' => 'Active'
+                    ]);
+
+                    try {
+
+                        event(new TalentWelcomeEvent($user));
+
+                    } catch (\Exception $e){
+                        return $this->error('error', 400, 'Email sending failed!. Try again');
+                    }
+
+                }
+
+                $users = new LoginUserResource($user);
+
+                $token = $user->createToken('token-name')->plainTextToken;
+
+                $responseData = [
+                    'user' => [
+                        'uuid' => $user->uuid,
+                        'first_name' => $user->first_name,
+                        'last_name' => $googleUser->name,
+                        'email' => $googleUser->email,
+                        'type' => 'talent',
+                        'status' => 'Active'
+                    ],
+                    'work_details' => $onboarding,
+                    'portfolio' => $port,
+                    'token' => $token,
+                ];
+
+                return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?' . http_build_query($responseData));
+            }else{
+                return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login');
             }
-
-            $users = new LoginUserResource($user);
-
-            $token = $user->createToken('token-name')->plainTextToken;
-
-            $responseData = [
-                'user' => [
-                    'uuid' => $user->uuid,
-                    'first_name' => $user->first_name,
-                    'last_name' => $googleUser->name,
-                    'email' => $googleUser->email,
-                    'type' => 'talent',
-                    'status' => 'Active'
-                ],
-                'work_details' => $onboarding,
-                'portfolio' => $port,
-                'token' => $token,
-            ];
-
-            return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?' . http_build_query($responseData));
-
 
         } catch (\Exception $e) {
             dd($e->getMessage());
