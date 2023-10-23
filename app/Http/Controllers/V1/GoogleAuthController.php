@@ -36,20 +36,14 @@ class GoogleAuthController extends Controller
 
             $user = Talent::where('email', $googleUser->email)->first();
 
-            if($user){
-                $portfolios = $user->portfolios;
-                $topSkills = $user->topskills;
-                $educations = $user->educations;
-                $employments = $user->employments;
-                $certificates = $user->certificates;
-
-                if (!empty($user->skill_title) && $topSkills->isNotEmpty() && $educations->isNotEmpty() &&$employments->isNotEmpty() && $certificates->isNotEmpty() && !empty($user->availability)) {
+            
+                if (!empty($user->skill_title) && $user->topskills->isNotEmpty() && $user->educations->isNotEmpty() &&$user->employments->isNotEmpty() && $user->certificates->isNotEmpty() && !empty($user->availability)) {
                     $onboarding = true;
                 } else {
                     $onboarding = false;
                 }
 
-                if ($portfolios->isNotEmpty()) {
+                if ($user->portfolios->isNotEmpty()) {
                     $port = true;
                 } else {
                     $port = false;
@@ -98,9 +92,8 @@ class GoogleAuthController extends Controller
                 ];
 
                 return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?' . http_build_query($responseData));
-            }else{
-                return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login');
-            }
+
+
 
         } catch (\Exception $e) {
             dd($e->getMessage());
