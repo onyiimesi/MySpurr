@@ -36,27 +36,24 @@ class GoogleAuthController extends Controller
 
             $user = Talent::where('email', $googleUser->email)->first();
 
-            if($user){
-                
-                $portfolio = TalentPortfolio::where('talent_id', $user->id)->first();
-                $topskills = TopSkill::where('talent_id', $user->id)->first();
-                $educations = TalentEducation::where('talent_id', $user->id)->first();
-                $employments = TalentEducation::where('talent_id', $user->id)->first();
-                $certificates = TalentCertificate::where('talent_id', $user->id)->first();
+            $portfolio = TalentPortfolio::where('talent_id', $user->id)->first();
+            $topskills = TopSkill::where('talent_id', $user->id)->first();
+            $educations = TalentEducation::where('talent_id', $user->id)->first();
+            $employments = TalentEducation::where('talent_id', $user->id)->first();
+            $certificates = TalentCertificate::where('talent_id', $user->id)->first();
 
-
-                if (!empty($user->skill_title) && $topskills->isNotEmpty() && $educations->isNotEmpty() &&$employments->isNotEmpty() && $certificates->isNotEmpty() && !empty($user->availability)) {
-                    $onboarding = true;
-                } else {
-                    $onboarding = false;
-                }
-
-                if ($portfolio->isNotEmpty()) {
-                    $port = true;
-                } else {
-                    $port = false;
-                }
+            if (!empty($user->skill_title) && $topskills->isNotEmpty() && $educations->isNotEmpty() &&$employments->isNotEmpty() && $certificates->isNotEmpty() && !empty($user->availability)) {
+                $onboarding = true;
+            } else {
+                $onboarding = false;
             }
+
+            if ($portfolio->isNotEmpty()) {
+                $port = true;
+            } else {
+                $port = false;
+            }
+
 
             if (!$user) {
 
