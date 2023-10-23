@@ -43,13 +43,24 @@ class GoogleAuthController extends Controller
                 $employments = TalentEducation::where('talent_id', $user->id)->first();
                 $certificates = TalentCertificate::where('talent_id', $user->id)->first();
 
-                if (!empty($user->skill_title) && $topskills->isNotEmpty() && $educations->isNotEmpty() &&$employments->isNotEmpty() && $certificates->isNotEmpty() && !empty($user->availability)) {
+                if (
+                    !empty($user->skill_title) &&
+                    $topskills !== null &&
+                    $topskills->isNotEmpty() &&
+                    $educations !== null &&
+                    $educations->isNotEmpty() &&
+                    $employments !== null &&
+                    $employments->isNotEmpty() &&
+                    $certificates !== null &&
+                    $certificates->isNotEmpty() &&
+                    !empty($user->availability)
+                ) {
                     $onboarding = true;
                 } else {
                     $onboarding = false;
                 }
 
-                if ($portfolio->isNotEmpty()) {
+                if ($portfolio !== null && !empty($portfolio)) {
                     $port = true;
                 } else {
                     $port = false;
