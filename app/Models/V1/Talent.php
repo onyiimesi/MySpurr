@@ -41,7 +41,12 @@ class Talent extends Authenticatable implements Auditable
         'verify_status',
         'status',
         'type',
-        'availability'
+        'availability',
+        'linkedin',
+        'instagram',
+        'twitter',
+        'behance',
+        'facebook'
     ];
 
     protected static function boot()

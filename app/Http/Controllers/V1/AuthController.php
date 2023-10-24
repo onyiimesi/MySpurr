@@ -44,6 +44,10 @@ class AuthController extends Controller
         if ($talentGuard->attempt($request->only(['email', 'password']))) {
             $user = Talent::where('email', $request->email)->first();
 
+            if($user->status === "Inactive" && $user->otp !== ""){
+                return $this->error('', 400, 'Account is inactive. Check Email to verify.');
+            }
+
             $portfolios = $user->portfolios;
             $topSkills = $user->topskills;
             $educations = $user->educations;

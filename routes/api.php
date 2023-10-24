@@ -13,6 +13,7 @@ use App\Http\Controllers\V1\SkillsController;
 use App\Http\Controllers\V1\TalentController;
 use App\Http\Controllers\V1\TalentJobsController;
 use App\Http\Controllers\V1\TalentOnboardingController;
+use App\Http\Controllers\V1\TalentProfileUpdateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
@@ -62,9 +63,16 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     // Talent
     Route::post('v1/talent-work-details', [TalentOnboardingController::class, 'workDetails']);
     Route::post('v1/talent-portfolio', [TalentOnboardingController::class, 'portfolio']);
-    Route::patch('v1/talent-edit-profile', [TalentOnboardingController::class, 'editProfile']);
     Route::get('v1/get-jobs', [TalentJobsController::class, 'jobs']);
     Route::post('v1/job-apply/{id}', [TalentJobsController::class, 'apply']);
+
+    // Profile Edit
+    Route::patch('v1/update-photo', [TalentProfileUpdateController::class, 'updatePhoto']);
+    Route::patch('v1/update-bio', [TalentProfileUpdateController::class, 'updateBio']);
+    Route::patch('v1/update-overview', [TalentProfileUpdateController::class, 'updateOverview']);
+    Route::post('v1/add-skills', [TalentProfileUpdateController::class, 'updateSkills']);
+    Route::post('v1/add-education', [TalentProfileUpdateController::class, 'updateEdu']);
+    Route::post('v1/add-work-details', [TalentProfileUpdateController::class, 'updateWork']);
 
     Route::get('v1/bank-list', [BankAccountController::class, 'banks']);
     Route::post('v1/add-bank-account', [BankAccountController::class, 'add']);

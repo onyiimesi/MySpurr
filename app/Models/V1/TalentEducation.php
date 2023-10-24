@@ -16,7 +16,8 @@ class TalentEducation extends Model
         'field_of_study',
         'start_date',
         'end_date',
-        'description'
+        'description',
+        'currently_schooling_here'
     ];
 
     public function talent()

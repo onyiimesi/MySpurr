@@ -27,7 +27,11 @@ return new class extends Migration
             $table->string('availability')->nullable();
             $table->string('compensation')->nullable();
             $table->string('image')->nullable();
-            $table->string('social_media_link')->nullable();
+            $table->string('linkedin')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('behance')->nullable();
+            $table->string('facebook')->nullable();
             $table->string('password');
             $table->string('otp')->nullable();
             $table->timestamp('otp_expires_at')->nullable();

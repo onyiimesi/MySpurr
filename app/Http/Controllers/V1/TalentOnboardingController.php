@@ -45,7 +45,8 @@ class TalentOnboardingController extends Controller
                 'degree' => $request->education['degree'],
                 'start_date' => $request->education['start_date'],
                 'end_date' => $request->education['end_date'],
-                'description' => $request->education['description']
+                'description' => $request->education['description'],
+                'currently_schooling_here' => $request->education['currently_schooling_here']
             ]);
 
         } catch (\Exception $e) {
@@ -60,7 +61,8 @@ class TalentOnboardingController extends Controller
                 'employment_type' => $request->employment_details['employment_type'],
                 'start_date' => $request->employment_details['start_date'],
                 'end_date' => $request->employment_details['end_date'],
-                'description' => $request->education['description']
+                'description' => $request->employment_details['description'],
+                'currently_working_here' => $request->employment_details['currently_working_here']
             ]);
 
         } catch (\Exception $e) {
@@ -138,46 +140,5 @@ class TalentOnboardingController extends Controller
             "status" => 'true',
             "message" => 'Created Successfully'
         ];
-    }
-
-    public function editProfile(Request $request){
-
-        $user = $request->user();
-
-        $talent = Talent::where('email', $user->email)->first();
-
-        if(!$talent){
-            return $this->error('', 401, 'Error');
-        }
-
-        if($request->image){
-            $file = $request->image;
-            $folderName = 'https://myspurr.azurewebsites.net/talents';
-            $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
-            $replace = substr($file, 0, strpos($file, ',')+1);
-            $sig = str_replace($replace, '', $file);
-
-            $sig = str_replace(' ', '+', $sig);
-            $file_name = time().'.'.$extension;
-            file_put_contents(public_path().'/talents/'.$file_name, base64_decode($sig));
-
-            $pathss = $folderName.'/'.$file_name;
-        }else{
-            $pathss = $talent->image;
-        }
-
-        $user->update([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'overview' => $request->overview,
-            'image' => $pathss,
-            'social_media_link' => $request->social_media_link
-        ]);
-
-        return [
-            "status" => 'true',
-            "message" => 'Updated Successfully'
-        ];
-
     }
 }

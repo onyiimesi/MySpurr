@@ -16,7 +16,8 @@ class TalentEmployment extends Model
         'employment_type',
         'start_date',
         'end_date',
-        'description'
+        'description',
+        'currently_working_here'
     ];
 
     public function talent()
