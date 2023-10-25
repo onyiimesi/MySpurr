@@ -46,13 +46,13 @@ class GoogleAuthController extends Controller
                 if (
                     !empty($user->skill_title) &&
                     $topskills !== null &&
-                    $topskills->isNotEmpty() &&
+                    !empty($topskills) &&
                     $educations !== null &&
-                    $educations->isNotEmpty() &&
+                    !empty($educations) &&
                     $employments !== null &&
-                    $employments->isNotEmpty() &&
+                    !empty($employments) &&
                     $certificates !== null &&
-                    $certificates->isNotEmpty() &&
+                    !empty($certificates) &&
                     !empty($user->availability)
                 ) {
                     $onboarding = true;
