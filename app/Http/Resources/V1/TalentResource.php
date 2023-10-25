@@ -76,7 +76,11 @@ class TalentResource extends JsonResource
             })->toArray(),
             'compensation' => (string)$this->compensation,
             'image' => (string)$this->image,
-            'social_media_link' => (string)$this->social_media_link,
+            'linkedin' => (string)$this->linkedin,
+            'instagram' => (string)$this->instagram,
+            'twitter' => (string)$this->twitter,
+            'behance' => (string)$this->behance,
+            'facebook' => (string)$this->facebook,
             'availability' => (string)$this->availability,
             'type' => (string)$this->type,
             'status' => (string)$this->status
