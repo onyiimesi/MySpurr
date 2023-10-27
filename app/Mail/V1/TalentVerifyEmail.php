@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\URL;
 
-class TalentVerifyEmail extends Mailable
+class TalentVerifyEmail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 

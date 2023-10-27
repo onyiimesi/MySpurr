@@ -4,15 +4,11 @@ namespace App\Http\Controllers\V1;
 
 use App\Events\v1\TalentWelcomeEvent;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\LoginUserResource;
-use App\Models\V1\Business;
 use App\Models\V1\Talent;
 use App\Models\V1\TalentCertificate;
 use App\Models\V1\TalentEducation;
-use App\Models\V1\TalentEmployment;
 use App\Models\V1\TalentPortfolio;
 use App\Models\V1\TopSkill;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 use App\Traits\HttpResponses;
