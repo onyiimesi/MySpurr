@@ -112,6 +112,7 @@ class TalentProfileUpdateController extends Controller
 
         $talent = Talent::where('email', $user->email)->first();
 
+        $talent->topskills()->delete();
         foreach ($request->top_skills as $skills) {
             $skill = new TopSkill($skills);
             $talent->topskills()->save($skill);
