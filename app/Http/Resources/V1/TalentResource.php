@@ -37,8 +37,8 @@ class TalentResource extends JsonResource
                     'school_name' => $edu->school_name,
                     'degree' => $edu->degree,
                     'field_of_study' => $edu->field_of_study,
-                    'start_date' => Carbon::createFromFormat('d/m/Y', $edu->start_date)->format('j M Y'),
-                    'end_date' => Carbon::createFromFormat('d/m/Y', $edu->end_date)->format('j M Y'),
+                    'start_date' => Carbon::parse($edu->start_date)->format('j M Y'),
+                    'end_date' => Carbon::parse($edu->end_date)->format('j M Y'),
                     'description' => $edu->description
                 ];
             })->toArray(),
@@ -47,8 +47,8 @@ class TalentResource extends JsonResource
                     'company_name' => $emp->company_name,
                     'title' => $emp->title,
                     'employment_type' => $emp->employment_type,
-                    'start_date' => Carbon::createFromFormat('d/m/Y', $emp->start_date)->format('j M Y'),
-                    'end_date' => Carbon::createFromFormat('d/m/Y', $emp->end_date)->format('j M Y'),
+                    'start_date' => Carbon::parse($emp->start_date)->format('j M Y'),
+                    'end_date' => Carbon::parse($emp->end_date)->format('j M Y'),
                     'description' => $emp->description
                 ];
             })->toArray(),
@@ -56,7 +56,7 @@ class TalentResource extends JsonResource
                 return [
                     'title' => $cert->title,
                     'institute' => $cert->institute,
-                    'certificate_date' => Carbon::createFromFormat('d/m/Y', $cert->certificate_date)->format('j M Y'),
+                    'certificate_date' => Carbon::parse($cert->certificate_date)->format('j M Y'),
                     'certificate_year' => $cert->certificate_year,
                     'certificate_link' => $cert->certificate_link,
                     'curently_working_here' => $cert->curently_working_here
