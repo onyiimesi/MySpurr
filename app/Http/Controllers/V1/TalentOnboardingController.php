@@ -108,18 +108,29 @@ class TalentOnboardingController extends Controller
         }
 
         if($request->portfolio['cover_image']){
-            $file = $request->portfolio['cover_image'];
-            $folderName = 'https://myspurr.azurewebsites.net/public/portfolio';
-            $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
-            $replace = substr($file, 0, strpos($file, ',')+1);
-            $sig = str_replace($replace, '', $file);
+            try {
+                $file = $request->portfolio['cover_image'];
+                $folderName = 'https://myspurr.azurewebsites.net/portfolio';
+                $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
+                $replace = substr($file, 0, strpos($file, ',')+1);
+                $sig = str_replace($replace, '', $file);
 
-            $sig = str_replace(' ', '+', $sig);
-            $file_name = time().'.'.$extension;
-            file_put_contents(public_path().'/portfolio/'.$file_name, base64_decode($sig));
+                $sig = str_replace(' ', '+', $sig);
+                $file_name = time().'.'.$extension;
 
-            $pathss = $folderName.'/'.$file_name;
-        }else{
+                $path = public_path().'/portfolio/'.$file_name;
+                $success = file_put_contents($path, base64_decode($sig));
+
+                if ($success === false) {
+                    throw new \Exception("Failed to write file to disk.");
+                }
+
+                $pathss = $folderName.'/'.$file_name;
+            } catch (\Exception $e) {
+                $pathss = "";
+                $e->getMessage();
+            }
+        } else {
             $pathss = "";
         }
 
