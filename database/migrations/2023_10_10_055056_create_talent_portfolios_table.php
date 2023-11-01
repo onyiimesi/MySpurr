@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('location');
             $table->string('rate');
             $table->json('tags');
-            $table->string('cover_image');
+            $table->longText('cover_image');
             $table->longText('body');
 
             $table->foreign('talent_id')->references('id')->on('talent')->onDelete('cascade');
