@@ -34,6 +34,7 @@ class TalentResource extends JsonResource
             })->toArray(),
             'education' => $this->educations->map(function($edu) {
                 return [
+                    'id' => $edu->id,
                     'school_name' => $edu->school_name,
                     'degree' => $edu->degree,
                     'field_of_study' => $edu->field_of_study,
@@ -44,6 +45,7 @@ class TalentResource extends JsonResource
             })->toArray(),
             'employment' => $this->employments->map(function($emp) {
                 return [
+                    'id' => $emp->id,
                     'company_name' => $emp->company_name,
                     'title' => $emp->title,
                     'employment_type' => $emp->employment_type,
@@ -54,6 +56,7 @@ class TalentResource extends JsonResource
             })->toArray(),
             'certificate' => $this->certificates->map(function($cert) {
                 return [
+                    'id' => $cert->id,
                     'title' => $cert->title,
                     'institute' => $cert->institute,
                     'certificate_date' => Carbon::parse($cert->certificate_date)->format('j M Y'),
@@ -64,6 +67,7 @@ class TalentResource extends JsonResource
             })->toArray(),
             'portfolio' => $this->portfolios->map(function($port) {
                 return [
+                    'id' => $port->id,
                     'title' => $port->title,
                     'client_name' => $port->client_name,
                     'job_type' => $port->job_type,

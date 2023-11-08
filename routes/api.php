@@ -7,6 +7,7 @@ use App\Http\Controllers\V1\ForgotPasswordController;
 use App\Http\Controllers\V1\GoogleAuthController;
 use App\Http\Controllers\V1\JobController;
 use App\Http\Controllers\V1\MessageController;
+use App\Http\Controllers\V1\PortfolioController;
 use App\Http\Controllers\V1\ProfileController;
 use App\Http\Controllers\v1\ResetPasswordController;
 use App\Http\Controllers\V1\SkillsController;
@@ -57,6 +58,7 @@ Route::get('v1/job-title', [TalentController::class, 'jobtitle']);
 
 Route::get('v1/talents', [TalentController::class, 'listtalents']);
 Route::get('v1/talent/{uuid}', [TalentController::class, 'talentbyid']);
+Route::get('v1/portfolio/{id}', [PortfolioController::class, 'noAuth']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
 
@@ -73,13 +75,16 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('v1/add-skills', [TalentProfileUpdateController::class, 'updateSkills']);
     Route::post('v1/add-education', [TalentProfileUpdateController::class, 'updateEdu']);
     Route::post('v1/add-work-details', [TalentProfileUpdateController::class, 'updateWork']);
+    Route::get('v1/portfolio/{id}', [PortfolioController::class, 'auth']);
 
     Route::get('v1/bank-list', [BankAccountController::class, 'banks']);
     Route::post('v1/add-bank-account', [BankAccountController::class, 'add']);
     Route::post('v1/withdrawal-pin', [BankAccountController::class, 'pin']);
     Route::post('v1/verify-pin', [BankAccountController::class, 'verify']);
 
-
+    Route::patch('v1/update-education/{id}', [PortfolioController::class, 'updateEdu']);
+    Route::patch('v1/update-employment/{id}', [PortfolioController::class, 'updateEmp']);
+    Route::patch('v1/update-portfolio/{id}', [PortfolioController::class, 'updatePort']);
 
 
 

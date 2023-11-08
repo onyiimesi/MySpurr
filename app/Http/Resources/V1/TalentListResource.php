@@ -21,7 +21,21 @@ class TalentListResource extends JsonResource
             'email' => (string)$this->email,
             'skill_title' => (string)$this->skill_title,
             'compensation' => (string)$this->compensation,
-            'image' => (string)$this->image
+            'rate' => (string)$this->rate,
+            'location' => (string)$this->location,
+            'image' => (string)$this->image,
+            'portfolio' => $this->portfolios->map(function($port) {
+                return [
+                    'title' => $port->title,
+                    'client_name' => $port->client_name,
+                    'job_type' => $port->job_type,
+                    'location' => $port->location,
+                    'rate' => $port->rate,
+                    'tags' => json_decode($port->tags),
+                    'cover_image' => $port->cover_image,
+                    'body' =>  $port->body
+                ];
+            })->toArray(),
         ];
     }
 }
