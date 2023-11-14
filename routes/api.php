@@ -58,7 +58,7 @@ Route::get('v1/job-title', [TalentController::class, 'jobtitle']);
 
 Route::get('v1/talents', [TalentController::class, 'listtalents']);
 Route::get('v1/talent/{uuid}', [TalentController::class, 'talentbyid']);
-Route::get('v1/portfolio/{id}', [PortfolioController::class, 'noAuth']);
+Route::get('v1/talent/portfolio/{id}', [PortfolioController::class, 'noAuth']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
 
@@ -76,6 +76,8 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('v1/add-education', [TalentProfileUpdateController::class, 'updateEdu']);
     Route::post('v1/add-work-details', [TalentProfileUpdateController::class, 'updateWork']);
     Route::get('v1/portfolio/{id}', [PortfolioController::class, 'auth']);
+    Route::post('v1/add-certificate', [TalentProfileUpdateController::class, 'addCert']);
+    Route::patch('v1/update-certificate/{id}', [PortfolioController::class, 'updateCert']);
 
     Route::get('v1/bank-list', [BankAccountController::class, 'banks']);
     Route::post('v1/add-bank-account', [BankAccountController::class, 'add']);

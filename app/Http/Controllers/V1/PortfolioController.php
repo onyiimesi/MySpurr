@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\PortfolioResource;
+use App\Models\V1\TalentCertificate;
 use App\Models\V1\TalentEducation;
 use App\Models\V1\TalentEmployment;
 use App\Models\V1\TalentPortfolio;
@@ -133,6 +134,29 @@ class PortfolioController extends Controller
             'tags' => json_encode($request->tags),
             'cover_image' => $pathss,
             'body' => $request->body
+        ]);
+
+        return [
+            'status' => "true",
+            'message' => "Updated Successfully"
+        ];
+    }
+
+    public function updateCert(Request $request)
+    {
+        $cert = TalentCertificate::where('id', $request->id)->first();
+
+        if(!$cert){
+            return $this->error('', 400, 'Does not exist');
+        }
+
+        $cert->update([
+            'title' => $request->title,
+            'institute' => $request->institute,
+            'certificate_date' => $request->certificate_date,
+            'certificate_year' => $request->certificate_year,
+            'certificate_link' => $request->certificate_link,
+            'currently_working_here' => $request->currently_working_here
         ]);
 
         return [

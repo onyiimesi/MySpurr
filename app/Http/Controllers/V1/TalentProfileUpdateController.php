@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\V1\Talent;
+use App\Models\V1\TalentCertificate;
 use App\Models\V1\TopSkill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -174,6 +175,29 @@ class TalentProfileUpdateController extends Controller
         return [
             'status' => 'true',
             'message' => 'Updated successfully'
+        ];
+    }
+
+    public function addCert(Request $request)
+    {
+
+        $user = Auth::user();
+        if(!$user){
+            return $this->error('', 401, 'Unauthorized');
+        }
+        $talent = Talent::where('email', $user->email)->first();
+
+        $talent->certificates()->create([
+            'title' => $request->title,
+            'institute' => $request->institute,
+            'certificate_date' => $request->certificate_date,
+            'certificate_year' => $request->certificate_year,
+            'certificate_link' => $request->certificate_link,
+            'currently_working_here' => $request->currently_working_here
+        ]);
+        return [
+            'status' => 'true',
+            'message' => 'Added successfully'
         ];
     }
 }
