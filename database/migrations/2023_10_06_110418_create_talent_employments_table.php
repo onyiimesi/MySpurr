@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('employment_type');
             $table->string('start_date');
             $table->string('end_date');
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('currently_working_here')->nullable();
 
             $table->foreign('talent_id')->references('id')->on('talent')->onDelete('cascade');
