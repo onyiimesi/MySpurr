@@ -46,7 +46,11 @@ class Talent extends Authenticatable implements Auditable
         'instagram',
         'twitter',
         'behance',
-        'facebook'
+        'facebook',
+        'application_link',
+        'currency',
+        'phone_number',
+        'country_code'
     ];
 
     protected static function boot()
@@ -55,6 +59,17 @@ class Talent extends Authenticatable implements Auditable
 
         self::creating(function($model) {
             $model->uuid = (string) Str::uuid();
+        });
+
+        static::deleting(function ($model) {
+            $model->topskills()->delete();
+            $model->talentimage()->delete();
+            $model->educations()->delete();
+            $model->employments()->delete();
+            $model->certificates()->delete();
+            $model->portfolios()->delete();
+            $model->talentbillingaddress()->delete();
+            $model->talentlanguage()->delete();
         });
 
     }
@@ -97,6 +112,16 @@ class Talent extends Authenticatable implements Auditable
     public function messages()
     {
         return $this->hasMany(Message::class);
+    }
+
+    public function talentbillingaddress()
+    {
+        return $this->hasOne(TalentBillingAddress::class, 'talent_id');
+    }
+
+    public function talentlanguage()
+    {
+        return $this->hasMany(TalentLanguage::class, 'talent_id');
     }
 
 

@@ -164,4 +164,40 @@ class PortfolioController extends Controller
             'message' => "Updated Successfully"
         ];
     }
+
+    public function singleport(Request $request)
+    {
+        $user = Auth::user();
+        if(!$user){
+            return $this->error('', 401, 'Error');
+        }
+        $port = TalentPortfolio::where('id', $request->id)->first();
+        if(empty($port)){
+            return $this->success('', 'Portfolio', 200);
+        }
+
+        $get = new PortfolioResource($port);
+
+        return [
+            'status' => "true",
+            'message' => "",
+            'data' => $get
+        ];
+    }
+
+    public function singleports(Request $request)
+    {
+        $port = TalentPortfolio::where('id', $request->id)->first();
+        if(empty($port)){
+            return $this->success('', 'Portfolio', 200);
+        }
+
+        $get = new PortfolioResource($port);
+
+        return [
+            'status' => "true",
+            'message' => "",
+            'data' => $get
+        ];
+    }
 }

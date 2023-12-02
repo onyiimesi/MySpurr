@@ -10,6 +10,7 @@ use App\Http\Controllers\V1\MessageController;
 use App\Http\Controllers\V1\PortfolioController;
 use App\Http\Controllers\V1\ProfileController;
 use App\Http\Controllers\v1\ResetPasswordController;
+use App\Http\Controllers\V1\SettingsController;
 use App\Http\Controllers\V1\SkillsController;
 use App\Http\Controllers\V1\TalentController;
 use App\Http\Controllers\V1\TalentJobsController;
@@ -34,75 +35,77 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('v1/login', [AuthController::class, 'login']);
-Route::post('v1/talent-register', [AuthController::class, 'talentRegister']);
-Route::post('v1/business-register', [AuthController::class, 'businessRegister']);
-
-Route::post('v1/forgot-password', [ForgotPasswordController::class, 'forgot']);
-Route::post('v1/reset-password', [ResetPasswordController::class, 'reset']);
-
 Route::get('/verify/{token}', [AuthController::class, 'verify'])->name('verification.verify');
 Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name('verification.verifys');
-
-Route::post('/v1/resend', [AuthController::class, 'resend'])->name('verification.resend');
-
-Route::get('v1/auth/talent/google', [GoogleAuthController::class, 'redirectToGoogle']);
 Route::get('/auth/talent/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+
+Route::prefix('v1')->group(function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('talent-register', [AuthController::class, 'talentRegister']);
+    Route::post('business-register', [AuthController::class, 'businessRegister']);
+    Route::post('forgot-password', [ForgotPasswordController::class, 'forgot']);
+    Route::post('reset-password', [ResetPasswordController::class, 'reset']);
+    Route::post('resend', [AuthController::class, 'resend'])->name('verification.resend');
+    Route::get('auth/talent/google', [GoogleAuthController::class, 'redirectToGoogle']);
+    Route::resource('skills', SkillsController::class);
+    Route::get('list-jobs', [TalentJobsController::class, 'listjobs']);
+    Route::get('job-title', [TalentController::class, 'jobtitle']);
+    Route::get('talents', [TalentController::class, 'listtalents']);
+    Route::get('talent/{uuid}', [TalentController::class, 'talentbyid']);
+    Route::get('talent/portfolio/{id}', [PortfolioController::class, 'noAuth']);
+    Route::get('talent/portfolio/single/{id}', [PortfolioController::class, 'singleports']);
+});
 
 // Route::get('/auth/business/google', [GoogleAuthController::class, 'redirectToGoogleBusiness']);
 // Route::get('/auth/business/google/callback', [GoogleAuthController::class, 'handleGoogleCallbackBusiness']);
 
-Route::resource('v1/skills', SkillsController::class);
-Route::get('v1/list-jobs', [TalentJobsController::class, 'listjobs']);
-Route::get('v1/job-title', [TalentController::class, 'jobtitle']);
-
-Route::get('v1/talents', [TalentController::class, 'listtalents']);
-Route::get('v1/talent/{uuid}', [TalentController::class, 'talentbyid']);
-Route::get('v1/talent/portfolio/{id}', [PortfolioController::class, 'noAuth']);
-
-Route::group(['middleware' => ['auth:sanctum']], function(){
+Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function(){
 
     // Talent
-    Route::post('v1/talent-work-details', [TalentOnboardingController::class, 'workDetails']);
-    Route::post('v1/talent-portfolio', [TalentOnboardingController::class, 'portfolio']);
-    Route::get('v1/get-jobs', [TalentJobsController::class, 'jobs']);
-    Route::post('v1/job-apply/{id}', [TalentJobsController::class, 'apply']);
+    Route::post('talent-work-details', [TalentOnboardingController::class, 'workDetails']);
+    Route::post('talent-portfolio', [TalentOnboardingController::class, 'portfolio']);
+    Route::get('get-jobs', [TalentJobsController::class, 'jobs']);
+    Route::post('job-apply/{id}', [TalentJobsController::class, 'apply']);
 
     // Profile Edit
-    Route::patch('v1/update-photo', [TalentProfileUpdateController::class, 'updatePhoto']);
-    Route::patch('v1/update-bio', [TalentProfileUpdateController::class, 'updateBio']);
-    Route::patch('v1/update-overview', [TalentProfileUpdateController::class, 'updateOverview']);
-    Route::post('v1/add-skills', [TalentProfileUpdateController::class, 'updateSkills']);
-    Route::post('v1/add-education', [TalentProfileUpdateController::class, 'updateEdu']);
-    Route::post('v1/add-work-details', [TalentProfileUpdateController::class, 'updateWork']);
-    Route::get('v1/portfolio/{id}', [PortfolioController::class, 'auth']);
-    Route::post('v1/add-certificate', [TalentProfileUpdateController::class, 'addCert']);
-    Route::patch('v1/update-certificate/{id}', [PortfolioController::class, 'updateCert']);
+    Route::patch('update-photo', [TalentProfileUpdateController::class, 'updatePhoto']);
+    Route::patch('update-bio', [TalentProfileUpdateController::class, 'updateBio']);
+    Route::patch('update-overview', [TalentProfileUpdateController::class, 'updateOverview']);
+    Route::post('add-skills', [TalentProfileUpdateController::class, 'updateSkills']);
+    Route::post('add-education', [TalentProfileUpdateController::class, 'updateEdu']);
+    Route::post('add-work-details', [TalentProfileUpdateController::class, 'updateWork']);
+    Route::get('portfolio/{id}', [PortfolioController::class, 'auth']);
+    Route::post('add-certificate', [TalentProfileUpdateController::class, 'addCert']);
+    Route::patch('update-certificate/{id}', [PortfolioController::class, 'updateCert']);
 
-    Route::get('v1/bank-list', [BankAccountController::class, 'banks']);
-    Route::post('v1/add-bank-account', [BankAccountController::class, 'add']);
-    Route::post('v1/withdrawal-pin', [BankAccountController::class, 'pin']);
-    Route::post('v1/verify-pin', [BankAccountController::class, 'verify']);
+    Route::get('bank-list', [BankAccountController::class, 'banks']);
+    Route::post('add-bank-account', [BankAccountController::class, 'add']);
+    Route::post('withdrawal-pin', [BankAccountController::class, 'pin']);
+    Route::post('verify-pin', [BankAccountController::class, 'verify']);
 
-    Route::patch('v1/update-education/{id}', [PortfolioController::class, 'updateEdu']);
-    Route::patch('v1/update-employment/{id}', [PortfolioController::class, 'updateEmp']);
-    Route::patch('v1/update-portfolio/{id}', [PortfolioController::class, 'updatePort']);
+    Route::patch('update-education/{id}', [PortfolioController::class, 'updateEdu']);
+    Route::patch('update-employment/{id}', [PortfolioController::class, 'updateEmp']);
+    Route::patch('update-portfolio/{id}', [PortfolioController::class, 'updatePort']);
+    Route::get('portfolio/single/{id}', [PortfolioController::class, 'singleport']);
 
+    // Settings
+    Route::patch('accounts/{talent_id}', [SettingsController::class, 'accounts']);
+    Route::delete('delete-account/{talent_id}', [SettingsController::class, 'deleteaccount']);
 
 
     // Business
-    Route::post('v1/business-details', [BusinessOnboardingController::class, 'businessDetails']);
-    Route::post('v1/business-portfolio', [BusinessOnboardingController::class, 'portfolio']);
-    Route::patch('v1/business-edit-profile', [BusinessOnboardingController::class, 'editProfile']);
-    Route::resource('v1/job', JobController::class);
+    Route::post('business-details', [BusinessOnboardingController::class, 'businessDetails']);
+    Route::post('business-portfolio', [BusinessOnboardingController::class, 'portfolio']);
+    Route::patch('business-edit-profile', [BusinessOnboardingController::class, 'editProfile']);
+    Route::resource('job', JobController::class);
 
 
     // Messaging
-    Route::get('v1/message/{recieverId}', [MessageController::class, 'index']);
-    Route::post('v1/message/{recieverId}', [MessageController::class, 'store']);
+    Route::get('message/{recieverId}', [MessageController::class, 'index']);
+    Route::post('message/{recieverId}', [MessageController::class, 'store']);
 
 
-    Route::get('v1/profile', [ProfileController::class, 'profile']);
+    Route::get('profile', [ProfileController::class, 'profile']);
 
-    Route::post('v1/logout', [AuthController::class, 'logout']);
+    Route::post('logout', [AuthController::class, 'logout']);
 });

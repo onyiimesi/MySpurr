@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email')->unique();
+            $table->string('country_code')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('currency')->nullable();
+            $table->string('application_link')->nullable();
             $table->longText('overview')->nullable();
             $table->string('skill_title')->nullable();
             $table->string('top_skills')->nullable();
