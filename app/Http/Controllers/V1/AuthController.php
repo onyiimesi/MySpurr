@@ -263,7 +263,6 @@ class AuthController extends Controller
         $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
 
         // Auth::user()->currentAccessToken()->delete();
-
         return $this->success('', 'You have successfully logged out and your token has been deleted');
     }
 
@@ -304,6 +303,31 @@ class AuthController extends Controller
 
         }else{
             return $this->error('error', 400, 'Not Found!');
+        }
+    }
+
+    public function change(Request $request){
+
+        $request->validate([
+            'old_password' => ['required', 'string'],
+            'new_password' => ['required', 'string', 'min:8'],
+            'confirm_password' => ['required', 'same:new_password']
+        ]);
+
+        $user = $request->user();
+
+        if (Hash::check($request->old_password, $user->password)) {
+            $user->update([
+                'password' => Hash::make($request->new_password),
+                'pass_word' => $request->new_password,
+            ]);
+             return [
+                "status" => 'true',
+                "message" => 'Password Successfully Updated',
+            ];
+        }else
+        {
+            return $this->error(null, 422, 'Old Password did not match');
         }
 
     }

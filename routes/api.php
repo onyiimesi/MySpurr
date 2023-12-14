@@ -3,6 +3,7 @@
 use App\Http\Controllers\V1\AuthController;
 use App\Http\Controllers\V1\BankAccountController;
 use App\Http\Controllers\V1\BusinessOnboardingController;
+use App\Http\Controllers\V1\ContactController;
 use App\Http\Controllers\V1\ForgotPasswordController;
 use App\Http\Controllers\V1\GoogleAuthController;
 use App\Http\Controllers\V1\JobController;
@@ -54,6 +55,11 @@ Route::prefix('v1')->group(function () {
     Route::get('talent/{uuid}', [TalentController::class, 'talentbyid']);
     Route::get('talent/portfolio/{id}', [PortfolioController::class, 'noAuth']);
     Route::get('talent/portfolio/single/{id}', [PortfolioController::class, 'singleports']);
+    Route::post('contact-us', [ContactController::class, 'contact']);
+    Route::get('contact-us', [ContactController::class, 'getcontact']);
+    Route::post('subscribe', [ContactController::class, 'subscribe']);
+    Route::get('subscribe', [ContactController::class, 'getsubscribe']);
+
 });
 
 // Route::get('/auth/business/google', [GoogleAuthController::class, 'redirectToGoogleBusiness']);
@@ -106,6 +112,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function(){
 
 
     Route::get('profile', [ProfileController::class, 'profile']);
+    Route::patch('change-password', [AuthController::class, 'change']);
 
     Route::post('logout', [AuthController::class, 'logout']);
 });
