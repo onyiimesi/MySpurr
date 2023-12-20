@@ -32,7 +32,7 @@ class BankAccountController extends Controller
             "data" => $allbanks
         ];
     }
-    
+
     public function add(BankAccountRequest $request)
     {
         $request->validated($request->all());
@@ -75,11 +75,8 @@ class BankAccountController extends Controller
             if($updatedRows > 0) {
                 try {
                     $talent = BankAccount::where('talent_id', $user->id)->first();
-            
                     Mail::to($user->email)->send(new BankAccountVerifyMail($talent));
-            
                     DB::commit();
-            
                 } catch (\Exception $e){
                     DB::rollBack();
                     return $this->error('error', 400, 'Email sending failed!. Try again');
@@ -109,7 +106,7 @@ class BankAccountController extends Controller
         ->first();
 
         if ($bankAccount) {
-            
+
             $bankAccount->update([
                 'otp' => NULL,
                 'otp_expires_at' => NULL,

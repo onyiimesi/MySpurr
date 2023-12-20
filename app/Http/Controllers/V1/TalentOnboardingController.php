@@ -110,7 +110,7 @@ class TalentOnboardingController extends Controller
         if($request->portfolio['cover_image']){
 
             $file = $request->portfolio['cover_image'];
-            $folderName = 'https://myspurr.azurewebsites.net/portfolio';
+            $folderName = env('BASE_URL_PORTFOLIO');
             $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
             $replace = substr($file, 0, strpos($file, ',')+1);
             $sig = str_replace($replace, '', $file);

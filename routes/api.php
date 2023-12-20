@@ -8,6 +8,7 @@ use App\Http\Controllers\V1\ForgotPasswordController;
 use App\Http\Controllers\V1\GoogleAuthController;
 use App\Http\Controllers\V1\JobController;
 use App\Http\Controllers\V1\MessageController;
+use App\Http\Controllers\V1\OtherController;
 use App\Http\Controllers\V1\PortfolioController;
 use App\Http\Controllers\V1\ProfileController;
 use App\Http\Controllers\v1\ResetPasswordController;
@@ -59,6 +60,7 @@ Route::prefix('v1')->group(function () {
     Route::get('contact-us', [ContactController::class, 'getcontact']);
     Route::post('subscribe', [ContactController::class, 'subscribe']);
     Route::get('subscribe', [ContactController::class, 'getsubscribe']);
+    Route::get('country', [OtherController::class, 'country']);
 
 });
 
@@ -86,7 +88,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function(){
 
     Route::get('bank-list', [BankAccountController::class, 'banks']);
     Route::post('add-bank-account', [BankAccountController::class, 'add']);
-    Route::post('withdrawal-pin', [BankAccountController::class, 'pin']);
+    Route::post('pin', [BankAccountController::class, 'pin']);
     Route::post('verify-pin', [BankAccountController::class, 'verify']);
 
     Route::patch('update-education/{id}', [PortfolioController::class, 'updateEdu']);
@@ -105,11 +107,10 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function(){
     Route::patch('business-edit-profile', [BusinessOnboardingController::class, 'editProfile']);
     Route::resource('job', JobController::class);
 
-
     // Messaging
     Route::get('message/{recieverId}', [MessageController::class, 'index']);
     Route::post('message/{recieverId}', [MessageController::class, 'store']);
-
+    Route::post('upload-identity', [TalentProfileUpdateController::class, 'upload']);
 
     Route::get('profile', [ProfileController::class, 'profile']);
     Route::patch('change-password', [AuthController::class, 'change']);

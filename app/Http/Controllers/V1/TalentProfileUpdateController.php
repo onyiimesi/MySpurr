@@ -200,4 +200,65 @@ class TalentProfileUpdateController extends Controller
             'message' => 'Added successfully'
         ];
     }
+
+    public function upload (Request $request)
+    {
+        $request->validate([
+            'country' => ['required'],
+            'document_type' => ['required'],
+            'front' => ['required'],
+            'back' => ['required'],
+            'confirm' => ['required']
+        ]);
+
+        $user = Auth::user();
+        $talent = Talent::where('email', $user->email)->first();
+
+        if($request->front){
+            $file = $request->front;
+            $folderName = env('BASE_URL_IDENTITY');
+            $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
+            $replace = substr($file, 0, strpos($file, ',')+1);
+            $sig = str_replace($replace, '', $file);
+            $sig = str_replace(' ', '+', $sig);
+            $file_name = time().'.'.$extension;
+            $path = public_path().'/documents/'.$file_name;
+            $success = file_put_contents($path, base64_decode($sig));
+            if ($success === false) {
+                throw new \Exception("Failed to write file to disk.");
+            }
+            $front = $folderName.'/'.$file_name;
+        } else {
+            $front = "";
+        }
+
+        if($request->back){
+            $file = $request->back;
+            $folderName = env('BASE_URL_IDENTITY');
+            $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
+            $replace = substr($file, 0, strpos($file, ',')+1);
+            $sig = str_replace($replace, '', $file);
+            $sig = str_replace(' ', '+', $sig);
+            $file_name = uniqid().'.'.$extension;
+            $path = public_path().'/documents/'.$file_name;
+            $success = file_put_contents($path, base64_decode($sig));
+            if ($success === false) {
+                throw new \Exception("Failed to write file to disk.");
+            }
+            $back = $folderName.'/'.$file_name;
+        } else {
+            $back = "";
+        }
+
+        $talent->talentidentity()->create([
+            'country' => $request->country,
+            'document_type' => $request->document_type,
+            'front' => $front,
+            'back' => $back,
+            'confirm' => $request->confirm,
+            'status' => 'not-approved'
+        ]);
+
+        return $this->success('', "Uploaded successfully", 200);
+    }
 }
