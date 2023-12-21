@@ -112,6 +112,13 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function(){
     //Wallet
     Route::get('wallet', [ProfileController::class, 'wallet']);
 
+    //Open Tickect
+    Route::post('ticket', [OtherController::class, 'ticket']);
+    Route::get('ticket', [OtherController::class, 'allticket']);
+    Route::get('get-ticket/{id}', [OtherController::class, 'ticketId']);
+    Route::get('talent-ticket/{talent_id}', [OtherController::class, 'ticketTalentId']);
+    Route::patch('close-ticket/{id}', [OtherController::class, 'closeticket']);
+
     Route::get('profile', [ProfileController::class, 'profile']);
     Route::patch('change-password', [AuthController::class, 'change']);
 

@@ -28,7 +28,7 @@ class BusinessDetailsRequest extends FormRequest
             'about_business' => ['required', 'string'],
             'website' => ['required', 'string'],
             'business_service' => ['required', 'string'],
-            'business_email' => ['required', 'string']
+            'business_email' => ['required', 'email', 'email:rfc,dns', 'string']
         ];
     }
 }

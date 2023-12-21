@@ -32,12 +32,11 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('throttle:1,5')->only(['login']);
+        // $this->middleware('throttle:1,5')->only(['login']);
     }
 
     public function login(LoginUserRequest $request)
     {
-
         $request->validated($request->all());
         $talentGuard = Auth::guard('talents');
         $businessGuard = Auth::guard('businesses');
@@ -54,7 +53,6 @@ class AuthController extends Controller
             }
 
             $otpExpiresAt = now()->addMinutes(5);
-
             $user->update([
                 'otp' => mt_rand(00000, 99999),
                 'otp_expires_at' => $otpExpiresAt
