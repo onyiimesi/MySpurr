@@ -78,6 +78,9 @@ class TalentResource extends JsonResource
                     'body' =>  $port->body
                 ];
             })->toArray(),
+            'wallet' => (object) [
+                'wallet_no' => $this->talentwallet?->wallet_no
+            ],
             'compensation' => (string)$this->compensation,
             'image' => (string)$this->image,
             'linkedin' => (string)$this->linkedin,

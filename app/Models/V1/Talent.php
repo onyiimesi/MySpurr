@@ -129,6 +129,11 @@ class Talent extends Authenticatable implements Auditable
         return $this->hasOne(TalentIdentity::class, 'talent_id');
     }
 
+    public function talentwallet()
+    {
+        return $this->hasOne(TalentWallet::class, 'talent_id');
+    }
+
     public function sendPasswordResetNotification($token): void
     {
         $url = 'https://mango-glacier-097715310.3.azurestaticapps.net/reset-password?token='.$token;

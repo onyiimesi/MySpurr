@@ -39,10 +39,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/verify/{token}', [AuthController::class, 'verify'])->name('verification.verify');
 Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name('verification.verifys');
-Route::get('/auth/talent/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+// Route::get('/auth/talent/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
 
 Route::prefix('v1')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
+    Route::post('verify', [AuthController::class, 'verifyuser']);
     Route::post('talent-register', [AuthController::class, 'talentRegister']);
     Route::post('business-register', [AuthController::class, 'businessRegister']);
     Route::post('forgot-password', [ForgotPasswordController::class, 'forgot']);
@@ -61,7 +62,6 @@ Route::prefix('v1')->group(function () {
     Route::post('subscribe', [ContactController::class, 'subscribe']);
     Route::get('subscribe', [ContactController::class, 'getsubscribe']);
     Route::get('country', [OtherController::class, 'country']);
-
 });
 
 // Route::get('/auth/business/google', [GoogleAuthController::class, 'redirectToGoogleBusiness']);
@@ -85,12 +85,10 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function(){
     Route::get('portfolio/{id}', [PortfolioController::class, 'auth']);
     Route::post('add-certificate', [TalentProfileUpdateController::class, 'addCert']);
     Route::patch('update-certificate/{id}', [PortfolioController::class, 'updateCert']);
-
     Route::get('bank-list', [BankAccountController::class, 'banks']);
     Route::post('add-bank-account', [BankAccountController::class, 'add']);
     Route::post('pin', [BankAccountController::class, 'pin']);
     Route::post('verify-pin', [BankAccountController::class, 'verify']);
-
     Route::patch('update-education/{id}', [PortfolioController::class, 'updateEdu']);
     Route::patch('update-employment/{id}', [PortfolioController::class, 'updateEmp']);
     Route::patch('update-portfolio/{id}', [PortfolioController::class, 'updatePort']);
@@ -99,7 +97,6 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function(){
     // Settings
     Route::patch('accounts/{talent_id}', [SettingsController::class, 'accounts']);
     Route::delete('delete-account/{talent_id}', [SettingsController::class, 'deleteaccount']);
-
 
     // Business
     Route::post('business-details', [BusinessOnboardingController::class, 'businessDetails']);
@@ -111,6 +108,9 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function(){
     Route::get('message/{recieverId}', [MessageController::class, 'index']);
     Route::post('message/{recieverId}', [MessageController::class, 'store']);
     Route::post('upload-identity', [TalentProfileUpdateController::class, 'upload']);
+
+    //Wallet
+    Route::get('wallet', [ProfileController::class, 'wallet']);
 
     Route::get('profile', [ProfileController::class, 'profile']);
     Route::patch('change-password', [AuthController::class, 'change']);

@@ -129,13 +129,11 @@ class TalentProfileUpdateController extends Controller
     {
 
         $user = Auth::user();
-
         if(!$user){
             return $this->error('', 401, 'Unauthorized');
         }
 
         $talent = Talent::where('email', $user->email)->first();
-
         $talent->educations()->create([
             'school_name' => $request->education['school_name'],
             'degree' => $request->education['degree'],
@@ -155,13 +153,10 @@ class TalentProfileUpdateController extends Controller
     {
 
         $user = Auth::user();
-
         if(!$user){
             return $this->error('', 401, 'Unauthorized');
         }
-
         $talent = Talent::where('email', $user->email)->first();
-
         $talent->employments()->create([
             'company_name' => $request->employment_details['company_name'],
             'title' => $request->employment_details['title'],

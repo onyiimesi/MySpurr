@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\JobRequest;
 use App\Http\Resources\V1\JobResource;
 use App\Models\V1\Business;
-use App\Models\V1\Job;
 use App\Models\V1\Question;
+use App\Models\V1\TalentJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +21,7 @@ class JobController extends Controller
 
         $user = Auth::user();
 
-        $job = Job::where('business_id', $user->id)
+        $job = TalentJob::where('business_id', $user->id)
         ->where('status', 'active')
         ->get();
 
@@ -50,7 +50,7 @@ class JobController extends Controller
             return $this->error('', 401, 'Error');
         }
 
-        $job = Job::create([
+        $job = TalentJob::create([
             'business_id' => $business->id,
             'job_title' => $request->job_title,
             'location' => $request->location,
@@ -78,7 +78,7 @@ class JobController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Job $job)
+    public function show(TalentJob $job)
     {
         $jobs = new JobResource($job);
 
@@ -92,7 +92,7 @@ class JobController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Job $job)
+    public function update(Request $request, TalentJob $job)
     {
         $job->update($request->all());
 
@@ -108,7 +108,7 @@ class JobController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Job $jobs)
+    public function destroy(TalentJob $jobs)
     {
         $jobs->delete();
 

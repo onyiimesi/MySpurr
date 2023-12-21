@@ -23,7 +23,6 @@ class ProfileController extends Controller
         if(!$user){
             return $this->error('', 401, 'Error');
         }
-
         $portfolios = $user->portfolios;
         $topSkills = $user->topskills;
         $educations = $user->educations;
@@ -45,7 +44,6 @@ class ProfileController extends Controller
             }
 
             $details = new TalentResource($user);
-
             return [
                 "status" => 'true',
                 "data" => $details,
@@ -80,5 +78,13 @@ class ProfileController extends Controller
 
         }
 
+    }
+
+    public function wallet()
+    {
+        $user = $this->getUser();
+        $talent = Talent::where('id', $user->id)->first();
+        $data = $talent->talentwallet->current_bal;
+        return $this->success(number_format($data, 2), "Wallet balance", 200);
     }
 }

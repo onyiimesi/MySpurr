@@ -9,18 +9,15 @@ use App\Http\Requests\V1\LoginUserRequest;
 use App\Http\Requests\V1\StoreBusinessRequest;
 use App\Http\Requests\V1\StoreTalentRequest;
 use App\Http\Resources\V1\LoginUserResource;
+use App\Libraries\Utilities;
 use App\Mail\V1\BusinessVerifyEmail;
+use App\Mail\V1\LoginVerify;
 use App\Mail\v1\TalentResendVerifyMail;
 use App\Mail\V1\TalentVerifyEmail;
-use App\Mail\v1\TalentWelcomeMail;
 use App\Models\V1\Business;
 use App\Models\V1\Talent;
-use App\Models\V1\TalentCertificate;
-use App\Models\V1\TalentEducation;
-use App\Models\V1\TalentEmployment;
-use App\Models\V1\TalentPortfolio;
-use App\Models\V1\TopSkill;
 use App\Traits\HttpResponses;
+use App\Services\Wallet\CreateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -33,11 +30,15 @@ class AuthController extends Controller
 {
     use HttpResponses;
 
+    public function __construct()
+    {
+        $this->middleware('throttle:1,5')->only(['login']);
+    }
+
     public function login(LoginUserRequest $request)
     {
 
         $request->validated($request->all());
-
         $talentGuard = Auth::guard('talents');
         $businessGuard = Auth::guard('businesses');
 
@@ -48,33 +49,23 @@ class AuthController extends Controller
                 return $this->error('', 400, 'Account is inactive. Check Email to verify.');
             }
 
-            $portfolios = $user->portfolios;
-            $topSkills = $user->topskills;
-            $educations = $user->educations;
-            $employments = $user->employments;
-            $certificates = $user->certificates;
-
-            if (!empty($user->skill_title) && $topSkills->isNotEmpty() && $educations->isNotEmpty() &&$employments->isNotEmpty() && $certificates->isNotEmpty() && !empty($user->availability)) {
-                $onboarding = true;
-            } else {
-                $onboarding = false;
+            if($user->otp_expires_at > now()){
+                return $this->error('', 400, 'Sorry code has been sent try again after some minutes.');
             }
 
-            if ($portfolios->isNotEmpty()) {
-                $port = true;
-            } else {
-                $port = false;
-            }
+            $otpExpiresAt = now()->addMinutes(5);
 
-            $token = $user->createToken('API Token of ' . $user->first_name);
-            $user = new LoginUserResource($user);
-
-            return $this->success([
-                'user' => $user,
-                'work_details' => $onboarding,
-                'portofolio' => $port,
-                'token' => $token->plainTextToken
+            $user->update([
+                'otp' => mt_rand(00000, 99999),
+                'otp_expires_at' => $otpExpiresAt
             ]);
+
+            try {
+                Mail::to($request->email)->send(new LoginVerify($user));
+            } catch (\Exception $e){
+                return $this->error('error', 400, 'Email sending failed!. Try again');
+            }
+            return $this->success(null, "OTP sent to Email Address", 200);
 
         } elseif ($businessGuard->attempt($request->only(['email', 'password']))) {
             $stud = Business::where('email', $request->email)->first();
@@ -105,37 +96,69 @@ class AuthController extends Controller
         return $this->error('', 401, 'Credentials do not match',);
     }
 
+    public function verifyuser(Request $request)
+    {
+        $user = Talent::where('otp', $request->code)
+        ->where('otp_expires_at', '>', now())
+        ->first();
+
+        $portfolios = $user->portfolios;
+        $topSkills = $user->topskills;
+        $educations = $user->educations;
+        $employments = $user->employments;
+        $certificates = $user->certificates;
+
+        if (!empty($user->skill_title) && $topSkills->isNotEmpty() && $educations->isNotEmpty() &&$employments->isNotEmpty() && $certificates->isNotEmpty() && !empty($user->availability)) {
+            $onboarding = true;
+        } else {
+            $onboarding = false;
+        }
+
+        if ($portfolios->isNotEmpty()) {
+            $port = true;
+        } else {
+            $port = false;
+        }
+
+        $token = $user->createToken('API Token of ' . $user->first_name);
+        $user = new LoginUserResource($user);
+
+        return $this->success([
+            'user' => $user,
+            'work_details' => $onboarding,
+            'portofolio' => $port,
+            'token' => $token->plainTextToken
+        ]);
+    }
+
     public function talentRegister(StoreTalentRequest $request)
     {
 
         $request->validated($request->all());
 
-        DB::beginTransaction();
-
-        $otpExpiresAt = now()->addMinutes(5);
-
-        $user = Talent::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'type' => 'talent',
-            'otp' => Str::random(60),
-            'otp_expires_at' => $otpExpiresAt,
-            'status' => 'Inactive'
-        ]);
-
         try {
+            DB::beginTransaction();
 
+            $otpExpiresAt = now()->addMinutes(5);
+            $user = Talent::create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'type' => 'talent',
+                'otp' => Str::random(60),
+                'otp_expires_at' => $otpExpiresAt,
+                'status' => 'Inactive'
+            ]);
+
+            $wallet_no = Utilities::generateNuban($user->id);
+            (new CreateService($user->id, $wallet_no))->run();
             Mail::to($request->email)->send(new TalentVerifyEmail($user));
-
             DB::commit();
-
         } catch (\Exception $e){
             DB::rollBack();
             return $this->error('error', 400, 'Email sending failed!. Try again');
         }
-
         return $this->success('', 'Account created successfully');
     }
 
@@ -154,20 +177,16 @@ class AuthController extends Controller
         }
 
         if($user){
-
             $user->status = 'active';
             $user->otp = null;
             $user->otp_expires_at = NULL;
             $user->save();
 
             try {
-
                 event(new TalentWelcomeEvent($user));
-
                 return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=true');
 
                 DB::commit();
-
             } catch (\Exception $e){
                 DB::rollBack();
                 return $this->error('error', 400, 'Email sending failed!. Try again');
@@ -289,16 +308,12 @@ class AuthController extends Controller
             ]);
 
             try {
-
                 Mail::to($request->email)->send(new TalentResendVerifyMail($talent));
-
                 DB::commit();
-
             } catch (\Exception $e){
                 DB::rollBack();
                 return $this->error('error', 400, 'Email sending failed!. Try again');
             }
-
             return $this->success('', 'Verification code sent successfully');
 
         }else{

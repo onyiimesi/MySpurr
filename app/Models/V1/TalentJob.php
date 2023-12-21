@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Job extends Model implements Auditable
+class TalentJob extends Model implements Auditable
 {
     use HasFactory, SoftDeletes;
     use \OwenIt\Auditing\Auditable;
@@ -34,5 +34,4 @@ class Job extends Model implements Auditable
     {
         return $this->hasMany(Question::class);
     }
-
 }
