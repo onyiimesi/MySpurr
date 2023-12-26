@@ -72,7 +72,8 @@ class TalentResource extends JsonResource
                     'client_name' => $port->client_name,
                     'job_type' => $port->job_type,
                     'location' => $port->location,
-                    'rate' => $port->rate,
+                    'max_rate' => $port->max_rate,
+                    'min_rate' => $port->min_rate,
                     'tags' => json_decode($port->tags),
                     'cover_image' => $port->cover_image,
                     'body' =>  $port->body

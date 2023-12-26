@@ -97,10 +97,8 @@ class TalentOnboardingController extends Controller
 
     public function portfolio(Request $request)
     {
-
         // $request->validated();
         $user = Auth::user();
-
         $talent = Talent::where('email', $user->email)->first();
 
         if(!$talent){
@@ -124,7 +122,6 @@ class TalentOnboardingController extends Controller
             if ($success === false) {
                 throw new \Exception("Failed to write file to disk.");
             }
-
             $pathss = $folderName.'/'.$file_name;
 
         } else {
@@ -138,7 +135,8 @@ class TalentOnboardingController extends Controller
             'client_name' => $request->portfolio['client_name'],
             'job_type' => $request->portfolio['job_type'],
             'location' => $request->portfolio['location'],
-            'rate' => $request->portfolio['rate'],
+            'max_rate' => $request->portfolio['max_rate'],
+            'min_rate' => $request->portfolio['min_rate'],
             'tags' => json_encode($request->portfolio['tags']),
             'cover_image' => $pathss,
             'body' => $body

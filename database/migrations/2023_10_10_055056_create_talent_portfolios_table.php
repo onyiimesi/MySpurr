@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('client_name');
             $table->string('job_type');
             $table->string('location');
-            $table->string('rate');
+            $table->string('max_rate');
+            $table->string('min_rate');
             $table->json('tags');
             $table->longText('cover_image');
             $table->longText('body');

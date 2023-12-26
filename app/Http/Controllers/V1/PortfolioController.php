@@ -130,7 +130,8 @@ class PortfolioController extends Controller
             'client_name' => $request->client_name,
             'job_type' => $request->job_type,
             'location' => $request->location,
-            'rate' => $request->rate,
+            'max_rate' => $request->max_rate,
+            'min_rate' => $request->min_rate,
             'tags' => json_encode($request->tags),
             'cover_image' => $pathss,
             'body' => $request->body

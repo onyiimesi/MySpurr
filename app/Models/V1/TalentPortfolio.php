@@ -17,7 +17,8 @@ class TalentPortfolio extends Model implements Auditable
         'client_name',
         'job_type',
         'location',
-        'rate',
+        'max_rate',
+        'min_rate',
         'tags',
         'cover_image',
         'body'

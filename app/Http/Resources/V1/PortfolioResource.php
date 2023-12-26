@@ -20,7 +20,8 @@ class PortfolioResource extends JsonResource
             'client_name' => (string)$this->client_name,
             'job_type' => (string)$this->job_type,
             'location' => (string)$this->location,
-            'rate' => $this->rate,
+            'max_rate' => $this->max_rate,
+            'min_rate' => $this->min_rate,
             'tags' => json_decode($this->tags),
             'cover_image' => $this->cover_image,
             'body' =>  $this->body

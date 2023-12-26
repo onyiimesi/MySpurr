@@ -54,7 +54,7 @@ class AuthController extends Controller
 
             $otpExpiresAt = now()->addMinutes(5);
             $user->update([
-                'otp' => mt_rand(00000, 99999),
+                'otp' => mt_rand(000000, 999999),
                 'otp_expires_at' => $otpExpiresAt
             ]);
 
@@ -100,6 +100,10 @@ class AuthController extends Controller
         ->where('otp_expires_at', '>', now())
         ->first();
 
+        if(!$user){
+            return $this->error(null, 404, "Invalid code");
+        }
+
         $portfolios = $user->portfolios;
         $topSkills = $user->topskills;
         $educations = $user->educations;
@@ -117,6 +121,11 @@ class AuthController extends Controller
         } else {
             $port = false;
         }
+
+        $user->update([
+            'otp' => null,
+            'otp_expires_at' => null
+        ]);
 
         $token = $user->createToken('API Token of ' . $user->first_name);
         $user = new LoginUserResource($user);
@@ -343,5 +352,41 @@ class AuthController extends Controller
             return $this->error(null, 422, 'Old Password did not match');
         }
 
+    }
+
+    public function resendcode(Request $request)
+    {
+        $request->validate([
+            'email' => 'required'
+        ]);
+
+        DB::beginTransaction();
+
+        $otpExpiresAt = now()->addMinutes(5);
+        $talent = Talent::where('email', $request->email)
+        ->first();
+
+        if($talent->otp_expires_at > now()){
+            return $this->error('', 400, 'Sorry code has been sent try again after some minutes.');
+        }
+
+        if($talent){
+            $talent->update([
+                'otp' => mt_rand(000000, 999999),
+                'otp_expires_at' => $otpExpiresAt,
+            ]);
+
+            try {
+                Mail::to($request->email)->send(new LoginVerify($talent));
+                DB::commit();
+            } catch (\Exception $e){
+                DB::rollBack();
+                return $this->error('error', 400, 'Email sending failed!. Try again');
+            }
+            return $this->success('', 'Code sent successfully');
+
+        }else{
+            return $this->error('error', 400, 'Not Found!');
+        }
     }
 }
