@@ -43,7 +43,7 @@ Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name
 
 Route::prefix('v1')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
-    Route::post('verify', [AuthController::class, 'verifyuser']);
+    Route::post('login-verify', [AuthController::class, 'verifyuser']);
     Route::post('resend-code', [AuthController::class, 'resendcode']);
     Route::post('talent-register', [AuthController::class, 'talentRegister']);
     Route::post('business-register', [AuthController::class, 'businessRegister']);
