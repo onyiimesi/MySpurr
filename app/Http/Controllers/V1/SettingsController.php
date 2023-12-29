@@ -39,11 +39,6 @@ class SettingsController extends Controller
             'zip_code' => $request->billing_address['zip_code']
         ]);
 
-        foreach ($request->language as $lang) {
-            $langs = new TalentLanguage($lang);
-            $user->talentlanguage()->save($langs);
-        }
-
         return [
             "status" => 'true',
             "message" => 'Updated Successfully'
