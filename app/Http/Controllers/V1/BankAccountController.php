@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Traits\HttpResponses;
+use Illuminate\Support\Facades\Hash;
 
 class BankAccountController extends Controller
 {
@@ -54,46 +55,45 @@ class BankAccountController extends Controller
     public function pin(Request $request)
     {
         $request->validate([
-            'pin' => ['required', 'max:4']
+            'pin' => 'required|numeric|digits:4|confirmed'
         ]);
 
         DB::beginTransaction();
-
         $user = Auth::user();
         $otpExpiresAt = now()->addMinutes(5);
 
-        $talent = BankAccount::where('talent_id', $user->id)->first();
+        $talent = Talent::where('id', $user->id)->first();
 
-        if($talent->status != "verified"){
+        if(!empty($talent->talentpin)){
+            return $this->error('', 400, 'Pin has already been created');
+        }
 
-            $updatedRows = BankAccount::where('talent_id', $user->id)->update([
-                'pin' => $request->pin,
+        try {
+            $pinHash = Hash::make($request->pin);
+            $expiresAt = now()->addDays(30);
+
+            $talent->talentpin()->create([
+                'pin_hash' => $pinHash,
+                'expires_at' => $expiresAt,
+                'ip_address' => $request->ip(),
+                'device_info' => $request->header('User-Agent'),
+                'attempts' => 0
+            ]);
+
+            $otpExpiresAt = now()->addMinutes(10);
+            $talent->update([
                 'otp' => $this->generateOTP(),
                 'otp_expires_at' => $otpExpiresAt
             ]);
-
-            if($updatedRows > 0) {
-                try {
-                    $talent = BankAccount::where('talent_id', $user->id)->first();
-                    Mail::to($user->email)->send(new BankAccountVerifyMail($talent));
-                    DB::commit();
-                } catch (\Exception $e){
-                    DB::rollBack();
-                    return $this->error('error', 400, 'Email sending failed!. Try again');
-                }
-            } else {
-                DB::rollBack();
-                return $this->error('error', 400, 'Update failed');
-            }
-
-        }else{
-            return $this->error('error', 400, 'Your account has been verified!');
+            
+            Mail::to($user->email)->send(new BankAccountVerifyMail($talent));
+            DB::commit();
+        } catch (\Exception $e){
+            DB::rollBack();
+            return $this->error('error', 400, 'Email sending failed!. Try again');
         }
 
-        return [
-            "status" => "true",
-            "message" => "Updated Successfully"
-        ];
+        return $this->success(null, "Updated Successfully", 200);
     }
 
     public function verify(Request $request)
@@ -106,18 +106,15 @@ class BankAccountController extends Controller
         ->first();
 
         if ($bankAccount) {
-
             $bankAccount->update([
                 'otp' => NULL,
                 'otp_expires_at' => NULL,
                 'status' => "verified"
             ]);
-
             return [
                 "status" => "true",
                 "message" => "Verified Successfully"
             ];
-
         } else {
             // OTP is invalid or expired
             return $this->error('error', 400, 'OTP is invalid or expired');

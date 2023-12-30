@@ -69,7 +69,7 @@
            <div class="logo">
                <img src="https://myspurr.azurewebsites.net/logo/logo.svg" width="240px" height="52px" alt="">
            </div>
-           <h3>Verify your email address</h3>
+           <h3>Verify</h3>
 
            <p class="trial">
                Copy the code below to verify

@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bank_accounts', function (Blueprint $table) {
+        Schema::create('talent_pins', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('talent_id');
-            $table->string('account_number');
-            $table->string('bank_name');
-            $table->string('account_name');
-            $table->string('status');
+            $table->string('pin_hash');
+            $table->timestamp('expires_at')->nullable();
+            $table->unsignedInteger('attempts')->default(0);
+            $table->ipAddress('ip_address')->nullable();
+            $table->text('device_info')->nullable();
 
             $table->foreign('talent_id')->references('id')->on('talent')->onDelete('cascade');
             $table->timestamps();
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bank_accounts');
+        Schema::dropIfExists('talent_pins');
     }
 };
