@@ -90,7 +90,7 @@
             OTP Token: {{ $user->otp }}
         </div>
         <p>
-            The code expires in 5 minutes.
+            The code expires in 10 minutes.
         </p>
         <p>If you did not initiate this change, please let us know.</p>
         <p>For account safety reasons, please do not forward this email to anyone.</p>

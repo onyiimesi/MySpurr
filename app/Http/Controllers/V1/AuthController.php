@@ -32,7 +32,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('throttle:1,5')->only(['login']);
+        $this->middleware('throttle:1,5')->only(['login']);
     }
 
     public function login(LoginUserRequest $request)
@@ -52,9 +52,9 @@ class AuthController extends Controller
                 return $this->error('', 400, 'Sorry code has been sent try again after some minutes.');
             }
 
-            $otpExpiresAt = now()->addMinutes(5);
+            $otpExpiresAt = now()->addMinutes(10);
             $user->update([
-                'otp' => mt_rand(000000, 999999),
+                'otp' => rand(100000, 999999),
                 'otp_expires_at' => $otpExpiresAt
             ]);
 
@@ -146,7 +146,7 @@ class AuthController extends Controller
         try {
             DB::beginTransaction();
 
-            $otpExpiresAt = now()->addMinutes(5);
+            $otpExpiresAt = now()->addMinutes(10);
             $user = Talent::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -294,7 +294,6 @@ class AuthController extends Controller
 
     public function resend(Request $request)
     {
-
         $request->validate([
             'email' => 'required'
         ]);
@@ -307,13 +306,15 @@ class AuthController extends Controller
         ->where('status', 'Inactive')
         ->first();
 
-        if($talent){
+        if($talent->otp_expires_at > now()){
+            return $this->error('', 400, 'Sorry code has been sent try again after some minutes.');
+        }
 
+        if($talent){
             $talent->update([
                 'otp' => Str::random(60),
                 'otp_expires_at' => $otpExpiresAt,
             ]);
-
             try {
                 Mail::to($request->email)->send(new TalentResendVerifyMail($talent));
                 DB::commit();
@@ -372,7 +373,7 @@ class AuthController extends Controller
 
         if($talent){
             $talent->update([
-                'otp' => mt_rand(000000, 999999),
+                'otp' => rand(000000, 999999),
                 'otp_expires_at' => $otpExpiresAt,
             ]);
 
