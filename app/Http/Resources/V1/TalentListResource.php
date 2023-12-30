@@ -26,6 +26,7 @@ class TalentListResource extends JsonResource
             'image' => (string)$this->image,
             'portfolio' => $this->portfolios->map(function($port) {
                 return [
+                    'id' => $port->id,
                     'title' => $port->title,
                     'client_name' => $port->client_name,
                     'job_type' => $port->job_type,

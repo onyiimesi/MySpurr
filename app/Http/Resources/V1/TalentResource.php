@@ -82,6 +82,17 @@ class TalentResource extends JsonResource
             'wallet' => (object) [
                 'wallet_no' => $this->talentwallet?->wallet_no
             ],
+            'billing_address' => (object) [
+                'country' => $this->talentbillingaddress?->country,
+                'state' => $this->talentbillingaddress?->state,
+                'address_1' => $this->talentbillingaddress?->address_1,
+                'address_2' => $this->talentbillingaddress?->address_2,
+                'city' => $this->talentbillingaddress?->city,
+                'zip_code' => $this->talentbillingaddress?->zip_code
+            ],
+            'identity' => (object) [
+                'status' => $this->talentidentity?->status
+            ],
             'compensation' => (string)$this->compensation,
             'image' => (string)$this->image,
             'linkedin' => (string)$this->linkedin,
