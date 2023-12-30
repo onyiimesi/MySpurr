@@ -63,6 +63,7 @@ Route::prefix('v1')->group(function () {
     Route::post('subscribe', [ContactController::class, 'subscribe']);
     Route::get('subscribe', [ContactController::class, 'getsubscribe']);
     Route::get('country', [OtherController::class, 'country']);
+    Route::get('all-portfolios', [PortfolioController::class, 'allport']);
 });
 
 // Route::get('/auth/business/google', [GoogleAuthController::class, 'redirectToGoogleBusiness']);

@@ -26,6 +26,6 @@ class TalentPortfolio extends Model implements Auditable
 
     public function talent()
     {
-        $this->belongsTo(Talent::class);
+        return $this->belongsTo(Talent::class);
     }
 }

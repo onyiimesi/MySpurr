@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\AllPortfolioResource;
 use App\Http\Resources\V1\PortfolioResource;
 use App\Models\V1\TalentCertificate;
 use App\Models\V1\TalentEducation;
@@ -198,6 +199,20 @@ class PortfolioController extends Controller
         return [
             'status' => "true",
             'message' => "",
+            'data' => $get
+        ];
+    }
+
+    public function allport()
+    {
+        $port = TalentPortfolio::get();
+        if(empty($port)){
+            return $this->success('', 'Portfolio', 200);
+        }
+        $get = AllPortfolioResource::collection($port);
+        return [
+            'status' => "true",
+            'message' => "All Portfolios",
             'data' => $get
         ];
     }
