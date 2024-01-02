@@ -32,7 +32,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('throttle:1,5')->only(['login']);
+        // $this->middleware('throttle:1,5')->only(['login']);
     }
 
     public function login(LoginUserRequest $request)
