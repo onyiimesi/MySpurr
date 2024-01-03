@@ -70,27 +70,27 @@ class AuthController extends Controller
         } elseif ($businessGuard->attempt($request->only(['email', 'password']))) {
             $stud = Business::where('email', $request->email)->first();
 
-            if (empty($stud->business_name) || empty($stud->location) || empty($stud->industry) || empty($stud->about_business) || empty($stud->website) || empty($stud->business_service) || empty($stud->business_email)) {
-                $onboarding = false;
-            } else {
-                $onboarding = true;
+            if($stud->status === "Inactive" && $stud->otp !== ""){
+                return $this->error('', 400, 'Account is inactive. Check Email to verify.');
             }
 
-            if (empty($stud->company_logo) || empty($stud->company_type) || empty($stud->social_media)) {
-                $port = false;
-            } else {
-                $port = true;
+            if($stud->otp_expires_at > now()){
+                return $this->error('', 400, 'Sorry code has been sent try again after some minutes.');
             }
 
-            $token = $stud->createToken('API Token of ' . $stud->first_name);
-            $user = new LoginUserResource($stud);
-
-            return $this->success([
-                'user' => $user,
-                'business_details' => $onboarding,
-                'portofolio' => $port,
-                'token' => $token->plainTextToken
+            $otpExpiresAt = now()->addMinutes(10);
+            $stud->update([
+                'otp' => rand(100000, 999999),
+                'otp_expires_at' => $otpExpiresAt
             ]);
+
+            try {
+                Mail::to($request->email)->send(new LoginVerify($stud));
+            } catch (\Exception $e){
+                return $this->error('error', 400, 'Email sending failed!. Try again');
+            }
+
+            return $this->success(null, "OTP sent to Email Address", 200);
         }
 
         return $this->error('', 401, 'Credentials do not match',);
@@ -102,42 +102,69 @@ class AuthController extends Controller
         ->where('otp_expires_at', '>', now())
         ->first();
 
-        if(!$user){
+        $business = Business::where('otp', $request->code)
+        ->where('otp_expires_at', '>', now())
+        ->first();
+
+        if($user) {
+            
+            $portfolios = $user->portfolios;
+            $topSkills = $user->topskills;
+            $educations = $user->educations;
+            $employments = $user->employments;
+            $certificates = $user->certificates;
+
+            if (!empty($user->skill_title) && $topSkills->isNotEmpty() && $educations->isNotEmpty() &&$employments->isNotEmpty() && $certificates->isNotEmpty() && !empty($user->availability)) {
+                $onboarding = true;
+            } else {
+                $onboarding = false;
+            }
+            if ($portfolios->isNotEmpty()) {
+                $port = true;
+            } else {
+                $port = false;
+            }
+            $user->update([
+                'otp' => null,
+                'otp_expires_at' => null
+            ]);
+            $token = $user->createToken('API Token of ' . $user->first_name);
+            $user = new LoginUserResource($user);
+            return $this->success([
+                'user' => $user,
+                'work_details' => $onboarding,
+                'portofolio' => $port,
+                'token' => $token->plainTextToken
+            ]);
+
+        } elseif ($business) {
+
+            if (empty($business->business_name) || empty($business->location) || empty($business->industry) || empty($business->about_business) || empty($business->website) || empty($business->business_service) || empty($business->business_email)) {
+                $onboarding = false;
+            } else {
+                $onboarding = true;
+            }
+
+            if (empty($business->company_logo) || empty($business->company_type) || empty($business->social_media)) {
+                $port = false;
+            } else {
+                $port = true;
+            }
+
+            $token = $business->createToken('API Token of ' . $business->first_name);
+            $user = new LoginUserResource($business);
+
+            return $this->success([
+                'user' => $user,
+                'business_details' => $onboarding,
+                'portofolio' => $port,
+                'token' => $token->plainTextToken
+            ]);
+
+        }else {
             return $this->error(null, 404, "Invalid code");
         }
 
-        $portfolios = $user->portfolios;
-        $topSkills = $user->topskills;
-        $educations = $user->educations;
-        $employments = $user->employments;
-        $certificates = $user->certificates;
-
-        if (!empty($user->skill_title) && $topSkills->isNotEmpty() && $educations->isNotEmpty() &&$employments->isNotEmpty() && $certificates->isNotEmpty() && !empty($user->availability)) {
-            $onboarding = true;
-        } else {
-            $onboarding = false;
-        }
-
-        if ($portfolios->isNotEmpty()) {
-            $port = true;
-        } else {
-            $port = false;
-        }
-
-        $user->update([
-            'otp' => null,
-            'otp_expires_at' => null
-        ]);
-
-        $token = $user->createToken('API Token of ' . $user->first_name);
-        $user = new LoginUserResource($user);
-
-        return $this->success([
-            'user' => $user,
-            'work_details' => $onboarding,
-            'portofolio' => $port,
-            'token' => $token->plainTextToken
-        ]);
     }
 
     public function talentRegister(StoreTalentRequest $request)

@@ -25,8 +25,7 @@ class JobApplyRequest extends FormRequest
             'job_id' => ['required'],
             'rate' => ['required'],
             'available_start' => ['required'],
-            'resume' => ['required|mimetypes:application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf|max:2048'],
-            'other_file' => ['mimetypes:application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf|max:2048'],
+            'resume' => 'required',
             'question_answers' => 'required|array|min:1',
             'question_answers.*.answer' => 'required|string',
         ];

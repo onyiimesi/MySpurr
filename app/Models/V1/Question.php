@@ -13,9 +13,9 @@ class Question extends Model implements Auditable
 
     protected $fillable = ['job_id', 'question'];
 
-    public function job()
+    public function talentjob()
     {
-        return $this->belongsTo(Job::class);
+        return $this->belongsTo(TalentJob::class);
     }
 
     public function answers()

@@ -22,7 +22,9 @@ class TalentJob extends Model implements Auditable
         'commitment',
         'job_type',
         'capacity',
-        'status'
+        'status',
+        'experience',
+        'description'
     ];
 
     public function business()

@@ -15,9 +15,7 @@ class TalentJobResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'user' => [
-                'business_name' => (string)$this->business?->business_name
-            ],
+            'id' => (string)$this->id,
             'job_title' => (string)$this->job_title,
             'location' => (string)$this->location,
             'skills' => (string)$this->skills,
@@ -25,7 +23,20 @@ class TalentJobResource extends JsonResource
             'commitment' => (string)$this->commitment,
             'job_type' => (string)$this->job_type,
             'capacity' => (string)$this->capacity,
-            'status' => (string)$this->status
+            'experience' => (string)$this->experience,
+            'description' => (string)$this->description,
+            'status' => (string)$this->status,
+            'company' => (object) [
+                'business_name' => (string)$this->business?->business_name,
+                'about_company' => (string)$this->business?->about_business,
+                'industry' => (string)$this->business?->industry,
+                'logo' => (string)$this->business?->company_logo,
+            ],
+            'questions' => $this->questions->map(function($quest) {
+                return [
+                    "question" => $quest->question
+                ];
+            })->toArray()
         ];
     }
 }

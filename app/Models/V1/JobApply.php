@@ -18,6 +18,8 @@ class JobApply extends Model implements Auditable
         'available_start',
         'resume',
         'other_file',
+        'type',
+        'status'
     ];
 
 }

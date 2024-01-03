@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('available_start');
             $table->string('resume');
             $table->string('other_file')->nullable();
+            $table->string('type');
+            $table->string('status');
             $table->timestamps();
         });
     }

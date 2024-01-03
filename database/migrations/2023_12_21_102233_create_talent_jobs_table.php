@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('commitment');
             $table->string('job_type');
             $table->string('capacity');
+            $table->string('experience');
+            $table->longText('description');
             $table->string('status');
             $table->softDeletes();
             $table->timestamps();

@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('job_id');
+            $table->unsignedBigInteger('talent_job_id');
             $table->string('question');
 
-            $table->foreign('job_id')->references('id')->on('jobs')->onDelete('cascade');
+            $table->foreign('talent_job_id')->references('id')->on('talent_jobs')->onDelete('cascade');
             $table->timestamps();
         });
     }

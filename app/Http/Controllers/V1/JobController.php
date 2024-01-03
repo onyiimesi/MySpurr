@@ -43,9 +43,7 @@ class JobController extends Controller
         $request->validated($request->all());
 
         $user = Auth::user();
-
-        $business = Business::where('email_address', $user->email_address)->first();
-
+        $business = Business::where('email', $user->email)->first();
         if(!$business){
             return $this->error('', 401, 'Error');
         }
@@ -59,6 +57,8 @@ class JobController extends Controller
             'commitment' => $request->commitment,
             'job_type' => $request->job_type,
             'capacity' => $request->capacity,
+            'experience' => $request->experience,
+            'description' => $request->description,
             'status' => 'active',
         ]);
 
@@ -69,8 +69,7 @@ class JobController extends Controller
 
         return [
             "status" => 'true',
-            "message" => 'Job Created Successfully',
-            "data" => $job
+            "message" => 'Job Created Successfully'
         ];
 
     }
