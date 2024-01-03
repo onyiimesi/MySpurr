@@ -16,6 +16,8 @@ use App\Mail\v1\TalentResendVerifyMail;
 use App\Mail\V1\TalentVerifyEmail;
 use App\Models\V1\Business;
 use App\Models\V1\Talent;
+use App\Services\Anchor\CreateCustomer;
+use App\Services\Log\CreateCustomerLog;
 use App\Traits\HttpResponses;
 use App\Services\Wallet\CreateService;
 use Illuminate\Http\Request;
