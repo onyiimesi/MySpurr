@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy PHP app to Azure Web App - myspurr-staging
+name: Build and deploy PHP app to Azure Web App - myspurr/staging
 
 on:
   push:
@@ -60,7 +60,7 @@ jobs:
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
-          app-name: 'myspurr-staging'
+          app-name: 'myspurr/staging'
           slot-name: 'staging'
           package: .
           publish-profile: ${{ secrets.AzureAppService_PublishProfileStaging }}
