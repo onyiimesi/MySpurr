@@ -63,4 +63,4 @@ jobs:
           app-name: 'stagingmyspurr'
           slot-name: 'production'
           package: .
-          publish-profile: ${{ secrets.AzureAppService_PublishProfileStaging }}
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile }}
