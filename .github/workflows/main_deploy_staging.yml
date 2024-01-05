@@ -61,6 +61,6 @@ jobs:
         id: deploy-to-webapp
         with:
           app-name: 'myspurr-staging'
-          slot-name: 'production'
+          slot-name: ''
           package: .
           publish-profile: ${{ secrets.AzureAppService_PublishProfileStaging }}
