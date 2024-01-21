@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\V1\Country;
 use App\Models\V1\OpenTicket;
 use App\Models\V1\Talent;
+use App\Services\CountryState\CountryService;
+use App\Services\CountryState\StateDetailsService;
+use App\Services\CountryState\StateService;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 
@@ -15,8 +17,16 @@ class OtherController extends Controller
 
     public function country()
     {
-        $country = Country::select('code', 'name')->get();
+        $country = (new CountryService())->run();
+
         return $this->success($country, "", 200);
+    }
+
+    public function states($ciso)
+    {
+        $states = (new StateService($ciso))->run();
+
+        return $this->success($states, "", 200);
     }
 
     public function ticket(Request $request)

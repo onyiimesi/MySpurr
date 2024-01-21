@@ -25,6 +25,12 @@ return new class extends Migration
             $table->string('skill_title')->nullable();
             $table->string('top_skills')->nullable();
             $table->longText('location')->nullable();
+            $table->string('country')->nullable();
+            $table->string('ciso')->nullable();
+            $table->string('state')->nullable();
+            $table->string('siso')->nullable();
+            $table->string('longitude')->nullable();
+            $table->string('latitude')->nullable();
             $table->string('highest_education')->nullable();
             $table->string('employment_type')->nullable();
             $table->string('rate')->nullable();

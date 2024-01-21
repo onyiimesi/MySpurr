@@ -50,7 +50,13 @@ class Talent extends Authenticatable implements Auditable
         'application_link',
         'currency',
         'phone_number',
-        'country_code'
+        'country_code',
+        'country',
+        'ciso',
+        'state',
+        'siso',
+        'longitude',
+        'latitude'
     ];
 
     protected static function boot()

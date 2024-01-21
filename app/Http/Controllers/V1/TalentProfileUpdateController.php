@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\HttpResponses;
 use App\Repositories\ProfileRepository;
+use App\Services\CountryState\StateDetailsService;
 
 class TalentProfileUpdateController extends Controller
 {
@@ -61,12 +62,18 @@ class TalentProfileUpdateController extends Controller
 
         try {
 
+            $state = (new StateDetailsService($request->ciso, $request->siso))->run();
+
             $this->profile->updateProfile([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'skill_title' => $request->skill_title,
                 'rate' => $request->rate,
                 'location' => $request->location,
+                'ciso' => $request->ciso,
+                'siso' => $request->siso,
+                'longitude' => $state->longitude,
+                'latitude' => $state->latitude,
                 'linkedin' => $request->linkedin,
                 'instagram' => $request->instagram,
                 'twitter' => $request->twitter,
