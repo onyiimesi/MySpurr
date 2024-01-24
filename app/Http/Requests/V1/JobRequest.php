@@ -23,14 +23,20 @@ class JobRequest extends FormRequest
     {
         return [
             'job_title' => ['required'],
-            'location' => ['required'],
-            'skills' => ['required'],
-            'rate' => ['required'],
-            'commitment' => ['required'],
+            'country_id' => ['required'],
+            'state_id' => ['required'],
             'job_type' => ['required'],
-            'capacity' => ['required'],
+            'description' => ['required'],
+            'responsibilities' => ['required'],
+            'required_skills' => ['required'],
+            'salaray_type' => ['required'],
+            'salary_min' => ['required'],
+            'salary_max' => ['required'],
+            'skills' => ['required'],
+            'experience' => ['required'],
+            'qualification' => ['required'],
             'questions' => 'required|array|min:1',
-            'questions.*.question' => 'required|string',
+            'questions.*.question' => 'required|string'
         ];
     }
 }

@@ -16,15 +16,26 @@ class TalentJob extends Model implements Auditable
         'id',
         'business_id',
         'job_title',
-        'location',
-        'skills',
-        'rate',
-        'commitment',
+        'slug',
+        'country_id',
+        'state_id',
         'job_type',
-        'capacity',
-        'status',
+        'description',
+        'responsibilities',
+        'required_skills',
+        'benefits',
+        'salaray_type',
+        'salary_min',
+        'salary_max',
+        'skills',
         'experience',
-        'description'
+        'qualification',
+        'status',
+        'deleted_at'
+    ];
+
+    protected $casts = [
+        'skills' => 'array',
     ];
 
     public function business()

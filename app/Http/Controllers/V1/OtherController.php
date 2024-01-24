@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\JobResource;
 use App\Models\V1\OpenTicket;
 use App\Models\V1\Talent;
+use App\Models\V1\TalentJob;
 use App\Services\CountryState\CountryService;
 use App\Services\CountryState\StateDetailsService;
 use App\Services\CountryState\StateService;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OtherController extends Controller
 {
@@ -111,5 +114,34 @@ class OtherController extends Controller
         ]);
 
         return $this->success(null, "Ticket closed", 200);
+    }
+
+    public function jobdetail($slug)
+    {
+        $user = Auth::user();
+
+        $job = TalentJob::where('business_id', $user->id)
+        ->where('slug', $slug)
+        ->where('status', 'active')
+        ->first();
+
+        if(!$job){
+            return $this->error(null, 400, "Error slug required");
+        }
+
+        $data = new JobResource($job);
+
+        return $this->success($data, "Details", 200);
+    }
+
+    public function deletejob($id)
+    {
+        $user = Auth::user();
+
+        $jobs = TalentJob::where('business_id', $user->id)
+        ->where('id', $id)
+        ->first();
+
+        $jobs->delete();
     }
 }

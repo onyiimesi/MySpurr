@@ -13,19 +13,27 @@ return new class extends Migration
     {
         Schema::create('talent_jobs', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('business_id');
+            $table->unsignedBigInteger('business_id');
             $table->string('job_title');
-            $table->string('location');
-            $table->string('skills');
-            $table->string('rate');
-            $table->string('commitment');
+            $table->string('slug');
+            $table->string('country_id');
+            $table->string('state_id');
             $table->string('job_type');
-            $table->string('capacity');
-            $table->string('experience');
             $table->longText('description');
+            $table->longText('responsibilities');
+            $table->longText('required_skills');
+            $table->longText('benefits')->nullable();
+            $table->string('salaray_type');
+            $table->string('salary_min');
+            $table->string('salary_max');
+            $table->json('skills');
+            $table->string('experience');
+            $table->string('qualification');
             $table->string('status');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade');
         });
     }
 

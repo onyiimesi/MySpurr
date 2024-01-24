@@ -108,6 +108,8 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function(){
     Route::post('business-portfolio', [BusinessOnboardingController::class, 'portfolio']);
     Route::patch('business-edit-profile', [BusinessOnboardingController::class, 'editProfile']);
     Route::resource('job', JobController::class);
+    Route::get('job/details/{slug}', [OtherController::class, 'jobdetail']);
+    Route::delete('jobs/delete/{id}', [OtherController::class, 'deletejob']);
 
     // Messaging
     Route::get('message/{recieverId}', [MessageController::class, 'index']);

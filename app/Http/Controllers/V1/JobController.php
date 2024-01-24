@@ -10,6 +10,7 @@ use App\Models\V1\Question;
 use App\Models\V1\TalentJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class JobController extends Controller
 {
@@ -18,7 +19,6 @@ class JobController extends Controller
      */
     public function index()
     {
-
         $user = Auth::user();
 
         $job = TalentJob::where('business_id', $user->id)
@@ -51,14 +51,20 @@ class JobController extends Controller
         $job = TalentJob::create([
             'business_id' => $business->id,
             'job_title' => $request->job_title,
-            'location' => $request->location,
-            'skills' => $request->skills,
-            'rate' => $request->rate,
-            'commitment' => $request->commitment,
+            'slug' => Str::slug($request->job_title),
+            'country_id' => $request->country_id,
+            'state_id' => $request->state_id,
             'job_type' => $request->job_type,
-            'capacity' => $request->capacity,
-            'experience' => $request->experience,
             'description' => $request->description,
+            'responsibilities' => $request->responsibilities,
+            'required_skills' => $request->required_skills,
+            'benefits' => $request->benefits,
+            'salaray_type' => $request->salaray_type,
+            'salary_min' => $request->salary_min,
+            'salary_max' => $request->salary_max,
+            'skills' => $request->skills,
+            'experience' => $request->experience,
+            'qualification' => $request->qualification,
             'status' => 'active',
         ]);
 
@@ -95,22 +101,22 @@ class JobController extends Controller
     {
         $job->update($request->all());
 
-        $jobs = new JobResource($job);
+        $job->questions()->delete();
+        foreach ($request->questions as $questionData) {
+            $question = new Question($questionData);
+            $job->questions()->save($question);
+        }
 
         return [
             "status" => 'true',
-            "message" => 'Updated Successfully',
-            "data" => $jobs
+            "message" => 'Updated Successfully'
         ];
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TalentJob $jobs)
+    public function destroy()
     {
-        $jobs->delete();
-
-        return response(null, 204);
     }
 }
