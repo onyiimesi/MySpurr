@@ -27,35 +27,6 @@ class BusinessOnboardingController extends Controller
             return $this->error('', 401, 'Error');
         }
 
-        $business->update([
-            'business_name' => $request->business_name,
-            'location' => $request->location,
-            'industry' => $request->industry,
-            'about_business' => $request->about_business,
-            'website' => $request->website,
-            'business_service' => $request->business_service,
-            'business_email' => $request->business_email
-        ]);
-
-        $businesss = new BusinessDetailsResource($business);
-
-        return [
-            "status" => 'true',
-            "message" => 'Updated Successfully',
-            "data" => $businesss
-        ];
-    }
-
-    public function portfolio(BusinessPortfolioRequest $request)
-    {
-        $user = Auth::user();
-
-        $talent = Business::where('email', $user->email)->first();
-
-        if(!$talent){
-            return $this->error('', 401, 'Error');
-        }
-
         if($request->company_logo){
             $file = $request->company_logo;
             $folderName = 'https://myspurr.azurewebsites.net/business';
@@ -72,20 +43,19 @@ class BusinessOnboardingController extends Controller
             $pathss = "";
         }
 
-        $talent->update([
+        $business->update([
+            'business_name' => $request->business_name,
+            'location' => $request->location,
+            'industry' => $request->industry,
+            'about_business' => $request->about_business,
+            'website' => $request->website,
+            'business_service' => $request->business_service,
+            'business_email' => $request->business_email,
             'company_logo' => $pathss,
             'company_type' => $request->company_type,
-            'social_media' => $request->social_media,
-            'social_media_two' => $request->social_media_two
         ]);
-
-        $talents = new BusinessPortfolioResource($talent);
-
-        return [
-            "status" => 'true',
-            "message" => 'Updated Successfully',
-            "data" => $talents
-        ];
+        
+        return $this->success(null, "Updated Successfully", 200);
     }
 
     public function editProfile(Request $request){

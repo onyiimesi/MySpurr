@@ -50,11 +50,9 @@ class ProfileController extends Controller
                 'work_details' => $onboarding,
                 'portofolio' => $port
             ];
-
         }
 
         if($user->type === 'business'){
-
             if (empty($user->business_name) || empty($user->location) || empty($user->industry) || empty($user->about_business) || empty($user->website) || empty($user->business_service) || empty($user->business_email)) {
                 $onboarding = false;
             } else {
@@ -75,9 +73,7 @@ class ProfileController extends Controller
                 'business_details' => $onboarding,
                 'portofolio' => $port
             ];
-
         }
-
     }
 
     public function wallet()
