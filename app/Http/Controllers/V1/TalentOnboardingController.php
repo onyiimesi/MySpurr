@@ -10,6 +10,7 @@ use App\Http\Resources\V1\TalentWorkDetailsResource;
 use App\Models\V1\Talent;
 use App\Models\V1\TalentImages;
 use App\Models\V1\TopSkill;
+use App\Services\CountryState\StateDetailsService;
 use Illuminate\Http\Request;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
@@ -28,10 +29,15 @@ class TalentOnboardingController extends Controller
             return $this->error('', 401, 'Error');
         }
 
+        $state = (new StateDetailsService($request->ciso, $request->siso))->run();
+
         $talent->update([
             'skill_title' => $request->skill_title,
             'overview' => $request->overview,
-            'location' => $request->location,
+            'ciso' => $request->ciso,
+            'siso' => $request->siso,
+            'longitude' => $state->longitude,
+            'latitude' => $state->latitude,
             'employment_type' => $request->employment_type,
             'highest_education' => $request->highest_education,
             'rate' => $request->rate,
