@@ -23,10 +23,9 @@ class BusinessDetailsRequest extends FormRequest
     {
         return [
             'business_name' => ['required', 'string'],
-            'location' => ['required', 'string'],
             'industry' => ['required', 'string'],
             'about_business' => ['required', 'string'],
-            'website' => ['required', 'string'],
+            'website' => ['string'],
             'business_service' => ['required', 'string'],
             'business_email' => ['required', 'email', 'email:rfc,dns', 'string']
         ];

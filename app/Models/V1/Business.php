@@ -37,7 +37,11 @@ class Business extends Authenticatable implements Auditable
         'verify_status',
         'status',
         'type',
-        'terms'
+        'terms',
+        'ciso',
+        'siso',
+        'longitude',
+        'latitude'
     ];
 
     protected static function boot()

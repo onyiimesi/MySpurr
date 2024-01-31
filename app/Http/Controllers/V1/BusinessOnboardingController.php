@@ -8,6 +8,8 @@ use App\Http\Requests\V1\BusinessPortfolioRequest;
 use App\Http\Resources\V1\BusinessDetailsResource;
 use App\Http\Resources\V1\BusinessPortfolioResource;
 use App\Models\V1\Business;
+use App\Services\CountryState\CountryDetailsService;
+use App\Services\CountryState\StateDetailsService;
 use Illuminate\Http\Request;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
@@ -43,9 +45,16 @@ class BusinessOnboardingController extends Controller
             $pathss = "";
         }
 
+        $state = (new StateDetailsService($request->ciso, $request->siso))->run();
+        $country = (new CountryDetailsService($request->ciso))->run();
+
         $business->update([
             'business_name' => $request->business_name,
-            'location' => $request->location,
+            'location' => $state->name . ', '. $country->name,
+            'ciso' => $request->ciso,
+            'siso' => $request->siso,
+            'longitude' => $state->longitude,
+            'latitude' => $state->latitude,
             'industry' => $request->industry,
             'about_business' => $request->about_business,
             'website' => $request->website,
@@ -54,7 +63,7 @@ class BusinessOnboardingController extends Controller
             'company_logo' => $pathss,
             'company_type' => $request->company_type,
         ]);
-        
+
         return $this->success(null, "Updated Successfully", 200);
     }
 

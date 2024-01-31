@@ -3,13 +3,10 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\TalentPortfolioRequest;
 use App\Http\Requests\V1\TalentWorkDetailsRequest;
-use App\Http\Resources\V1\TalentPortfolioResource;
-use App\Http\Resources\V1\TalentWorkDetailsResource;
 use App\Models\V1\Talent;
-use App\Models\V1\TalentImages;
 use App\Models\V1\TopSkill;
+use App\Services\CountryState\CountryDetailsService;
 use App\Services\CountryState\StateDetailsService;
 use Illuminate\Http\Request;
 use App\Traits\HttpResponses;
@@ -30,12 +27,14 @@ class TalentOnboardingController extends Controller
         }
 
         $state = (new StateDetailsService($request->ciso, $request->siso))->run();
+        $country = (new CountryDetailsService($request->ciso))->run();
 
         $talent->update([
             'skill_title' => $request->skill_title,
             'overview' => $request->overview,
             'ciso' => $request->ciso,
             'siso' => $request->siso,
+            'location' => $state->name . ', '. $country->name,
             'longitude' => $state->longitude,
             'latitude' => $state->latitude,
             'employment_type' => $request->employment_type,

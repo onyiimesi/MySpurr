@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('email');
             $table->string('business_name')->nullable();
             $table->string('location')->nullable();
+            $table->string('ciso')->nullable();
+            $table->string('siso')->nullable();
+            $table->string('longitude')->nullable();
+            $table->string('latitude')->nullable();
             $table->string('industry')->nullable();
             $table->longText('about_business')->nullable();
             $table->string('website')->nullable();
