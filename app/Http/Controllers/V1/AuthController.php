@@ -107,7 +107,7 @@ class AuthController extends Controller
         ->first();
 
         if($user) {
-            
+
             $portfolios = $user->portfolios;
             $topSkills = $user->topskills;
             $educations = $user->educations;
@@ -154,6 +154,10 @@ class AuthController extends Controller
             $token = $business->createToken('API Token of ' . $business->first_name);
             $user = new LoginUserResource($business);
 
+            $business->update([
+                'otp' => null,
+                'otp_expires_at' => null
+            ]);
             return $this->success([
                 'user' => $user,
                 'business_details' => $onboarding,
