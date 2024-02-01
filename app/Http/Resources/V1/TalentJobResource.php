@@ -18,7 +18,7 @@ class TalentJobResource extends JsonResource
             'id' => (string)$this->id,
             'job_title' => (string)$this->job_title,
             'location' => (string)$this->location,
-            'skills' => (string)$this->skills,
+            'skills' => (array)$this->skills,
             'rate' => (string)$this->rate,
             'commitment' => (string)$this->commitment,
             'job_type' => (string)$this->job_type,
