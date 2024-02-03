@@ -11,9 +11,12 @@ use App\Models\V1\TalentJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Traits\HttpResponses;
 
 class JobController extends Controller
 {
+    use HttpResponses;
+
     /**
      * Display a listing of the resource.
      */

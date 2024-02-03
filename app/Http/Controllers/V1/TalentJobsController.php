@@ -66,6 +66,11 @@ class TalentJobsController extends Controller
             $file = $request->resume;
             $folderName = 'https://myspurr.azurewebsites.net/files';
             $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
+            if($extension == "vnd.openxmlformats-officedocument.wordprocessingml.document"){
+                $extension = "docx";
+            }else if($extension == "vnd.openxmlformats-officedocument.spreadsheetml.sheet"){
+                $extension = "xlsx";
+            }
             $replace = substr($file, 0, strpos($file, ',')+1);
             $sig = str_replace($replace, '', $file);
 
@@ -82,6 +87,11 @@ class TalentJobsController extends Controller
             $file = $request->other_file;
             $folderName = 'https://myspurr.azurewebsites.net/files';
             $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
+            if($extension == "vnd.openxmlformats-officedocument.wordprocessingml.document"){
+                $extension = "docx";
+            }else if($extension == "vnd.openxmlformats-officedocument.spreadsheetml.sheet"){
+                $extension = "xlsx";
+            }
             $replace = substr($file, 0, strpos($file, ',')+1);
             $sig = str_replace($replace, '', $file);
 
