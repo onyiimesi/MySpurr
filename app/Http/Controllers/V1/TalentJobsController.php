@@ -62,27 +62,6 @@ class TalentJobsController extends Controller
             return $this->error('', 401, 'Error');
         }
 
-        if($request->resume){
-            $file = $request->resume;
-            $folderName = 'https://myspurr.azurewebsites.net/files';
-            $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
-            if($extension == "vnd.openxmlformats-officedocument.wordprocessingml.document"){
-                $extension = "docx";
-            }else if($extension == "vnd.openxmlformats-officedocument.spreadsheetml.sheet"){
-                $extension = "xlsx";
-            }
-            $replace = substr($file, 0, strpos($file, ',')+1);
-            $sig = str_replace($replace, '', $file);
-
-            $sig = str_replace(' ', '+', $sig);
-            $file_name = time().'.'.$extension;
-            file_put_contents(public_path().'/files/'.$file_name, base64_decode($sig));
-
-            $pathss = $folderName.'/'.$file_name;
-        }else{
-            $pathss = "";
-        }
-
         if(!empty($request->other_file)){
             $file = $request->other_file;
             $folderName = 'https://myspurr.azurewebsites.net/files';
@@ -109,7 +88,7 @@ class TalentJobsController extends Controller
             'job_id' => $id,
             'rate' => $request->rate,
             'available_start' => $request->available_start,
-            'resume' => $pathss,
+            'resume' => $request->resume,
             'other_file' => $files,
             'type' => 'open',
             'status' => 'pending'
