@@ -23,7 +23,7 @@ class TalentApplicationResource extends JsonResource
             'job_info' => (object) [
                 'job_title' => (string)$job->job_title,
                 'location' => (string)$job->location,
-                'skills' => (string)$job->skills,
+                'skills' => (array)$job->skills,
                 'rate' => (string)$job->rate,
                 'commitment' => (string)$job->commitment,
                 'job_type' => (string)$job->job_type,
