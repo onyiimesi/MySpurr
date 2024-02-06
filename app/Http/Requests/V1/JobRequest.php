@@ -34,9 +34,7 @@ class JobRequest extends FormRequest
             'salary_max' => ['required'],
             'skills' => ['required'],
             'experience' => ['required'],
-            'qualification' => ['required'],
-            'questions' => 'required|array|min:1',
-            'questions.*.question' => 'required|string'
+            'qualification' => ['required']
         ];
     }
 }

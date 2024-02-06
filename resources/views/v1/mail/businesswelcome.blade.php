@@ -92,15 +92,15 @@
            <p>
             Here's how MySpurr can empower your talent search: <br>
 
-            1. <strong>Access to Top Talent</strong>: Gain access to a diverse pool of skilled professionals and creative talents. <br>
+            1. <strong>Access to Top Talent</strong>: Gain access to a diverse pool of skilled professionals and creative talents. <br><br>
 
-            2. <strong>Streamlined Hiring</strong>: Our platform streamlines the hiring process, from posting jobs to reviewing applications, and ultimately selecting the ideal candidates for your team. <br>
+            2. <strong>Streamlined Hiring</strong>: Our platform streamlines the hiring process, from posting jobs to reviewing applications, and ultimately selecting the ideal candidates for your team. <br><br>
 
-            3. <strong>Effortless Communication</strong>: Communicate seamlessly with potential hires through our messaging system, making it easier to evaluate their fit for your organization. <br>
+            3. <strong>Effortless Communication</strong>: Communicate seamlessly with potential hires through our messaging system, making it easier to evaluate their fit for your organization. <br><br>
 
-            4. <strong>Secure Payments</strong>: We facilitate secure payment processes to ensure that you and your talents can focus on your projects without worrying about financial logistics. <br>
+            4. <strong>Secure Payments</strong>: We facilitate secure payment processes to ensure that you and your talents can focus on your projects without worrying about financial logistics. <br><br>
 
-            5. <strong>Tailored Solutions</strong>: Our team is here to assist you every step of the way. We offer tailored solutions to meet your unique talent acquisition needs. <br>
+            5. <strong>Tailored Solutions</strong>: Our team is here to assist you every step of the way. We offer tailored solutions to meet your unique talent acquisition needs. <br><br>
 
            </p>
            <p class="trial">
