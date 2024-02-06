@@ -107,7 +107,6 @@ class AuthController extends Controller
         ->first();
 
         if($user) {
-
             $portfolios = $user->portfolios;
             $topSkills = $user->topskills;
             $educations = $user->educations;
