@@ -22,4 +22,14 @@ class JobApply extends Model implements Auditable
         'status'
     ];
 
+    public function talent()
+    {
+        return $this->belongsTo(Talent::class, 'talent_id');
+    }
+
+    public function talentjob()
+    {
+        return $this->belongsTo(TalentJob::class, 'job_id');
+    }
+
 }

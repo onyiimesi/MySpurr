@@ -47,4 +47,9 @@ class TalentJob extends Model implements Auditable
     {
         return $this->hasMany(Question::class);
     }
+
+    public function jobapply()
+    {
+        return $this->hasMany(JobApply::class, 'job_id');
+    }
 }

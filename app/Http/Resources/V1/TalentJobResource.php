@@ -2,8 +2,13 @@
 
 namespace App\Http\Resources\V1;
 
+use App\Models\V1\JobApply;
+use App\Services\CountryState\CountryDetailsService;
+use App\Services\CountryState\StateDetailsService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class TalentJobResource extends JsonResource
 {
@@ -14,18 +19,43 @@ class TalentJobResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $country = (new CountryDetailsService($this->country_id))->run();
+        $state = (new StateDetailsService($this->country_id, $this->state_id))->run();
+        $currentDateTime = Carbon::now();
+        $sevenDaysAgo = $currentDateTime->subDays(7);
+        $user = Auth::user();
+
+        $status = null;
+        foreach($this->jobapply as $apply){
+            $talentapply = JobApply::where('job_id', $apply->job_id)
+            ->where('talent_id', $user->id)->first();
+
+            if($talentapply){
+                $status = "applied";
+            }else{
+                $status = null;
+            }
+        }
+
         return [
             'id' => (string)$this->id,
+            'country' => (string)$country->name,
+            'state' => (string)$state->name,
             'job_title' => (string)$this->job_title,
-            'location' => (string)$this->location,
-            'skills' => (array)$this->skills,
-            'rate' => (string)$this->rate,
             'commitment' => (string)$this->commitment,
             'job_type' => (string)$this->job_type,
             'capacity' => (string)$this->capacity,
             'experience' => (string)$this->experience,
             'description' => (string)$this->description,
+            'salaray_type' => (string)$this->salaray_type,
+            'salary_min' => (string)$this->salary_min,
+            'salary_max' => (string)$this->salary_max,
+            'applicants' => $this->jobapply->groupBy('talent_id')->count(),
+            'recent_applicants' => $this->jobapply->where('created_at', '>=', $sevenDaysAgo)->groupBy('talent_id')->count(),
+            'application_status' => $status,
             'status' => (string)$this->status,
+            'date_created' => Carbon::parse($this->created_at)->format('j M Y'),
+            'skills' => (array)$this->skills,
             'company' => (object) [
                 'business_name' => (string)$this->business?->business_name,
                 'about_company' => (string)$this->business?->about_business,

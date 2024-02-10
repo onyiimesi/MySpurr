@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\JobResource;
+use App\Models\V1\JobApply;
 use App\Models\V1\OpenTicket;
 use App\Models\V1\Talent;
 use App\Models\V1\TalentJob;
@@ -12,6 +13,7 @@ use App\Services\CountryState\StateDetailsService;
 use App\Services\CountryState\StateService;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class OtherController extends Controller
@@ -143,5 +145,73 @@ class OtherController extends Controller
         ->first();
 
         $jobs->delete();
+    }
+
+    public function closejob($id)
+    {
+        $job = TalentJob::where('id', $id)
+        ->first();
+
+        $job->update([
+            'status' => 'expired'
+        ]);
+
+        return $this->success(null, "Job closed", 200);
+    }
+
+    public function applicants($id)
+    {
+        $job = TalentJob::where('id', $id)
+        ->with('jobapply')
+        ->first();
+
+        if(!$job){
+            return $this->error(null, 404, "Not found");
+        }
+
+        return $this->success(
+            [
+                'id' => $job->id,
+                'job_title' => $job->job_title,
+                'slug' => $job->slug,
+                'applicants' => $job->jobapply->map(function ($applicant) {
+                    return [
+                        'id' => $applicant->id,
+                        'talent_id' => $applicant->talent_id,
+                        'first_name' => $applicant->talent->first_name,
+                        'last_name' => $applicant->talent->last_name,
+                        'email' => $applicant->talent->email,
+                        'phone_number' => $applicant->talent->phone_number
+                    ];
+                })->toArray()
+            ],
+            "Applicants",
+            200
+        );
+    }
+
+    public function application($id)
+    {
+        $job = JobApply::where('talent_id', $id)
+        ->first();
+
+        if(!$job){
+            return $this->error(null, 404, "Not found");
+        }
+
+        return $this->success(
+            [
+                'id' => $job->id,
+                'rate' => $job->rate,
+                'available_start' => $job->available_start,
+                'resume' => $job->resume,
+                'other_file' => $job->other_file,
+                'type' => $job->type,
+                'status' => $job->status,
+                'date' => Carbon::parse($job->created_at)->format('j M Y')
+            ],
+            "Application",
+            200
+        );
     }
 }

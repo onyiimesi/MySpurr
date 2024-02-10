@@ -23,6 +23,8 @@ class TalentResource extends JsonResource
             'email' => (string)$this->email,
             'skill_title' => (string)$this->skill_title,
             'overview' => (string)$this->overview,
+            'ciso' => (string)$this->ciso,
+            'siso' => (string)$this->siso,
             'location' => (string)$this->location,
             'longitude' => (string)$this->longitude,
             'latitude' => (string)$this->latitude,

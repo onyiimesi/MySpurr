@@ -110,6 +110,10 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function(){
     Route::resource('job', JobController::class);
     Route::get('job/details/{slug}', [OtherController::class, 'jobdetail']);
     Route::delete('jobs/delete/{id}', [OtherController::class, 'deletejob']);
+    Route::patch('job/{id}/close', [OtherController::class, 'closejob']);
+    Route::get('job/{id}/applicants', [OtherController::class, 'applicants']);
+    Route::get('application/{talent_id}', [OtherController::class, 'application']);
+
 
     // Messaging
     Route::get('message/{recieverId}', [MessageController::class, 'index']);

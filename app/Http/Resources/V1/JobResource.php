@@ -6,6 +6,7 @@ use App\Services\CountryState\CountryDetailsService;
 use App\Services\CountryState\StateDetailsService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
 class JobResource extends JsonResource
 {
@@ -18,6 +19,8 @@ class JobResource extends JsonResource
     {
         $country = (new CountryDetailsService($this->country_id))->run();
         $state = (new StateDetailsService($this->country_id, $this->state_id))->run();
+        $currentDateTime = Carbon::now();
+        $sevenDaysAgo = $currentDateTime->subDays(7);
 
         return [
             'job_title' => (string)$this->job_title,
@@ -35,12 +38,15 @@ class JobResource extends JsonResource
             'skills' => (array)$this->skills,
             'experience' => (string)$this->experience,
             'qualification' => (string)$this->commitment,
+            'applicants' => $this->jobapply->groupBy(['talent_id'])->count(),
+            'recent_applicants' => $this->jobapply->where('created_at', '>=', $sevenDaysAgo)->groupBy('talent_id')->count(),
+            'status' => (string)$this->status,
+            'date_created' => Carbon::parse($this->created_at)->format('j M Y'),
             'questions' => $this->questions->map(function($quest) {
                 return [
                     'question' => $quest->question
                 ];
             }),
-            'status' => (string)$this->status,
             'company' => (object) [
                 'business_name' => $this->business->business_name,
                 'industry' => $this->business->industry,
