@@ -22,25 +22,39 @@ class TalentJobsController extends Controller
 
     public function jobs()
     {
-        $job = TalentJob::where('status', 'active')->get();
+        $job = TalentJob::where('status', 'active')->paginate(25);
         $jobs = TalentJobResource::collection($job);
 
         return [
             'status' => 'true',
             'message' => 'Job List',
-            'data' => $jobs
+            'data' => $jobs,
+            'pagination' => [
+                'current_page' => $job->currentPage(),
+                'last_page' => $job->lastPage(),
+                'per_page' => $job->perPage(),
+                'prev_page_url' => $job->previousPageUrl(),
+                'next_page_url' => $job->nextPageUrl()
+            ],
         ];
     }
 
     public function listjobs()
     {
-        $job = TalentJob::where('status', 'active')->get();
+        $job = TalentJob::where('status', 'active')->paginate(25);
         $jobs = TalentJobResource::collection($job);
 
         return [
             'status' => 'true',
             'message' => 'Job List',
-            'data' => $jobs
+            'data' => $jobs,
+            'pagination' => [
+                'current_page' => $job->currentPage(),
+                'last_page' => $job->lastPage(),
+                'per_page' => $job->perPage(),
+                'prev_page_url' => $job->previousPageUrl(),
+                'next_page_url' => $job->nextPageUrl()
+            ],
         ];
     }
 

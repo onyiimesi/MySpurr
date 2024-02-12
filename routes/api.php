@@ -113,6 +113,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function(){
     Route::patch('job/{id}/close', [OtherController::class, 'closejob']);
     Route::get('job/{id}/applicants', [OtherController::class, 'applicants']);
     Route::get('application/{talent_id}', [OtherController::class, 'application']);
+    Route::get('jobs/picks', [OtherController::class, 'jobpicks']);
 
 
     // Messaging

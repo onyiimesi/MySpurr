@@ -26,14 +26,21 @@ class JobController extends Controller
 
         $job = TalentJob::where('business_id', $user->id)
         ->where('status', 'active')
-        ->get();
+        ->paginate(25);
 
         $jobs = JobResource::collection($job);
 
         return [
             'status' => 'true',
             'message' => 'Job List',
-            'data' => $jobs
+            'data' => $jobs,
+            'pagination' => [
+                'current_page' => $job->currentPage(),
+                'last_page' => $job->lastPage(),
+                'per_page' => $job->perPage(),
+                'prev_page_url' => $job->previousPageUrl(),
+                'next_page_url' => $job->nextPageUrl()
+            ],
         ];
     }
 
