@@ -23,6 +23,7 @@ class JobResource extends JsonResource
         $sevenDaysAgo = $currentDateTime->subDays(7);
 
         return [
+            'id' => (string)$this->id,
             'job_title' => (string)$this->job_title,
             'slug' => (string)$this->slug,
             'country' => (string)$country->name,
