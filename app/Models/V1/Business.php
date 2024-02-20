@@ -53,4 +53,9 @@ class Business extends Authenticatable implements Auditable
         });
 
     }
+
+    public function talentjob()
+    {
+        return $this->hasMany(TalentJob::class, 'business_id');
+    }
 }

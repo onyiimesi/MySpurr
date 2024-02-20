@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\JobApplyRequest;
+use App\Http\Resources\V1\JobResource;
 use App\Http\Resources\V1\TalentApplicationResource;
 use App\Http\Resources\V1\TalentJobResource;
 use App\Models\V1\Job;
@@ -146,5 +147,20 @@ class TalentJobsController extends Controller
         $applications = new TalentApplicationResource($jobappy);
 
         return $this->success($applications, "", 200);
+    }
+
+    public function listjobdetail($slug)
+    {
+        $job = TalentJob::where('slug', $slug)
+        ->where('status', 'active')
+        ->first();
+
+        if(!$job){
+            return $this->error(null, 400, "Error slug required");
+        }
+
+        $data = new JobResource($job);
+
+        return $this->success($data, "Details", 200);
     }
 }

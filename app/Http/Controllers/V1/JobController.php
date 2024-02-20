@@ -58,6 +58,10 @@ class JobController extends Controller
             return $this->error('', 401, 'Error');
         }
 
+        if($business->talentjob()->count() >= 1){
+            return $this->error('', 400, 'Job posting limit reached. Please make a payment to post more jobs.');
+        }
+
         $job = TalentJob::create([
             'business_id' => $business->id,
             'job_title' => $request->job_title,

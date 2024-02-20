@@ -9,6 +9,7 @@ use App\Http\Controllers\V1\GoogleAuthController;
 use App\Http\Controllers\V1\JobController;
 use App\Http\Controllers\V1\MessageController;
 use App\Http\Controllers\V1\OtherController;
+use App\Http\Controllers\V1\PaymentController;
 use App\Http\Controllers\V1\PortfolioController;
 use App\Http\Controllers\V1\ProfileController;
 use App\Http\Controllers\v1\ResetPasswordController;
@@ -39,6 +40,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/verify/{token}', [AuthController::class, 'verify'])->name('verification.verify');
 Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name('verification.verifys');
+Route::post('/payment/pay', [PaymentController::class, 'processPayment']);
+Route::get('/payment/callback', [PaymentController::class, 'callback']);
 // Route::get('/auth/talent/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
 
 Route::prefix('v1')->group(function () {
@@ -53,6 +56,7 @@ Route::prefix('v1')->group(function () {
     Route::get('auth/talent/google', [GoogleAuthController::class, 'redirectToGoogle']);
     Route::resource('skills', SkillsController::class);
     Route::get('list-jobs', [TalentJobsController::class, 'listjobs']);
+    Route::get('list-jobs/{slug}', [OtherController::class, 'listjobdetail']);
     Route::get('job-title', [TalentController::class, 'jobtitle']);
     Route::get('talents', [TalentController::class, 'listtalents']);
     Route::get('talent/{uuid}', [TalentController::class, 'talentbyid']);
