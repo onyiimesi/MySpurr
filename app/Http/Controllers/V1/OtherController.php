@@ -138,6 +138,21 @@ class OtherController extends Controller
         return $this->success($data, "Details", 200);
     }
 
+    public function listjobdetail($slug)
+    {
+        $job = TalentJob::where('slug', $slug)
+        ->where('status', 'active')
+        ->first();
+
+        if(!$job){
+            return $this->error(null, 400, "Error slug required");
+        }
+
+        $data = new JobResource($job);
+
+        return $this->success($data, "Details", 200);
+    }
+
     public function deletejob($id)
     {
         $user = Auth::user();

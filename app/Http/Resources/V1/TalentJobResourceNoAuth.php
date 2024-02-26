@@ -10,7 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class TalentJobResource extends JsonResource
+class TalentJobResourceNoAuth extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -23,19 +23,6 @@ class TalentJobResource extends JsonResource
         $state = (new StateDetailsService($this->country_id, $this->state_id))->run();
         $currentDateTime = Carbon::now();
         $sevenDaysAgo = $currentDateTime->subDays(7);
-        $user = Auth::user();
-
-        $status = null;
-        foreach($this->jobapply as $apply){
-            $talentapply = JobApply::where('job_id', $apply->job_id)
-            ->where('talent_id', $user->id)->first();
-
-            if($talentapply){
-                $status = "applied";
-            }else{
-                $status = null;
-            }
-        }
 
         return [
             'id' => (string)$this->id,
@@ -53,7 +40,6 @@ class TalentJobResource extends JsonResource
             'salary_max' => (string)$this->salary_max,
             'applicants' => $this->jobapply->groupBy('talent_id')->count(),
             'recent_applicants' => $this->jobapply->where('created_at', '>=', $sevenDaysAgo)->groupBy('talent_id')->count(),
-            'application_status' => $status,
             'status' => (string)$this->status,
             'date_created' => Carbon::parse($this->created_at)->format('j M Y'),
             'skills' => (array)$this->skills,

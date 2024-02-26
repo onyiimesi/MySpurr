@@ -7,6 +7,7 @@ use App\Http\Requests\V1\JobApplyRequest;
 use App\Http\Resources\V1\JobResource;
 use App\Http\Resources\V1\TalentApplicationResource;
 use App\Http\Resources\V1\TalentJobResource;
+use App\Http\Resources\V1\TalentJobResourceNoAuth;
 use App\Models\V1\Job;
 use App\Models\V1\JobApply;
 use App\Models\V1\Question;
@@ -43,7 +44,7 @@ class TalentJobsController extends Controller
     public function listjobs()
     {
         $job = TalentJob::where('status', 'active')->paginate(25);
-        $jobs = TalentJobResource::collection($job);
+        $jobs = TalentJobResourceNoAuth::collection($job);
 
         return [
             'status' => 'true',

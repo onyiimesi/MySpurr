@@ -93,7 +93,7 @@ class AuthController extends Controller
             return $this->success(null, "OTP sent to Email Address", 200);
         }
 
-        return $this->error('', 401, 'Credentials do not match',);
+        return $this->error('', 401, 'This account does not exist with MySpurr.',);
     }
 
     public function verifyuser(Request $request)
