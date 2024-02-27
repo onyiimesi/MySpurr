@@ -119,7 +119,6 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function(){
     Route::get('application/{talent_id}', [OtherController::class, 'application']);
     Route::get('jobs/picks', [OtherController::class, 'jobpicks']);
 
-
     // Messaging
     Route::get('message/{recieverId}', [MessageController::class, 'index']);
     Route::post('message/{recieverId}', [MessageController::class, 'store']);

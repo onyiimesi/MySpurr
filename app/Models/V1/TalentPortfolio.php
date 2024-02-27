@@ -21,7 +21,8 @@ class TalentPortfolio extends Model implements Auditable
         'min_rate',
         'tags',
         'cover_image',
-        'body'
+        'body',
+        'is_draft'
     ];
 
     public function talent()

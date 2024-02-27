@@ -102,7 +102,12 @@ class TalentOnboardingController extends Controller
 
     public function portfolio(Request $request)
     {
-        // $request->validated();
+        $request->validate([
+            'portfolio.is_draft' => 'required|in:true,false'
+        ], [
+            'portfolio.is_draft' => 'is_draft should either be true or false'
+        ]);
+
         $user = Auth::user();
         $talent = Talent::where('email', $user->email)->first();
 
@@ -144,7 +149,8 @@ class TalentOnboardingController extends Controller
             'min_rate' => $request->portfolio['min_rate'],
             'tags' => json_encode($request->portfolio['tags']),
             'cover_image' => $pathss,
-            'body' => $body
+            'body' => $body,
+            'is_draft' => $request->portfolio['is_draft']
         ]);
 
         return [

@@ -36,6 +36,8 @@ return new class extends Migration
             $table->string('rate')->nullable();
             $table->string('availability')->nullable();
             $table->string('compensation')->nullable();
+            $table->string('experience_level')->nullable();
+            $table->string('booking_link')->nullable();
             $table->string('image')->nullable();
             $table->string('linkedin')->nullable();
             $table->string('instagram')->nullable();

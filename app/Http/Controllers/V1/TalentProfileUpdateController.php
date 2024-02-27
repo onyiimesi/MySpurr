@@ -73,6 +73,8 @@ class TalentProfileUpdateController extends Controller
                 'location' => $state->name . ', '. $country->name,
                 'ciso' => $request->ciso,
                 'siso' => $request->siso,
+                'experience_level' => $request->experience_level,
+                'booking_link' => $request->booking_link,
                 'longitude' => $state->longitude,
                 'latitude' => $state->latitude,
                 'linkedin' => $request->linkedin,

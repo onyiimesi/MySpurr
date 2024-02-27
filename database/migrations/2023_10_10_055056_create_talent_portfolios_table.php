@@ -23,6 +23,7 @@ return new class extends Migration
             $table->json('tags');
             $table->longText('cover_image');
             $table->longText('body');
+            $table->enum('is_draft', ['true', 'false']);
 
             $table->foreign('talent_id')->references('id')->on('talent')->onDelete('cascade');
             $table->timestamps();

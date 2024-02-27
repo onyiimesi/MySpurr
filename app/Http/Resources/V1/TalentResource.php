@@ -97,6 +97,8 @@ class TalentResource extends JsonResource
             'identity' => (object) [
                 'status' => $this->talentidentity?->status
             ],
+            'experience_level' => (string)$this->experience_level,
+            'booking_link' => (string)$this->booking_link,
             'compensation' => (string)$this->compensation,
             'image' => (string)$this->image,
             'linkedin' => (string)$this->linkedin,

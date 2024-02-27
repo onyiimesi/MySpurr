@@ -135,7 +135,8 @@ class PortfolioController extends Controller
             'min_rate' => $request->min_rate,
             'tags' => json_encode($request->tags),
             'cover_image' => $pathss,
-            'body' => $request->body
+            'body' => $request->body,
+            'is_draft' => $request->is_draft
         ]);
 
         return [
@@ -205,7 +206,7 @@ class PortfolioController extends Controller
 
     public function allport()
     {
-        $port = TalentPortfolio::get();
+        $port = TalentPortfolio::where('is_draft', 'false')->get();
         if(empty($port)){
             return $this->success('', 'Portfolio', 200);
         }

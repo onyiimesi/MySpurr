@@ -56,7 +56,9 @@ class Talent extends Authenticatable implements Auditable
         'state',
         'siso',
         'longitude',
-        'latitude'
+        'latitude',
+        'experience_level',
+        'booking_link'
     ];
 
     protected static function boot()
