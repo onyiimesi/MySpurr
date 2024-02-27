@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('siso')->nullable();
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();
-            $table->string('industry')->nullable();
+            $table->longText('industry')->nullable();
             $table->longText('about_business')->nullable();
             $table->string('website')->nullable();
             $table->string('business_service')->nullable();

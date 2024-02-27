@@ -76,6 +76,7 @@ class JobController extends Controller
             'salaray_type' => $request->salaray_type,
             'salary_min' => $request->salary_min,
             'salary_max' => $request->salary_max,
+            'currency' => $request->currency,
             'skills' => $request->skills,
             'experience' => $request->experience,
             'qualification' => $request->qualification,

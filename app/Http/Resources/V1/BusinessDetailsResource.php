@@ -17,7 +17,7 @@ class BusinessDetailsResource extends JsonResource
         return [
             'business_name' => (string)$this->business_name,
             'location' => (string)$this->location,
-            'industry' => (string)$this->industry,
+            'industry' => (array)$this->industry,
             'about_business' => (string)$this->about_business,
             'website' => (string)$this->website,
             'business_service' => (string)$this->business_service,

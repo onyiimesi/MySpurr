@@ -32,6 +32,7 @@ class JobRequest extends FormRequest
             'salaray_type' => ['required'],
             'salary_min' => ['required'],
             'salary_max' => ['required'],
+            'currency' => ['required'],
             'skills' => ['required'],
             'experience' => ['required'],
             'qualification' => ['required']

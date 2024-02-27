@@ -54,6 +54,10 @@ class Business extends Authenticatable implements Auditable
 
     }
 
+    protected $casts = [
+        'industry' => 'array'
+    ];
+
     public function talentjob()
     {
         return $this->hasMany(TalentJob::class, 'business_id');

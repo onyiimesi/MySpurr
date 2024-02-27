@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('salaray_type');
             $table->string('salary_min');
             $table->string('salary_max');
+            $table->string('currency');
             $table->json('skills');
             $table->string('experience');
             $table->string('qualification');

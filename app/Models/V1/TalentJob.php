@@ -27,6 +27,7 @@ class TalentJob extends Model implements Auditable
         'salaray_type',
         'salary_min',
         'salary_max',
+        'currency',
         'skills',
         'experience',
         'qualification',
