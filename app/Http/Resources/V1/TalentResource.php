@@ -80,7 +80,8 @@ class TalentResource extends JsonResource
                     'min_rate' => $port->min_rate,
                     'tags' => json_decode($port->tags),
                     'cover_image' => $port->cover_image,
-                    'body' =>  $port->body
+                    'body' =>  $port->body,
+                    'is_draft' =>  $port->is_draft,
                 ];
             })->toArray(),
             'wallet' => (object) [
