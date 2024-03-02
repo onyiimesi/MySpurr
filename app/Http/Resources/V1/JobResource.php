@@ -61,7 +61,7 @@ class JobResource extends JsonResource
             }),
             'company' => (object) [
                 'business_name' => $this->business->business_name,
-                'industry' => $this->business->industry,
+                'industry' => (array)$this->business->industry,
                 'about_business' => $this->business->about_business,
                 'company_logo' => $this->business->company_logo,
             ],

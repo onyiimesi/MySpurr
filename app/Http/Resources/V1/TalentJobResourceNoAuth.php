@@ -47,7 +47,7 @@ class TalentJobResourceNoAuth extends JsonResource
             'company' => (object) [
                 'business_name' => (string)$this->business?->business_name,
                 'about_company' => (string)$this->business?->about_business,
-                'industry' => (string)$this->business?->industry,
+                'industry' => (array)$this->business?->industry,
                 'logo' => (string)$this->business?->company_logo,
             ],
             'questions' => $this->questions->map(function($quest) {
