@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1;
 
+use App\Models\V1\TalentJob;
 use App\Services\CountryState\CountryDetailsService;
 use App\Services\CountryState\StateDetailsService;
 use Illuminate\Http\Request;
@@ -21,6 +22,15 @@ class JobResource extends JsonResource
         $state = (new StateDetailsService($this->country_id, $this->state_id))->run();
         $currentDateTime = Carbon::now();
         $sevenDaysAgo = $currentDateTime->subDays(7);
+
+        $jobs = TalentJob::where('status', 'active')->get();
+        $total_open = $jobs->count();
+
+        $cjobs = TalentJob::where('status', 'completed')->get();
+        $total_complete = $cjobs->count();
+
+        $hjobs = TalentJob::where('status', 'hired')->get();
+        $total_hire = $hjobs->count();
 
         return [
             'id' => (string)$this->id,
@@ -55,9 +65,9 @@ class JobResource extends JsonResource
                 'about_business' => $this->business->about_business,
                 'company_logo' => $this->business->company_logo,
             ],
-            'total_opened_jobs' => 10,
-            'completed_jobs' => 5,
-            'hired_jobs' => 2
+            'total_opened_jobs' => $total_open,
+            'completed_jobs' => $total_complete,
+            'hired_jobs' => $total_hire
         ];
     }
 }

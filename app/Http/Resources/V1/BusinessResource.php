@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1;
 
+use App\Models\V1\TalentJob;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,6 +15,21 @@ class BusinessResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $jobs = TalentJob::where('business_id', $this->id)
+        ->where('status', 'active')
+        ->get();
+        $total_open = $jobs->count();
+
+        $cjobs = TalentJob::where('business_id', $this->id)
+        ->where('status', 'completed')
+        ->get();
+        $total_complete = $cjobs->count();
+
+        $hjobs = TalentJob::where('business_id', $this->id)
+        ->where('status', 'hired')
+        ->get();
+        $total_hire = $hjobs->count();
+
         return [
             'id' => (string)$this->id,
             'uniqueId' => (string)$this->uuid,
@@ -34,6 +50,9 @@ class BusinessResource extends JsonResource
             'social_media' => (string)$this->social_media,
             'social_media_two' => (string)$this->social_media_two,
             'type' => (string)$this->type,
+            'total_opened_jobs' => $total_open,
+            'completed_jobs' => $total_complete,
+            'hired_jobs' => $total_hire,
             'status' => (string)$this->status
         ];
     }
