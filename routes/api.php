@@ -42,7 +42,6 @@ Route::get('/verify/{token}', [AuthController::class, 'verify'])->name('verifica
 Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name('verification.verifys');
 Route::post('/payment/pay', [PaymentController::class, 'processPayment']);
 Route::get('/payment/callback', [PaymentController::class, 'callback']);
-// Route::get('/auth/talent/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
 
 Route::prefix('v1')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
@@ -70,9 +69,6 @@ Route::prefix('v1')->group(function () {
     Route::get('country/{ciso}/states', [OtherController::class, 'states']);
     Route::get('all-portfolios', [PortfolioController::class, 'allport']);
 });
-
-// Route::get('/auth/business/google', [GoogleAuthController::class, 'redirectToGoogleBusiness']);
-// Route::get('/auth/business/google/callback', [GoogleAuthController::class, 'handleGoogleCallbackBusiness']);
 
 Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function(){
 

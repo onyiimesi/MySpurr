@@ -16,6 +16,8 @@ class TalentProfileUpdateController extends Controller
 {
     use HttpResponses;
 
+    const UPDATED = 'Updated successfully';
+
     public function __construct(private ProfileRepository $profile)
     {
         $this->profile = $profile;
@@ -53,7 +55,7 @@ class TalentProfileUpdateController extends Controller
 
         return [
             "status" => 'true',
-            "message" => 'Updated Successfully'
+            "message" => SELF::UPDATED
         ];
 
     }
@@ -86,7 +88,7 @@ class TalentProfileUpdateController extends Controller
 
             return [
                 'status' => 'true',
-                'message' => 'Updated successfully'
+                'message' => SELF::UPDATED
             ];
 
         } catch (\Throwable $th) {
@@ -108,7 +110,7 @@ class TalentProfileUpdateController extends Controller
 
         return [
             'status' => 'true',
-            'message' => 'Updated successfully'
+            'message' => SELF::UPDATED
         ];
     }
 
@@ -131,7 +133,7 @@ class TalentProfileUpdateController extends Controller
 
         return [
             'status' => 'true',
-            'message' => 'Updated successfully'
+            'message' => SELF::UPDATED
         ];
     }
 
@@ -155,7 +157,7 @@ class TalentProfileUpdateController extends Controller
 
         return [
             'status' => 'true',
-            'message' => 'Updated successfully'
+            'message' => SELF::UPDATED
         ];
     }
 
@@ -179,7 +181,7 @@ class TalentProfileUpdateController extends Controller
 
         return [
             'status' => 'true',
-            'message' => 'Updated successfully'
+            'message' => SELF::UPDATED
         ];
     }
 

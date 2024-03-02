@@ -51,6 +51,7 @@ class TalentJobResource extends JsonResource
             'salaray_type' => (string)$this->salaray_type,
             'salary_min' => (string)$this->salary_min,
             'salary_max' => (string)$this->salary_max,
+            'currency' => (string)$this->currency,
             'applicants' => $this->jobapply->groupBy('talent_id')->count(),
             'recent_applicants' => $this->jobapply->where('created_at', '>=', $sevenDaysAgo)->groupBy('talent_id')->count(),
             'application_status' => $status,

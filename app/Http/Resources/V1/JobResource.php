@@ -36,6 +36,7 @@ class JobResource extends JsonResource
             'salaray_type' => (string)$this->salaray_type,
             'salary_min' => (string)$this->salary_min,
             'salary_max' => (string)$this->salary_max,
+            'currency' => (string)$this->currency,
             'skills' => (array)$this->skills,
             'experience' => (string)$this->experience,
             'qualification' => (string)$this->commitment,
@@ -53,7 +54,10 @@ class JobResource extends JsonResource
                 'industry' => $this->business->industry,
                 'about_business' => $this->business->about_business,
                 'company_logo' => $this->business->company_logo,
-            ]
+            ],
+            'total_opened_jobs' => 10,
+            'completed_jobs' => 5,
+            'hired_jobs' => 2
         ];
     }
 }
