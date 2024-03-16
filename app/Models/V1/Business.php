@@ -62,4 +62,14 @@ class Business extends Authenticatable implements Auditable
     {
         return $this->hasMany(TalentJob::class, 'business_id');
     }
+
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id')->where('sender_type', 'App\Models\V1\Business');
+    }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id')->where('receiver_type', 'App\Models\V1\Business');
+    }
 }

@@ -117,9 +117,14 @@ class Talent extends Authenticatable implements Auditable
         return $this->hasMany(TalentPortfolio::class, 'talent_id');
     }
 
-    public function messages()
+    public function sentMessages()
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Message::class, 'sender_id')->where('sender_type', 'App\Models\V1\Talent');
+    }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id')->where('receiver_type', 'App\Models\V1\Talent');
     }
 
     public function talentbillingaddress()

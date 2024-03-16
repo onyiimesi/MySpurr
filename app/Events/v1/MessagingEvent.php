@@ -16,16 +16,16 @@ class MessagingEvent implements ShouldBroadcast
 
     public $message;
     public $senderId;
-    public $receiverId;
+    public $to;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($message, $senderId, $receiverId)
+    public function __construct($message, $senderId, $to)
     {
         $this->message = $message;
         $this->senderId = $senderId;
-        $this->receiverId = $receiverId;
+        $this->to = $to;
     }
 
     /**
@@ -36,7 +36,7 @@ class MessagingEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('messenger.'.$this->senderId . '.' .$this->receiverId)
+            new PrivateChannel('messenger.'.$this->senderId . '.' .$this->to)
         ];
     }
 }
