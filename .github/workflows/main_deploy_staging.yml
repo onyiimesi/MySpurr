@@ -6,7 +6,7 @@ name: Build and deploy PHP app to Azure Web App - stagingmyspurr
 on:
   push:
     branches:
-      - main
+      - dev
   workflow_dispatch:
 
 jobs:

@@ -14,9 +14,20 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('sender_id');
+            $table->string('sender_type');
             $table->unsignedBigInteger('receiver_id');
-            $table->longText('message');
+            $table->string('receiver_type');
+            $table->string('send_to');
+            $table->string('subject');
+            $table->longText('body');
+            $table->string('cc')->nullable();
+            $table->string('bcc')->nullable();
+            $table->longText('attachment')->nullable();
+            $table->boolean('is_draft')->default(false);
+            $table->boolean('is_sent')->default(false);
+            $table->timestamp('sent_at')->nullable();
             $table->string('status');
+
             $table->timestamps();
         });
     }

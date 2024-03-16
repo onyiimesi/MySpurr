@@ -38,6 +38,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Broadcast::routes(['prefix' => 'api', 'middleware' => ['auth:api']]);
+
 Route::get('/verify/{token}', [AuthController::class, 'verify'])->name('verification.verify');
 Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name('verification.verifys');
 Route::post('/payment/pay', [PaymentController::class, 'processPayment']);
@@ -117,8 +119,12 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function(){
 
     // Messaging
     Route::get('message/{recieverId}', [MessageController::class, 'index']);
-    Route::post('message/{recieverId}', [MessageController::class, 'store']);
+    Route::post('message', [MessageController::class, 'store']);
     Route::post('upload-identity', [TalentProfileUpdateController::class, 'upload']);
+    Route::get('message/sent/talent', [MessageController::class, 'talentsentmsgs']);
+    Route::get('message/detail/talent/{message_id}', [MessageController::class, 'msgdetail']);
+    Route::get('message/received/talent', [MessageController::class, 'talentreceivedmsgs']);
+    Route::get('message/detail/received/talent/{message_id}', [MessageController::class, 'msgdetailreceived']);
 
     //Wallet
     Route::get('wallet', [ProfileController::class, 'wallet']);

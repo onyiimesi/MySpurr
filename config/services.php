@@ -38,4 +38,8 @@ return [
         'redirect' => env('GOOGLE_TALENT_REDIRECT_URI'),
     ],
 
+    'message_attachment' => [
+        'base_url' => env('BASE_URL_ATTACHMENT')
+    ]
+
 ];

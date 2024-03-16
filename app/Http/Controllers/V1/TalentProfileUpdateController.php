@@ -18,9 +18,9 @@ class TalentProfileUpdateController extends Controller
 
     const UPDATED = 'Updated successfully';
 
-    public function __construct(private ProfileRepository $profile)
+    public function __construct(private ProfileRepository $profileRepository)
     {
-        $this->profile = $profile;
+        $this->profileRepository = $profileRepository;
     }
 
     public function updatePhoto(Request $request){
@@ -67,7 +67,7 @@ class TalentProfileUpdateController extends Controller
             $state = (new StateDetailsService($request->ciso, $request->siso))->run();
             $country = (new CountryDetailsService($request->ciso))->run();
 
-            $this->profile->updateProfile([
+            $this->profileRepository->updateProfile([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'skill_title' => $request->skill_title,
@@ -104,7 +104,7 @@ class TalentProfileUpdateController extends Controller
     public function updateOverview(Request $request)
     {
 
-        $this->profile->updateProfile([
+        $this->profileRepository->updateProfile([
             'overview' => $request->overview
         ]);
 
