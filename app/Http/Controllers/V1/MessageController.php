@@ -132,15 +132,29 @@ class MessageController extends Controller
     public function talentsentmsgs()
     {
         $user = Auth::user();
-        $talent = Talent::where('id', $user->id)->first();
+        $talent = Talent::where('id', $user->id)
+        ->first()
+        ->sentMessages()
+        ->paginate(25);
 
         if(!$talent){
             return $this->error(null, 404, "User not found!");
         }
 
-        $messages = TalentSentMessageResource::collection($talent->sentMessages);
+        $messages = TalentSentMessageResource::collection($talent);
 
-        return $this->success($messages, "All Sent messages", 200);
+        return [
+            'status' => 'true',
+            'message' => 'All Sent messages',
+            'data' => $messages,
+            'pagination' => [
+                'current_page' => $talent->currentPage(),
+                'last_page' => $talent->lastPage(),
+                'per_page' => $talent->perPage(),
+                'prev_page_url' => $talent->previousPageUrl(),
+                'next_page_url' => $talent->nextPageUrl()
+            ],
+        ];
     }
 
     public function msgdetail($id)
@@ -172,15 +186,29 @@ class MessageController extends Controller
     public function talentreceivedmsgs()
     {
         $user = Auth::user();
-        $talent = Talent::where('id', $user->id)->first();
+        $talent = Talent::where('id', $user->id)
+        ->first()
+        ->receivedMessages()
+        ->paginate(25);
 
         if(!$talent){
             return $this->error(null, 404, "User not found!");
         }
 
-        $messages = TalentReceivedMessageResource::collection($talent->receivedMessages);
+        $messages = TalentReceivedMessageResource::collection($talent);
 
-        return $this->success($messages, "All Received messages", 200);
+        return [
+            'status' => 'true',
+            'message' => 'All Received messages',
+            'data' => $messages,
+            'pagination' => [
+                'current_page' => $talent->currentPage(),
+                'last_page' => $talent->lastPage(),
+                'per_page' => $talent->perPage(),
+                'prev_page_url' => $talent->previousPageUrl(),
+                'next_page_url' => $talent->nextPageUrl(),
+            ],
+        ];
     }
 
     public function msgdetailreceived($id)

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\V1\AuthController;
 use App\Http\Controllers\V1\BankAccountController;
+use App\Http\Controllers\V1\BusinessMessageController;
 use App\Http\Controllers\V1\BusinessOnboardingController;
 use App\Http\Controllers\V1\ContactController;
 use App\Http\Controllers\V1\ForgotPasswordController;
@@ -72,7 +73,7 @@ Route::prefix('v1')->group(function () {
     Route::get('all-portfolios', [PortfolioController::class, 'allport']);
 });
 
-Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function(){
+Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
 
     // Talent
     Route::post('talent-work-details', [TalentOnboardingController::class, 'workDetails']);
@@ -121,10 +122,16 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function(){
     Route::get('message/{recieverId}', [MessageController::class, 'index']);
     Route::post('message', [MessageController::class, 'store']);
     Route::post('upload-identity', [TalentProfileUpdateController::class, 'upload']);
+
     Route::get('message/sent/talent', [MessageController::class, 'talentsentmsgs']);
     Route::get('message/detail/talent/{message_id}', [MessageController::class, 'msgdetail']);
     Route::get('message/received/talent', [MessageController::class, 'talentreceivedmsgs']);
     Route::get('message/detail/received/talent/{message_id}', [MessageController::class, 'msgdetailreceived']);
+
+    Route::get('message/sent/business', [BusinessMessageController::class, 'sentmsgs']);
+    Route::get('message/detail/business/{message_id}', [BusinessMessageController::class, 'msgdetail']);
+    Route::get('message/received/business', [BusinessMessageController::class, 'receivedmsgs']);
+    Route::get('message/detail/received/business/{message_id}', [BusinessMessageController::class, 'msgdetailreceived']);
 
     //Wallet
     Route::get('wallet', [ProfileController::class, 'wallet']);
