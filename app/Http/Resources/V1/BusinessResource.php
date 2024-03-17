@@ -30,6 +30,11 @@ class BusinessResource extends JsonResource
         ->get();
         $total_hire = $hjobs->count();
 
+        $status = false;
+        if($this->talentjob()->count() >= 1){
+            $status = true;
+        }
+
         return [
             'id' => (string)$this->id,
             'uniqueId' => (string)$this->uuid,
@@ -53,6 +58,7 @@ class BusinessResource extends JsonResource
             'total_opened_jobs' => $total_open,
             'completed_jobs' => $total_complete,
             'hired_jobs' => $total_hire,
+            'posted_job' => $status,
             'status' => (string)$this->status
         ];
     }
