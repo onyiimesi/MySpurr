@@ -22,8 +22,6 @@ class CreateJobService {
     {
         $business = Business::where('email', $this->email)->first();
 
-        dd($this->job['questions']);
-
         try {
             
             $data = new TalentJob();
@@ -48,7 +46,7 @@ class CreateJobService {
             $data->status = 'active';
             $data->save();
 
-            foreach ($this->job->questions as $questionData) {
+            foreach ($this->job['questions'] as $questionData) {
                 $question = new Question($questionData);
                 $data->questions()->save($question);
             }
