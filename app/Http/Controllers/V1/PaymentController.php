@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\V1\Payment;
+use App\Services\Job\CreateJobService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Unicodeveloper\Paystack\Facades\Paystack;
@@ -16,7 +17,8 @@ class PaymentController extends Controller
             'business_id' => 'required|numeric',
             'email' => 'required|email|string',
             'amount' => 'required',
-            'payment_redirect_url' => 'required'
+            'payment_redirect_url' => 'required',
+            'job' => 'required'
         ]);
 
         $paymentDetails = [
@@ -26,7 +28,8 @@ class PaymentController extends Controller
             'metadata' => json_encode([
                 'business_id' => $request->business_id,
                 'payment_portal_url' => env('PAYSTACK_PAYMENT_URL'),
-                'payment_redirect_url' => $request->input('payment_redirect_url')
+                'payment_redirect_url' => $request->input('payment_redirect_url'),
+                'job' => $request->input('job')
             ]),
         ];
 
@@ -55,6 +58,7 @@ class PaymentController extends Controller
         $redirectURL = $paymentDetails['data']['metadata']['payment_redirect_url'];
         $business_id = $paymentDetails['data']['metadata']['business_id'];
         $payment_portal_url = $paymentDetails['data']['metadata']['payment_portal_url'];
+        $job = $paymentDetails['data']['metadata']['job'];
         $email = $paymentDetails['data']['customer']['email'];
 
         $payment = new Payment();
@@ -71,6 +75,10 @@ class PaymentController extends Controller
         $payment->transaction_date = $transaction_date;
         $payment->status = $status;
         $payment->save();
+
+        if($status == "success"){
+            (new CreateJobService($job, $email))->run();
+        }
 
         $redirectURLs = "";
 
