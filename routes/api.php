@@ -43,8 +43,6 @@ Broadcast::routes(['prefix' => 'api', 'middleware' => ['auth:api']]);
 
 Route::get('/verify/{token}', [AuthController::class, 'verify'])->name('verification.verify');
 Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name('verification.verifys');
-Route::post('/payment/pay', [PaymentController::class, 'processPayment']);
-Route::get('/payment/callback', [PaymentController::class, 'callback']);
 
 Route::prefix('v1')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
@@ -117,6 +115,10 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
     Route::get('job/{id}/applicants', [OtherController::class, 'applicants']);
     Route::get('application/{talent_id}', [OtherController::class, 'application']);
     Route::get('jobs/picks', [OtherController::class, 'jobpicks']);
+
+    //Payment
+    Route::post('/payment/pay', [PaymentController::class, 'processPayment']);
+    Route::get('/payment/callback', [PaymentController::class, 'callback']);
 
     // Messaging
     Route::get('message/{recieverId}', [MessageController::class, 'index']);
