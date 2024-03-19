@@ -5,22 +5,22 @@ namespace App\Services\Job;
 use App\Models\V1\Business;
 use App\Models\V1\Question;
 use App\Models\V1\TalentJob;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class CreateJobService {
 
     public $job;
+    public $email;
 
-    public function __construct($job)
+    public function __construct($job, $email)
     {
         $this->job = $job;
+        $this->email = $email;
     }
 
     public function run()
     {
-        $user = Auth::user();
-        $business = Business::where('email', $user->email)->first();
+        $business = Business::where('email', $this->email)->first();
 
         try {
             

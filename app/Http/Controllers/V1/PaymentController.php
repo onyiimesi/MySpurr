@@ -77,7 +77,7 @@ class PaymentController extends Controller
         $payment->save();
 
         if($status == "success"){
-            (new CreateJobService($job))->run();
+            (new CreateJobService($job, $email))->run();
         }
 
         $redirectURLs = "";
