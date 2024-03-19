@@ -22,29 +22,29 @@ class CreateJobService {
     {
         $business = Business::where('email', $this->email)->first();
 
-        dd($this->job['job_title']);
+        dd($this->job['questions']);
 
         try {
             
             $data = new TalentJob();
 
             $data->business_id = $business->id;
-            $data->job_title = $this->job->job_title;
-            $data->slug = Str::slug($this->job->job_title);
-            $data->country_id = $this->job->country_id;
-            $data->state_id = $this->job->state_id;
-            $data->job_type = $this->job->job_type;
-            $data->description = $this->job->description;
-            $data->responsibilities = $this->job->responsibilities;
-            $data->required_skills = $this->job->required_skills;
-            $data->benefits = $this->job->benefits;
-            $data->salaray_type = $this->job->salaray_type;
-            $data->salary_min = $this->job->salary_min;
-            $data->salary_max = $this->job->salary_max;
-            $data->currency = $this->job->currency;
-            $data->skills = $this->job->skills;
-            $data->experience = $this->job->experience;
-            $data->qualification = $this->job->qualification;
+            $data->job_title = $this->job['job_title'];
+            $data->slug = Str::slug($this->job['job_title']);
+            $data->country_id = $this->job['country_id'];
+            $data->state_id = $this->job['state_id'];
+            $data->job_type = $this->job['job_type'];
+            $data->description = $this->job['description'];
+            $data->responsibilities = $this->job['responsibilities'];
+            $data->required_skills = $this->job['required_skills'];
+            $data->benefits = $this->job['benefits'];
+            $data->salaray_type = $this->job['salaray_type'];
+            $data->salary_min = $this->job['salary_min'];
+            $data->salary_max = $this->job['salary_max'];
+            $data->currency = $this->job['currency'];
+            $data->skills = $this->job['skills'];
+            $data->experience = $this->job['experience'];
+            $data->qualification = $this->job['qualification'];
             $data->status = 'active';
             $data->save();
 
