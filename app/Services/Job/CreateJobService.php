@@ -22,7 +22,7 @@ class CreateJobService {
     {
         $business = Business::where('email', $this->email)->first();
 
-        dd($this->job->job_title);
+        dd($this->job['job_title']);
 
         try {
             
