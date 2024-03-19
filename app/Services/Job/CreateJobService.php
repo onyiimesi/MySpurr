@@ -22,6 +22,8 @@ class CreateJobService {
     {
         $business = Business::where('email', $this->email)->first();
 
+        dd($this->job);
+
         try {
             
             $data = new TalentJob();
@@ -52,7 +54,7 @@ class CreateJobService {
             }
 
         } catch (\Throwable $th) {
-            throw $th->getMessage();
+            return $th->getMessage();
         }
     }
 }
