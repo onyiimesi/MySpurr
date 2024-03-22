@@ -339,10 +339,10 @@ class AuthController extends Controller
         ->first();
 
         if($talent->otp_expires_at > now()){
+            
             return $this->error('', 400, 'Sorry code has been sent try again after some minutes.');
-        }
 
-        if($talent){
+        }elseif($talent){
             $talent->update([
                 'otp' => Str::random(60),
                 'otp_expires_at' => $otpExpiresAt,
