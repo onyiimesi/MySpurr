@@ -316,11 +316,8 @@ class AuthController extends Controller
 
     public function logout()
     {
-
         $user = request()->user();
         $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
-
-        // Auth::user()->currentAccessToken()->delete();
         return $this->success('', 'You have successfully logged out and your token has been deleted');
     }
 
@@ -338,9 +335,8 @@ class AuthController extends Controller
         ->where('status', 'Inactive')
         ->first();
 
-        if($talent->otp_expires_at > now()){
-            
-            return $this->error('', 400, 'Sorry code has been sent try again after some minutes.');
+        if(!empty($talent->otp_expires_at) && $talent->otp_expires_at > now()){
+            $message = $this->error('', 400, 'Sorry code has been sent try again after some minutes.');
 
         }elseif($talent){
             $talent->update([
@@ -352,13 +348,15 @@ class AuthController extends Controller
                 DB::commit();
             } catch (\Exception $e){
                 DB::rollBack();
-                return $this->error('error', 400, 'Email sending failed!. Try again');
+                $message = $this->error('error', 400, 'Email sending failed!. Try again');
             }
-            return $this->success('', 'Verification code sent successfully');
+            $message = $this->success('', 'Verification code sent successfully');
 
         }else{
-            return $this->error('error', 400, 'Not Found!');
+            $message = $this->error('error', 400, 'Not Found!');
         }
+
+        return $message;
     }
 
     public function change(Request $request){
