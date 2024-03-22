@@ -49,7 +49,6 @@ class JobController extends Controller
      */
     public function store(JobRequest $request)
     {
-
         $request->validated($request->all());
 
         $user = Auth::user();
