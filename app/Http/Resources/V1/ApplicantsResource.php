@@ -19,6 +19,8 @@ class ApplicantsResource extends JsonResource
             'id' => $this->id,
             'job_title' => $this->job_title,
             'slug' => $this->slug,
+            'salary_min', $this->salary_min,
+            'salary_max', $this->salary_max,
             'applicants' => $this->jobapply->map(function ($applicant) {
                 return [
                     'id' => $applicant->id,
@@ -28,6 +30,10 @@ class ApplicantsResource extends JsonResource
                     'email' => $applicant->talent->email,
                     'phone_number' => $applicant->talent->phone_number,
                     'image' => $applicant->talent->image,
+                    'location', $applicant->talent->location,
+                    'experience_level', $applicant->talent->experience_level,
+                    'availaibility', $applicant->talent->availaibility,
+                    'rate', $applicant->talent->rate,
                     'top_skills' => $applicant->talent->topskills->map(function($skill) {
                         return [
                             'name' => $skill->name

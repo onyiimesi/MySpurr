@@ -25,7 +25,7 @@ class JobRequest extends FormRequest
             'job_title' => ['required'],
             'country_id' => ['required'],
             'state_id' => ['required'],
-            'job_type' => ['required'],
+            'job_type' => ['required', 'in:remote,full-time,part-time,internship,contract'],
             'description' => ['required'],
             'responsibilities' => ['required'],
             'required_skills' => ['required'],
@@ -36,6 +36,13 @@ class JobRequest extends FormRequest
             'skills' => ['required'],
             'experience' => ['required'],
             'qualification' => ['required']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'job_type' => 'job type should be either remote, full-time, part-time, internship or contract'
         ];
     }
 }
