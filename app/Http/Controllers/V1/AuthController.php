@@ -21,6 +21,7 @@ use App\Services\Log\CreateCustomerLog;
 use App\Traits\HttpResponses;
 use App\Services\Wallet\CreateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -208,33 +209,49 @@ class AuthController extends Controller
         ->first();
 
         if (!$user) {
-            return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=false');
+            if(App::environment('production')){
+                $redirect = redirect()->to(config('services.url.false_production_url'));
+            }elseif(App::environment('staging')){
+                $redirect = redirect()->to(config('services.url.false_staging_url'));
+            }
         }
 
         if($user->otp == ""){
-            return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login');
+            if(App::environment('production')){
+                $redirect = redirect()->to(config('services.url.production_url'));
+            }elseif(App::environment('staging')){
+                $redirect = redirect()->to(config('services.url.staging_url'));
+            }
         }
 
         if($user){
             $user->status = 'active';
             $user->otp = null;
-            $user->otp_expires_at = NULL;
+            $user->otp_expires_at = null;
             $user->save();
 
             try {
                 event(new TalentWelcomeEvent($user));
-                return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=true');
-
+                if(App::environment('production')){
+                    $redirect = redirect()->to(config('services.url.verify_production_url'));
+                }elseif(App::environment('staging')){
+                    $redirect = redirect()->to(config('services.url.verify_staging_url'));
+                }
                 DB::commit();
             } catch (\Exception $e){
                 DB::rollBack();
-                return $this->error('error', 400, 'Email sending failed!. Try again');
+                $redirect = $this->error('error', 400, 'Email sending failed!. Try again');
             }
 
         } else {
-            // return $this->error('error', 400, 'OTP is invalid or expired');
-            return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=false');
+            if(App::environment('production')){
+                $redirect = redirect()->to(config('services.url.false_production_url'));
+            }elseif(App::environment('staging')){
+                $redirect = redirect()->to(config('services.url.false_staging_url'));
+            }
         }
+
+        return $redirect;
 
     }
 
@@ -316,11 +333,8 @@ class AuthController extends Controller
 
     public function logout()
     {
-
         $user = request()->user();
         $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
-
-        // Auth::user()->currentAccessToken()->delete();
         return $this->success('', 'You have successfully logged out and your token has been deleted');
     }
 
@@ -338,11 +352,10 @@ class AuthController extends Controller
         ->where('status', 'Inactive')
         ->first();
 
-        if($talent->otp_expires_at > now()){
-            return $this->error('', 400, 'Sorry code has been sent try again after some minutes.');
-        }
+        if(!empty($talent->otp_expires_at) && $talent->otp_expires_at > now()){
+            $message = $this->error('', 400, 'Sorry code has been sent try again after some minutes.');
 
-        if($talent){
+        }elseif($talent){
             $talent->update([
                 'otp' => Str::random(60),
                 'otp_expires_at' => $otpExpiresAt,
@@ -352,13 +365,15 @@ class AuthController extends Controller
                 DB::commit();
             } catch (\Exception $e){
                 DB::rollBack();
-                return $this->error('error', 400, 'Email sending failed!. Try again');
+                $message = $this->error('error', 400, 'Email sending failed!. Try again');
             }
-            return $this->success('', 'Verification code sent successfully');
+            $message = $this->success('', 'Verification code sent successfully');
 
         }else{
-            return $this->error('error', 400, 'Not Found!');
+            $message = $this->error('error', 400, 'Not Found!');
         }
+
+        return $message;
     }
 
     public function change(Request $request){

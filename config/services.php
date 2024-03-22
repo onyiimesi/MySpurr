@@ -40,6 +40,15 @@ return [
 
     'message_attachment' => [
         'base_url' => env('BASE_URL_ATTACHMENT')
+    ],
+
+    'url' => [
+        'production_url' => env('PRODUCTION_URL'),
+        'staging_url' => env('STAGING_URL'),
+        'verify_production_url' => env('VERIFY_PRODUCTION_URL'),
+        'verify_staging_url' => env('VERIFY_STAGING_URL'),
+        'false_production_url' => env('FALSE_PRODUCTION_URL'),
+        'false_staging_url' => env('FALSE_STAGING_URL')
     ]
 
 ];
