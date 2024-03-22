@@ -21,6 +21,7 @@ use App\Services\Log\CreateCustomerLog;
 use App\Traits\HttpResponses;
 use App\Services\Wallet\CreateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -208,33 +209,49 @@ class AuthController extends Controller
         ->first();
 
         if (!$user) {
-            return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=false');
+            if(App::environment('production')){
+                $redirect = redirect()->to(config('services.url.false_production_url'));
+            }elseif(App::environment('staging')){
+                $redirect = redirect()->to(config('services.url.false_staging_url'));
+            }
         }
 
         if($user->otp == ""){
-            return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login');
+            if(App::environment('production')){
+                $redirect = redirect()->to(config('services.url.production_url'));
+            }elseif(App::environment('staging')){
+                $redirect = redirect()->to(config('services.url.staging_url'));
+            }
         }
 
         if($user){
             $user->status = 'active';
             $user->otp = null;
-            $user->otp_expires_at = NULL;
+            $user->otp_expires_at = null;
             $user->save();
 
             try {
                 event(new TalentWelcomeEvent($user));
-                return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=true');
-
+                if(App::environment('production')){
+                    $redirect = redirect()->to(config('services.url.verify_production_url'));
+                }elseif(App::environment('staging')){
+                    $redirect = redirect()->to(config('services.url.verify_staging_url'));
+                }
                 DB::commit();
             } catch (\Exception $e){
                 DB::rollBack();
-                return $this->error('error', 400, 'Email sending failed!. Try again');
+                $redirect = $this->error('error', 400, 'Email sending failed!. Try again');
             }
 
         } else {
-            // return $this->error('error', 400, 'OTP is invalid or expired');
-            return redirect()->to('https://mango-glacier-097715310.3.azurestaticapps.net/login?verification=false');
+            if(App::environment('production')){
+                $redirect = redirect()->to(config('services.url.false_production_url'));
+            }elseif(App::environment('staging')){
+                $redirect = redirect()->to(config('services.url.false_staging_url'));
+            }
         }
+
+        return $redirect;
 
     }
 
