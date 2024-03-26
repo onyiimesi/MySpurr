@@ -32,10 +32,10 @@ class TalentApplicationResource extends JsonResource
                 'description' => (string)$job?->description,
             ],
             'company' => (object) [
-                'business_name' => (string)$job->business?->business_name,
-                'about_company' => (string)$job->business?->about_business,
-                'industry' => (string)$job->business?->industry,
-                'logo' => (string)$job->business?->company_logo,
+                'business_name' => (string)$job?->business?->business_name,
+                'about_company' => (string)$job?->business?->about_business,
+                'industry' => (string)$job?->business?->industry,
+                'logo' => (string)$job?->business?->company_logo,
             ],
         ];
     }
