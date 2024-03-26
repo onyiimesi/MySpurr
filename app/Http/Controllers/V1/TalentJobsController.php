@@ -4,10 +4,12 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\JobApplyRequest;
+use App\Http\Resources\V1\BookMarkJobResource;
 use App\Http\Resources\V1\JobResource;
 use App\Http\Resources\V1\TalentApplicationResource;
 use App\Http\Resources\V1\TalentJobResource;
 use App\Http\Resources\V1\TalentJobResourceNoAuth;
+use App\Models\V1\BookmarkJob;
 use App\Models\V1\Job;
 use App\Models\V1\JobApply;
 use App\Models\V1\Question;
@@ -17,6 +19,7 @@ use App\Models\V1\TalentJob;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TalentJobsController extends Controller
 {
@@ -164,4 +167,63 @@ class TalentJobsController extends Controller
 
         return $this->success($data, "Details", 200);
     }
+
+    public function bookmark($id)
+    {
+        $user = Auth::user();
+        $talent = Talent::where('id', $user->id)->first();
+
+        $job = TalentJob::find($id);
+        if(!$job){
+            return $this->error(null, 404, "Job not found!");
+        }
+
+        $checkBook = BookmarkJob::where('job_id', $id)->exists();
+        if($checkBook){
+            return $this->error(null, 404, "Oops this job has been bookmarked!");
+        }
+
+        try {
+            DB::transaction(function () use($talent, $job) {
+
+                $book = BookmarkJob::create([
+                    'talent_id' => $talent->id,
+                    'job_id' => $job->id
+                ]);
+        
+                if($book){
+                    $job->update([
+                        'is_bookmark' => 1,
+                    ]);
+                }
+            });
+
+            $message = $this->success(null, "Job bookmarked successfully.", 200);
+        } catch (\Throwable $th) {
+            $message = $this->error(null, 400, $th->getMessage());
+        }
+
+        return $message;
+    }
+
+    public function getBookmark()
+    {
+        $user = Auth::user();
+        $talent = Talent::where('id', $user->id)->first();
+
+        $book = BookmarkJob::where('talent_id', $talent->id)->get();
+        $book = BookMarkJobResource::collection($book);
+
+        return $this->success($book, "Bookmark List", 200);
+    }
+
+    public function deleteBookmark($id)
+    {
+        $book = BookmarkJob::find($id);
+        $book->delete();
+
+        return $this->success(null, "Deleted successfully", 200);
+    }
 }
+
+

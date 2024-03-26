@@ -32,7 +32,8 @@ class TalentJob extends Model implements Auditable
         'experience',
         'qualification',
         'status',
-        'deleted_at'
+        'deleted_at',
+        'is_bookmark'
     ];
 
     protected $casts = [
@@ -52,5 +53,10 @@ class TalentJob extends Model implements Auditable
     public function jobapply()
     {
         return $this->hasMany(JobApply::class, 'job_id');
+    }
+
+    public function bookmarkjobs()
+    {
+        return $this->hasMany(BookmarkJob::class, 'job_id');
     }
 }
