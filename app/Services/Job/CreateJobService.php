@@ -25,7 +25,6 @@ class CreateJobService {
         $business = Business::where('email', $this->email)->first();
 
         try {
-
             $data = new TalentJob();
 
             $data->business_id = $business->id;

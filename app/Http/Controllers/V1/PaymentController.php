@@ -25,7 +25,6 @@ class PaymentController extends Controller
         $request->validate([
             'business_id' => 'required|numeric',
             'email' => 'required|email|string',
-            'amount' => 'required',
             'payment_redirect_url' => 'required',
             'job' => 'required',
             'is_highlighted' => 'required|in:0,1'
