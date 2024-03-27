@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Enum\Amount;
 use App\Http\Controllers\Controller;
 use App\Models\V1\Payment;
 use App\Services\Job\CreateJobService;
@@ -11,6 +12,14 @@ use Unicodeveloper\Paystack\Facades\Paystack;
 
 class PaymentController extends Controller
 {
+    protected $amount;
+    protected $highlight;
+
+    public function __construct(){
+        $this->amount = Amount::MAIN_AMOUNT;
+        $this->highlight = Amount::HIGHLIGHT_AMOUNT;
+    }
+
     public function processPayment(Request $request)
     {
         $request->validate([
@@ -18,18 +27,28 @@ class PaymentController extends Controller
             'email' => 'required|email|string',
             'amount' => 'required',
             'payment_redirect_url' => 'required',
-            'job' => 'required'
+            'job' => 'required',
+            'is_highlighted' => 'required|in:0,1'
         ]);
+
+        if($request->is_highlighted == 1){
+            $amount = $this->amount + $this->highlight;
+            $status = 1;
+        }else{
+            $amount = $this->amount;
+            $status = 0;
+        }
 
         $paymentDetails = [
             'email' => $request->email,
-            'amount' => $request->input('amount') * 100,
+            'amount' => $amount * 100,
             "currency" => "NGN",
             'metadata' => json_encode([
                 'business_id' => $request->business_id,
                 'payment_portal_url' => env('PAYSTACK_PAYMENT_URL'),
                 'payment_redirect_url' => $request->input('payment_redirect_url'),
-                'job' => $request->input('job')
+                'job' => $request->input('job'),
+                'is_highlighted' => $status
             ]),
         ];
 
@@ -59,6 +78,7 @@ class PaymentController extends Controller
         $business_id = $paymentDetails['data']['metadata']['business_id'];
         $payment_portal_url = $paymentDetails['data']['metadata']['payment_portal_url'];
         $job = $paymentDetails['data']['metadata']['job'];
+        $highlight = $paymentDetails['data']['metadata']['is_highlighted'];
         $email = $paymentDetails['data']['customer']['email'];
 
         $payment = new Payment();
@@ -77,7 +97,7 @@ class PaymentController extends Controller
         $payment->save();
 
         if($status == "success"){
-            (new CreateJobService($job, $email))->run();
+            (new CreateJobService($job, $email, $highlight))->run();
         }
 
         $redirectURLs = "";
