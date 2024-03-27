@@ -11,11 +11,13 @@ class CreateJobService {
 
     public $job;
     public $email;
+    public $highlight;
 
-    public function __construct($job, $email)
+    public function __construct($job, $email, $highlight)
     {
         $this->job = $job;
         $this->email = $email;
+        $this->highlight = $highlight;
     }
 
     public function run()
@@ -23,7 +25,6 @@ class CreateJobService {
         $business = Business::where('email', $this->email)->first();
 
         try {
-            
             $data = new TalentJob();
 
             $data->business_id = $business->id;
@@ -43,6 +44,7 @@ class CreateJobService {
             $data->skills = $this->job['skills'];
             $data->experience = $this->job['experience'];
             $data->qualification = $this->job['qualification'];
+            $data->is_highlighted = $this->highlight;
             $data->status = 'active';
             $data->save();
 

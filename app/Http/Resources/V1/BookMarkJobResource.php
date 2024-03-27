@@ -51,6 +51,8 @@ class BookMarkJobResource extends JsonResource
                     'qualification' => (string)$job->commitment,
                     'applicants' => $job->jobapply->groupBy(['talent_id'])->count(),
                     'recent_applicants' => $job->jobapply->where('created_at', '>=', $sevenDaysAgo)->groupBy('talent_id')->count(),
+                    'is_bookmark' => (string)$this->is_bookmark,
+                    'is_highlighted' => (string)$this->is_highlighted,
                     'status' => (string)$job->status,
                     'date_created' => Carbon::parse($job->created_at)->format('j M Y'),
                     'questions' => $job->questions->map(function($quest) {

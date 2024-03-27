@@ -26,6 +26,7 @@ class JobController extends Controller
 
         $job = TalentJob::where('business_id', $user->id)
         ->where('status', 'active')
+        ->orderByDesc('is_highlighted')
         ->paginate(25);
 
         $jobs = JobResource::collection($job);

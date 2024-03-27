@@ -27,7 +27,9 @@ class TalentJobsController extends Controller
 
     public function jobs()
     {
-        $job = TalentJob::where('status', 'active')->paginate(25);
+        $job = TalentJob::where('status', 'active')
+        ->orderByDesc('is_highlighted')
+        ->paginate(25);
         $jobs = TalentJobResource::collection($job);
 
         return [
@@ -46,7 +48,9 @@ class TalentJobsController extends Controller
 
     public function listjobs()
     {
-        $job = TalentJob::where('status', 'active')->paginate(25);
+        $job = TalentJob::where('status', 'active')
+        ->orderByDesc('is_highlighted')
+        ->paginate(25);
         $jobs = TalentJobResourceNoAuth::collection($job);
 
         return [
@@ -190,7 +194,7 @@ class TalentJobsController extends Controller
                     'talent_id' => $talent->id,
                     'job_id' => $job->id
                 ]);
-        
+
                 if($book){
                     $job->update([
                         'is_bookmark' => 1,

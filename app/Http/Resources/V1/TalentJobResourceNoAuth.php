@@ -41,6 +41,8 @@ class TalentJobResourceNoAuth extends JsonResource
             'currency' => (string)$this->currency,
             'applicants' => $this->jobapply->groupBy('talent_id')->count(),
             'recent_applicants' => $this->jobapply->where('created_at', '>=', $sevenDaysAgo)->groupBy('talent_id')->count(),
+            'is_bookmark' => (string)$this->is_bookmark,
+            'is_highlighted' => (string)$this->is_highlighted,
             'status' => (string)$this->status,
             'date_created' => Carbon::parse($this->created_at)->format('j M Y'),
             'skills' => (array)$this->skills,
