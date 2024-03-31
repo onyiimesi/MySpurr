@@ -60,4 +60,9 @@ class TalentJob extends Model implements Auditable
     {
         return $this->hasMany(BookmarkJob::class, 'job_id');
     }
+
+    public function views()
+    {
+        return $this->hasMany(JobView::class);
+    }
 }

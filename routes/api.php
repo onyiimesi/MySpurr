@@ -58,7 +58,8 @@ Route::prefix('v1')->group(function () {
     Route::get('auth/talent/google', [GoogleAuthController::class, 'redirectToGoogle']);
     Route::resource('skills', SkillsController::class);
     Route::get('list-jobs', [TalentJobsController::class, 'listjobs']);
-    Route::get('list-jobs/{slug}', [OtherController::class, 'listjobdetail']);
+    Route::get('list-jobs/{slug}', [OtherController::class, 'listjobdetail'])
+    ->middleware('session');
     Route::get('job-title', [TalentController::class, 'jobtitle']);
     Route::get('talents', [TalentController::class, 'listtalents']);
     Route::get('talent/{uuid}', [TalentController::class, 'talentbyid']);

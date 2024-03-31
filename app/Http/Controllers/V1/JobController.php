@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\JobRequest;
 use App\Http\Resources\V1\JobResource;
 use App\Models\V1\Business;
+use App\Models\V1\JobView;
 use App\Models\V1\Question;
 use App\Models\V1\TalentJob;
 use Illuminate\Http\Request;
@@ -62,10 +63,16 @@ class JobController extends Controller
             return $this->error('', 400, 'Job posting limit reached. Please make a payment to post more jobs.');
         }
 
+        $slug = Str::slug($request->job_title);
+
+        if (TalentJob::where('slug', $slug)->exists()) {
+            $slug = $slug . '-' . uniqid();
+        }
+
         $job = TalentJob::create([
             'business_id' => $business->id,
             'job_title' => $request->job_title,
-            'slug' => Str::slug($request->job_title),
+            'slug' => $slug,
             'country_id' => $request->country_id,
             'state_id' => $request->state_id,
             'job_type' => $request->job_type,
@@ -98,9 +105,37 @@ class JobController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(TalentJob $job)
+    public function show(Request $request, TalentJob $job)
     {
+        $user = Auth::user();
+        $userId = $user->id;
+
         $jobs = new JobResource($job);
+
+        $sessionId = null;
+        if (!$userId) {
+            $sessionId = $request->session()->getId();
+        }
+
+        if (auth()->check()) {
+            $existingView = JobView::where('talent_job_id', $job->id)
+            ->where('talent_id', $userId)
+            ->exists();
+        } else {
+            $existingView = JobView::where('talent_job_id', $job->id)
+            ->where('session_id', $sessionId)
+            ->exists();
+        }
+
+        if ($existingView) {
+            $data = new JobResource($job);
+            return $this->success($data, "Details", 200);
+        }
+
+        $job->views()->create([
+            'session_id' => $sessionId,
+            'talent_id' => $userId
+        ]);
 
         return [
             'status' => 'true',

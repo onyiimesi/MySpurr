@@ -7,6 +7,7 @@ use App\Http\Resources\V1\ApplicantsResource;
 use App\Http\Resources\V1\ApplicationResource;
 use App\Http\Resources\V1\JobResource;
 use App\Models\V1\JobApply;
+use App\Models\V1\JobView;
 use App\Models\V1\OpenTicket;
 use App\Models\V1\Talent;
 use App\Models\V1\TalentJob;
@@ -120,9 +121,10 @@ class OtherController extends Controller
         return $this->success(null, "Ticket closed", 200);
     }
 
-    public function jobdetail($slug)
+    public function jobdetail(Request $request, $slug)
     {
         $user = Auth::user();
+        $userId = $user->id;
 
         $job = TalentJob::where('business_id', $user->id)
         ->where('slug', $slug)
@@ -133,23 +135,63 @@ class OtherController extends Controller
             return $this->error(null, 400, "Error slug required");
         }
 
-        $data = new JobResource($job);
+        if (!$userId) {
+            $sessionId = $request->session()->getId();
+        }
 
+        $existingView = JobView::where('talent_job_id', $job->id)
+        ->where(function ($query) use ($userId, $sessionId) {
+            $query->where('talent_id', $userId)->orWhere('session_id', $sessionId);
+        })
+        ->exists();
+
+        if ($existingView) {
+            $data = new JobResource($job);
+            return $this->success($data, "Details", 200);
+        }
+
+        $job->views()->create([
+            'session_id' => $sessionId,
+            'talent_id' => $userId
+        ]);
+
+        $data = new JobResource($job);
         return $this->success($data, "Details", 200);
     }
 
-    public function listjobdetail($slug)
+    public function listjobdetail(Request $request, $slug)
     {
         $job = TalentJob::where('slug', $slug)
         ->where('status', 'active')
         ->first();
 
+        $userId = Auth::id();
+
         if(!$job){
             return $this->error(null, 400, "Error slug required");
         }
 
-        $data = new JobResource($job);
+        if (!$userId) {
+            $sessionId = $request->session()->getId();
+        }
 
+        $existingView = JobView::where('talent_job_id', $job->id)
+        ->where(function ($query) use ($userId, $sessionId) {
+            $query->where('talent_id', $userId)->orWhere('session_id', $sessionId);
+        })
+        ->exists();
+
+        if ($existingView) {
+            $data = new JobResource($job);
+            return $this->success($data, "Details", 200);
+        }
+
+        $job->views()->create([
+            'session_id' => $sessionId,
+            'talent_id' => $userId
+        ]);
+
+        $data = new JobResource($job);
         return $this->success($data, "Details", 200);
     }
 
