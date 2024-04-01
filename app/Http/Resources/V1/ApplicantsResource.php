@@ -34,6 +34,7 @@ class ApplicantsResource extends JsonResource
                     'experience_level' => $applicant->talent->experience_level,
                     'availaibility' => $applicant->talent->availaibility,
                     'rate' => $applicant->talent->rate,
+                    'rating' => $applicant->talent?->ratingsReceived?->first()?->rating,
                     'top_skills' => $applicant->talent->topskills->map(function($skill) {
                         return [
                             'name' => $skill->name

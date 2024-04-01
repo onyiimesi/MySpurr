@@ -8,11 +8,13 @@ use App\Http\Controllers\V1\ContactController;
 use App\Http\Controllers\V1\ForgotPasswordController;
 use App\Http\Controllers\V1\GoogleAuthController;
 use App\Http\Controllers\V1\JobController;
+use App\Http\Controllers\V1\JobStatisticsController;
 use App\Http\Controllers\V1\MessageController;
 use App\Http\Controllers\V1\OtherController;
 use App\Http\Controllers\V1\PaymentController;
 use App\Http\Controllers\V1\PortfolioController;
 use App\Http\Controllers\V1\ProfileController;
+use App\Http\Controllers\V1\RatingsController;
 use App\Http\Controllers\v1\ResetPasswordController;
 use App\Http\Controllers\V1\SettingsController;
 use App\Http\Controllers\V1\SkillsController;
@@ -124,6 +126,11 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
     Route::get('job/{id}/applicants', [OtherController::class, 'applicants']);
     Route::get('application/{talent_id}', [OtherController::class, 'application']);
     Route::get('jobs/picks', [OtherController::class, 'jobpicks']);
+    Route::get('statistics', [JobStatisticsController::class, 'stats']);
+
+    //Rating
+    Route::post('/ratings', [RatingsController::class, 'addRating']);
+    Route::get('/rating/{job_id}/{talent_id}', [RatingsController::class, 'getRating']);
 
     // Messaging
     Route::get('message/{recieverId}', [MessageController::class, 'index']);
