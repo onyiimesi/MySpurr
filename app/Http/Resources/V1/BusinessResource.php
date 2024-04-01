@@ -3,6 +3,7 @@
 namespace App\Http\Resources\V1;
 
 use App\Models\V1\JobApply;
+use App\Models\V1\JobView;
 use App\Models\V1\TalentJob;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,15 +24,13 @@ class BusinessResource extends JsonResource
         ->get();
         $total_open = $jobs->count();
 
-        $cjobs = TalentJob::where('business_id', $this->id)
+        $total_complete = TalentJob::where('business_id', $this->id)
         ->where('status', 'completed')
-        ->get();
-        $total_complete = $cjobs->count();
+        ->count();
 
-        $hjobs = TalentJob::where('business_id', $this->id)
+        $total_hire = TalentJob::where('business_id', $this->id)
         ->where('status', 'hired')
-        ->get();
-        $total_hire = $hjobs->count();
+        ->count();
 
         $status = false;
         if($this->talentjob()->count() >= 1){
@@ -61,6 +60,8 @@ class BusinessResource extends JsonResource
         $partTimeCount = $jobCounts->get('part-time', 0);
         $internshipCount = $jobCounts->get('internship', 0);
         $contractCount = $jobCounts->get('contract', 0);
+
+        $views = JobView::whereIn('talent_job_id', $jobid)->count();
 
         return [
             'id' => (string)$this->id,
@@ -93,6 +94,7 @@ class BusinessResource extends JsonResource
             'posted_job' => $status,
             'total_number_applicants' => $applycount,
             'new_applicants' => $new_applicants,
+            'total_number_job_views' => $views,
             'status' => (string)$this->status
         ];
     }

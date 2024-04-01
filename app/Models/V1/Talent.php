@@ -173,4 +173,14 @@ class Talent extends Authenticatable implements Auditable
 
         $this->notify(new ResetPasswordNotification($url));
     }
+
+    public function ratingsGiven()
+    {
+        return $this->hasMany(Rating::class, 'rated_by');
+    }
+
+    public function ratingsReceived()
+    {
+        return $this->hasMany(Rating::class, 'talent_id');
+    }
 }
