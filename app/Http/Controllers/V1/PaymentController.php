@@ -78,7 +78,6 @@ class PaymentController extends Controller
         $status = $data['status'];
 
         $redirectURL = $paymentDetails['data']['metadata']['payment_redirect_url'];
-        dd($redirectURL);
         $business_id = $paymentDetails['data']['metadata']['business_id'];
         $payment_portal_url = $paymentDetails['data']['metadata']['payment_portal_url'];
         $job = $paymentDetails['data']['metadata']['job'];
