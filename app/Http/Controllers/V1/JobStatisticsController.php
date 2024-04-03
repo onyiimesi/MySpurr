@@ -22,10 +22,10 @@ class JobStatisticsController extends Controller
         $filter = $request->query('filter');
 
         $jobs = TalentJob::where('business_id', $user->id)
-        ->where('status', 'active')
-        ->get();
+            ->where('status', 'active')
+            ->get();
 
-        $jobid = $jobs->pluck('id');
+        $jobIds = $jobs->pluck('id');
 
         $startDate = Carbon::now();
         $endDate = Carbon::now();
@@ -47,19 +47,47 @@ class JobStatisticsController extends Controller
                 break;
         }
 
-        $jobViewData = JobView::whereIn('talent_job_id', $jobid)
-        ->whereBetween('created_at', [$startDate, $endDate])
-        ->count();
+        $jobViewData = JobView::whereIn('talent_job_id', $jobIds)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->get();
 
-        $jobApplyData = JobApply::whereIn('job_id', $jobid)
-        ->whereBetween('created_at', [$startDate, $endDate])
-        ->count();
+        $jobApplyData = JobApply::whereIn('job_id', $jobIds)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->get();
 
-        return $this->success([
-            [
-                'job_views' => $jobViewData,
-                'job_applied' => $jobApplyData
-            ]
-        ]);
+        $jobViewCount = $jobViewData->count();
+        $jobApplyCount = $jobApplyData->count();
+
+        // Initialize an array to hold counts for each day of the week
+        $jobViewsByDay = array_fill(0, 7, 0); // 0-indexed, 0 = Sunday, 6 = Saturday
+        $jobAppliesByDay = array_fill(0, 7, 0);
+
+        foreach ($jobViewData as $view) {
+            $dayOfWeek = Carbon::parse($view->created_at)->dayOfWeek;
+            $jobViewsByDay[$dayOfWeek]++;
+        }
+
+        foreach ($jobApplyData as $apply) {
+            $dayOfWeek = Carbon::parse($apply->created_at)->dayOfWeek;
+            $jobAppliesByDay[$dayOfWeek]++;
+        }
+
+        $result = [];
+        $firstDayOfWeek = Carbon::now()->startOfWeek()->dayOfWeek;
+        for ($i = 0; $i < 7; $i++) {
+            $dayIndex = ($firstDayOfWeek + $i) % 7; // Calculate the correct index for the day of the week
+            $result[] = [
+                'day' => Carbon::now()->startOfWeek()->addDays($i)->format('D'),
+                'job_views' => $jobViewsByDay[$dayIndex],
+                'job_applied' => $jobAppliesByDay[$dayIndex],
+            ];
+        }
+
+        $result[] = [
+            'total_job_views' => $jobViewCount,
+            'total_job_applied' => $jobApplyCount,
+        ];
+
+        return $this->success($result);
     }
 }
