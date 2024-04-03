@@ -36,8 +36,8 @@ class JobStatisticsController extends Controller
                 $endDate = Carbon::now()->endOfWeek();
                 break;
             case 'month':
-                $startDate = Carbon::now()->startOfMonth();
-                $endDate = Carbon::now()->endOfMonth();
+                $startDate = Carbon::now()->startOfYear()->month(1);
+                $endDate = Carbon::now()->endOfYear();
                 break;
             case 'year':
                 $startDate = Carbon::now()->startOfYear();
@@ -58,29 +58,49 @@ class JobStatisticsController extends Controller
         $jobViewCount = $jobViewData->count();
         $jobApplyCount = $jobApplyData->count();
 
-        // Initialize an array to hold counts for each day of the week
-        $jobViewsByDay = array_fill(0, 7, 0); // 0-indexed, 0 = Sunday, 6 = Saturday
-        $jobAppliesByDay = array_fill(0, 7, 0);
+        $jobViewsByDayOrMonth = [];
 
-        foreach ($jobViewData as $view) {
-            $dayOfWeek = Carbon::parse($view->created_at)->dayOfWeek;
-            $jobViewsByDay[$dayOfWeek]++;
-        }
+        if ($filter === 'week') {
+            $jobViewsByDayOrMonth = array_fill(0, 7, 0); // 0-indexed, 0 = Sunday, 6 = Saturday
 
-        foreach ($jobApplyData as $apply) {
-            $dayOfWeek = Carbon::parse($apply->created_at)->dayOfWeek;
-            $jobAppliesByDay[$dayOfWeek]++;
-        }
+            foreach ($jobViewData as $view) {
+                $dayOfWeek = Carbon::parse($view->created_at)->dayOfWeek;
+                $jobViewsByDayOrMonth[$dayOfWeek]++;
+            }
 
-        $result = [];
-        $firstDayOfWeek = Carbon::now()->startOfWeek()->dayOfWeek;
-        for ($i = 0; $i < 7; $i++) {
-            $dayIndex = ($firstDayOfWeek + $i) % 7; // Calculate the correct index for the day of the week
-            $result[] = [
-                'day' => Carbon::now()->startOfWeek()->addDays($i)->format('D'),
-                'job_views' => $jobViewsByDay[$dayIndex],
-                'job_applied' => $jobAppliesByDay[$dayIndex],
-            ];
+            $result = [];
+            $firstDayOfWeek = Carbon::now()->startOfWeek()->dayOfWeek;
+            for ($i = 0; $i < 7; $i++) {
+                $dayIndex = ($firstDayOfWeek + $i) % 7; // Calculate the correct index for the day of the week
+                $result[] = [
+                    'day' => Carbon::now()->startOfWeek()->addDays($i)->format('D'),
+                    'job_views' => $jobViewsByDayOrMonth[$dayIndex],
+                    'job_applied' => 0, // Placeholder for job applies
+                ];
+            }
+        } elseif ($filter === 'month') {
+            // Initialize an array to hold counts for each month of the year
+            $jobViewsByMonth = array_fill(1, 12, 0); // 1-indexed, represents months of the year
+            $jobAppliesByMonth = array_fill(1, 12, 0);
+
+            foreach ($jobViewData as $view) {
+                $monthOfYear = Carbon::parse($view->created_at)->month;
+                $jobViewsByMonth[$monthOfYear]++;
+            }
+
+            foreach ($jobApplyData as $apply) {
+                $monthOfYear = Carbon::parse($apply->created_at)->month;
+                $jobAppliesByMonth[$monthOfYear]++;
+            }
+
+            $result = [];
+            for ($i = 1; $i <= 12; $i++) {
+                $result[] = [
+                    'month' => Carbon::createFromDate(null, $i, null)->format('M'), // Format month as month name
+                    'job_views' => $jobViewsByMonth[$i],
+                    'job_applied' => $jobAppliesByMonth[$i],
+                ];
+            }
         }
 
         $result[] = [
