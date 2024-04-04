@@ -169,7 +169,7 @@ class Talent extends Authenticatable implements Auditable
 
     public function sendPasswordResetNotification($token): void
     {
-        $url = 'https://www.app.myspurr.net/rest-password?token='.$token;
+        $url = 'https://www.app.myspurr.net/reset-password?token='.$token;
 
         $this->notify(new ResetPasswordNotification($url));
     }
