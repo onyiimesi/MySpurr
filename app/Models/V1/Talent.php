@@ -169,7 +169,7 @@ class Talent extends Authenticatable implements Auditable
 
     public function sendPasswordResetNotification($token): void
     {
-        $url = 'https://mango-glacier-097715310.3.azurestaticapps.net/reset-password?token='.$token;
+        $url = 'https://www.app.myspurr.net/rest-password?token='.$token;
 
         $this->notify(new ResetPasswordNotification($url));
     }
