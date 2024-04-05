@@ -231,7 +231,7 @@ class OtherController extends Controller
         ->first();
 
         if(!$job){
-            return $this->error(null, 404, "Not found");
+            return $this->error(null, 400, "Not found");
         }
 
         $applicants = new ApplicantsResource($job);
@@ -246,7 +246,7 @@ class OtherController extends Controller
         ->first();
 
         if(!$job){
-            return $this->error(null, 404, "Not found");
+            return $this->error(null, 400, "Not found");
         }
 
         $application = new ApplicationResource($job);
