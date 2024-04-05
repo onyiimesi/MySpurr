@@ -22,6 +22,7 @@ class ApplicationResource extends JsonResource
 
         $quest = $questions->pluck('id');
         $answers = QuestionAnswer::whereIn('question_id', $quest)
+        ->where('job_id', $this->job_id)
         ->where('talent_id', $this->talent->id)
         ->get();
 

@@ -11,5 +11,5 @@ class QuestionAnswer extends Model implements Auditable
     use HasFactory;
     use \OwenIt\Auditing\Auditable;
 
-    protected $fillable = ['question_id', 'answer', 'talent_id'];
+    protected $fillable = ['question_id', 'answer', 'talent_id', 'job_id'];
 }
