@@ -2,8 +2,10 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -33,6 +35,10 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof ThrottleRequestsException) {
             return response()->json(['error' => "Too many attempts. Please try again."], 429);
+        }
+
+        if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
+            return response()->json(['message' => 'Not found'], 404);
         }
 
         return parent::render($request, $exception);
