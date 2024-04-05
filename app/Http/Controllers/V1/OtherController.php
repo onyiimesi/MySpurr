@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\ApplicantsResource;
 use App\Http\Resources\V1\ApplicationResource;
 use App\Http\Resources\V1\JobResource;
+use App\Models\V1\Business;
 use App\Models\V1\JobApply;
 use App\Models\V1\JobView;
 use App\Models\V1\OpenTicket;
@@ -222,9 +223,10 @@ class OtherController extends Controller
     public function applicants($id)
     {
         $user = Auth::user();
+        $business = Business::findOrFail($user->id);
 
         $job = TalentJob::where('id', $id)
-        ->where('business_id', $user->id)
+        ->where('business_id', $business->id)
         ->with('jobapply')
         ->first();
 
