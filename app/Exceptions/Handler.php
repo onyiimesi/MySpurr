@@ -37,7 +37,7 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => "Too many attempts. Please try again."], 429);
         }
 
-        if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
+        if ($exception instanceof NotFoundHttpException && $request->wantsJson()) {
             return response()->json(['message' => 'Not found'], 404);
         }
 
