@@ -221,7 +221,10 @@ class OtherController extends Controller
 
     public function applicants($id)
     {
+        $user = Auth::user();
+
         $job = TalentJob::where('id', $id)
+        ->where('business_id', $user->id)
         ->with('jobapply')
         ->first();
 
@@ -234,9 +237,10 @@ class OtherController extends Controller
         return $this->success($applicants, "Applicants", 200);
     }
 
-    public function application($id)
+    public function application($talentId, $jobId)
     {
-        $job = JobApply::where('talent_id', $id)
+        $job = JobApply::where('talent_id', $talentId)
+        ->where('job_id', $jobId)
         ->first();
 
         if(!$job){
