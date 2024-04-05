@@ -67,7 +67,7 @@ class TalentJobsController extends Controller
         ];
     }
 
-    public function apply(JobApplyRequest $request, $id)
+    public function apply(JobApplyRequest $request)
     {
         $request->validated($request->all());
 
@@ -75,10 +75,10 @@ class TalentJobsController extends Controller
 
         $talent = Talent::where('email', $user->email)->first();
 
-        $question = Question::where('talent_job_id', $id)->first();
+        $question = Question::where('talent_job_id', $request->job_id)->first();
 
         if(!$question){
-            return $this->error('', 404, 'Job not found!');
+            return response()->json(['message' => 'Job not found!'], 404);
         }
 
         if(!$talent){
@@ -91,7 +91,7 @@ class TalentJobsController extends Controller
             $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
             if($extension == "vnd.openxmlformats-officedocument.wordprocessingml.document"){
                 $extension = "docx";
-            }else if($extension == "vnd.openxmlformats-officedocument.spreadsheetml.sheet"){
+            }elseif($extension == "vnd.openxmlformats-officedocument.spreadsheetml.sheet"){
                 $extension = "xlsx";
             }
             $replace = substr($file, 0, strpos($file, ',')+1);
@@ -108,7 +108,7 @@ class TalentJobsController extends Controller
 
         JobApply::create([
             'talent_id' => $talent->id,
-            'job_id' => $id,
+            'job_id' => $request->job_id,
             'rate' => $request->rate,
             'available_start' => $request->available_start,
             'resume' => $request->resume,
