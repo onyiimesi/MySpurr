@@ -67,7 +67,7 @@ class TalentJobsController extends Controller
         ];
     }
 
-    public function apply(JobApplyRequest $request, $id)
+    public function apply(JobApplyRequest $request)
     {
         $request->validated($request->all());
 
@@ -75,10 +75,10 @@ class TalentJobsController extends Controller
 
         $talent = Talent::where('email', $user->email)->first();
 
-        $question = Question::where('talent_job_id', $id)->first();
+        $question = Question::where('talent_job_id', $request->job_id)->first();
 
         if(!$question){
-            return $this->error('', 404, 'Job not found!');
+            return response()->json(['message' => 'Job not found!'], 404);
         }
 
         if(!$talent){

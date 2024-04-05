@@ -82,7 +82,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
     Route::post('talent-work-details', [TalentOnboardingController::class, 'workDetails']);
     Route::post('talent-portfolio', [TalentOnboardingController::class, 'portfolio']);
     Route::get('get-jobs', [TalentJobsController::class, 'jobs']);
-    Route::post('job-apply/{job_id}', [TalentJobsController::class, 'apply']);
+    Route::post('job-apply', [TalentJobsController::class, 'apply']);
     Route::get('applications', [TalentJobsController::class, 'application']);
     Route::get('applications/{id}', [TalentJobsController::class, 'applicationid']);
 
