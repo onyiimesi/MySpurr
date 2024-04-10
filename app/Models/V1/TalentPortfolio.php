@@ -14,19 +14,21 @@ class TalentPortfolio extends Model implements Auditable
     protected $fillable = [
         'talent_id',
         'title',
-        'client_name',
-        'job_type',
-        'location',
-        'max_rate',
-        'min_rate',
+        'category_id',
+        'featured_image',
+        'link',
+        'description',
         'tags',
-        'cover_image',
-        'body',
         'is_draft'
     ];
 
     public function talent()
     {
         return $this->belongsTo(Talent::class);
+    }
+
+    public function portfolioprojectimage()
+    {
+        return $this->hasMany(PortfolioProjectImage::class, 'talent_id');
     }
 }
