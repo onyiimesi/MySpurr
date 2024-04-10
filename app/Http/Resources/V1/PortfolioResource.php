@@ -17,14 +17,18 @@ class PortfolioResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => (string)$this->title,
-            'client_name' => (string)$this->client_name,
-            'job_type' => (string)$this->job_type,
-            'location' => (string)$this->location,
-            'max_rate' => $this->max_rate,
-            'min_rate' => $this->min_rate,
+            'category_id' => (string)$this->category_id,
+            'description' => (string)$this->description,
+            'project_image' => (array)$this->portfolioprojectimage->map(function ($data) {
+                return [
+                    'id' => $data->id,
+                    'image' => $data->image
+                ];
+            })->toArray(),
             'tags' => json_decode($this->tags),
-            'cover_image' => $this->cover_image,
-            'body' =>  $this->body
+            'link' => $this->link,
+            'featured_image' => $this->featured_image,
+            'is_draft' =>  $this->is_draft
         ];
     }
 }

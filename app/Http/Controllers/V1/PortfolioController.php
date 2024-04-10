@@ -102,10 +102,10 @@ class PortfolioController extends Controller
             return $this->error('', 400, 'Does not exist');
         }
 
-        if($request->cover_image){
+        if($request->featured_image){
 
-            $file = $request->cover_image;
-            $folderName = 'https://myspurr.azurewebsites.net/portfolio';
+            $file = $request->featured_image;
+            $folderName = config('services.portfolio.base_url');
             $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
             $replace = substr($file, 0, strpos($file, ',')+1);
             $sig = str_replace($replace, '', $file);
@@ -119,7 +119,6 @@ class PortfolioController extends Controller
             if ($success === false) {
                 throw new \Exception("Failed to write file to disk.");
             }
-
             $pathss = $folderName.'/'.$file_name;
 
         } else {
@@ -128,16 +127,51 @@ class PortfolioController extends Controller
 
         $port->update([
             'title' => $request->title,
-            'client_name' => $request->client_name,
-            'job_type' => $request->job_type,
-            'location' => $request->location,
-            'max_rate' => $request->max_rate,
-            'min_rate' => $request->min_rate,
+            'category_id' => $request->category_id,
+            'description' => $request->description,
             'tags' => json_encode($request->tags),
-            'cover_image' => $pathss,
-            'body' => $request->body,
+            'link' => $request->link,
+            'featured_image' => $pathss,
             'is_draft' => $request->is_draft
         ]);
+
+        if($request->project_image){
+            foreach($request->project_image as $image){
+
+                $file = $image['image'];
+                $folderName = config('services.portfolio.project_image');
+                $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
+                $replace = substr($file, 0, strpos($file, ',')+1);
+                $sig = str_replace($replace, '', $file);
+
+                $sig = str_replace(' ', '+', $sig);
+                $file_name = time().'.'.$extension;
+
+                // Create folder if it doesn't exist
+                $folderPath = 'public/portfolio/projectimages';
+
+                if (!file_exists(public_path($folderPath))) {
+                    mkdir(public_path($folderPath), 0777, true);
+                }
+
+                $path = public_path().'/portfolio/projectimages/'.$file_name;
+                $success = file_put_contents($path, base64_decode($sig));
+
+                if ($success === false) {
+                    throw new \Exception("Failed to write file to disk.");
+                }
+
+                $url = $folderName.'/'.$file_name;
+
+                $port->portfolioprojectimage()->delete();
+
+                $port->portfolioprojectimage()->create([
+                    'talent_portfolio_id' => $port->id,
+                    'image' => $url
+                ]);
+
+            }
+        }
 
         return [
             'status' => "true",

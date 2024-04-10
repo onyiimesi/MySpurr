@@ -11,6 +11,7 @@ use App\Services\CountryState\StateDetailsService;
 use Illuminate\Http\Request;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TalentOnboardingController extends Controller
 {
@@ -103,9 +104,18 @@ class TalentOnboardingController extends Controller
     public function portfolio(Request $request)
     {
         $request->validate([
+            'portfolio.title' => 'required|string|max:255',
+            'portfolio.category_id' => 'required|exists:job_titles,id',
+            'portfolio.description' => 'required|string',
+            'portfolio.tags' => 'required|array',
+            'portfolio.tags.*' => 'string',
+            'portfolio.link' => 'required|url',
+            'portfolio.project_image' => 'required|array',
+            'portfolio.project_image.*.image' => 'required|string',
             'portfolio.is_draft' => 'required|in:true,false'
         ], [
-            'portfolio.is_draft' => 'is_draft should either be true or false'
+            'portfolio.is_draft' => 'is_draft should either be true or false',
+            'portfolio.project_image.*.image' => 'project image is required',
         ]);
 
         $user = Auth::user();
@@ -115,10 +125,10 @@ class TalentOnboardingController extends Controller
             return $this->error('', 401, 'Error');
         }
 
-        if($request->portfolio['cover_image']){
+        if($request->portfolio['featured_image']){
 
-            $file = $request->portfolio['cover_image'];
-            $folderName = env('BASE_URL_PORTFOLIO');
+            $file = $request->portfolio['featured_image'];
+            $folderName = config('services.portfolio.base_url');
             $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
             $replace = substr($file, 0, strpos($file, ',')+1);
             $sig = str_replace($replace, '', $file);
@@ -138,20 +148,50 @@ class TalentOnboardingController extends Controller
             $pathss = "";
         }
 
-        $body = $request->portfolio['body'];
-
-        $talent->portfolios()->create([
+        $talentproject = $talent->portfolios()->create([
             'title' => $request->portfolio['title'],
-            'client_name' => $request->portfolio['client_name'],
-            'job_type' => $request->portfolio['job_type'],
-            'location' => $request->portfolio['location'],
-            'max_rate' => $request->portfolio['max_rate'],
-            'min_rate' => $request->portfolio['min_rate'],
+            'category_id' => $request->portfolio['category_id'],
+            'description' => $request->portfolio['description'],
             'tags' => json_encode($request->portfolio['tags']),
-            'cover_image' => $pathss,
-            'body' => $body,
+            'link' => $request->portfolio['link'],
+            'featured_image' => $pathss,
             'is_draft' => $request->portfolio['is_draft']
         ]);
+
+        foreach($request->portfolio['project_image'] as $image){
+
+            $file = $image['image'];
+            $folderName = config('services.portfolio.project_image');
+            $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
+            $replace = substr($file, 0, strpos($file, ',')+1);
+            $sig = str_replace($replace, '', $file);
+
+            $sig = str_replace(' ', '+', $sig);
+            $file_name = time().'.'.$extension;
+
+            // Create folder if it doesn't exist
+            $folderPath = 'public/portfolio/projectimages';
+
+            if (!file_exists(public_path($folderPath))) {
+                mkdir(public_path($folderPath), 0777, true);
+            }
+
+            $path = public_path().'/portfolio/projectimages/'.$file_name;
+            $success = file_put_contents($path, base64_decode($sig));
+
+            if ($success === false) {
+                throw new \Exception("Failed to write file to disk.");
+            }
+
+            $url = $folderName.'/'.$file_name;
+
+            $talentproject->portfolioprojectimage()->create([
+                'talent_portfolio_id' => $talentproject->id,
+                'talent_id' => $talent->id,
+                'image' => $url
+            ]);
+
+        }
 
         return [
             "status" => 'true',

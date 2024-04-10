@@ -49,6 +49,11 @@ return [
         'verify_staging_url' => env('VERIFY_STAGING_URL'),
         'false_production_url' => env('FALSE_PRODUCTION_URL'),
         'false_staging_url' => env('FALSE_STAGING_URL')
+    ],
+
+    'portfolio' => [
+        'base_url' => env('BASE_URL_PORTFOLIO'),
+        'project_image' => env('BASE_URL_PORTFOLIO_PROJECT_IMAGE')
     ]
 
 ];
