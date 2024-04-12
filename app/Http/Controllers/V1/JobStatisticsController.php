@@ -79,7 +79,6 @@ class JobStatisticsController extends Controller
                 ];
             }
         } elseif ($filter === 'month') {
-            // Initialize an array to hold counts for each month of the year
             $jobViewsByMonth = array_fill(1, 12, 0); // 1-indexed, represents months of the year
             $jobAppliesByMonth = array_fill(1, 12, 0);
 
