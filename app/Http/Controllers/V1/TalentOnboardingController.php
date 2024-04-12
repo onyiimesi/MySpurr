@@ -105,7 +105,7 @@ class TalentOnboardingController extends Controller
     {
         $request->validate([
             'portfolio.title' => 'required|string|max:255',
-            'portfolio.category_id' => 'required|exists:job_titles,id',
+            'portfolio.category_id' => 'required|exists:skills,id',
             'portfolio.description' => 'required|string',
             'portfolio.tags' => 'required|array',
             'portfolio.tags.*' => 'string',
