@@ -31,15 +31,18 @@ class TalentListResource extends JsonResource
                 return [
                     'id' => $port->id,
                     'title' => $port->title,
-                    'client_name' => $port->client_name,
-                    'job_type' => $port->job_type,
-                    'location' => $port->location,
-                    'max_rate' => $port->max_rate,
-                    'min_rate' => $port->min_rate,
+                    'category_id' => $port->category_id,
+                    'description' => $port->description,
+                    'project_image' => $port->portfolioprojectimage->map(function ($data) {
+                        return [
+                            'id' => $data->id,
+                            'image' => $data->image
+                        ];
+                    })->toArray(),
                     'tags' => json_decode($port->tags),
-                    'cover_image' => $port->cover_image,
-                    'body' =>  $port->body,
-                    'is_draft' =>  $port->is_draft
+                    'link' => $port->link,
+                    'featured_image' =>  $port->featured_image,
+                    'is_draft' =>  $port->is_draft,
                 ];
             })->toArray(),
         ];
