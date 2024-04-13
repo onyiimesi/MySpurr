@@ -114,7 +114,7 @@ class MessageController extends Controller
                 'status' => 'unread'
             ]);
 
-            event(new MessagingEvent($message, $request->sender_id, $request->to));
+            // event(new MessagingEvent($message, $request->sender_id, $request->to));
 
             return [
                 'status' => 'true',
