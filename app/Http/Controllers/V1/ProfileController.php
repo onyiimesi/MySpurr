@@ -20,61 +20,79 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        if(!$user){
+        if (!$user) {
             return $this->error('', 401, 'Error');
         }
-        $portfolios = $user->portfolios;
-        $topSkills = $user->topskills;
-        $educations = $user->educations;
-        $employments = $user->employments;
-        $certificates = $user->certificates;
 
-        if($user->type === 'talent'){
-
-            if (!empty($user->skill_title) && $topSkills->isNotEmpty() && $educations->isNotEmpty() &&$employments->isNotEmpty() && $certificates->isNotEmpty() && !empty($user->availability)) {
-                $onboarding = true;
-            } else {
-                $onboarding = false;
-            }
-
-            if ($portfolios->isNotEmpty()) {
-                $port = true;
-            } else {
-                $port = false;
-            }
-
-            $details = new TalentResource($user);
-            return [
-                "status" => 'true',
-                "data" => $details,
-                'work_details' => $onboarding,
-                'portofolio' => $port
-            ];
+        if ($user->type === 'talent') {
+            return $this->handleTalentProfile($user);
         }
 
-        if($user->type === 'business'){
-            if (empty($user->business_name) || empty($user->location) || empty($user->industry) || empty($user->about_business) || empty($user->website) || empty($user->business_service) || empty($user->business_email)) {
-                $onboarding = false;
-            } else {
-                $onboarding = true;
-            }
-
-            if (empty($user->company_logo) || empty($user->company_type) || empty($user->social_media)) {
-                $port = false;
-            } else {
-                $port = true;
-            }
-
-            $details = new BusinessResource($user);
-
-            return [
-                "status" => 'true',
-                "data" => $details,
-                'business_details' => $onboarding,
-                'portofolio' => $port
-            ];
+        if ($user->type === 'business') {
+            return $this->handleBusinessProfile($user);
         }
     }
+
+    private function handleTalentProfile($user)
+    {
+        $requiredFields = [
+            'skill_title',
+            'availability',
+            'topskills',
+            'educations',
+            'employments',
+            'certificates'
+        ];
+
+        $onboarding = $this->checkRequiredFields($user, $requiredFields);
+        $port = $user->portfolios->isNotEmpty();
+
+        $details = new TalentResource($user);
+
+        return [
+            "status" => 'true',
+            "data" => $details,
+            'work_details' => $onboarding,
+            'portofolio' => $port
+        ];
+    }
+
+    private function handleBusinessProfile($user)
+    {
+        $requiredFields = [
+            'business_name',
+            'location',
+            'industry',
+            'about_business',
+            'website',
+            'business_service',
+            'business_email'
+        ];
+
+        $onboarding = $this->checkRequiredFields($user, $requiredFields);
+        $port = !empty($user->company_logo) && !empty($user->company_type) && !empty($user->social_media);
+
+        $details = new BusinessResource($user);
+
+        return [
+            "status" => 'true',
+            "data" => $details,
+            'business_details' => $onboarding,
+            'portofolio' => $port
+        ];
+    }
+
+    private function checkRequiredFields($user, $fields)
+    {
+        foreach ($fields as $field) {
+            if (empty($user->$field)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 
     public function wallet()
     {
