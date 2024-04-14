@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\AllPortfolioResource;
 use App\Http\Resources\V1\PortfolioResource;
+use App\Models\V1\Talent;
 use App\Models\V1\TalentCertificate;
 use App\Models\V1\TalentEducation;
 use App\Models\V1\TalentEmployment;
@@ -96,6 +97,9 @@ class PortfolioController extends Controller
 
     public function updatePort(Request $request)
     {
+        $user = Auth::user();
+        $talent = Talent::where('email', $user->email)->first();
+
         $port = TalentPortfolio::where('id', $request->id)->first();
 
         if(!$port){
@@ -166,6 +170,7 @@ class PortfolioController extends Controller
                 $port->portfolioprojectimage()->delete();
 
                 $port->portfolioprojectimage()->create([
+                    'talent_id' => $talent->id,
                     'talent_portfolio_id' => $port->id,
                     'image' => $url
                 ]);
