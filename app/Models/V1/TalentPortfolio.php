@@ -29,6 +29,6 @@ class TalentPortfolio extends Model implements Auditable
 
     public function portfolioprojectimage()
     {
-        return $this->hasMany(PortfolioProjectImage::class, 'talent_id');
+        return $this->hasMany(PortfolioProjectImage::class, 'talent_portfolio_id');
     }
 }
