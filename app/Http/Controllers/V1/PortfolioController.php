@@ -184,6 +184,28 @@ class PortfolioController extends Controller
         ];
     }
 
+    public function deletePort($id)
+    {
+        $user = Auth::user();
+        $talent = Talent::where('email', $user->email)->first();
+
+        if(!$talent){
+            return $this->error('', 400, 'User does not exist');
+        }
+
+        $port = TalentPortfolio::where('talent_id', $talent->id)
+        ->where('id', $id)->first();
+
+        if(!$port){
+            return $this->error('', 400, 'Does not exist');
+        }
+
+        $port->portfolioprojectimage()->delete();
+        $port->delete();
+
+        return $this->success(null, "Deleted successfully", 200);
+    }
+
     public function updateCert(Request $request)
     {
         $cert = TalentCertificate::where('id', $request->id)->first();

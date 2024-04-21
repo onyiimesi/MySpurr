@@ -109,6 +109,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
     Route::patch('update-education/{id}', [PortfolioController::class, 'updateEdu']);
     Route::patch('update-employment/{id}', [PortfolioController::class, 'updateEmp']);
     Route::patch('update-portfolio/{id}', [PortfolioController::class, 'updatePort']);
+    Route::delete('delete-portfolio/{id}', [PortfolioController::class, 'deletePort']);
     Route::get('portfolio/single/{id}', [PortfolioController::class, 'singleport']);
 
     // Settings
