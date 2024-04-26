@@ -167,7 +167,7 @@ class TalentOnboardingController extends Controller
             $sig = str_replace($replace, '', $file);
 
             $sig = str_replace(' ', '+', $sig);
-            $file_name = time().'.'.$extension;
+            $file_name = time().'_'.uniqid().'.'.$extension;
 
             // Create folder if it doesn't exist
             $folderPath = 'public/portfolio/projectimages';
