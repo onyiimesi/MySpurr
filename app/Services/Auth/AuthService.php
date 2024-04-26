@@ -42,7 +42,8 @@ class AuthService
 
     public function verifyUser($request)
     {
-        $user = Talent::where('otp', $request->code)
+        $user = Talent::with(['portfolios', 'topskills', 'educations', 'employments', 'certificates'])
+        ->where('otp', $request->code)
         ->where('otp_expires_at', '>', now())
         ->first();
 
