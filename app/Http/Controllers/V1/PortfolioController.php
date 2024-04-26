@@ -115,7 +115,7 @@ class PortfolioController extends Controller
             $sig = str_replace($replace, '', $file);
 
             $sig = str_replace(' ', '+', $sig);
-            $file_name = time().'.'.$extension;
+            $file_name = uniqid().'.'.$extension;
 
             $path = public_path().'/portfolio/'.$file_name;
             $success = file_put_contents($path, base64_decode($sig));
