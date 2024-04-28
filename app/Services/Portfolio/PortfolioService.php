@@ -7,6 +7,7 @@ use App\Models\V1\TalentPortfolio;
 use App\Services\ImageKit\DeleteService;
 use App\Services\ImageKit\ImageKitService;
 use App\Traits\HttpResponses;
+use Illuminate\Support\Facades\App;
 
 class PortfolioService
 {
@@ -22,25 +23,10 @@ class PortfolioService
 
         if($request->portfolio['featured_image']){
 
-            $file = $request->portfolio['featured_image'];
-            $folderName = "portfolio";
-            $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
-            $replace = substr($file, 0, strpos($file, ',')+1);
-            $sig = str_replace($replace, '', $file);
-            $sig = str_replace(' ', '+', $sig);
-            $file_name = time().'.'.$extension;
-            $parts = explode('@', $talent->email);
-            $name = $parts[0];
-            $path = $folderName . '/' . $name;
-
-            $response = (new ImageKitService($file, $file_name, $path))->run();
-            $data = $response->getData();
+            $data = $this->handleImageUpload($request->portfolio['featured_image'], $talent, null);
 
         } else {
-            $data = [
-                'url' => null,
-                'file_id' => null
-            ];
+            $data = $this->handleNoFeaturedImage();
         }
 
         $talentproject = $talent->portfolios()->create([
@@ -49,36 +35,12 @@ class PortfolioService
             'description' => $request->portfolio['description'],
             'tags' => json_encode($request->portfolio['tags']),
             'link' => $request->portfolio['link'],
-            'featured_image' => $data->url ?? $data['url'],
-            'file_id' => $data->file_id ?? $data['file_id'],
+            'featured_image' => $data->url ?? $data['url'] ?? $data,
+            'file_id' => $data->file_id ?? $data['file_id'] ?? $data,
             'is_draft' => $request->portfolio['is_draft']
         ]);
 
-        foreach($request->portfolio['project_image'] as $image){
-
-            $file = $image['image'];
-            $folderName = "portfolio/";
-            $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
-            $replace = substr($file, 0, strpos($file, ',')+1);
-            $sig = str_replace($replace, '', $file);
-
-            $sig = str_replace(' ', '+', $sig);
-            $file_name = time().'_'.uniqid().'.'.$extension;
-            $parts = explode('@', $talent->email);
-            $name = $parts[0];
-            $path = $folderName . $name . '/projectimages';
-
-            $response = (new ImageKitService($file, $file_name, $path))->run();
-            $data = $response->getData();
-
-            $talentproject->portfolioprojectimage()->delete();
-            $talentproject->portfolioprojectimage()->create([
-                'talent_id' => $talent->id,
-                'talent_portfolio_id' => $talentproject->id,
-                'image' => $data->url,
-                'file_id' => $data->file_id
-            ]);
-        }
+        $this->handleProjectImages($request->portfolio['project_image'], $talent, $talentproject);
 
         return $this->success(null, "Created Successfully");
     }
@@ -95,28 +57,10 @@ class PortfolioService
 
         if($request->featured_image){
 
-            $file = $request->featured_image;
-            $folderName = "portfolio";
-            $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
-            $replace = substr($file, 0, strpos($file, ',')+1);
-            $sig = str_replace($replace, '', $file);
-            $sig = str_replace(' ', '+', $sig);
-            $file_name = time().'.'.$extension;
-            $parts = explode('@', $talent->email);
-            $name = $parts[0];
-            $path = $folderName . '/' . $name;
-
-            $fileId = $port->file_id;
-            (new DeleteService($fileId, null))->run();
-
-            $response = (new ImageKitService($file, $file_name, $path))->run();
-            $data = $response->getData();
+            $data = $this->handleImageUpload($request->featured_image, $talent, $port);
 
         } else {
-            $data = [
-                'url' => null,
-                'file_id' => null
-            ];
+            $data = $this->handleNoFeaturedImage();
         }
 
         $port->update([
@@ -125,45 +69,16 @@ class PortfolioService
             'description' => $request->description,
             'tags' => json_encode($request->tags),
             'link' => $request->link,
-            'featured_image' => $data->url ?? $data['url'],
-            'file_id' => $data->file_id ?? $data['file_id'],
+            'featured_image' => $data->url ?? $data['url'] ?? $data,
+            'file_id' => $data->file_id ?? $data['file_id'] ?? $data,
             'is_draft' => $request->is_draft
         ]);
 
-        if($request->project_image){
-            foreach($request->project_image as $image){
-
-                $file = $image['image'];
-                $folderName = "portfolio/";
-                $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
-                $replace = substr($file, 0, strpos($file, ',')+1);
-                $sig = str_replace($replace, '', $file);
-
-                $sig = str_replace(' ', '+', $sig);
-                $file_name = time().'_'.uniqid().'.'.$extension;
-                $parts = explode('@', $talent->email);
-                $name = $parts[0];
-                $path = $folderName . $name . '/projectimages';
-
-                $imageIds = $port->portfolioprojectimage->pluck('file_id')->toArray();
-                (new DeleteService(null, $imageIds))->run();
-                $port->portfolioprojectimage()->delete();
-
-                $response = (new ImageKitService($file, $file_name, $path))->run();
-                $data = $response->getData();
-
-                $port->portfolioprojectimage()->create([
-                    'talent_id' => $talent->id,
-                    'talent_portfolio_id' => $port->id,
-                    'image' => $data->url,
-                    'file_id' => $data->file_id
-                ]);
-            }
-        }
+        $this->handleProjectImages($request->project_image, $talent, $port);
 
         return $this->success(null, "Updated Successfully");
     }
-    
+
     public function deletePortfolio($user, $id)
     {
         $talent = Talent::where('email', $user->email)->first();
@@ -189,6 +104,133 @@ class PortfolioService
         $port->delete();
 
         return $this->success(null, "Deleted successfully");
+    }
+
+    private function handleImageUpload($image, $talent, $port = null)
+    {
+        if(App::environment('production')){
+
+            $file = $image;
+            $folderName = "portfolio";
+            $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
+            $replace = substr($file, 0, strpos($file, ',')+1);
+            $sig = str_replace($replace, '', $file);
+            $sig = str_replace(' ', '+', $sig);
+            $file_name = time().'.'.$extension;
+            $parts = explode('@', $talent->email);
+            $name = $parts[0];
+            $path = $folderName . '/' . $name;
+
+            if($port !== null){
+                $fileId = $port->file_id;
+                (new DeleteService($fileId, null))->run();
+            }
+
+            $response = (new ImageKitService($file, $file_name, $path))->run();
+            $data = $response->getData();
+
+        } elseif(App::environment('staging') || App::environment('local')){
+
+            $file = $image;
+            $folderName = config('services.portfolio.base_url');
+            $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
+            $replace = substr($file, 0, strpos($file, ',')+1);
+            $sig = str_replace($replace, '', $file);
+
+            $sig = str_replace(' ', '+', $sig);
+            $file_name = uniqid().'.'.$extension;
+
+            $path = public_path().'/portfolio/'.$file_name;
+            $success = file_put_contents($path, base64_decode($sig));
+
+            if ($success === false) {
+                throw new \Exception("Failed to write file to disk.");
+            }
+
+            $data = $folderName.'/'.$file_name;
+        }
+
+        return $data;
+    }
+
+    private function handleNoFeaturedImage()
+    {
+        if (App::environment('production')) {
+            return [
+                'url' => null,
+                'file_id' => null
+            ];
+        } elseif (App::environment('staging') || App::environment('local')) {
+            return '';
+        }
+    }
+
+    private function handleProjectImages($projectImages, $talent, $port)
+    {
+        foreach ($projectImages as $image) {
+
+            if(App::environment('production')){
+                $file = $image['image'];
+                $folderName = "portfolio/";
+                $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
+                $replace = substr($file, 0, strpos($file, ',')+1);
+                $sig = str_replace($replace, '', $file);
+
+                $sig = str_replace(' ', '+', $sig);
+                $file_name = time().'_'.uniqid().'.'.$extension;
+                $parts = explode('@', $talent->email);
+                $name = $parts[0];
+                $path = $folderName . $name . '/projectimages';
+
+                $imageIds = $port->portfolioprojectimage->pluck('file_id')->toArray();
+                (new DeleteService(null, $imageIds))->run();
+                $port->portfolioprojectimage()->delete();
+
+                $response = (new ImageKitService($file, $file_name, $path))->run();
+                $data = $response->getData();
+
+                $port->portfolioprojectimage()->create([
+                    'talent_id' => $talent->id,
+                    'talent_portfolio_id' => $port->id,
+                    'image' => $data->url,
+                    'file_id' => $data->file_id
+                ]);
+
+            } elseif(App::environment('staging') || App::environment('local')){
+                $file = $image['image'];
+                $folderName = config('services.portfolio.project_image');
+                $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
+                $replace = substr($file, 0, strpos($file, ',')+1);
+                $sig = str_replace($replace, '', $file);
+
+                $sig = str_replace(' ', '+', $sig);
+                $file_name = time().'_'.uniqid().'.'.$extension;
+
+                // Create folder if it doesn't exist
+                $folderPath = 'public/portfolio/projectimages';
+
+                if (!file_exists(public_path($folderPath))) {
+                    mkdir(public_path($folderPath), 0777, true);
+                }
+
+                $path = public_path().'/portfolio/projectimages/'.$file_name;
+                $success = file_put_contents($path, base64_decode($sig));
+
+                if ($success === false) {
+                    throw new \Exception("Failed to write file to disk.");
+                }
+
+                $url = $folderName.'/'.$file_name;
+
+                $port->portfolioprojectimage()->delete();
+
+                $port->portfolioprojectimage()->create([
+                    'talent_id' => $talent->id,
+                    'talent_portfolio_id' => $port->id,
+                    'image' => $url
+                ]);
+            }
+        }
     }
 }
 
