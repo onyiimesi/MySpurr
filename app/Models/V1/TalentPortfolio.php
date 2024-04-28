@@ -19,7 +19,8 @@ class TalentPortfolio extends Model implements Auditable
         'link',
         'description',
         'tags',
-        'is_draft'
+        'is_draft',
+        'file_id'
     ];
 
     public function talent()

@@ -54,6 +54,12 @@ return [
     'portfolio' => [
         'base_url' => env('BASE_URL_PORTFOLIO'),
         'project_image' => env('BASE_URL_PORTFOLIO_PROJECT_IMAGE')
-    ]
+    ],
+
+    'imagekit' => [
+        'public_key' => env('IMAGEKIT_PUBLIC_KEY'),
+        'private_key' => env('IMAGEKIT_PRIVATE_KEY'),
+        'endpoint_key' => env('IMAGEKIT_URL_ENDPOINT'),
+    ],
 
 ];

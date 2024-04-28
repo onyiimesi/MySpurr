@@ -15,6 +15,7 @@ class PortfolioProjectImage extends Model
         'talent_id',
         'talent_portfolio_id',
         'image',
+        'file_id'
     ];
 
     public function talentportfolio()

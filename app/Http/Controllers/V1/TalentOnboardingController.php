@@ -8,14 +8,24 @@ use App\Models\V1\Talent;
 use App\Models\V1\TopSkill;
 use App\Services\CountryState\CountryDetailsService;
 use App\Services\CountryState\StateDetailsService;
+use App\Services\Portfolio\PortfolioService;
 use Illuminate\Http\Request;
 use App\Traits\HttpResponses;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class TalentOnboardingController extends Controller
 {
     use HttpResponses;
+
+    public $portfolio;
+
+    public function __construct(PortfolioService $portfolioService)
+    {
+        $this->portfolio = $portfolioService;
+    }
 
     public function workDetails(TalentWorkDetailsRequest $request)
     {
@@ -24,7 +34,7 @@ class TalentOnboardingController extends Controller
         $talent = Talent::where('email', $user->email)->first();
 
         if(!$talent){
-            return $this->error('', 401, 'Error');
+            throw $this->error('', 401, 'Error');
         }
 
         $state = (new StateDetailsService($request->ciso, $request->siso))->run();
@@ -55,8 +65,8 @@ class TalentOnboardingController extends Controller
                 'currently_schooling_here' => $request->education['currently_schooling_here']
             ]);
 
-        } catch (\Exception $e) {
-            return $e;
+        } catch (Throwable $e) {
+            throw new Exception($e);
         }
 
         try {
@@ -71,8 +81,8 @@ class TalentOnboardingController extends Controller
                 'currently_working_here' => $request->employment_details['currently_working_here']
             ]);
 
-        } catch (\Exception $e) {
-            return $e;
+        } catch (Throwable $e) {
+            throw new Exception($e);
         }
 
         try {
@@ -86,8 +96,8 @@ class TalentOnboardingController extends Controller
                 'currently_working_here' => $request->certificate['currently_working_here']
             ]);
 
-        } catch (\Exception $e) {
-            return $e;
+        } catch (Throwable $e) {
+            throw new Exception($e);
         }
 
         foreach ($request->top_skills as $skills) {
@@ -95,10 +105,7 @@ class TalentOnboardingController extends Controller
             $talent->topskills()->save($skill);
         }
 
-        return [
-            "status" => 'true',
-            "message" => 'Updated Successfully'
-        ];
+        return $this->success(null, "Updated Successfully");
     }
 
     public function portfolio(Request $request)
@@ -119,83 +126,7 @@ class TalentOnboardingController extends Controller
         ]);
 
         $user = Auth::user();
-        $talent = Talent::where('email', $user->email)->first();
 
-        if(!$talent){
-            return $this->error('', 401, 'Error');
-        }
-
-        if($request->portfolio['featured_image']){
-
-            $file = $request->portfolio['featured_image'];
-            $folderName = config('services.portfolio.base_url');
-            $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
-            $replace = substr($file, 0, strpos($file, ',')+1);
-            $sig = str_replace($replace, '', $file);
-
-            $sig = str_replace(' ', '+', $sig);
-            $file_name = uniqid().'.'.$extension;
-
-            $path = public_path().'/portfolio/'.$file_name;
-            $success = file_put_contents($path, base64_decode($sig));
-
-            if ($success === false) {
-                throw new \Exception("Failed to write file to disk.");
-            }
-            $pathss = $folderName.'/'.$file_name;
-
-        } else {
-            $pathss = "";
-        }
-
-        $talentproject = $talent->portfolios()->create([
-            'title' => $request->portfolio['title'],
-            'category_id' => $request->portfolio['category_id'],
-            'description' => $request->portfolio['description'],
-            'tags' => json_encode($request->portfolio['tags']),
-            'link' => $request->portfolio['link'],
-            'featured_image' => $pathss,
-            'is_draft' => $request->portfolio['is_draft']
-        ]);
-
-        foreach($request->portfolio['project_image'] as $image){
-
-            $file = $image['image'];
-            $folderName = config('services.portfolio.project_image');
-            $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
-            $replace = substr($file, 0, strpos($file, ',')+1);
-            $sig = str_replace($replace, '', $file);
-
-            $sig = str_replace(' ', '+', $sig);
-            $file_name = time().'_'.uniqid().'.'.$extension;
-
-            // Create folder if it doesn't exist
-            $folderPath = 'public/portfolio/projectimages';
-
-            if (!file_exists(public_path($folderPath))) {
-                mkdir(public_path($folderPath), 0777, true);
-            }
-
-            $path = public_path().'/portfolio/projectimages/'.$file_name;
-            $success = file_put_contents($path, base64_decode($sig));
-
-            if ($success === false) {
-                throw new \Exception("Failed to write file to disk.");
-            }
-
-            $url = $folderName.'/'.$file_name;
-
-            $talentproject->portfolioprojectimage()->create([
-                'talent_portfolio_id' => $talentproject->id,
-                'talent_id' => $talent->id,
-                'image' => $url
-            ]);
-
-        }
-
-        return [
-            "status" => 'true',
-            "message" => 'Created Successfully'
-        ];
+        return $this->portfolio->createPortfolio($user, $request);
     }
 }
