@@ -10,6 +10,7 @@ use App\Models\V1\TalentCertificate;
 use App\Models\V1\TalentEducation;
 use App\Models\V1\TalentEmployment;
 use App\Models\V1\TalentPortfolio;
+use App\Services\Portfolio\PortfolioService;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,13 @@ use Illuminate\Support\Facades\Auth;
 class PortfolioController extends Controller
 {
     use HttpResponses;
+
+    public $portfolio;
+
+    public function __construct(PortfolioService $portfolioService)
+    {
+        $this->portfolio = $portfolioService;
+    }
 
     public function noAuth(Request $request)
     {
@@ -98,112 +106,13 @@ class PortfolioController extends Controller
     public function updatePort(Request $request)
     {
         $user = Auth::user();
-        $talent = Talent::where('email', $user->email)->first();
-
-        $port = TalentPortfolio::where('id', $request->id)->first();
-
-        if(!$port){
-            return $this->error('', 400, 'Does not exist');
-        }
-
-        if($request->featured_image){
-
-            $file = $request->featured_image;
-            $folderName = config('services.portfolio.base_url');
-            $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
-            $replace = substr($file, 0, strpos($file, ',')+1);
-            $sig = str_replace($replace, '', $file);
-
-            $sig = str_replace(' ', '+', $sig);
-            $file_name = uniqid().'.'.$extension;
-
-            $path = public_path().'/portfolio/'.$file_name;
-            $success = file_put_contents($path, base64_decode($sig));
-
-            if ($success === false) {
-                throw new \Exception("Failed to write file to disk.");
-            }
-            $pathss = $folderName.'/'.$file_name;
-
-        } else {
-            $pathss = "";
-        }
-
-        $port->update([
-            'title' => $request->title,
-            'category_id' => $request->category_id,
-            'description' => $request->description,
-            'tags' => json_encode($request->tags),
-            'link' => $request->link,
-            'featured_image' => $pathss,
-            'is_draft' => $request->is_draft
-        ]);
-
-        if($request->project_image){
-            foreach($request->project_image as $image){
-
-                $file = $image['image'];
-                $folderName = config('services.portfolio.project_image');
-                $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
-                $replace = substr($file, 0, strpos($file, ',')+1);
-                $sig = str_replace($replace, '', $file);
-
-                $sig = str_replace(' ', '+', $sig);
-                $file_name = time().'_'.uniqid().'.'.$extension;
-
-                // Create folder if it doesn't exist
-                $folderPath = 'public/portfolio/projectimages';
-
-                if (!file_exists(public_path($folderPath))) {
-                    mkdir(public_path($folderPath), 0777, true);
-                }
-
-                $path = public_path().'/portfolio/projectimages/'.$file_name;
-                $success = file_put_contents($path, base64_decode($sig));
-
-                if ($success === false) {
-                    throw new \Exception("Failed to write file to disk.");
-                }
-
-                $url = $folderName.'/'.$file_name;
-
-                $port->portfolioprojectimage()->delete();
-
-                $port->portfolioprojectimage()->create([
-                    'talent_id' => $talent->id,
-                    'talent_portfolio_id' => $port->id,
-                    'image' => $url
-                ]);
-
-            }
-        }
-
-        return [
-            'status' => "true",
-            'message' => "Updated Successfully"
-        ];
+        return $this->portfolio->updatePortfolio($user, $request);
     }
 
     public function deletePort($id)
     {
         $user = Auth::user();
-        $talent = Talent::where('email', $user->email)->first();
-
-        if(!$talent){
-            return $this->error('', 400, 'User does not exist');
-        }
-
-        $port = TalentPortfolio::where('talent_id', $talent->id)
-        ->where('id', $id)->first();
-
-        if(!$port){
-            return $this->error('', 400, 'Does not exist');
-        }
-
-        $port->portfolioprojectimage()->delete();
-        $port->delete();
-
-        return $this->success(null, "Deleted successfully", 200);
+        return $this->portfolio->deletePortfolio($user, $id);
     }
 
     public function updateCert(Request $request)
