@@ -6,10 +6,10 @@ use App\Events\v1\BusinessWelcomeEvent;
 use App\Events\v1\TalentWelcomeEvent;
 use App\Http\Resources\V1\LoginUserResource;
 use App\Libraries\Utilities;
-use App\Mail\V1\BusinessVerifyEmail;
-use App\Mail\V1\LoginVerify;
-use App\Mail\V1\TalentResendVerifyMail;
-use App\Mail\V1\TalentVerifyEmail;
+use App\Mail\v1\BusinessVerifyEmail;
+use App\Mail\v1\LoginVerify;
+use App\Mail\v1\TalentResendVerifyMail;
+use App\Mail\v1\TalentVerifyEmail;
 use App\Models\V1\Business;
 use App\Models\V1\Talent;
 use App\Services\Wallet\CreateService;
@@ -67,7 +67,7 @@ class AuthService
         try {
             DB::beginTransaction();
 
-            $otpExpiresAt = now()->addMinutes(10);
+            $otpExpiresAt = now()->addMinutes(15);
             $user = Talent::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -105,7 +105,7 @@ class AuthService
             }
         }
 
-        if($user->otp == ""){
+        if($user?->otp == null){
             if(App::environment('production')){
                 $redirect = redirect()->to(config('services.url.production_url'));
             }elseif(App::environment('staging')){
