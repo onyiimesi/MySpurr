@@ -67,7 +67,7 @@ class AuthService
         try {
             DB::beginTransaction();
 
-            $otpExpiresAt = now()->addMinutes(10);
+            $otpExpiresAt = now()->addMinutes(15);
             $user = Talent::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -105,7 +105,7 @@ class AuthService
             }
         }
 
-        if($user->otp == ""){
+        if($user?->otp == null){
             if(App::environment('production')){
                 $redirect = redirect()->to(config('services.url.production_url'));
             }elseif(App::environment('staging')){
