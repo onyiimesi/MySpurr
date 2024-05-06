@@ -15,7 +15,7 @@ use App\Http\Controllers\V1\PaymentController;
 use App\Http\Controllers\V1\PortfolioController;
 use App\Http\Controllers\V1\ProfileController;
 use App\Http\Controllers\V1\RatingsController;
-use App\Http\Controllers\v1\ResetPasswordController;
+use App\Http\Controllers\V1\ResetPasswordController;
 use App\Http\Controllers\V1\SettingsController;
 use App\Http\Controllers\V1\SkillsController;
 use App\Http\Controllers\V1\TalentController;
