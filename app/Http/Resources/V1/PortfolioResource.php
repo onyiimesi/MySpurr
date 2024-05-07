@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
 class PortfolioResource extends JsonResource
 {
@@ -19,7 +20,7 @@ class PortfolioResource extends JsonResource
             'title' => (string)$this->title,
             'category_id' => (string)$this->category_id,
             'description' => (string)$this->description,
-            'project_image' => (array)$this->portfolioprojectimage->map(function ($data) {
+            'project_image' => (array)$this?->portfolioprojectimage->map(function ($data) {
                 return [
                     'id' => $data->id,
                     'image' => $data->image
@@ -33,7 +34,8 @@ class PortfolioResource extends JsonResource
                 'first_name' => $this->talent?->first_name,
                 'last_name' => $this->talent?->last_name,
                 'email' => $this->talent?->email
-            ]
+            ],
+            'created_at' => Carbon::parse($this->created_at)->format('d M Y')
         ];
     }
 }
