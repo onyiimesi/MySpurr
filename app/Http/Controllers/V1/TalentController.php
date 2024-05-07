@@ -15,7 +15,6 @@ class TalentController extends Controller
     public function listtalents()
     {
         $talents = Talent::where('status', 'Active')->paginate(25);
-
         $talent = TalentListResource::collection($talents);
 
         return [
@@ -28,6 +27,7 @@ class TalentController extends Controller
                 'per_page' => $talents->perPage(),
                 'prev_page_url' => $talents->previousPageUrl(),
                 'next_page_url' => $talents->nextPageUrl(),
+                'total' => $talents->total()
             ],
         ];
     }

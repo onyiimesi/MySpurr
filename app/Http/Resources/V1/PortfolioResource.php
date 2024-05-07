@@ -28,7 +28,12 @@ class PortfolioResource extends JsonResource
             'tags' => json_decode($this->tags),
             'link' => $this->link,
             'featured_image' => $this->featured_image,
-            'is_draft' =>  $this->is_draft
+            'is_draft' =>  $this->is_draft,
+            'user_details' => (object) [
+                'first_name' => $this->talent?->first_name,
+                'last_name' => $this->talent?->last_name,
+                'email' => $this->talent?->email
+            ]
         ];
     }
 }
