@@ -28,13 +28,35 @@ class AuthService
     public function login($request)
     {
         $request->validated($request->all());
-        $talentGuard = Auth::guard('talents');
-        $businessGuard = Auth::guard('businesses');
 
-        if ($talentGuard->attempt($request->only(['email', 'password']))) {
-            return $this->handleLogin(Auth::guard('talents'), $request);
-        } elseif ($businessGuard->attempt($request->only(['email', 'password']))) {
-            return $this->handleLogin(Auth::guard('businesses'), $request);
+        $guards = ['talents' => Talent::class, 'businesses' => Business::class];
+        $authenticatedGuard = null;
+
+        foreach ($guards as $guardName => $guardModel) {
+            $guard = Auth::guard($guardName);
+            if ($guard->attempt($request->only(['email', 'password']))) {
+                $authenticatedGuard = $guard;
+                break;
+            }
+        }
+
+        if ($authenticatedGuard) {
+            $user = $authenticatedGuard->user();
+            if ($user->status !== "active") {
+                return $this->error('', 400, 'Account is inactive. Check Email to verify.');
+            }
+
+            $userType = strtolower(substr($authenticatedGuard->getProvider()->getModel(), strrpos($authenticatedGuard->getProvider()->getModel(), '\\') + 1));
+
+            if ($userType === 'talent') {
+                $user = Talent::with(['portfolios', 'topskills', 'educations', 'employments', 'certificates'])
+                    ->where('id', $user->id)
+                    ->first();
+                return $this->handleUserVerification($user);
+            } elseif ($userType === 'business') {
+                $business = Business::where('id', $user->id)->first();
+                return $this->handleBusinessVerification($business);
+            }
         }
 
         return $this->error('', 401, 'This account does not exist with MySpurr.');
@@ -287,32 +309,32 @@ class AuthService
         return $this->success('', 'You have successfully logged out and your token has been deleted');
     }
 
-    private function handleLogin($guard, $request)
-    {
-        $user = $guard->user();
+    // private function handleLogin($guard, $request)
+    // {
+    //     $user = $guard->user();
 
-        if ($user->status === "Inactive" && $user->otp !== "") {
-            return $this->error('', 400, 'Account is inactive. Check Email to verify.');
-        }
+    //     if ($user->status === "Inactive" && $user->otp !== "") {
+    //         return $this->error('', 400, 'Account is inactive. Check Email to verify.');
+    //     }
 
-        if ($user->otp_expires_at > now()) {
-            return $this->error('', 400, 'Sorry code has been sent try again after some minutes.');
-        }
+    //     if ($user->otp_expires_at > now()) {
+    //         return $this->error('', 400, 'Sorry code has been sent try again after some minutes.');
+    //     }
 
-        $otpExpiresAt = now()->addMinutes(10);
-        $user->update([
-            'otp' => rand(100000, 999999),
-            'otp_expires_at' => $otpExpiresAt
-        ]);
+    //     $otpExpiresAt = now()->addMinutes(10);
+    //     $user->update([
+    //         'otp' => rand(100000, 999999),
+    //         'otp_expires_at' => $otpExpiresAt
+    //     ]);
 
-        try {
-            Mail::to($request->email)->send(new LoginVerify($user));
-        } catch (\Exception $e) {
-            throw $this->error('error', 500, $e->getMessage());
-        }
+    //     try {
+    //         Mail::to($request->email)->send(new LoginVerify($user));
+    //     } catch (\Exception $e) {
+    //         throw $this->error('error', 500, $e->getMessage());
+    //     }
 
-        return $this->success(null, "OTP sent to Email Address", 200);
-    }
+    //     return $this->success(null, "OTP sent to Email Address", 200);
+    // }
 
     private function handleUserVerification($user)
     {
