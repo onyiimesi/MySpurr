@@ -62,4 +62,6 @@ return [
         'endpoint_key' => env('IMAGEKIT_URL_ENDPOINT'),
     ],
 
+    'profile' => env('BASE_URL_PROFILE'),
+
 ];
