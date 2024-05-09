@@ -49,7 +49,8 @@ class TalentJobsController extends Controller
     public function listjobs()
     {
         $job = TalentJob::where('status', 'active')
-        ->orderByDesc('is_highlighted')
+        ->orderBy('is_highlighted', 'desc')
+        ->orderBy('created_at', 'desc')
         ->paginate(25);
         $jobs = TalentJobResourceNoAuth::collection($job);
 
