@@ -71,6 +71,7 @@ Route::prefix('v1')->group(function () {
     Route::get('contact-us', [ContactController::class, 'getcontact']);
     Route::post('subscribe', [ContactController::class, 'subscribe']);
     Route::get('subscribe', [ContactController::class, 'getsubscribe']);
+    Route::get('get-country', [OtherController::class, 'getCountry']);
     Route::get('country', [OtherController::class, 'country']);
     Route::get('country/{ciso}/states', [OtherController::class, 'states']);
     Route::get('all-portfolios', [PortfolioController::class, 'allport']);
