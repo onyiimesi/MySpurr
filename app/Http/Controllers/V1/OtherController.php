@@ -5,8 +5,10 @@ namespace App\Http\Controllers\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\ApplicantsResource;
 use App\Http\Resources\V1\ApplicationResource;
+use App\Http\Resources\V1\CountryResource;
 use App\Http\Resources\V1\JobResource;
 use App\Models\V1\Business;
+use App\Models\V1\Country;
 use App\Models\V1\JobApply;
 use App\Models\V1\JobView;
 use App\Models\V1\OpenTicket;
@@ -264,5 +266,13 @@ class OtherController extends Controller
         $resource = JobResource::collection($jobs);
 
         return $this->success($resource, "Job picks", 200);
+    }
+
+    public function getCountry()
+    {
+        $datas = Country::get();
+        $data = CountryResource::collection($datas);
+
+        return $this->success($data, "Country list");
     }
 }
