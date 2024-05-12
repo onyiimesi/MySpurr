@@ -23,13 +23,16 @@ class JobResource extends JsonResource
         $currentDateTime = Carbon::now();
         $sevenDaysAgo = $currentDateTime->subDays(7);
 
-        $jobs = TalentJob::where('status', 'active')->get();
+        $jobs = TalentJob::where('business_id', $this?->business->id)
+        ->where('status', 'active')->get();
         $total_open = $jobs->count();
 
-        $cjobs = TalentJob::where('status', 'completed')->get();
+        $cjobs = TalentJob::where('business_id', $this?->business->id)
+        ->where('status', 'completed')->get();
         $total_complete = $cjobs->count();
 
-        $hjobs = TalentJob::where('status', 'hired')->get();
+        $hjobs = TalentJob::where('business_id', $this?->business->id)
+        ->where('status', 'hired')->get();
         $total_hire = $hjobs->count();
 
         return [
