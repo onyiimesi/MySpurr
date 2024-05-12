@@ -27,8 +27,8 @@ class StoreTalentRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'email:rfc,dns', 'string', 'max:255', 'unique:talent'],
             'password' => ['string', Rules\Password::defaults()],
-            'country_code' => ['required', 'numeric'],
-            'phone_number' => ['required', 'numeric'],
+            // 'country_code' => ['required', 'numeric'],
+            // 'phone_number' => ['required', 'numeric'],
             'status' => ['string', 'max:20']
         ];
     }
