@@ -162,7 +162,7 @@ class OtherController extends Controller
 
     public function listjobdetail(Request $request, $slug)
     {
-        $job = TalentJob::where('slug', $slug)
+        $job = TalentJob::with('business')->where('slug', $slug)
         ->where('status', 'active')
         ->first();
 
