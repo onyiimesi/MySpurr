@@ -26,6 +26,8 @@ class StoreBusinessRequest extends FormRequest
             'first_name' => ['required', 'string',],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'email:rfc,dns', 'string', 'max:255', 'unique:businesses'],
+            'country_code' => ['required', 'numeric'],
+            'phone_number' => ['required', 'numeric'],
             'password' => ['string', Rules\Password::defaults()],
             'status' => ['string', 'max:20']
         ];

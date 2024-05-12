@@ -41,7 +41,9 @@ class Business extends Authenticatable implements Auditable
         'ciso',
         'siso',
         'longitude',
-        'latitude'
+        'latitude',
+        'phone_number',
+        'country_code'
     ];
 
     protected static function boot()

@@ -90,6 +90,8 @@ class BusinessService
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'business_name' => $request->business_name,
+            'country_code' => $request->country_code,
+            'phone_number' => $request->phone_number,
             'location' => $request->location,
             'industry' => $request->industry,
             'about_business' => $request->about_business,

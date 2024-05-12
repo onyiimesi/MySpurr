@@ -71,6 +71,8 @@ class TalentProfileUpdateController extends Controller
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'skill_title' => $request->skill_title,
+                'country_code' => $request->country_code,
+                'phone_number' => $request->phone_number,
                 'rate' => $request->rate,
                 'location' => $state->name . ', '. $country->name,
                 'ciso' => $request->ciso,
@@ -91,11 +93,11 @@ class TalentProfileUpdateController extends Controller
                 'message' => SELF::UPDATED
             ];
 
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
 
             return [
                 'status' => 'false',
-                'message' => $th->getMessage()
+                'message' => $e->getMessage()
             ];
 
         }
