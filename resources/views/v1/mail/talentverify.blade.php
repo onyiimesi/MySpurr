@@ -1,7 +1,8 @@
-<DOCTYPE html>
+<!DOCTYPE html>
  <html lang=”en-US”>
  <head>
- <meta charset=”utf-8">
+    <title></title>
+ <meta charset="utf-8">
  <link href="https://fonts.cdnfonts.com/css/satoshi" rel="stylesheet">
 
  <style>
@@ -78,7 +79,7 @@
  </head>
  <body>
     <div class="logo">
-        <img src="https://myspurr.azurewebsites.net/logo/logo.png" alt="">
+        <img src="https://backend-api.myspurr.net/public/logo/logo.png" alt="">
     </div>
     <div class="main">
         <h3>Verify your email address</h3>
