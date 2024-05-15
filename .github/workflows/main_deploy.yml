@@ -38,4 +38,4 @@ jobs:
 
     environment:
       name: production
-      url: https://github.com
+      url: https://backend-api.myspurr.net
