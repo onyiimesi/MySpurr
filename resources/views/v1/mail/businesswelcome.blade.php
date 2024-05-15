@@ -77,7 +77,7 @@
     </head>
     <body>
         <div class="logo">
-            <img src="https://myspurr.azurewebsites.net/logo/logo.png" alt="">
+            <img src="https://backend-api.myspurr.net/public/logo/logo.png" alt="">
         </div>
        <div class="main">
            <p>
@@ -115,7 +115,7 @@
            </p>
 
            <div style="margin: 30px 0;">
-                <a href="https://www.linkedin.com/in/akinyele-tobi/"><img src="https://myspurr.azurewebsites.net/logo/ceo.png" alt=""></a>
+                <a href="https://www.linkedin.com/in/akinyele-tobi/"><img src="https://backend-api.myspurr.net/public/logo/ceo.png" alt=""></a>
                 <div>
                     <span>
                         <strong>Tobi Akinyele</strong>
