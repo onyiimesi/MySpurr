@@ -36,3 +36,6 @@ jobs:
           **/.git*/**
           fileToExclude.txt
 
+    environment:
+      name: production
+      url: https://github.com
