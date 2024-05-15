@@ -1,7 +1,8 @@
-<DOCTYPE html>
+<!DOCTYPE html>
     <html lang=”en-US”>
     <head>
-    <meta charset=”utf-8">
+        <title></title>
+    <meta charset="utf-8">
     <link href="https://fonts.cdnfonts.com/css/satoshi" rel="stylesheet">
 
     <style>
@@ -107,7 +108,7 @@
                 Ready to start finding the perfect talent for your business?
            </p>
            <div>
-               <a href="https://mango-glacier-097715310.3.azurestaticapps.net/login" class="button">LOG IN TO YOUR ACCOUNT</a>
+               <a href="https://app.myspurr.net/login" class="button">LOG IN TO YOUR ACCOUNT</a>
            </div>
            <p>
                 P.S. Lets connect on LinkedIn, I’d love you hear of your incredible journey with us
