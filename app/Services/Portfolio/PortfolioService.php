@@ -167,25 +167,28 @@ class PortfolioService
 
     private function handleProjectImages($projectImages, $talent, $port)
     {
+        if (App::environment('production')) {
+            $imageIds = $port->portfolioprojectimage->pluck('file_id')->toArray();
+            (new DeleteService(null, $imageIds))->run();
+            $port->portfolioprojectimage()->delete();
+        } else {
+            $port->portfolioprojectimage()->delete();
+        }
+
         foreach ($projectImages as $image) {
+            $file = $image['image'];
+            $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
+            $replace = substr($file, 0, strpos($file, ',')+1);
+            $sig = str_replace($replace, '', $file);
+            $sig = str_replace(' ', '+', $sig);
+            $file_name = time().'_'.uniqid().'.'.$extension;
 
-            if(App::environment('production')){
-                $file = $image['image'];
+            if (App::environment('production')) {
                 $folderName = "portfolio/";
-                $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
-                $replace = substr($file, 0, strpos($file, ',')+1);
-                $sig = str_replace($replace, '', $file);
-
-                $sig = str_replace(' ', '+', $sig);
-                $file_name = time().'_'.uniqid().'.'.$extension;
                 $parts = explode('@', $talent->email);
                 $name = $parts[0];
                 $path = $folderName . $name . '/projectimages';
-
-                $imageIds = $port->portfolioprojectimage->pluck('file_id')->toArray();
-                (new DeleteService(null, $imageIds))->run();
-                $port->portfolioprojectimage()->delete();
-
+                
                 $response = (new ImageKitService($file, $file_name, $path))->run();
                 $data = $response->getData();
 
@@ -195,20 +198,11 @@ class PortfolioService
                     'image' => $data->url,
                     'file_id' => $data->file_id
                 ]);
-
-            } elseif(App::environment('staging') || App::environment('local')){
-                $file = $image['image'];
+            } elseif (App::environment('staging') || App::environment('local')) {
                 $folderName = config('services.portfolio.project_image');
-                $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
-                $replace = substr($file, 0, strpos($file, ',')+1);
-                $sig = str_replace($replace, '', $file);
-
-                $sig = str_replace(' ', '+', $sig);
-                $file_name = time().'_'.uniqid().'.'.$extension;
-
-                // Create folder if it doesn't exist
                 $folderPath = 'public/portfolio/projectimages';
 
+                // Create folder if it doesn't exist
                 if (!file_exists(public_path($folderPath))) {
                     mkdir(public_path($folderPath), 0777, true);
                 }
@@ -222,8 +216,6 @@ class PortfolioService
 
                 $url = $folderName.'/'.$file_name;
 
-                $port->portfolioprojectimage()->delete();
-
                 $port->portfolioprojectimage()->create([
                     'talent_id' => $talent->id,
                     'talent_portfolio_id' => $port->id,
@@ -232,5 +224,7 @@ class PortfolioService
             }
         }
     }
+
+
 }
 
