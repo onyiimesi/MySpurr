@@ -88,7 +88,7 @@ class TalentJobsController extends Controller
 
         if(!empty($request->other_file)){
             $file = $request->other_file;
-            $folderName = 'https://myspurr.azurewebsites.net/files';
+            $folderName = config('services.file');
             $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
             if($extension == "vnd.openxmlformats-officedocument.wordprocessingml.document"){
                 $extension = "docx";

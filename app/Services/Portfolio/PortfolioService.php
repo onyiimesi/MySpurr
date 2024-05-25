@@ -129,7 +129,7 @@ class PortfolioService
             $response = (new ImageKitService($file, $file_name, $path))->run();
             $data = $response->getData();
 
-        } elseif(App::environment('staging') || App::environment('local')){
+        } elseif(App::environment(['staging', 'local'])){
 
             $file = $image;
             $folderName = config('services.portfolio.base_url');
