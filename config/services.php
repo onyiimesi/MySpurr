@@ -64,5 +64,6 @@ return [
 
     'profile' => env('BASE_URL_PROFILE'),
     'company_logo' => env('BASE_URL_COMPANY_LOGO'),
+    'file' => env('BASE_URL_FILE'),
 
 ];
