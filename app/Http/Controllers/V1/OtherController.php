@@ -17,6 +17,7 @@ use App\Models\V1\TalentJob;
 use App\Services\CountryState\CountryService;
 use App\Services\CountryState\StateDetailsService;
 use App\Services\CountryState\StateService;
+use App\Services\Others\Service;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -25,6 +26,13 @@ use Illuminate\Support\Facades\Auth;
 class OtherController extends Controller
 {
     use HttpResponses;
+
+    public $service;
+
+    public function __construct(Service $service)
+    {
+        $this->service = $service;
+    }
 
     public function country()
     {
@@ -274,5 +282,10 @@ class OtherController extends Controller
         $data = CountryResource::collection($datas);
 
         return $this->success($data, "Country list");
+    }
+
+    public function visitors(Request $request)
+    {
+        return $this->service->postVisitors($request);
     }
 }
