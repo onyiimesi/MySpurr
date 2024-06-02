@@ -243,7 +243,7 @@ class OtherController extends Controller
 
     public function application($talentId, $jobId)
     {
-        $job = JobApply::where('talent_id', $talentId)
+        $job = JobApply::with(['talent'])->where('talent_id', $talentId)
         ->where('job_id', $jobId)
         ->first();
 

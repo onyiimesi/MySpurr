@@ -20,4 +20,14 @@ class Rating extends Model
     {
         return $this->belongsTo(Business::class, 'rated_by');
     }
+
+    public function talent()
+    {
+        return $this->belongsTo(Talent::class, 'talent_id');
+    }
+
+    public function jobapply()
+    {
+        return $this->belongsTo(JobApply::class, 'talent_job_id', 'job_id');
+    }
 }

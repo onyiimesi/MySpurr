@@ -23,38 +23,40 @@ class ApplicationResource extends JsonResource
         $quest = $questions->pluck('id');
         $answers = QuestionAnswer::whereIn('question_id', $quest)
         ->where('job_id', $this->job_id)
-        ->where('talent_id', $this->talent->id)
+        ->where('talent_id', optional($this->talent)->id)
         ->get();
+
+        $rating = optional($this->talent)->ratingsReceived->first();
 
         return [
             'id' => $this->id,
-            'talent_id' => $this->talent->id,
-            'uniqueId' => $this->talent->uuid,
-            'first_name' => $this->talent->first_name,
-            'last_name' => $this->talent->last_name,
-            'email' => $this->talent->email,
-            'skill_title' => $this->talent->skill_title,
-            'overview' => $this->talent->overview,
-            'ciso' => $this->talent->ciso,
-            'siso' => $this->talent->siso,
-            'location' => $this->talent->location,
-            'longitude' => $this->talent->longitude,
-            'latitude' => $this->talent->latitude,
-            'employment_type' => $this->talent->employment_type,
-            'highest_education' => $this->talent->highest_education,
-            'rate' => $this->talent->rate,
-            'available_start' => $this->talent->available_start,
+            'talent_id' => optional($this->talent)->id,
+            'uniqueId' => optional($this->talent)->uuid,
+            'first_name' => optional($this->talent)->first_name,
+            'last_name' => optional($this->talent)->last_name,
+            'email' => optional($this->talent)->email,
+            'skill_title' => optional($this->talent)->skill_title,
+            'overview' => optional($this->talent)->overview,
+            'ciso' => optional($this->talent)->ciso,
+            'siso' => optional($this->talent)->siso,
+            'location' => optional($this->talent)->location,
+            'longitude' => optional($this->talent)->longitude,
+            'latitude' => optional($this->talent)->latitude,
+            'employment_type' => optional($this->talent)->employment_type,
+            'highest_education' => optional($this->talent)->highest_education,
+            'rate' => optional($this->talent)->rate,
+            'available_start' => optional($this->talent)->available_start,
             'resume' => $this->resume,
             'other_file' => $this->other_file,
             'type' => $this->type,
             'status' => $this->status,
             'date' => Carbon::parse($this->created_at)->format('j M Y'),
-            'top_skills' => $this->talent->topskills->map(function($skill) {
+            'top_skills' => optional($this->talent)->topskills->map(function($skill) {
                 return [
                     'name' => $skill->name
                 ];
             })->toArray(),
-            'education' => $this->talent->educations->map(function($edu) {
+            'education' => optional($this->talent)->educations->map(function($edu) {
                 return [
                     'id' => $edu->id,
                     'school_name' => $edu->school_name,
@@ -65,7 +67,7 @@ class ApplicationResource extends JsonResource
                     'description' => $edu->description
                 ];
             })->toArray(),
-            'employment' => $this->talent->employments->map(function($emp) {
+            'employment' => optional($this->talent)->employments->map(function($emp) {
                 return [
                     'id' => $emp->id,
                     'company_name' => $emp->company_name,
@@ -76,7 +78,7 @@ class ApplicationResource extends JsonResource
                     'description' => $emp->description
                 ];
             })->toArray(),
-            'certificate' => $this->talent->certificates->map(function($cert) {
+            'certificate' => optional($this->talent)->certificates->map(function($cert) {
                 return [
                     'id' => $cert->id,
                     'title' => $cert->title,
@@ -99,7 +101,8 @@ class ApplicationResource extends JsonResource
                     'question_id' => $answer->question_id,
                     'answer' => $answer->answer
                 ];
-            })->toArray()
+            })->toArray(),
+            'rating' => $rating ? (float)$rating->rating : null
         ];
     }
 }
