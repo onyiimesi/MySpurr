@@ -75,6 +75,9 @@ Route::prefix('v1')->group(function () {
     Route::get('country', [OtherController::class, 'country']);
     Route::get('country/{ciso}/states', [OtherController::class, 'states']);
     Route::get('all-portfolios', [PortfolioController::class, 'allport']);
+
+    // Visitors
+    Route::post('visitors', [OtherController::class, 'visitors']);
 });
 
 Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
