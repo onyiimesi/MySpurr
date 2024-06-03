@@ -16,8 +16,8 @@ class StateDetailsService {
 
     public function run()
     {
-        $url = env('COUNTRY_URL') . '/' . $this->ciso . '/states/' . $this->siso;
-        $api_key = env('COUNTRY_STATE_CITY_API_KEY');
+        $url = config('services.country_url') . '/' . $this->ciso . '/states/' . $this->siso;
+        $api_key = config('services.country_city');
 
         $headers = array(
             "X-CSCAPI-KEY: " . $api_key
