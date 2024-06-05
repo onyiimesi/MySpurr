@@ -28,4 +28,9 @@ class AdminController extends Controller
     {
         return $this->service->latestJobs();
     }
+
+    public function visitors()
+    {
+        return $this->service->visitors();
+    }
 }

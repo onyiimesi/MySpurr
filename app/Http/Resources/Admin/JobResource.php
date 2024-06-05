@@ -22,18 +22,12 @@ class JobResource extends JsonResource
         $state = (new StateDetailsService($this->country_id, $this->state_id))->run();
 
         return [
-            'id' => (string)$this->id,
             'title' => (string)$this->job_title,
             'business' => (string)$this->business->business_name,
-            'slug' => (string)$this->slug,
-            'country' => (string)$country->name,
-            'state' => (string)$state->name,
-            'salaray_type' => (string)$this->salaray_type,
-            'salary_min' => (string)$this->salary_min,
-            'salary_max' => (string)$this->salary_max,
-            'applicants' => $this->jobapply->groupBy(['talent_id'])->count(),
-            'status' => (string)$this->status,
-            'date_created' => Carbon::parse($this->created_at)->format('j M Y')
+            'location' => (string)$country->name. ' ' . $state->name,
+            'budget' => (string)$this->salary_min . ' ' . '- ' . $this->salary_max,
+            'applications' => $this->jobapply->groupBy(['talent_id'])->count(),
+            'status' => (string)$this->status
         ];
     }
 }
