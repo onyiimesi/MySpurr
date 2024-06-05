@@ -7,6 +7,7 @@ use App\Models\V1\Business;
 use App\Models\V1\JobApply;
 use App\Models\V1\Talent;
 use App\Models\V1\TalentJob;
+use App\Models\V1\Visitor;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Carbon;
 
@@ -48,15 +49,32 @@ class AdminService
         return [
             'status' => 'true',
             'message' => 'Job List',
-            'data' => $jobs,
-            'pagination' => [
+            'value' => [
+                'result' => $jobs,
                 'current_page' => $job->currentPage(),
-                'last_page' => $job->lastPage(),
-                'per_page' => $job->perPage(),
-                'prev_page_url' => $job->previousPageUrl(),
-                'next_page_url' => $job->nextPageUrl()
-            ],
+                'page_count' => $job->lastPage(),
+                'page_size' => $job->perPage(),
+                'total_records' => $job->total()
+            ]
         ];
+    }
+
+    public function visitors()
+    {
+        $monthlyVisits = Visitor::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as count')
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'asc')
+            ->orderBy('month', 'asc')
+            ->get()
+            ->map(function ($visit) {
+                return [
+                    'year' => $visit->year,
+                    'month' => Carbon::create()->month($visit->month)->format('F'),
+                    'count' => $visit->count,
+                ];
+            });
+
+        return $this->success($monthlyVisits, "Visitors by month");
     }
 }
 
