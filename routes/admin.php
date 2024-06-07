@@ -27,11 +27,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('visitors', [AdminController::class, 'visitors']);
 
     Route::prefix('talents')->controller(AdminTalentsController::class)->group(function () {
-        Route::get('/', 'index');
+        Route::get('/all', 'index');
     });
 
     Route::prefix('business')->controller(AdminBusinessController::class)->group(function () {
-        Route::get('/', 'index');
+        Route::get('/all', 'index');
     });
 
     Route::post('add/user', [AdminAuthController::class, 'addUser']);

@@ -12,7 +12,8 @@ class BusinessService
 
     public function index()
     {
-        $business = Business::with(['talentjob'])->paginate(25);
+        $perPage = request()->query('per_page', 25);
+        $business = Business::with(['talentjob'])->paginate($perPage);
         $business = BusinessResource::collection($business);
 
         return [
