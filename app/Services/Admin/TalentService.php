@@ -12,7 +12,8 @@ class TalentService
 
     public function index()
     {
-        $talents = Talent::with(['jobapply'])->paginate(25);
+        $perPage = request()->query('per_page', 25);
+        $talents = Talent::with(['jobapply'])->paginate($perPage);
         $talents = TalentsResource::collection($talents);
 
         return [
