@@ -43,7 +43,8 @@ class TalentsResource extends JsonResource
             'matched_jobs' => $count,
             'image' => (string)$this->image,
             'verified_documents' => [],
-            'status' => (string)$this->status
+            'status' => (string)$this->status,
+            'joined' => (string)Carbon::parse($this->created_at)->format('d M Y')
         ];
     }
 }

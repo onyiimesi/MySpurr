@@ -20,4 +20,9 @@ class AdminTalentsController extends Controller
     {
         return $this->service->index();
     }
+
+    public function singleTalent($id)
+    {
+        return $this->service->singleTalent($id);
+    }
 }
