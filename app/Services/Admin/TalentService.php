@@ -28,5 +28,17 @@ class TalentService
             ]
         ];
     }
+
+    public function singleTalent($id)
+    {
+        $talent = Talent::findOrFail($id);
+        $data = new TalentsResource($talent);
+
+        return [
+            'status' => true,
+            'message' => "Talent Details",
+            'value' => $data
+        ];
+    }
 }
 

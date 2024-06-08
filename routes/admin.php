@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::prefix('talents')->controller(AdminTalentsController::class)->group(function () {
         Route::get('/all', 'index');
+        Route::get('/single/{id}', 'singleTalent');
     });
 
     Route::prefix('business')->controller(AdminBusinessController::class)->group(function () {
