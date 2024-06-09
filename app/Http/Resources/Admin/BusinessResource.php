@@ -33,18 +33,19 @@ class BusinessResource extends JsonResource
             'business_name' => (string)$this->business_name,
             'email' => (string)$this->email,
             'category' => (string)$this->company_type,
-            'plan' => "Free",
+            'plan' => "free",
             'balance' => 0,
             'total_earning' => 0,
             'executed_jobs' => $total_complete,
             'active_jobs' => $total_open,
-            'verified' => $this->status == "active" ? "Yes" : "No",
+            'verified' => strtolower($this->status) == "active" ? "yes" : "no",
             'phone_number' => (string)$this->phone_number,
             'business_email' => (string)$this->business_email,
             'company_logo' => (string)$this->company_logo,
             'company_type' => (string)$this->company_type,
             'posted_jobs' => optional($this->talentjob)->count(),
-            'status' => (string)$this->status
+            'status' => (string)strtolower($this->status),
+            'joined' => (string)Carbon::parse($this->created_at)->format('d M Y')
         ];
     }
 }

@@ -29,21 +29,23 @@ class TalentsResource extends JsonResource
         return [
             'id' => (int)$this->id,
             'name' => (string)$this->first_name . ' ' . $this->last_name,
+            'first_name' => (string)$this->first_name,
+            'last_name' => (string)$this->last_name,
             'email' => (string)$this->email,
             'category' => (string)$this->skill_title,
-            'plan' => "Free",
+            'plan' => "free",
             'balance' => 0,
             'total_earning' => 0,
             'executed_jobs' => 0,
             'active_jobs' => 0,
-            'verified' => $this->status == "active" ? "Yes" : "No",
+            'verified' => strtolower($this->status) == "active" ? "yes" : "no",
             'location' => (string)$this->location,
             'phone_number' => (string)$this->phone_number,
             'applied_jobs' => optional($this->jobapply)->count(),
             'matched_jobs' => $count,
             'image' => (string)$this->image,
             'verified_documents' => [],
-            'status' => (string)$this->status,
+            'status' => (string)strtolower($this->status),
             'joined' => (string)Carbon::parse($this->created_at)->format('d M Y')
         ];
     }
