@@ -2,17 +2,19 @@
 
 namespace App\Models\V1;
 
+use App\Notifications\V1\ResetPasswordNotification;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Business extends Authenticatable implements Auditable
 {
-    use HasFactory, SoftDeletes, HasApiTokens;
+    use HasFactory, SoftDeletes, HasApiTokens, Notifiable;
     use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
@@ -54,6 +56,13 @@ class Business extends Authenticatable implements Auditable
             $model->uuid = (string) Str::uuid();
         });
 
+    }
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $url = 'https://www.app.myspurr.net/reset-password?token='.$token;
+
+        $this->notify(new ResetPasswordNotification($url));
     }
 
     protected $casts = [

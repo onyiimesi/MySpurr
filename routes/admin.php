@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminBusinessController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminTalentsController;
+use App\Http\Controllers\Admin\OthersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::patch('/edit/{id}', 'editBusiness');
         Route::delete('/delete/{id}', 'deleteBusiness');
         Route::get('/count', 'count');
+    });
+
+    Route::prefix('others')->controller(OthersController::class)->group(function () {
+        Route::post('/forgot-password', 'forgot');
+        Route::post('/business/forgot-password', 'businessForgot');
     });
 
     Route::post('add/user', [AdminAuthController::class, 'addUser']);

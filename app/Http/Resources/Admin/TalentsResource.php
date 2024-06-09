@@ -28,6 +28,7 @@ class TalentsResource extends JsonResource
 
         return [
             'id' => (int)$this->id,
+            'uuid' => (string)$this->uuid,
             'name' => (string)$this->first_name . ' ' . $this->last_name,
             'first_name' => (string)$this->first_name,
             'last_name' => (string)$this->last_name,
