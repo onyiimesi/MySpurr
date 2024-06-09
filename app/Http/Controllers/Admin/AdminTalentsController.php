@@ -35,4 +35,9 @@ class AdminTalentsController extends Controller
     {
         return $this->service->deleteTalent($id);
     }
+
+    public function count()
+    {
+        return $this->service->count();
+    }
 }

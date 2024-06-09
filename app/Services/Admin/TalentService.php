@@ -65,5 +65,16 @@ class TalentService
 
         return $this->success(null, "Deleted successfully");
     }
+
+    public function count()
+    {
+        $data = Talent::count();
+
+        return [
+            'status' => true,
+            'message' => "All Talents",
+            'value' => $data
+        ];
+    }
 }
 

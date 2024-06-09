@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/single/{id}', 'singleTalent');
         Route::patch('/edit/{id}', 'editTalent');
         Route::delete('/delete/{id}', 'deleteTalent');
+        Route::get('/count', 'count');
     });
 
     Route::prefix('business')->controller(AdminBusinessController::class)->group(function () {
@@ -38,6 +39,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/single/{id}', 'singleBusiness');
         Route::patch('/edit/{id}', 'editBusiness');
         Route::delete('/delete/{id}', 'deleteBusiness');
+        Route::get('/count', 'count');
     });
 
     Route::post('add/user', [AdminAuthController::class, 'addUser']);
