@@ -40,5 +40,30 @@ class TalentService
             'value' => $data
         ];
     }
+
+    public function editTalent($request, $id)
+    {
+        $talent = Talent::findOrFail($id);
+
+        $talent->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'location' => $request->location,
+            'skill_title' => $request->category,
+            'phone_number' => $request->phone_number,
+            'status' => $request->status
+        ]);
+
+        return $this->success(null, "Updated successfully");
+    }
+
+    public function deleteTalent($id)
+    {
+        $talent = Talent::findOrFail($id);
+        $talent->delete();
+
+        return $this->success(null, "Deleted successfully");
+    }
 }
 

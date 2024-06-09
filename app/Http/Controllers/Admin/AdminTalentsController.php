@@ -25,4 +25,14 @@ class AdminTalentsController extends Controller
     {
         return $this->service->singleTalent($id);
     }
+
+    public function editTalent(Request $request, $id)
+    {
+        return $this->service->editTalent($request, $id);
+    }
+
+    public function deleteTalent($id)
+    {
+        return $this->service->deleteTalent($id);
+    }
 }

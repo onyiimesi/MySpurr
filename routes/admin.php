@@ -29,10 +29,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::prefix('talents')->controller(AdminTalentsController::class)->group(function () {
         Route::get('/all', 'index');
         Route::get('/single/{id}', 'singleTalent');
+        Route::patch('/edit/{id}', 'editTalent');
+        Route::delete('/delete/{id}', 'deleteTalent');
     });
 
     Route::prefix('business')->controller(AdminBusinessController::class)->group(function () {
         Route::get('/all', 'index');
+        Route::get('/single/{id}', 'singleBusiness');
+        Route::patch('/edit/{id}', 'editBusiness');
+        Route::delete('/delete/{id}', 'deleteBusiness');
     });
 
     Route::post('add/user', [AdminAuthController::class, 'addUser']);
