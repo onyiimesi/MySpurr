@@ -30,6 +30,7 @@ class BusinessResource extends JsonResource
 
         return [
             'id' => (string)$this->id,
+            'uuid' => (string)$this->uuid,
             'business_name' => (string)$this->business_name,
             'email' => (string)$this->email,
             'category' => (string)$this->company_type,

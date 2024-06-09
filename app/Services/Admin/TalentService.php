@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Events\v1\TalentWelcomeEvent;
 use App\Http\Resources\Admin\TalentsResource;
 use App\Models\V1\Talent;
 use App\Traits\HttpResponses;
@@ -44,6 +45,10 @@ class TalentService
     public function editTalent($request, $id)
     {
         $talent = Talent::findOrFail($id);
+
+        if($request->status === "active"){
+            event(new TalentWelcomeEvent($talent));
+        }
 
         $talent->update([
             'first_name' => $request->first_name,
