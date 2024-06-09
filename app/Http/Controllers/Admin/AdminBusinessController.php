@@ -34,4 +34,9 @@ class AdminBusinessController extends Controller
     {
         return $this->service->deleteBusiness($id);
     }
+
+    public function count()
+    {
+        return $this->service->count();
+    }
 }

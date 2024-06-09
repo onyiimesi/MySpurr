@@ -64,6 +64,17 @@ class BusinessService
 
         return $this->success(null, "Deleted successfully");
     }
+
+    public function count()
+    {
+        $data = Business::count();
+
+        return [
+            'status' => true,
+            'message' => "All Business",
+            'value' => $data
+        ];
+    }
 }
 
 
