@@ -59,9 +59,9 @@ class JobController extends Controller
             return $this->error('', 401, 'Error');
         }
 
-        if($business->talentjob()->count() >= 1){
-            return $this->error('', 400, 'Job posting limit reached. Please make a payment to post more jobs.');
-        }
+        // if($business->talentjob()->count() >= 1){
+        //     return $this->error('', 400, 'Job posting limit reached. Please make a payment to post more jobs.');
+        // }
 
         $slug = Str::slug($request->job_title);
 
