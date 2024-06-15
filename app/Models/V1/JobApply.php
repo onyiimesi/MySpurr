@@ -14,6 +14,7 @@ class JobApply extends Model implements Auditable
     protected $fillable = [
         'talent_id',
         'job_id',
+        'slug',
         'rate',
         'available_start',
         'resume',
