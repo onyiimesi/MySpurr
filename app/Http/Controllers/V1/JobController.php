@@ -25,9 +25,11 @@ class JobController extends Controller
     {
         $user = Auth::user();
 
-        $job = TalentJob::where('business_id', $user->id)
+        $job = TalentJob::with(['business', 'questions', 'jobapply'])
+        ->where('business_id', $user->id)
         ->where('status', 'active')
         ->orderByDesc('is_highlighted')
+        ->orderByDesc('created_at')
         ->paginate(25);
 
         $jobs = JobResource::collection($job);
