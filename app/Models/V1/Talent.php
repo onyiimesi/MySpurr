@@ -78,6 +78,7 @@ class Talent extends Authenticatable implements Auditable
             $model->portfolios()->delete();
             $model->talentbillingaddress()->delete();
             $model->talentlanguage()->delete();
+            $model->jobapply()->delete();
         });
 
     }
