@@ -146,6 +146,7 @@ class OtherController extends Controller
             return $this->error(null, 400, "Error slug required");
         }
 
+        $sessionId = null;
         if (!$userId) {
             $sessionId = $request->session()->getId();
         }
