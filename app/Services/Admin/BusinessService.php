@@ -59,8 +59,8 @@ class BusinessService
 
     public function deleteBusiness($id)
     {
-        $talent = Business::findOrFail($id);
-        $talent->delete();
+        $business = Business::withTrashed()->findOrFail($id);
+        $business->forceDelete();
 
         return $this->success(null, "Deleted successfully");
     }

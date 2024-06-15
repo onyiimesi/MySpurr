@@ -56,6 +56,10 @@ class Business extends Authenticatable implements Auditable
             $model->uuid = (string) Str::uuid();
         });
 
+        static::deleting(function ($model) {
+            $model->talentjob()->delete();
+        });
+
     }
 
     public function sendPasswordResetNotification($token): void
