@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\BusinessResource;
 use App\Http\Resources\V1\LoginUserResource;
 use App\Http\Resources\V1\TalentResource;
+use App\Models\V1\Business;
 use App\Models\V1\Talent;
 use App\Models\V1\TalentPortfolio;
 use Illuminate\Http\Request;
@@ -25,11 +26,17 @@ class ProfileController extends Controller
         }
 
         if ($user->type === 'talent') {
-            return $this->handleTalentProfile($user);
+            $data = Talent::with(['topskills', 'educations', 'employments', 'certificates', 'portfolios'])
+            ->findOrFail($user->id);
+
+            return $this->handleTalentProfile($data);
         }
 
         if ($user->type === 'business') {
-            return $this->handleBusinessProfile($user);
+            $data = Business::with(['talentjob'])
+            ->findOrFail($user->id);
+
+            return $this->handleBusinessProfile($data);
         }
     }
 
