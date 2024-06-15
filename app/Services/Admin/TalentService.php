@@ -65,8 +65,8 @@ class TalentService
 
     public function deleteTalent($id)
     {
-        $talent = Talent::findOrFail($id);
-        $talent->delete();
+        $talent = Talent::withTrashed()->findOrFail($id);
+        $talent->forceDelete();
 
         return $this->success(null, "Deleted successfully");
     }
