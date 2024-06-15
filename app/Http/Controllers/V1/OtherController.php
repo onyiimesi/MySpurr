@@ -284,6 +284,21 @@ class OtherController extends Controller
         return $this->success($application, "Application", 200);
     }
 
+    public function applicationSlug($talentId, $slug)
+    {
+        $job = JobApply::with(['talent'])->where('talent_id', $talentId)
+        ->where('slug', $slug)
+        ->first();
+
+        if(!$job){
+            return $this->error(null, 400, "Not found");
+        }
+
+        $application = new ApplicationResource($job);
+
+        return $this->success($application, "Application", 200);
+    }
+
     public function jobpicks()
     {
         $user = Auth::user();

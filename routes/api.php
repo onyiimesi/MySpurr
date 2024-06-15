@@ -131,6 +131,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
     Route::get('job/{id}/applicants', [OtherController::class, 'applicants']);
     Route::get('get/job/{slug}/applicants', [OtherController::class, 'applicantsSlug']);
     Route::get('application/{talent_id}/{job_id}', [OtherController::class, 'application']);
+    Route::get('get/application/{talent_id}/{slug}', [OtherController::class, 'applicationSlug']);
     Route::get('jobs/picks', [OtherController::class, 'jobpicks']);
     Route::get('statistics', [JobStatisticsController::class, 'stats']);
 
