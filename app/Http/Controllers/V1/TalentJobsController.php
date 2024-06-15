@@ -75,6 +75,7 @@ class TalentJobsController extends Controller
         $user = Auth::user();
 
         $talent = Talent::where('email', $user->email)->first();
+        $job = TalentJob::findOrFail($request->job_id);
 
         $question = Question::where('talent_job_id', $request->job_id)->first();
 
@@ -110,6 +111,7 @@ class TalentJobsController extends Controller
         JobApply::create([
             'talent_id' => $talent->id,
             'job_id' => $request->job_id,
+            'slug' => $job->slug,
             'rate' => $request->rate,
             'available_start' => $request->available_start,
             'resume' => $request->resume,
