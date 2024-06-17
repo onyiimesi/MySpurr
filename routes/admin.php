@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminAuthController;
-use App\Http\Controllers\Admin\AdminBusinessController;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\AdminTalentsController;
-use App\Http\Controllers\Admin\OthersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\OthersController;
+use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AdminTalentsController;
+use App\Http\Controllers\Admin\AdminBusinessController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::prefix('others')->controller(OthersController::class)->group(function () {
         Route::post('/forgot-password', 'forgot');
         Route::post('/business/forgot-password', 'businessForgot');
+    });
+
+    Route::prefix('blog')->controller(BlogController::class)->group(function () {
+        Route::post('/create', 'blogCreate');
+        Route::get('/', 'getAll');
+        Route::get('/{id}', 'getOne');
+        Route::post('/edit/{id}', 'editBlog');
+        Route::delete('/delete/{id}', 'deleteBlog');
     });
 
     Route::post('add/user', [AdminAuthController::class, 'addUser']);
