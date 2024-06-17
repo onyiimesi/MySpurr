@@ -51,8 +51,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::prefix('blog')->controller(BlogController::class)->group(function () {
         Route::post('/create', 'blogCreate');
-        Route::get('/', 'getAll');
-        Route::get('/{id}', 'getOne');
+        Route::get('/all', 'getAll');
+        Route::get('/single/{id}', 'getOne');
         Route::post('/edit/{id}', 'editBlog');
         Route::delete('/delete/{id}', 'deleteBlog');
     });
