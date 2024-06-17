@@ -68,4 +68,6 @@ return [
     'country_url' => env('COUNTRY_URL'),
     'country_city' => env('COUNTRY_STATE_CITY_API_KEY'),
 
+    'base_url' => env('BASE_URL'),
+
 ];
