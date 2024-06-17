@@ -51,10 +51,21 @@ class BlogService
 
     public function getAll()
     {
-        $blogs = Blog::get();
+        $perPage = request()->query('per_page', 25);
+        $blogs = Blog::paginate($perPage);
         $data = BlogResource::collection($blogs);
 
-        return $this->success($data, "Blog list");
+        return [
+            'status' => true,
+            'message' => "Blog Lists",
+            'value' => [
+                'result' => $data,
+                'current_page' => $blogs->currentPage(),
+                'page_count' => $blogs->lastPage(),
+                'page_size' => $blogs->perPage(),
+                'total_records' => $blogs->total()
+            ]
+        ];
     }
 
     public function getOne($id)
