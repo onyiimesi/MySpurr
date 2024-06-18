@@ -73,7 +73,11 @@ class BlogService
         $blog = Blog::findOrFail($id);
         $data = new BlogResource($blog);
 
-        return $this->success($data, "Blog detail");
+        return [
+            'status' => true,
+            'message' => "Blog Details",
+            'value' => $data
+        ];
     }
 
     public function editBlog($request, $id)
@@ -126,6 +130,17 @@ class BlogService
         $blog->delete();
 
         return $this->success(null, "Blog deleted successfully");
+    }
+
+    public function count()
+    {
+        $data = Blog::count();
+
+        return [
+            'status' => true,
+            'message' => "All Blogs",
+            'value' => $data
+        ];
     }
 }
 
