@@ -45,4 +45,18 @@ class BlogController extends Controller
     {
         return $this->service->count();
     }
+
+    public function blogCatCreate(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string']
+        ]);
+
+        return $this->service->blogCatCreate($request);
+    }
+
+    public function getAllCategory()
+    {
+        return $this->service->getAllCategory();
+    }
 }
