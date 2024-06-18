@@ -2,10 +2,12 @@
 
 namespace App\Services\Admin\Blog;
 
+use App\Http\Resources\Admin\BlogCategoryResource;
 use App\Models\Admin\Blog;
 use Illuminate\Support\Str;
 use App\Traits\HttpResponses;
 use App\Http\Resources\Admin\BlogResource;
+use App\Models\Admin\BlogCategory;
 use App\Services\Upload\UploadService;
 
 class BlogService
@@ -33,6 +35,7 @@ class BlogService
 
             Blog::create([
                 'title' => $request->title,
+                'blog_category_id' => $request->category_id,
                 'slug' => $slug,
                 'description' => $request->description,
                 'content' => $request->content,
@@ -52,7 +55,7 @@ class BlogService
     public function getAll()
     {
         $perPage = request()->query('per_page', 25);
-        $blogs = Blog::paginate($perPage);
+        $blogs = Blog::with('blogcategory')->paginate($perPage);
         $data = BlogResource::collection($blogs);
 
         return [
@@ -139,6 +142,32 @@ class BlogService
         return [
             'status' => true,
             'message' => "All Blogs",
+            'value' => $data
+        ];
+    }
+
+    public function blogCatCreate($request)
+    {
+        try {
+
+            BlogCategory::create([
+                'name' => $request->name
+            ]);
+
+            return $this->success(null, "Created successfully");
+        } catch (\Exception $e) {
+            return $this->error(null, 500, $e->getMessage());
+        }
+    }
+
+    public function getAllCategory()
+    {
+        $categories = BlogCategory::get();
+        $data = BlogCategoryResource::collection($categories);
+
+        return [
+            'status' => true,
+            'message' => "Blog Categories",
             'value' => $data
         ];
     }
