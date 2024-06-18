@@ -73,7 +73,11 @@ class BlogService
         $blog = Blog::findOrFail($id);
         $data = new BlogResource($blog);
 
-        return $this->success($data, "Blog detail");
+        return [
+            'status' => true,
+            'message' => "Blog Details",
+            'value' => $data
+        ];
     }
 
     public function editBlog($request, $id)

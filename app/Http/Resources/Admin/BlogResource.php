@@ -23,7 +23,8 @@ class BlogResource extends JsonResource
             'content' => (string)$this->content,
             'tags' => $this->getTagsAsArray(),
             'featured_photo' => (string)$this->featured_photo,
-            'publish_date' => Carbon::parse($this->publish_date)->format('d M Y h:i A'),
+            'publish_date' => (string)$this->publish_date,
+            'publish_date_view' => Carbon::parse($this->publish_date)->format('d M Y h:i A'),
             'status' => (string)$this->status,
             'created_at' => Carbon::parse($this->created_at)->format('d M Y h:i A'),
         ];
