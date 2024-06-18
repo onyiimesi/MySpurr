@@ -40,4 +40,9 @@ class BlogController extends Controller
     {
         return $this->service->deleteBlog($id);
     }
+
+    public function count()
+    {
+        return $this->service->count();
+    }
 }

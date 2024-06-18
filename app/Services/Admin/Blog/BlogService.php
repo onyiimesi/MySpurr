@@ -131,6 +131,17 @@ class BlogService
 
         return $this->success(null, "Blog deleted successfully");
     }
+
+    public function count()
+    {
+        $data = Blog::count();
+
+        return [
+            'status' => true,
+            'message' => "All Blogs",
+            'value' => $data
+        ];
+    }
 }
 
 
