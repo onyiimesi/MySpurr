@@ -49,7 +49,8 @@ class BlogController extends Controller
     public function blogCatCreate(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string']
+            'name' => ['required', 'string'],
+            'description' => ['required']
         ]);
 
         return $this->service->blogCatCreate($request);
@@ -58,5 +59,10 @@ class BlogController extends Controller
     public function getAllCategory()
     {
         return $this->service->getAllCategory();
+    }
+
+    public function deleteCategory($id)
+    {
+        return $this->service->deleteCategory($id);
     }
 }
