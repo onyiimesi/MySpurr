@@ -151,7 +151,9 @@ class BlogService
         try {
 
             BlogCategory::create([
-                'name' => $request->name
+                'name' => $request->name,
+                'slug' => Str::slug($request->name),
+                'description' => $request->description
             ]);
 
             return $this->success(null, "Created successfully");
@@ -170,6 +172,14 @@ class BlogService
             'message' => "Blog Categories",
             'value' => $data
         ];
+    }
+
+    public function deleteCategory($id)
+    {
+        $cat = BlogCategory::findOrFail($id);
+        $cat->delete();
+
+        return $this->success(null, "Deleted successfully");
     }
 }
 

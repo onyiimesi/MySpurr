@@ -16,7 +16,9 @@ class BlogCategoryResource extends JsonResource
     {
         return [
             'id' => (int)$this->id,
-            'name' => (string)$this->name
+            'name' => (string)$this->name,
+            'slug' => (string)$this->slug,
+            'description' => (string)$this->description,
         ];
     }
 }
