@@ -9,6 +9,8 @@ use App\Http\Resources\V1\JobResource;
 use App\Http\Resources\V1\TalentApplicationResource;
 use App\Http\Resources\V1\TalentJobResource;
 use App\Http\Resources\V1\TalentJobResourceNoAuth;
+use App\Mail\v1\BusinessApplicationMail;
+use App\Mail\v1\TalentApplyMail;
 use App\Models\V1\BookmarkJob;
 use App\Models\V1\Job;
 use App\Models\V1\JobApply;
@@ -20,6 +22,7 @@ use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class TalentJobsController extends Controller
 {
@@ -48,7 +51,7 @@ class TalentJobsController extends Controller
 
     public function listjobs()
     {
-        $job = TalentJob::where('status', 'active')
+        $job = TalentJob::with(['jobapply', 'business', 'questions'])->where('status', 'active')
         ->orderBy('is_highlighted', 'desc')
         ->orderBy('created_at', 'desc')
         ->paginate(25);
@@ -75,7 +78,7 @@ class TalentJobsController extends Controller
         $user = Auth::user();
 
         $talent = Talent::where('email', $user->email)->first();
-        $job = TalentJob::findOrFail($request->job_id);
+        $job = TalentJob::with('business')->findOrFail($request->job_id);
 
         $question = Question::where('talent_job_id', $request->job_id)->first();
 
@@ -108,7 +111,7 @@ class TalentJobsController extends Controller
             $files = "";
         }
 
-        JobApply::create([
+        $jobappy = JobApply::create([
             'talent_id' => $talent->id,
             'job_id' => $request->job_id,
             'slug' => $job->slug,
@@ -124,6 +127,8 @@ class TalentJobsController extends Controller
             $answer = new QuestionAnswer($answerData);
             $question->answers()->save($answer);
         }
+
+        $this->sendMails($jobappy, $talent, $job);
 
         return [
             "status" => 'true',
@@ -230,6 +235,24 @@ class TalentJobsController extends Controller
         $book->delete();
 
         return $this->success(null, "Deleted successfully", 200);
+    }
+
+    private function sendMails($jobappy, $talent, $job)
+    {
+        // Business
+        Mail::to(optional($job->business)->email)
+        ->send(new BusinessApplicationMail($jobappy, $talent, $job->business, $job));
+
+        $jobs = TalentJob::with(['jobapply', 'business', 'questions'])
+        ->where('status', 'active')
+        ->orderBy('is_highlighted', 'desc')
+        ->orderBy('created_at', 'desc')
+        ->take(2)
+        ->get();
+
+        // Talent
+        Mail::to($talent->email)
+        ->send(new TalentApplyMail($jobappy, $talent, $job->business, $job, $jobs));
     }
 }
 
