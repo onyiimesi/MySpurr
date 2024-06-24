@@ -1043,8 +1043,11 @@
                           <td>
                             <table>
                               <tr class="topImg">
+                                @php
+                                    $image = $business->company_logo !== null ? $business->company_logo : "https://backend-api.myspurr.net/public/assets/userplaceholder.jpg";
+                                @endphp
                                 <td class="img">
-                                  <img src="{{ $business->company_logo }}" style="width: 50px; height: 50px; border-radius: 50px;" alt="company logo image">
+                                  <img src="{{ $image }}" style="width: 50px; height: 50px; border-radius: 50px;" alt="company logo image">
                                 </td>
                                 <td class="text">
                                   <table>
