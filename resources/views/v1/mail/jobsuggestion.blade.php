@@ -1115,7 +1115,7 @@
                                                                                                     </tr>
                                                                                                 </table>
                                                                                             </td> --}}
-                                                                                            <td class="text viewText">
+                                                                                            <td class="text viewText" style="background-color: #43D0DF !important; color: #000; border: none; border-radius: 50px; text-align: center !important; padding: 8px 5px;">
                                                                                                 <a href="https://www.myspurr.net/job-details/{{ $job->slug }}"
                                                                                                     target="_blank">VIEW
                                                                                                     JOB</a>

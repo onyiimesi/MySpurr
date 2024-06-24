@@ -1271,7 +1271,7 @@
                               <tr>
                                 <td>
                                   <div class="btn">
-                                    <a href="{{ $jobapply->resume }}" download="" target="_blank">Download document</a>
+                                    <a href="{{ $jobapply->other_file }}" download target="_blank">Download document</a>
                                   </div>
                                 </td>
                               </tr>
