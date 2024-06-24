@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\OthersController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminTalentsController;
 use App\Http\Controllers\Admin\AdminBusinessController;
+use App\Http\Controllers\Admin\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +65,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::post('add/user', [AdminAuthController::class, 'addUser']);
+    Route::post('mail/sendmail', [MailController::class, 'sendMail']);
 
 });
 
