@@ -903,7 +903,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <h3>New jobs picks for you</h3>
+                                            <h3>New Job Suggestions for {{ $talent->first_name }}</h3>
                                         </td>
                                     </tr>
                                 </table>
@@ -1163,7 +1163,7 @@
                                                 <td class="text3">
                                                     <div class="btn btn-primary">
                                                         <a href="https://t.me/+tT1PkFVhBnA0NWVk" target="_blank">
-                                                            https://t.me/+tT1PkFVhBnA0NWVk
+                                                            Join Telegram
                                                         </a>
                                                     </div>
                                                 </td>

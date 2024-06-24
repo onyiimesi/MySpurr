@@ -77,7 +77,7 @@ class TalentJobsController extends Controller
 
         $user = Auth::user();
 
-        $talent = Talent::where('email', $user->email)->first();
+        $talent = Talent::with('certificates')->where('email', $user->email)->first();
         $job = TalentJob::with('business')->findOrFail($request->job_id);
 
         $question = Question::where('talent_job_id', $request->job_id)->first();

@@ -1182,14 +1182,18 @@
                                 <td>
 
                                   <p class="pseudoLinks profiles">
-                                    <a href="">
-                                      <!-- linkedIn logo -->
-                                      <img src="https://backend-api.myspurr.net/public/assets/linkedln.jpg" alt="">
-                                    </a>
-                                    <a href="">
-                                      <!-- instagram logo -->
-                                      <img src="https://backend-api.myspurr.net/public/assets/instagram.jpg" alt="">
-                                    </a>
+                                    @if ($talent->linkedin !== null)
+                                        <a href="{{ $talent->linkedin }}">
+                                            <!-- linkedIn logo -->
+                                            <img src="https://backend-api.myspurr.net/public/assets/linkedln.jpg" alt="">
+                                        </a>
+                                    @endif
+                                    @if ($talent->instagram !== null)
+                                        <a href="{{ $talent->instagram }}">
+                                            <!-- instagram logo -->
+                                            <img src="https://backend-api.myspurr.net/public/assets/instagram.jpg" alt="">
+                                        </a>
+                                    @endif
                                     {{-- <a href="">
                                       <!-- behance logo -->
                                       <svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6"
@@ -1199,10 +1203,12 @@
                                           fill="black" />
                                       </svg>
                                     </a> --}}
-                                    <a href="">
-                                      <!-- twitter logo -->
-                                      <img src="https://backend-api.myspurr.net/public/assets/twitter.jpg" alt="">
-                                    </a>
+                                    @if ($talent->twitter !== null)
+                                        <a href="{{ $talent->twitter }}">
+                                            <!-- twitter logo -->
+                                            <img src="https://backend-api.myspurr.net/public/assets/twitter.jpg" alt="">
+                                        </a>
+                                    @endif
                                   </p>
                                   {{-- <a href="" class="btn">Message</a> --}}
                                 </td>
@@ -1265,7 +1271,7 @@
                               <tr>
                                 <td>
                                   <div class="btn">
-                                    <a href="{{ $jobapply->resume }}" download="" target="_blank">Download CV</a>
+                                    <a href="{{ $jobapply->resume }}" download="" target="_blank">Download document</a>
                                   </div>
                                 </td>
                               </tr>
