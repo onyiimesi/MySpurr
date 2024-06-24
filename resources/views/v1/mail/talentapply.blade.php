@@ -11,868 +11,893 @@
     <link href="https://fonts.cdnfonts.com/css/satoshi" rel="stylesheet">
     <style>
         /* -------------------------------------
-          GLOBAL RESETS
-      ------------------------------------- */
-
+              GLOBAL RESETS
+          ------------------------------------- */
+    
         /*All the styling goes here*/
         *,
         ::before,
         ::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
         }
-
+    
         img {
-            border: none;
-            -ms-interpolation-mode: bicubic;
-            max-width: 100%;
+          border: none;
+          -ms-interpolation-mode: bicubic;
+          max-width: 100%;
         }
-
+    
         body {
-            background-color: #f6f6f6;
-            font-family: 'Satoshi', sans-serif !important;
-            -webkit-font-smoothing: antialiased;
-            font-size: 14px;
-            line-height: 1.4;
-            margin: 0;
-            padding: 0;
-            -ms-text-size-adjust: 100%;
-            -webkit-text-size-adjust: 100%;
+          background-color: #f6f6f6;
+          font-family: sans-serif;
+          -webkit-font-smoothing: antialiased;
+          font-size: 14px;
+          line-height: 1.4;
+          margin: 0;
+          padding: 0;
+          -ms-text-size-adjust: 100%;
+          -webkit-text-size-adjust: 100%;
         }
-
+    
         table {
-            border-collapse: separate;
-            mso-table-lspace: 0pt;
-            mso-table-rspace: 0pt;
-            width: 100%;
+          border-collapse: separate;
+          mso-table-lspace: 0pt;
+          mso-table-rspace: 0pt;
+          width: 100%;
         }
-
+    
         table td {
-            font-family: 'Satoshi', sans-serif !important;
-            font-size: 14px;
-            /* vertical-align: top;  */
+          font-family: sans-serif;
+          font-size: 14px;
+          /* vertical-align: top;  */
         }
-
+    
         /* -------------------------------------
-          BODY & CONTAINER
-      ------------------------------------- */
-
+              BODY & CONTAINER
+          ------------------------------------- */
+    
         .body {
-            background-color: #f6f6f6;
-            width: 100%;
+          background-color: #f6f6f6;
+          width: 100%;
         }
-
+    
         /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
         .container {
-            display: block;
-            margin: 0 auto !important;
-            /* makes it centered */
-            max-width: 580px;
-            padding: 10px;
-            width: 580px;
+          display: block;
+          margin: 0 auto !important;
+          /* makes it centered */
+          max-width: 580px;
+          padding: 10px;
+          width: 580px;
         }
-
+    
         /* This should also be a block element, so that it will fill 100% of the .container */
         .content {
-            box-sizing: border-box;
-            display: block;
-            margin: 0 auto;
-            max-width: 580px;
-            padding: 10px;
+          box-sizing: border-box;
+          display: block;
+          margin: 0 auto;
+          max-width: 580px;
+          padding: 10px;
         }
-
+    
         /* -------------------------------------
-          HEADER, FOOTER, MAIN
-      ------------------------------------- */
+              HEADER, FOOTER, MAIN
+          ------------------------------------- */
         .main {
-            background: #F9F9F9;
-            border-radius: 3px;
-            width: 100%;
+          background: #F9F9F9;
+          border-radius: 3px;
+          width: 100%;
         }
-
+    
         .wrapper {
-            box-sizing: border-box;
-            padding: 80px 50px;
+          box-sizing: border-box;
+          padding: 80px 50px;
         }
-
+    
         .content-block {
-            padding-bottom: 10px;
-            padding-top: 10px;
+          padding-bottom: 10px;
+          padding-top: 10px;
         }
-
+    
         .footer {
-            clear: both;
-            margin-top: 30px;
-            text-align: center;
-            width: 100%;
+          clear: both;
+          margin-top: 30px;
+          text-align: center;
+          width: 100%;
         }
-
+    
         .footer td,
         .footer p,
         .footer span,
         .footer a {
-            color: #999999;
-            font-size: 12px;
-            text-align: center;
+          color: #999999;
+          font-size: 12px;
+          text-align: center;
         }
-
+    
         /* -------------------------------------
-          TYPOGRAPHY
-      ------------------------------------- */
+              TYPOGRAPHY
+          ------------------------------------- */
         h1,
         h2,
         h3,
         h4 {
-            color: #000000;
-            font-family: 'Satoshi', sans-serif !important;
-            font-weight: 400;
-            line-height: 1.4;
-            margin: 0;
-            /* margin-bottom: 30px;  */
+          color: #000000;
+          font-family: sans-serif;
+          font-weight: 400;
+          line-height: 1.4;
+          margin: 0;
+          /* margin-bottom: 30px;  */
         }
-
+    
         h1 {
-            font-size: 35px;
-            font-weight: 300;
-            text-align: center;
-            text-transform: capitalize;
+          font-size: 35px;
+          font-weight: 300;
+          text-align: center;
+          text-transform: capitalize;
         }
-
+    
         p,
         ul,
         ol {
-            font-family: 'Satoshi', sans-serif !important;
-            font-size: 14px;
-            font-weight: normal;
-            margin: 0;
-            /* margin-bottom: 15px;  */
+          font-family: 'Satoshi';
+          font-size: 14px;
+          font-weight: normal;
+          margin: 0;
+          /* margin-bottom: 15px;  */
         }
-
+    
         p li,
         ul li,
         ol li {
-            list-style-position: inside;
-            margin-left: 5px;
+          list-style-position: inside;
+          margin-left: 5px;
         }
-
-
-
+    
+    
+    
         /* -------------------------------------
-          BUTTONS
-      ------------------------------------- */
+              BUTTONS
+          ------------------------------------- */
         .btn {
-            box-sizing: border-box;
-            width: 100%;
+          box-sizing: border-box;
+          width: 100%;
         }
-
+    
         .btn>tbody>tr>td {
-            padding-bottom: 15px;
+          padding-bottom: 15px;
         }
-
+    
         .btn table {
-            width: auto;
+          width: auto;
         }
-
+    
         .btn table td {
-            background-color: #ffffff;
-            border-radius: 5px;
-            text-align: center;
+          background-color: #ffffff;
+          border-radius: 5px;
+          text-align: center;
         }
-
+    
         .btn a {
-            background-color: #ffffff;
-            border: solid 1px #3498db;
-            border-radius: 5px;
-            box-sizing: border-box;
-            color: #3498db;
-            cursor: pointer;
-            display: inline-block;
-            font-size: 10.165px;
-            font-weight: bold;
-            margin: 0;
-            padding: 12px 25px;
-            text-decoration: none;
-            text-transform: capitalize;
+          background-color: #ffffff;
+          border: solid 1px #3498db;
+          border-radius: 5px;
+          box-sizing: border-box;
+          color: #3498db;
+          cursor: pointer;
+          display: inline-block;
+          font-size: 10.165px;
+          font-weight: bold;
+          margin: 0;
+          padding: 12px 25px;
+          text-decoration: none;
+          text-transform: capitalize;
         }
-
+    
         .btn-primary table td {
-            background-color: #43D0DF;
-            border: none;
-            border-radius: 50px;
-
+          background-color: #43D0DF;
+          border: none;
+          border-radius: 50px;
+    
         }
-
+    
         .btn-primary a {
-            background: #43D0DF;
-            color: #000;
-            border: none;
-            border-radius: 50px;
-            font-size: 10.165px;
+          background: #43D0DF;
+          color: #000;
+          border: none;
+          border-radius: 50px;
+          font-size: 10.165px;
         }
-
-
-
+    
+    
+    
         /* -------------------------------------
-          OTHER STYLES THAT MIGHT BE USEFUL
-      ------------------------------------- */
+              OTHER STYLES THAT MIGHT BE USEFUL
+          ------------------------------------- */
         .last {
-            margin-bottom: 0;
+          margin-bottom: 0;
         }
-
+    
         .align-center {
-            text-align: center;
+          text-align: center;
         }
-
+    
         .align-right {
-            text-align: right;
+          text-align: right;
         }
-
+    
         .align-left {
-            text-align: left;
+          text-align: left;
         }
-
+    
         .clear {
-            clear: both;
+          clear: both;
         }
-
+    
         .mt0 {
-            margin-top: 0;
+          margin-top: 0;
         }
-
+    
         .mb0 {
-            margin-bottom: 0;
+          margin-bottom: 0;
         }
-
+    
         .preheader {
-            color: transparent;
-            display: none;
-            height: 0;
-            max-height: 0;
-            max-width: 0;
-            opacity: 0;
-            overflow: hidden;
-            mso-hide: all;
-            visibility: hidden;
-            width: 0;
+          color: transparent;
+          display: none;
+          height: 0;
+          max-height: 0;
+          max-width: 0;
+          opacity: 0;
+          overflow: hidden;
+          mso-hide: all;
+          visibility: hidden;
+          width: 0;
         }
-
+    
         .powered-by a {
-            text-decoration: none;
+          text-decoration: none;
         }
-
+    
         hr {
-            border: 0;
-            border-bottom: 1px solid #EAEAEA;
-            margin: 5px 0 5px 0;
+          border: 0;
+          border-bottom: 1px solid #EAEAEA;
+          margin: 5px 0 5px 0;
         }
-
+    
         .heading {
-            color: #007582;
-            font-family: EB Garamond;
-            font-size: 38.9px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 45.574px;
-            /* 116.129% */
-            padding-top: 60px;
-            font-family: 'EB Garamond', serif;
-            margin-bottom: 30px !important;
-
+          color: #007582;
+          font-family: EB Garamond;
+          font-size: 38.9px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 45.574px;
+          /* 116.129% */
+          padding-top: 60px;
+          font-family: 'EB Garamond', serif;
+          margin-bottom: 30px !important;
+    
         }
-
+    
         .welcome_text {
-            color: #011B1F;
-            font-family: 'Satoshi', sans-serif !important;
-            font-size: 19.628px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 33px;
-            /* 190.909% */
+          color: #011B1F;
+          font-family: Satoshi;
+          font-size: 19.628px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 33px;
+          /* 190.909% */
         }
-
+    
         .logo {
-            width: 239.813px;
-            height: 51.619px;
-            font-family: 'Satoshi', sans-serif !important;
+          width: 239.813px;
+          height: 51.619px;
+          font-family: 'Satoshi';
         }
-
+    
         @font-face {
-            font-family: 'Satoshi', sans-serif !important;
-            src: url('https://res.cloudinary.com/dkxn7qs49/raw/upload/v1657200404/Font/Satoshi-Variable_iu9svo.ttf') format('truetype');
-            font-weight: 400 900;
-            font-display: swap;
-            font-style: normal;
+          font-family: 'Satoshi';
+          src: url('https://res.cloudinary.com/dkxn7qs49/raw/upload/v1657200404/Font/Satoshi-Variable_iu9svo.ttf') format('truetype');
+          font-weight: 400 900;
+          font-display: swap;
+          font-style: normal;
         }
-
+    
         /* -------------------------------------
-          RESPONSIVE AND MOBILE FRIENDLY STYLES
-      ------------------------------------- */
+              RESPONSIVE AND MOBILE FRIENDLY STYLES
+          ------------------------------------- */
         @media only screen and (max-width: 620px) {
-
-            /* .topRow .text {
-            padding-left: 0px !important;
-        } */
-
-            .jobDescription,
-            .applied .jobDescription {
-                width: auto !important;
-            }
-
-            .table0 .text {
-                width: auto !important;
-            }
-
-            .col2 {
-                width: auto !important;
-            }
-
-            .adsMain {
-                width: 100% !important;
-                padding: 10px !important;
-            }
-
-            .topRow .text {
-                padding-left: 0 !important;
-            }
-
-            .table5 .text h4 {
-                width: auto !important;
-            }
-
-            .table3 .btn {
-                width: 100% !important;
-            }
-
-            .footerTable .text1 h3,
-            .footerTable .text2 {
-                text-align: center !important;
-            }
-
-            .footerTable .btn {
-                width: 100% !important;
-            }
-
-            .links {
-                text-align: center !important;
-            }
-
-            .adsMain .company,
-            .adsMain .role {
-                font-size: 14px !important;
-                margin-bottom: 0 !important;
-            }
-
-            .adsMain .workTime {
-                font-size: 9px !important;
-            }
-
-            .heading {
-                font-size: 25.9px !important;
-            }
-
-            .welcome_text {
-                font-size: 15.628px;
-                line-height: 22px;
-                /* 190.909% */
-            }
-
-
-            table.body h1 {
-                font-size: 28px !important;
-                margin-bottom: 10px !important;
-            }
-
-            /* table.body ul,
-        table.body ol,
-        table.body td,
-        table.body span {
-          font-size: 16px !important;
-        } */
-            table.body .wrapper,
-            table.body .article {
-                padding: 40px 20px !important;
-            }
-
-            table.body .content {
-                padding: 0 !important;
-            }
-
-            table.body .container {
-                padding: 0 !important;
-                width: 100% !important;
-            }
-
-            table.body .main {
-                border-left-width: 0 !important;
-                border-radius: 0 !important;
-                border-right-width: 0 !important;
-            }
-
-            table.body .btn table {
-                width: 100% !important;
-            }
-
-            table.body .btn a {
-                width: 100% !important;
-                text-align: center;
-            }
-
-            table.body .img-responsive {
-                height: auto !important;
-                max-width: 100% !important;
-                width: auto !important;
-            }
+    
+          /* .topRow .text {
+                padding-left: 0px !important;
+            } */
+    
+          /* recent change start */
+    
+          .viewText {
+            padding: 6px !important;
+            font-size: 8px !important;
+            margin-left: 0 !important;
+          }
+    
+          .salary {
+            font-size: 12px !important;
+          }
+    
+          .col2 p {
+            padding: 4px !important;
+            font-size: 6px !important;
+          }
+    
+          /* recent change end */
+    
+          .jobDescription,
+          .applied .jobDescription {
+            width: auto !important;
+          }
+    
+          .table0 .text {
+            width: auto !important;
+          }
+    
+          .col2 {
+            width: auto !important;
+          }
+    
+          .adsMain {
+            width: 100% !important;
+            padding: 10px !important;
+          }
+    
+          .topRow .text {
+            padding-left: 0 !important;
+          }
+    
+          .table5 .text h4 {
+            width: auto !important;
+          }
+    
+          .table3 .btn {
+            width: 100% !important;
+          }
+    
+          .footerTable .text1 h3,
+          .footerTable .text2 {
+            text-align: center !important;
+          }
+    
+          .footerTable .btn {
+            width: 100% !important;
+          }
+    
+          .links {
+            text-align: center !important;
+          }
+    
+          .adsMain .company,
+          .adsMain .role {
+            font-size: 14px !important;
+            margin-bottom: 0 !important;
+          }
+    
+          .adsMain .workTime {
+            font-size: 9px !important;
+          }
+    
+          .heading {
+            font-size: 25.9px !important;
+          }
+    
+          .welcome_text {
+            font-size: 15.628px;
+            line-height: 22px;
+            /* 190.909% */
+          }
+    
+    
+          table.body h1 {
+            font-size: 28px !important;
+            margin-bottom: 10px !important;
+          }
+    
+          /* table.body ul,
+            table.body ol,
+            table.body td,
+            table.body span {
+              font-size: 16px !important; 
+            } */
+          table.body .wrapper,
+          table.body .article {
+            padding: 40px 20px !important;
+          }
+    
+          table.body .content {
+            padding: 0 !important;
+          }
+    
+          table.body .container {
+            padding: 0 !important;
+            width: 100% !important;
+          }
+    
+          table.body .main {
+            border-left-width: 0 !important;
+            border-radius: 0 !important;
+            border-right-width: 0 !important;
+          }
+    
+          table.body .btn table {
+            width: 100% !important;
+          }
+    
+          table.body .btn a {
+            width: 100% !important;
+            text-align: center;
+          }
+    
+          table.body .img-responsive {
+            height: auto !important;
+            max-width: 100% !important;
+            width: auto !important;
+          }
         }
-
+    
         /* -------------------------------------
-          PRESERVE THESE STYLES IN THE HEAD
-      ------------------------------------- */
+              PRESERVE THESE STYLES IN THE HEAD
+          ------------------------------------- */
         @media all {
-            .ExternalClass {
-                width: 100%;
-            }
-
-            .ExternalClass,
-            .ExternalClass p,
-            .ExternalClass span,
-            .ExternalClass font,
-            .ExternalClass td,
-            .ExternalClass div {
-                line-height: 100%;
-            }
-
-            .apple-link a {
-                color: inherit !important;
-                font-family: inherit !important;
-                font-size: inherit !important;
-                font-weight: inherit !important;
-                line-height: inherit !important;
-                text-decoration: none !important;
-            }
-
-            #MessageViewBody a {
-                color: inherit;
-                text-decoration: none;
-                font-size: inherit;
-                font-family: inherit;
-                font-weight: inherit;
-                line-height: inherit;
-            }
-
-            .btn-primary table td:hover {
-                background-color: #34495e !important;
-            }
-
-            .btn-primary a:hover {
-                background-color: #00474F !important;
-                color: #ffffff !important;
-            }
-        }
-
-        /* -------------------------------------
-          SCOPED STYLES
-      ------------------------------------- */
-        .table1 .row1 {
-            padding: 42px 30px;
-        }
-
-        .table2 {
-            background: #00525B;
-            padding: 22px 30px;
-        }
-
-        p {
-            color: var(--Foundation-Body-B50, #E6E9EA);
-            font-family: 'Satoshi', sans-serif !important;
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 37.471px;
-        }
-
-        a {
-            color: #000;
-            font-style: normal;
-            font-family: 'Satoshi', sans-serif !important;
-            font-weight: 500;
-            text-decoration: none;
-            line-height: 0;
-            color: inherit;
+          .ExternalClass {
             width: 100%;
+          }
+    
+          .ExternalClass,
+          .ExternalClass p,
+          .ExternalClass span,
+          .ExternalClass font,
+          .ExternalClass td,
+          .ExternalClass div {
+            line-height: 100%;
+          }
+    
+          .apple-link a {
+            color: inherit !important;
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            text-decoration: none !important;
+          }
+    
+          #MessageViewBody a {
+            color: inherit;
+            text-decoration: none;
+            font-size: inherit;
+            font-family: inherit;
+            font-weight: inherit;
+            line-height: inherit;
+          }
+    
+          .btn-primary table td:hover {
+            background-color: #34495e !important;
+          }
+    
+          .btn-primary a:hover {
+            background-color: #00474F !important;
+            color: #ffffff !important;
+          }
         }
-
+    
+        /* -------------------------------------
+              SCOPED STYLES
+          ------------------------------------- */
+        .table1 .row1 {
+          padding: 42px 30px;
+        }
+    
+        .table2 {
+          background: #00525B;
+          padding: 22px 30px;
+        }
+    
+        p {
+          color: var(--Foundation-Body-B50, #E6E9EA);
+          font-family: Satoshi;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 37.471px;
+        }
+    
+        a {
+          color: #000;
+          font-style: normal;
+          font-family: Satoshi;
+          font-weight: 500;
+          text-decoration: none;
+          line-height: 0;
+          color: inherit;
+          width: 100%;
+        }
+    
         .table2 h3 {
-            color: #FFF;
-            font-feature-settings: 'clig' off, 'liga' off;
-            font-family: 'Satoshi', sans-serif !important;
-            font-size: 19px;
-            font-style: normal;
-            font-weight: 700;
-            line-height: 45.088px;
+          color: #FFF;
+          font-feature-settings: 'clig' off, 'liga' off;
+          font-family: Satoshi;
+          font-size: 19px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 45.088px;
         }
-
+    
         .table3,
         .footerTable {
-            width: 90%;
-            margin: 41px auto 0 auto;
+          width: 90%;
+          margin: 41px auto 0 auto;
         }
-
+    
         .table3 p {
-            color: #000;
-            font-feature-settings: 'clig' off, 'liga' off;
-            line-height: 18px;
-            margin-bottom: 41px;
+          color: #000;
+          font-feature-settings: 'clig' off, 'liga' off;
+          line-height: 18px;
+          margin-bottom: 41px;
         }
-
+    
         .adsMain {
-            width: 90%;
-            margin: 0 auto;
-            border-radius: 6.254px;
-            border: 0.625px solid rgba(37, 64, 53, 0.67);
-            background: #FFFFFD;
-            padding: 18px;
-            margin-bottom: 31px;
+          width: 90%;
+          margin: 0 auto;
+          border-radius: 6.254px;
+          border: 0.625px solid rgba(37, 64, 53, 0.67);
+          background: #FFFFFD;
+          padding: 18px;
+          margin-bottom: 31px;
         }
-
+    
         .applied .adsMain {
-            margin: 20px 0 47px 0;
-            width: 100%;
+          margin: 20px 0 47px 0;
+          width: 100%;
         }
-
+    
         .adsContainer {
-            margin-bottom: 54px;
+          margin-bottom: 54px;
         }
-
+    
         .adsContainer h3 {
-            margin: 0;
+          margin: 0;
         }
-
+    
         .img {
-            width: 20%;
+          width: 20%;
         }
-
+    
         .img.time img,
         .img.location img,
         .img.schedule img {
-            width: 100%;
-            vertical-align: middle;
+          width: 100%;
+          vertical-align: middle;
         }
-
+    
         .img.time,
         .img.location,
         .img.schedule {
-            width: auto;
-            vertical-align: middle;
-            padding: 0;
-            margin: 0;
+          width: auto;
+          vertical-align: middle;
+          padding: 0;
+          margin: 0;
         }
-
+    
         .topRow .text {
-            padding-top: 10px;
+          padding-top: 10px;
         }
-
+    
         .img img {
-            width: 80%;
-            height: 80%;
+          width: 80%;
+          height: 80%;
         }
-
+    
         .text .img img,
         .table4 .img img {
-            width: 19.531px;
-            height: 19.531px;
+          width: 19.531px;
+          height: 19.531px;
         }
-
+    
         .adsMain .company {
-            color: var(--Secondary-S400, #2F929C);
-            font-family: 'Satoshi', sans-serif !important;
-            font-size: 15.38px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 15.634px;
-            margin-bottom: 7px;
+          color: var(--Secondary-S400, #2F929C);
+          font-family: Satoshi;
+          font-size: 15.38px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 15.634px;
+          margin-bottom: 7px;
         }
-
+    
         .adsMain .role {
-            color: #000;
-            font-feature-settings: 'clig' off, 'liga' off;
-            font-family: 'Satoshi', sans-serif !important;
-            font-size: 13.006px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 12.653px;
-            margin-bottom: 1px;
+          color: #000;
+          font-feature-settings: 'clig' off, 'liga' off;
+          font-family: Satoshi;
+          font-size: 13.006px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 12.653px;
+          margin-bottom: 1px;
         }
-
+    
         .adsMain .workTime {
-            margin-bottom: 0;
-            color: var(--Foundation-danger-D300, #DA5252);
-            font-feature-settings: 'clig' off, 'liga' off;
-            font-family: 'Satoshi', sans-serif !important;
-            font-size: 8.391px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 10.382px;
+          margin-bottom: 0;
+          color: var(--Foundation-danger-D300, #DA5252);
+          font-feature-settings: 'clig' off, 'liga' off;
+          font-family: Satoshi;
+          font-size: 8.391px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 10.382px;
         }
-
-
+    
+    
         .text .img,
         .text .workTime,
         .col1,
         .col2 {
-            vertical-align: middle;
+          vertical-align: middle;
         }
-
+    
         .col2 {
-            text-align: end;
-            width: 30%;
+          text-align: end;
+          width: 30%;
         }
-
+    
         .text .workTime {
-            width: 90%;
+          width: 90%;
         }
-
+    
         .jobDescription {
-            width: 90%;
+          width: 90%;
         }
-
+    
         .applied .jobDescription {
-            width: 80%;
+          width: 80%;
         }
-
+    
         .table4 p {
-            margin: 0;
-
+          margin: 0;
+    
         }
-
+    
         .table4 .salary {
-            color: rgba(36, 64, 52, 0.70);
-            font-feature-settings: 'clig' off, 'liga' off;
-            font-family: 'Satoshi', sans-serif !important;
-            font-size: 15.008px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 23.284px;
-            /* 155.142% */
-            /* margin-bottom: 7px; */
+          color: rgba(36, 64, 52, 0.70);
+          font-feature-settings: 'clig' off, 'liga' off;
+          font-family: Satoshi;
+          font-size: 15.008px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 23.284px;
+          /* 155.142% */
+          /* margin-bottom: 7px; */
         }
-
+    
         .table4 .img {
-            height: 100%;
-            width: 12px;
+          height: 100%;
+          width: 12px;
         }
-
+    
         .table4 .text {
-            padding: 0;
-            height: 100%;
-
+          padding: 0;
+          height: 100%;
+    
         }
-
+    
         .table4 .col1 table {
-            width: 100%;
+          width: 100%;
         }
-
+    
         .col1 .text {
-            color: rgba(0, 0, 0, 0.70);
-            font-feature-settings: 'clig' off, 'liga' off;
-            font-family: 'Satoshi', sans-serif !important;
-            font-size: 11.992px;
-            font-style: normal;
-            font-weight: 700;
-            line-height: 26.575px;
+          color: rgba(0, 0, 0, 0.70);
+          font-feature-settings: 'clig' off, 'liga' off;
+          font-family: Satoshi;
+          font-size: 11.992px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 26.575px;
         }
-
+    
         .col2 p {
-            width: 100%;
-            margin-bottom: 0 !important;
-            /* margin-left: auto; */
-            color: #000;
-            text-align: center;
-            font-family: 'Satoshi', sans-serif !important;
-            font-size: 9.71px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 11.882px;
-            /* 208.088% */
-            letter-spacing: 0.625px;
-            text-transform: uppercase;
-            padding: 9px;
-            border-radius: 15px;
-            background: var(--Foundation-Success-S75, #EDF0B8);
+          width: 100%;
+          margin-bottom: 0 !important;
+          /* margin-left: auto; */
+          color: #000;
+          text-align: center;
+          font-family: Satoshi;
+          font-size: 9.71px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 11.882px;
+          /* 208.088% */
+          letter-spacing: 0.625px;
+          text-transform: uppercase;
+          padding: 9px;
+          border-radius: 15px;
+          background: var(--Foundation-Success-S75, #EDF0B8);
         }
-
+    
         .table4 .text {
-            padding: 0;
-            vertical-align: center;
-            margin-left: auto;
+          padding: 0;
+          vertical-align: center;
+          margin-left: auto;
         }
-
+    
         .table4 .viewText {
-            color: #fff !important;
-            text-align: end;
+          text-align: end;
         }
-
-        .table4 .text a {
-            margin: 0;
-            width: 50%;
-            text-align: center;
-            font-size: 9.7px;
-            line-height: 11.882px;
-            /* 158.333% */
-            letter-spacing: 0.625px;
-            text-transform: uppercase;
-            border-radius: 15px;
-            background: #43D0DF;
-            padding: 9px 21px;
+    
+        /* recent change */
+        .table4 .text .viewText {
+          margin: 0;
+          width: 100%;
+          text-align: center;
+          font-size: 9.7px;
+          line-height: 11.882px;
+          /* 158.333% */
+          letter-spacing: 0.625px;
+          text-transform: uppercase;
+          border-radius: 15px;
+          background: #43D0DF;
+          padding: 9px 21px;
         }
-
+    
+        /* recent change */
+        .table4 .text .viewText:hover {
+          background-color: #00474F !important;
+          color: #ffffff !important;
+        }
+    
         .table5 .text {
-            padding: 0;
-            vertical-align: center;
+          padding: 0;
+          vertical-align: center;
         }
-
+    
         .table5 .text a,
         .table5 .text h4 {
-            margin: 0;
-            width: 50%;
-            text-align: center;
-            font-size: 10.504px;
-            line-height: 11.882px;
-            /* 158.333% */
-            letter-spacing: 0.625px;
-            text-transform: uppercase;
-            border-radius: 10.631px;
-            background: #43D0DF;
-            padding: 9px 21px;
+          margin: 0;
+          width: 50%;
+          text-align: center;
+          font-size: 10.504px;
+          line-height: 11.882px;
+          /* 158.333% */
+          letter-spacing: 0.625px;
+          text-transform: uppercase;
+          border-radius: 10.631px;
+          background: #43D0DF;
+          padding: 9px 21px;
         }
-
+    
         .table5 .text a:hover {
-            background-color: #00474F !important;
-            color: #ffffff !important;
+          background-color: #00474F !important;
+          color: #ffffff !important;
         }
-
+    
         .table5 table {
-            width: auto;
-            margin-left: auto;
+          width: auto;
+          margin-left: auto;
         }
-
+    
         .table5 table .img {
-            width: auto;
+          width: auto;
         }
-
+    
         .table5 .img img {
-            width: 40px;
-            height: 40px;
-            margin-left: 10px;
+          width: 40px;
+          height: 40px;
+          margin-left: 10px;
         }
-
+    
         .table3 .btn {
-            width: 40%;
-            margin: 0 auto;
-            margin-bottom: 50px;
+          width: 40%;
+          margin: 0 auto;
+          margin-bottom: 50px;
         }
-
+    
         .table3 .btn a {
-            text-align: center;
-            font-size: 10.135px;
-            line-height: 20.192px;
-            /* 142.857% */
-            letter-spacing: 0.883px;
-            text-transform: uppercase;
-            padding: 14px 15px;
+          text-align: center;
+          font-size: 10.135px;
+          line-height: 20.192px;
+          /* 142.857% */
+          letter-spacing: 0.883px;
+          text-transform: uppercase;
+          padding: 14px 15px;
         }
-
+    
         .footerTable {
-            margin-top: 0;
+          margin-top: 0;
         }
-
+    
         .footerTable .text1 h3 {
-            color: var(--Foundation-Body-B400, #011B1F);
-            font-family: 'Satoshi', sans-serif !important;
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 23px;
-            /* 115% */
-            margin-bottom: 15px;
+          color: var(--Foundation-Body-B400, #011B1F);
+          font-family: Satoshi;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 23px;
+          /* 115% */
+          margin-bottom: 15px;
         }
-
+    
         .footerTable .text2 {
-            color: #000;
-            font-feature-settings: 'clig' off, 'liga' off;
-            font-family: 'Satoshi', sans-serif !important;
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 19px;
-            /* 135.714% */
-
+          color: #000;
+          font-feature-settings: 'clig' off, 'liga' off;
+          font-family: Satoshi;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 19px;
+          /* 135.714% */
+    
         }
-
+    
         .footerTable .btn {
-            width: 50%;
-            margin-top: 34px;
-            margin-bottom: 45px;
+          width: 50%;
+          margin-top: 34px;
+          margin-bottom: 45px;
         }
-
+    
         .footerTable .text3 a {
-            border-radius: 13.882px;
-            background: var(--Secondary-S75, #B2ECF2);
-            font-feature-settings: 'clig' off, 'liga' off;
-            font-size: 11.846px;
-            font-weight: 400;
-            line-height: 22.615px;
-            text-decoration-line: underline;
+          border-radius: 13.882px;
+          background: var(--Secondary-S75, #B2ECF2);
+          font-feature-settings: 'clig' off, 'liga' off;
+          font-size: 11.846px;
+          font-weight: 400;
+          line-height: 22.615px;
+          text-decoration-line: underline;
         }
-
+    
         .links {
-            text-align: center;
+          text-align: center;
         }
-
+    
         .links a {
-            color: var(--P300, #007582);
-            font-size: 11.96px;
-            font-weight: 400;
-            line-height: 22.834px;
-            text-decoration-line: underline;
+          color: var(--P300, #007582);
+          font-size: 11.96px;
+          font-weight: 400;
+          line-height: 22.834px;
+          text-decoration-line: underline;
         }
-
+    
         .links a:hover {
-            color: #00474F !important;
+          color: #00474F !important;
         }
-
+    
         .table0 .text,
         .applied .table0 .text {
-            width: 45%;
+          width: 45%;
         }
-
+    
         .table0 .text a {
-            width: 100%;
+          width: 100%;
         }
-
+    
         .table0 table {
-            width: 30%;
-            vertical-align: middle;
-            text-align: center;
-            margin-left: auto;
+          width: 30%;
+          vertical-align: middle;
+          text-align: center;
+          margin-left: auto;
         }
-
+    
         .shareJob,
         .col0 {
-            vertical-align: middle;
+          vertical-align: middle;
         }
-
+    
         .table0 .img {
-            width: 100%;
-            padding-top: 5px;
+          width: 100%;
+          padding-top: 5px;
         }
-
+    
         .table0 .shareJob img {
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
+          width: 30px;
+          height: 30px;
+          cursor: pointer;
         }
-    </style>
+      </style>
 </head>
 
 <body>
@@ -915,8 +940,11 @@
                                                     <td>
                                                         <table>
                                                             <tr class="topRow">
+                                                                @php
+                                                                    $image = $job->business->company_logo !== null ? $job->business->company_logo : "https://backend-api.myspurr.net/public/assets/userplaceholder.jpg";
+                                                                @endphp
                                                                 <td class="img">
-                                                                    <img src="{{ $business->company_logo }}"
+                                                                    <img src="{{ $image }}"
                                                                         style="width: 50px; height: 50px; border-radius: 50px;"
                                                                         alt="job logo">
                                                                 </td>
@@ -1128,8 +1156,11 @@
                                                                     <td>
                                                                         <table>
                                                                             <tr class="topRow">
+                                                                                @php
+                                                                                    $image = $job->business->company_logo !== null ? $job->business->company_logo : "https://backend-api.myspurr.net/public/assets/userplaceholder.jpg";
+                                                                                @endphp
                                                                                 <td class="img">
-                                                                                    <img src="{{ $job->business->company_logo }}" alt="job logo">
+                                                                                    <img src="{{ $image }}" alt="job logo">
                                                                                 </td>
                                                                                 <td class="text">
                                                                                     <table>
