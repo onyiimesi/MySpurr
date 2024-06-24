@@ -1182,13 +1182,13 @@
                                 <td>
 
                                   <p class="pseudoLinks profiles">
-                                    @if ($talent->linkedin !== null)
+                                    @if ($talent->linkedin)
                                         <a href="{{ $talent->linkedin }}">
                                             <!-- linkedIn logo -->
                                             <img src="https://backend-api.myspurr.net/public/assets/linkedln.jpg" alt="">
                                         </a>
                                     @endif
-                                    @if ($talent->instagram !== null)
+                                    @if ($talent->instagram)
                                         <a href="{{ $talent->instagram }}">
                                             <!-- instagram logo -->
                                             <img src="https://backend-api.myspurr.net/public/assets/instagram.jpg" alt="">
@@ -1203,7 +1203,7 @@
                                           fill="black" />
                                       </svg>
                                     </a> --}}
-                                    @if ($talent->twitter !== null)
+                                    @if ($talent->twitter)
                                         <a href="{{ $talent->twitter }}">
                                             <!-- twitter logo -->
                                             <img src="https://backend-api.myspurr.net/public/assets/twitter.jpg" alt="">
