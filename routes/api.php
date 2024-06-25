@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\V1\AuthController;
 use App\Http\Controllers\V1\BankAccountController;
+use App\Http\Controllers\V1\BlogController;
 use App\Http\Controllers\V1\BusinessMessageController;
 use App\Http\Controllers\V1\BusinessOnboardingController;
 use App\Http\Controllers\V1\ContactController;
@@ -78,6 +79,17 @@ Route::prefix('v1')->group(function () {
 
     // Visitors
     Route::post('visitors', [OtherController::class, 'visitors']);
+});
+
+// Blog
+Route::prefix('v1/blog')->controller(BlogController::class)->group(function () {
+    // Category
+    Route::get('/category', 'getAllCategory');
+
+    Route::get('/all', 'getAll');
+    Route::get('/single/{id}', 'getOne');
+    Route::get('/{slug}', 'getSlug');
+    Route::get('/count', 'count');
 });
 
 Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
