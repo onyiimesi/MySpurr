@@ -1181,7 +1181,7 @@
                                 </td>
                                 <td>
 
-                                  <p class="pseudoLinks profiles">
+                                  <p class="pseudoLinks profiles" style="display: flex;">
                                     @if ($talent->linkedin)
                                         <a href="{{ $talent->linkedin }}">
                                             <!-- linkedIn logo -->

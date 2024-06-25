@@ -31,7 +31,7 @@
 
         body {
             background-color: #f6f6f6;
-            font-family: sans-serif;
+            font-family: 'Satoshi', sans-serif !important;
             -webkit-font-smoothing: antialiased;
             font-size: 14px;
             line-height: 1.4;
@@ -49,7 +49,7 @@
         }
 
         table td {
-            font-family: sans-serif;
+            font-family: 'Satoshi', sans-serif !important;
             font-size: 14px;
             /* vertical-align: top;  */
         }
@@ -125,7 +125,7 @@
         h3,
         h4 {
             color: #000000;
-            font-family: sans-serif;
+            font-family: 'Satoshi', sans-serif !important;
             font-weight: 400;
             line-height: 1.4;
             margin: 0;
@@ -142,7 +142,7 @@
         p,
         ul,
         ol {
-            font-family: 'Satoshi';
+            font-family: 'Satoshi', sans-serif !important;
             font-size: 14px;
             font-weight: normal;
             margin: 0;
@@ -283,7 +283,7 @@
 
         .welcome_text {
             color: #011B1F;
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif !important;
             font-size: 19.628px;
             font-style: normal;
             font-weight: 400;
@@ -294,11 +294,11 @@
         .logo {
             width: 239.813px;
             height: 51.619px;
-            font-family: 'Satoshi';
+            font-family: 'Satoshi', sans-serif !important;
         }
 
         @font-face {
-            font-family: 'Satoshi';
+            font-family: 'Satoshi', sans-serif !important;
             src: url('https://res.cloudinary.com/dkxn7qs49/raw/upload/v1657200404/Font/Satoshi-Variable_iu9svo.ttf') format('truetype');
             font-weight: 400 900;
             font-display: swap;
@@ -555,7 +555,7 @@
 
         p {
             color: var(--Foundation-Body-B50, #E6E9EA);
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif !important;
             font-size: 14px;
             font-style: normal;
             font-weight: 400;
@@ -565,7 +565,7 @@
         a {
             color: #000;
             font-style: normal;
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif !important;
             font-weight: 500;
             text-decoration: none;
             line-height: 0;
@@ -576,7 +576,7 @@
         .table2 h3 {
             color: #FFF;
             font-feature-settings: 'clig' off, 'liga' off;
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif !important;
             font-size: 19px;
             font-style: normal;
             font-weight: 700;
@@ -656,7 +656,7 @@
 
         .adsMain .company {
             color: var(--Secondary-S400, #2F929C);
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif !important;
             font-size: 15.38px;
             font-style: normal;
             font-weight: 500;
@@ -667,7 +667,7 @@
         .adsMain .role {
             color: #000;
             font-feature-settings: 'clig' off, 'liga' off;
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif !important;
             font-size: 13.006px;
             font-style: normal;
             font-weight: 500;
@@ -679,7 +679,7 @@
             margin-bottom: 0;
             color: var(--Foundation-danger-D300, #DA5252);
             font-feature-settings: 'clig' off, 'liga' off;
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif !important;
             font-size: 8.391px;
             font-style: normal;
             font-weight: 500;
@@ -719,7 +719,7 @@
         .table4 .salary {
             color: rgba(36, 64, 52, 0.70);
             font-feature-settings: 'clig' off, 'liga' off;
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif !important;
             font-size: 15.008px;
             font-style: normal;
             font-weight: 500;
@@ -746,7 +746,7 @@
         .col1 .text {
             color: rgba(0, 0, 0, 0.70);
             font-feature-settings: 'clig' off, 'liga' off;
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif !important;
             font-size: 11.992px;
             font-style: normal;
             font-weight: 700;
@@ -759,7 +759,7 @@
             /* margin-left: auto; */
             color: #000;
             text-align: center;
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif !important;
             font-size: 9.71px;
             font-style: normal;
             font-weight: 500;
@@ -865,7 +865,7 @@
 
         .footerTable .text1 h3 {
             color: var(--Foundation-Body-B400, #011B1F);
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif !important;
             font-size: 14px;
             font-style: normal;
             font-weight: 500;
@@ -877,7 +877,7 @@
         .footerTable .text2 {
             color: #000;
             font-feature-settings: 'clig' off, 'liga' off;
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif !important;
             font-size: 14px;
             font-style: normal;
             font-weight: 400;
