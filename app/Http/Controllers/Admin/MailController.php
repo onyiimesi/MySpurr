@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Mail\v1\BusinessApplicationMail;
-use App\Mail\v1\JobSuggestionMail;
-use App\Mail\v1\TalentApplyMail;
-use App\Models\V1\Business;
+use App\Mail\v1\TestBusinessApplicationMail;
+use App\Mail\v1\TestJobSuggestionMail;
+use App\Mail\v1\TestTalentApplyMail;
 use App\Models\V1\JobApply;
 use App\Models\V1\Talent;
 use App\Models\V1\TalentJob;
@@ -38,7 +37,7 @@ class MailController extends Controller
             case 'job_suggestion':
                 return $this->job($email);
                 break;
-            
+
             default:
                 return "Not found!";
                 break;
@@ -47,8 +46,6 @@ class MailController extends Controller
 
     private function business($email)
     {
-        $business = Business::where('email', $email)->firstOrFail();
-        
         $jobApplication = JobApply::inRandomOrder()->first();
 
         $talent = Talent::with('certificates')
@@ -59,8 +56,8 @@ class MailController extends Controller
             ->inRandomOrder()
             ->first();
 
-        Mail::to($business->email)
-        ->send(new BusinessApplicationMail($jobApplication, $talent, $job->business, $job));
+        Mail::to($email)
+        ->send(new TestBusinessApplicationMail($jobApplication, $talent, $job->business, $job));
 
         return response()->json([
             'status' => true,
@@ -84,7 +81,7 @@ class MailController extends Controller
         ->get();
 
         Mail::to($email)
-        ->send(new TalentApplyMail($jobApplication, $talent, $job->business, $job, $jobs));
+        ->send(new TestTalentApplyMail($jobApplication, $talent, $job->business, $job, $jobs));
 
         return response()->json([
             'status' => true,
@@ -106,9 +103,9 @@ class MailController extends Controller
 
         if ($jobs->isNotEmpty()) {
             Mail::to($email)
-                ->send(new JobSuggestionMail($talent, $jobs));
+                ->send(new TestJobSuggestionMail($talent, $jobs));
         }
-        
+
         return response()->json([
             'status' => true,
             'message' => "Mail sent!"
