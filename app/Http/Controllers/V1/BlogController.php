@@ -35,4 +35,9 @@ class BlogController extends Controller
     {
         return $this->service->getAllCategory();
     }
+
+    public function recent()
+    {
+        return $this->service->recent();
+    }
 }
