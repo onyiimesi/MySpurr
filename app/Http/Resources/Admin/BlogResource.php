@@ -18,7 +18,8 @@ class BlogResource extends JsonResource
         return [
             'id' => (int)$this->id,
             'title' => (string)$this->title,
-            'category' => (string)$this->blogcategory->name,
+            'category' => (string)optional($this->blogcategory)->name,
+            'category_slug' => (string)optional($this->blogcategory)->slug,
             'category_id' => (string)$this->blog_category_id,
             'slug' => (string)$this->slug,
             'description' => (string)$this->description,
