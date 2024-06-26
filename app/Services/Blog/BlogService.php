@@ -87,6 +87,22 @@ class BlogService
             'data' => $data
         ];
     }
+
+    public function recent()
+    {
+        $blogs = Blog::with('blogcategory')
+        ->orderBy('created_at', 'desc')
+        ->take(3)
+        ->get();
+
+        $data = BlogResource::collection($blogs);
+
+        return [
+            'status' => 'true',
+            'message' => 'Recent Blogs',
+            'data' => $data
+        ];
+    }
 }
 
 

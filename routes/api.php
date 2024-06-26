@@ -87,9 +87,10 @@ Route::prefix('v1/blog')->controller(BlogController::class)->group(function () {
     Route::get('/category', 'getAllCategory');
 
     Route::get('/all', 'getAll');
+    Route::get('/count', 'count');
+    Route::get('/recent', 'recent');
     Route::get('/single/{id}', 'getOne');
     Route::get('/{slug}', 'getSlug');
-    Route::get('/count', 'count');
 });
 
 Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
