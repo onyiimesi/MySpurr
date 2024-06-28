@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\V1\Business;
 use App\Models\V1\Talent;
+use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
 class ResetPasswordController extends Controller
 {
+    use HttpResponses;
+
     public function reset(Request $request)
     {
         $request->validate([
@@ -19,19 +23,29 @@ class ResetPasswordController extends Controller
         ]);
 
         $talent = Talent::where('email', $request->email)->first();
+        $business = Business::where('email', $request->email)->first();
 
-        if (!$talent) {
-            return $this->error('error', 404, 'We can\'t find a talent with that email address');
+        if ($talent) {
+            $status = Password::broker('talent')->reset(
+                $request->only('email', 'password', 'password_confirmation', 'token'),
+                function ($user) use ($request) {
+                    $user->forceFill([
+                        'password' => Hash::make($request->password),
+                    ])->save();
+                }
+            );
+        } elseif ($business) {
+            $status = Password::broker('business')->reset(
+                $request->only('email', 'password', 'password_confirmation', 'token'),
+                function ($user) use ($request) {
+                    $user->forceFill([
+                        'password' => Hash::make($request->password),
+                    ])->save();
+                }
+            );
+        } else {
+            return response()->json(['message' => 'We can\'t find a user with that email address'], 404);
         }
-
-        $status = Password::broker('talent')->reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user) use ($request) {
-                $user->forceFill([
-                    'password' => Hash::make($request->password),
-                ])->save();
-            }
-        );
 
         return $status == Password::PASSWORD_RESET
             ? response()->json(['message' => __($status)])
