@@ -69,5 +69,6 @@ return [
     'country_city' => env('COUNTRY_STATE_CITY_API_KEY'),
 
     'base_url' => env('BASE_URL'),
+    'reset_password_url' => env('RESET_PASSWORD_URL'),
 
 ];
