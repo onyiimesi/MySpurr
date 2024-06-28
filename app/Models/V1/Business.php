@@ -64,7 +64,9 @@ class Business extends Authenticatable implements Auditable
 
     public function sendPasswordResetNotification($token): void
     {
-        $url = 'https://www.app.myspurr.net/reset-password?token='.$token;
+        $email = $this->email;
+
+        $url = config('services.reset_password_url').'?token='.$token.'&email='.$email;
 
         $this->notify(new ResetPasswordNotification($url));
     }
