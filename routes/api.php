@@ -151,16 +151,17 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
     //Rating
     Route::post('/ratings', [RatingsController::class, 'addRating']);
     Route::get('/rating/{job_id}/{talent_id}', [RatingsController::class, 'getRating']);
-
-    // Messaging
-    Route::get('message/{userId}', [MessageController::class, 'index']);
-    Route::post('message', [MessageController::class, 'store']);
     Route::post('upload-identity', [TalentProfileUpdateController::class, 'upload']);
 
-    Route::post('reply/message', [MessageController::class, 'replyMessage']);
-    Route::get('message/detail/{message_id}', [MessageController::class, 'msgdetail']);
-
-    Route::get('message/sent', [MessageController::class, 'talentsentmsgs']);
+    // Messaging
+    Route::prefix('message')->group(function () {
+        Route::get('{userId}', [MessageController::class, 'index']);
+        Route::post('/', [MessageController::class, 'store']);
+        Route::post('reply', [MessageController::class, 'replyMessage']);
+        Route::get('detail/{message_id}', [MessageController::class, 'msgdetail']);
+        Route::get('sent', [MessageController::class, 'talentsentmsgs']);
+    });
+    
     Route::get('message/received/talent', [MessageController::class, 'talentreceivedmsgs']);
     Route::get('message/detail/received/talent/{message_id}', [MessageController::class, 'msgdetailreceived']);
 

@@ -150,7 +150,6 @@ class MessageController extends Controller
             return $this->error(null, 404, "User not found!");
         }
 
-
         $paginatedMessages = $messagesQuery->paginate(25);
         $messages = TalentSentMessageResource::collection($paginatedMessages);
 
