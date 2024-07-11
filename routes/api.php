@@ -159,16 +159,17 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
         Route::post('/', [MessageController::class, 'store']);
         Route::post('reply', [MessageController::class, 'replyMessage']);
         Route::get('detail/{message_id}', [MessageController::class, 'msgdetail']);
-        Route::get('sent/get', [MessageController::class, 'talentsentmsgs']);
     });
+
+    Route::get('sent/message', [MessageController::class, 'talentsentmsgs']);
     
     Route::get('message/received/talent', [MessageController::class, 'talentreceivedmsgs']);
     Route::get('message/detail/received/talent/{message_id}', [MessageController::class, 'msgdetailreceived']);
 
-    Route::get('message/sent/business', [BusinessMessageController::class, 'sentmsgs']);
-    Route::get('message/detail/business/{message_id}', [BusinessMessageController::class, 'msgdetail']);
-    Route::get('message/received/business', [BusinessMessageController::class, 'receivedmsgs']);
-    Route::get('message/detail/received/business/{message_id}', [BusinessMessageController::class, 'msgdetailreceived']);
+    // Route::get('message/sent/business', [BusinessMessageController::class, 'sentmsgs']);
+    // Route::get('message/detail/business/{message_id}', [BusinessMessageController::class, 'msgdetail']);
+    // Route::get('message/received/business', [BusinessMessageController::class, 'receivedmsgs']);
+    // Route::get('message/detail/received/business/{message_id}', [BusinessMessageController::class, 'msgdetailreceived']);
 
     //Wallet
     Route::get('wallet', [ProfileController::class, 'wallet']);
