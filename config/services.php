@@ -70,5 +70,6 @@ return [
 
     'base_url' => env('BASE_URL'),
     'reset_password_url' => env('RESET_PASSWORD_URL'),
+    'baseurl' => env('BASEURL'),
 
 ];
