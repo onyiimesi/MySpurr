@@ -159,7 +159,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
         Route::post('/', [MessageController::class, 'store']);
         Route::post('reply', [MessageController::class, 'replyMessage']);
         Route::get('detail/{message_id}', [MessageController::class, 'msgdetail']);
-        Route::get('sent', [MessageController::class, 'talentsentmsgs']);
+        Route::get('sent/get', [MessageController::class, 'talentsentmsgs']);
     });
     
     Route::get('message/received/talent', [MessageController::class, 'talentreceivedmsgs']);
