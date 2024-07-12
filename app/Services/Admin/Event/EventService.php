@@ -2,10 +2,11 @@
 
 namespace App\Services\Admin\Event;
 
-use App\Http\Resources\Admin\EventResource;
 use App\Models\Admin\Event;
-use App\Services\Upload\UploadService;
+use Illuminate\Support\Str;
 use App\Traits\HttpResponses;
+use App\Services\Upload\UploadService;
+use App\Http\Resources\Admin\EventResource;
 
 class EventService
 {
@@ -33,9 +34,16 @@ class EventService
             }
 
             $published = $request->status === "active" ? 1 : 0;
+
+            $slug = Str::slug($request->title);
+
+            if (Event::where('slug', $slug)->exists()) {
+                $slug = $slug . '-' . uniqid();
+            }
             
             $event = Event::create([
                 'title' => $request->title,
+                'slug' => $slug,
                 'speaker_bio' => $request->speaker_bio,
                 'speaker' => $request->speaker,
                 'event_time' => $request->event_time,
@@ -145,9 +153,16 @@ class EventService
             }
 
             $published = $request->status === "active" ? 1 : 0;
+
+            $slug = Str::slug($request->title);
+
+            if (Event::where('slug', $slug)->exists()) {
+                $slug = $slug . '-' . uniqid();
+            }
             
             $event->update([
                 'title' => $request->title,
+                'slug' => $slug,
                 'speaker_bio' => $request->speaker_bio,
                 'speaker' => $request->speaker,
                 'event_time' => $request->event_time,
