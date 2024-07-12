@@ -112,7 +112,7 @@ class MessageController extends Controller
         try {
 
             $attachments = $this->processAttachments($request->attachments);
-            
+
             $message->messageReply()->create([
                 'sender_id' => $request->sender_id,
                 'sender_type' => $this->determineSenderType(),
@@ -135,7 +135,7 @@ class MessageController extends Controller
         $auth = Auth::user();
 
         if($auth->type === "talent"){
-            
+
             $talent = Talent::where('id', $auth->id)->first();
 
             $messagesQuery = $talent->sentMessages();
