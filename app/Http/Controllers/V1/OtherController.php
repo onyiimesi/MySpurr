@@ -323,4 +323,25 @@ class OtherController extends Controller
     {
         return $this->service->postVisitors($request);
     }
+
+    public function filterByEmail(Request $request)
+    {
+        $email = $request->query('email');
+
+        if (empty($email)) {
+            return $this->error(null, 400, "Type in to get result");
+        }
+
+        $talents = Talent::where('email', 'LIKE', "%{$email}%")->get(['first_name', 'last_name', 'email']);
+
+        $businesses = Business::where('email', 'LIKE', "%{$email}%")->get(['first_name', 'last_name', 'email']);
+
+        $results = $talents->concat($businesses);
+
+        if ($results->isEmpty()) {
+            return $this->error(null, 404, "Users not found");
+        }
+
+        return $this->success($results, "");
+    }
 }

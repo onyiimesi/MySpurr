@@ -5,24 +5,19 @@ namespace App\Models\V1;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Message extends Model
+class MessageReply extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'message_id',
         'sender_id',
         'receiver_id',
         'sender_type',
         'receiver_type',
-        'send_to',
-        'subject',
-        'body',
-        'cc',
-        'bcc',
+        'message',
         'attachment',
-        'is_draft',
-        'is_sent',
-        'sent_at',
+        'replied_at',
         'status'
     ];
 
@@ -48,8 +43,8 @@ class Message extends Model
         }
     }
 
-    public function messageReply()
+    public function message()
     {
-        return $this->hasMany(MessageReply::class, 'message_id');
+        return $this->belongsTo(Message::class, 'message_id');
     }
 }

@@ -33,12 +33,12 @@ class TalentResource extends JsonResource
             'employment_type' => (string)$this->employment_type,
             'highest_education' => (string)$this->highest_education,
             'rate' => (string)$this->rate,
-            'top_skills' => $this->topskills->map(function($skill) {
+            'top_skills' => $this->topskills ? $this->topskills->map(function($skill) {
                 return [
                     'name' => $skill->name
                 ];
-            })->toArray(),
-            'education' => $this->educations->map(function($edu) {
+            })->toArray() : [],
+            'education' => $this->educations ? $this->educations->map(function($edu) {
                 return [
                     'id' => $edu->id,
                     'school_name' => $edu->school_name,
@@ -48,8 +48,8 @@ class TalentResource extends JsonResource
                     'end_date' => Carbon::parse($edu->end_date)->format('j M Y'),
                     'description' => $edu->description
                 ];
-            })->toArray(),
-            'employment' => $this->employments->map(function($emp) {
+            })->toArray() : [],
+            'employment' => $this->employments ? $this->employments->map(function($emp) {
                 return [
                     'id' => $emp->id,
                     'company_name' => $emp->company_name,
@@ -59,8 +59,8 @@ class TalentResource extends JsonResource
                     'end_date' => Carbon::parse($emp->end_date)->format('j M Y'),
                     'description' => $emp->description
                 ];
-            })->toArray(),
-            'certificate' => $this->certificates->map(function($cert) {
+            })->toArray() : [],
+            'certificate' => $this->certificates ? $this->certificates->map(function($cert) {
                 return [
                     'id' => $cert->id,
                     'title' => $cert->title,
@@ -70,8 +70,8 @@ class TalentResource extends JsonResource
                     'certificate_link' => $cert->certificate_link,
                     'curently_working_here' => $cert->curently_working_here
                 ];
-            })->toArray(),
-            'portfolio' => $this->portfolios->map(function($port) {
+            })->toArray() : [],
+            'portfolio' => $this->portfolios ? $this->portfolios->map(function($port) {
                 return [
                     'id' => $port->id,
                     'title' => $port->title,
@@ -88,7 +88,7 @@ class TalentResource extends JsonResource
                     'featured_image' =>  $port->featured_image,
                     'is_draft' =>  $port->is_draft,
                 ];
-            })->toArray(),
+            })->toArray() : [],
             'wallet' => (object) [
                 'wallet_no' => $this->talentwallet?->wallet_no
             ],

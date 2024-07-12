@@ -2,11 +2,11 @@
 
 namespace App\Http\Resources\Admin;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Carbon;
 
-class BlogResource extends JsonResource
+class EventResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,18 +18,26 @@ class BlogResource extends JsonResource
         return [
             'id' => (int)$this->id,
             'title' => (string)$this->title,
-            'category' => (string)optional($this->blogcategory)->name,
-            'category_slug' => (string)optional($this->blogcategory)->slug,
-            'category_id' => (string)$this->blog_category_id,
             'slug' => (string)$this->slug,
-            'description' => (string)$this->description,
+            'speaker_bio' => (string)$this->speaker_bio,
+            'speaker' => (string)$this->speaker,
+            'event_time' => (string)$this->event_time,
+            'event_date' => Carbon::parse($this->event_date)->format('d M Y'),
+            'timezone' => (string)$this->timezone,
+            'address' => (string)$this->address,
+            'linkedln' => (string)$this->linkedln,
             'content' => (string)$this->content,
             'tags' => $this->getTagsAsArray(),
-            'featured_photo' => (string)$this->featured_photo,
-            'publish_date' => (string)$this->publish_date,
-            'publish_date_view' => Carbon::parse($this->publish_date)->format('d M Y h:i A'),
-            'status' => (string)$this->status,
-            'created_at' => Carbon::parse($this->created_at)->format('d M Y h:i A'),
+            'featured_speaker' => (string)$this->featured_speaker,
+            'featured_graphics' => (string)$this->featured_graphics,
+            'publish_date' => $this->publish_date,
+            'status' => $this->status,
+            'brand_partners' => $this->eventBrandPartners ? $this->eventBrandPartners->map(function ($partner) {
+                return [
+                    'image' => $partner->image
+                ];
+                
+            })->toArray() : [],
         ];
     }
 

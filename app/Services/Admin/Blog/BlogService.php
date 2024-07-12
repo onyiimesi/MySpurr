@@ -55,7 +55,9 @@ class BlogService
     public function getAll()
     {
         $perPage = request()->query('per_page', 25);
-        $blogs = Blog::with('blogcategory')->paginate($perPage);
+        $blogs = Blog::with('blogcategory')
+        ->orderBy('created_at', 'desc')
+        ->paginate($perPage);
         $data = BlogResource::collection($blogs);
 
         return [

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\OthersController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminTalentsController;
 use App\Http\Controllers\Admin\AdminBusinessController;
+use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\MailController;
 
 /*
@@ -61,6 +62,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/single/{id}', 'getOne');
         Route::post('/edit/{id}', 'editBlog');
         Route::delete('/delete/{id}', 'deleteBlog');
+        Route::get('/count', 'count');
+    });
+
+    Route::prefix('event')->controller(EventController::class)->group(function () {
+        Route::post('/create', 'eventCreate');
+        Route::get('/all', 'getAll');
+        Route::get('/single/{id}', 'getOne');
+        Route::post('/edit/{id}', 'editEvent');
+        Route::delete('/delete/{id}', 'deleteEvent');
         Route::get('/count', 'count');
     });
 
