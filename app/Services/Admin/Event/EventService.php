@@ -40,7 +40,7 @@ class EventService
             if (Event::where('slug', $slug)->exists()) {
                 $slug = $slug . '-' . uniqid();
             }
-            
+
             $event = Event::create([
                 'title' => $request->title,
                 'slug' => $slug,
@@ -64,15 +64,15 @@ class EventService
 
             if ($request->hasFile('brand_partners')) {
                 $files = $request->file('brand_partners');
-            
+
                 if (!is_array($files)) {
                     $files = [$files];
                 }
-            
+
                 foreach ($files as $file) {
                     $folder = 'event/brandpartners';
                     $data = (new UploadService($folder, $file))->run();
-            
+
                     $event->eventBrandPartners()->create([
                         'image' => $data->url ?? $data,
                         'file_id' => $data->file_id ?? null,
@@ -90,7 +90,10 @@ class EventService
     public function getAll()
     {
         $perPage = request()->query('per_page', 25);
-        $events = Event::with('eventBrandPartners')->paginate($perPage);
+        $events = Event::with('eventBrandPartners')
+        ->orderBy('created_at', 'desc')
+        ->paginate($perPage);
+        
         $data = EventResource::collection($events);
 
         return [
@@ -159,7 +162,7 @@ class EventService
             if (Event::where('slug', $slug)->exists()) {
                 $slug = $slug . '-' . uniqid();
             }
-            
+
             $event->update([
                 'title' => $request->title,
                 'slug' => $slug,
@@ -183,16 +186,16 @@ class EventService
 
             if ($request->hasFile('brand_partners')) {
                 $files = $request->file('brand_partners');
-            
+
                 if (!is_array($files)) {
                     $files = [$files];
                 }
-                
+
                 $event->eventBrandPartners()->delete();
                 foreach ($files as $file) {
                     $folder = 'event/brandpartners';
                     $data = (new UploadService($folder, $file))->run();
-            
+
                     $event->eventBrandPartners()->create([
                         'image' => $data->url ?? $data,
                         'file_id' => $data->file_id ?? null,
