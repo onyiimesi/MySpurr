@@ -93,7 +93,7 @@ class EventService
         $events = Event::with('eventBrandPartners')
         ->orderBy('created_at', 'desc')
         ->paginate($perPage);
-        
+
         $data = EventResource::collection($events);
 
         return [
@@ -175,10 +175,10 @@ class EventService
                 'linkedln' => $request->linkedln,
                 'content' => $request->content,
                 'tags' => $request->tags,
-                'featured_speaker' => $data['url'] ?? $data->url ?? $data,
-                'file_id' => $data['file_id'] ?? $data->file_id ?? null,
-                'featured_graphics' => $featured_graph['url'] ?? $featured_graph->url ?? $featured_graph,
-                'featured_graphic_file_id' => $featured_graph['file_id'] ?? $featured_graph->file_id ?? null,
+                'featured_speaker' => $data->url ?? $data,
+                'file_id' => $data->file_id ?? null,
+                'featured_graphics' => $featured_graph->url ?? $featured_graph,
+                'featured_graphic_file_id' => $featured_graph->file_id ?? null,
                 'publish_date' => $request->publish_date,
                 'is_published' => $published,
                 'status' => $request->status
