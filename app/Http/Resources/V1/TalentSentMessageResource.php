@@ -49,7 +49,7 @@ class TalentSentMessageResource extends JsonResource
                     'status' => $reply->status,
                 ];
             })->toArray() : [],
-            
+
         ];
     }
 

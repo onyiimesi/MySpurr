@@ -6,6 +6,7 @@ use App\Http\Controllers\V1\BlogController;
 use App\Http\Controllers\V1\BusinessMessageController;
 use App\Http\Controllers\V1\BusinessOnboardingController;
 use App\Http\Controllers\V1\ContactController;
+use App\Http\Controllers\V1\EventController;
 use App\Http\Controllers\V1\ForgotPasswordController;
 use App\Http\Controllers\V1\GoogleAuthController;
 use App\Http\Controllers\V1\JobController;
@@ -93,6 +94,15 @@ Route::prefix('v1/blog')->controller(BlogController::class)->group(function () {
     Route::get('/{slug}', 'getSlug');
 });
 
+// Event
+Route::prefix('v1/event')->controller(EventController::class)->group(function () {
+    Route::get('/all', 'getAll');
+    Route::get('/count', 'count');
+    Route::get('/related', 'related');
+    Route::get('/single/{id}', 'getOne');
+    Route::get('/{slug}', 'getSlug');
+});
+
 Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
 
     // Talent
@@ -162,7 +172,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
     });
 
     Route::get('sent/message', [MessageController::class, 'talentsentmsgs']);
-    
+
     Route::get('message/received/talent', [MessageController::class, 'talentreceivedmsgs']);
     Route::get('message/detail/received/talent/{message_id}', [MessageController::class, 'msgdetailreceived']);
 
