@@ -25,6 +25,7 @@ class EventRequest extends FormRequest
             'title' => ['required', 'string', 'max:200'],
             'speaker_bio' => ['required', 'string'],
             'speaker' => ['required', 'string', 'max:200'],
+            'speaker_title' => ['required', 'string', 'max:200'],
             'event_time' => ['required', 'string', 'max:200'],
             'event_date' => ['required', 'date'],
             'timezone' => ['required', 'string', 'max:200'],

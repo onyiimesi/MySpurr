@@ -14,6 +14,7 @@ class Event extends Model
         'slug',
         'speaker_bio',
         'speaker',
+        'speaker_title',
         'event_time',
         'event_date',
         'timezone',

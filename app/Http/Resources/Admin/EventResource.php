@@ -21,6 +21,7 @@ class EventResource extends JsonResource
             'slug' => (string)$this->slug,
             'speaker_bio' => (string)$this->speaker_bio,
             'speaker' => (string)$this->speaker,
+            'speaker_title' => (string)$this->speaker_title,
             'event_time' => (string)$this->event_time,
             'event_date' => Carbon::parse($this->event_date)->format('d M Y'),
             'timezone' => (string)$this->timezone,
