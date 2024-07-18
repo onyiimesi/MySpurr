@@ -136,15 +136,19 @@ class MessageController extends Controller
 
         if($auth->type === "talent"){
 
-            $talent = Talent::where('id', $auth->id)->first();
+            $talent = Talent::with(['sentMessages'])
+            ->where('id', $auth->id)
+            ->first();
 
-            $messagesQuery = $talent->sentMessages();
+            $messagesQuery = $talent->sentMessages()->orderBy('created_at', 'desc');
 
         } elseif($auth->type === "business"){
 
-            $business = Business::where('id', $auth->id)->first();
+            $business = Business::with(['sentMessages'])
+            ->where('id', $auth->id)
+            ->first();
 
-            $messagesQuery = $business->sentMessages();
+            $messagesQuery = $business->sentMessages()->orderBy('created_at', 'desc');
 
         } else {
             return $this->error(null, 404, "User not found!");
