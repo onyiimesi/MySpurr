@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasColumn('events', 'speaker_title')) {
+        if (!Schema::hasColumn('events', 'event_link')) {
             Schema::table('events', function (Blueprint $table) {
-                $table->string('speaker_title')->after('speaker')->nullable();
+                $table->string('event_link')->after('event_date')->nullable();
             });
         }
     }
@@ -23,6 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('events', function (Blueprint $table) {
+            //
+        });
     }
 };

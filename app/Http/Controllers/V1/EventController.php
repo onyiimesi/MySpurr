@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\RegisteredEventRequest;
 use App\Services\Others\EventService;
 use Illuminate\Http\Request;
 
@@ -33,5 +34,10 @@ class EventController extends Controller
     public function related()
     {
         return $this->service->related();
+    }
+
+    public function registerEvent(RegisteredEventRequest $request)
+    {
+        return $this->service->registerEvent($request);
     }
 }

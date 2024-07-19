@@ -2,8 +2,10 @@
 
 namespace App\Models\Admin;
 
+use App\Models\V1\RegisteredEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Event extends Model
 {
@@ -17,6 +19,7 @@ class Event extends Model
         'speaker_title',
         'event_time',
         'event_date',
+        'event_link',
         'timezone',
         'address',
         'linkedln',
@@ -31,8 +34,13 @@ class Event extends Model
         'status'
     ];
 
-    public function eventBrandPartners()
+    public function eventBrandPartners(): HasMany
     {
         return $this->hasMany(EventBrandPartner::class, 'event_id');
+    }
+
+    public function registeredEvents(): HasMany
+    {
+        return $this->hasMany(RegisteredEvent::class, 'event_id');
     }
 }
