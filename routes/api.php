@@ -69,6 +69,7 @@ Route::prefix('v1')->group(function () {
     Route::get('list-jobs/{slug}', [OtherController::class, 'listjobdetail'])
     ->middleware('session');
     Route::get('job-title', [TalentController::class, 'jobtitle']);
+    Route::post('job-title', [TalentController::class, 'createJobTitle']);
     Route::get('talents', [TalentController::class, 'listtalents']);
     Route::get('talent/{uuid}', [TalentController::class, 'talentbyid']);
     Route::get('talent/portfolio/{id}', [PortfolioController::class, 'noAuth']);
@@ -141,7 +142,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
     Route::delete('delete-account/{talent_id}', [SettingsController::class, 'deleteaccount']);
 
     // Business
-    
+
     Route::resource('job', JobController::class);
     Route::get('job/details/{slug}', [OtherController::class, 'jobdetail']);
     Route::delete('jobs/delete/{id}', [OtherController::class, 'deletejob']);
@@ -188,7 +189,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
     Route::get('getuser', [OtherController::class, 'filterByEmail']);
 
     Route::get('profile', [ProfileController::class, 'profile']);
-    
+
     Route::middleware(['throttle:apis'])->group(function () {
         Route::patch('update-photo', [TalentProfileUpdateController::class, 'updatePhoto']);
         Route::patch('update-bio', [TalentProfileUpdateController::class, 'updateBio']);
@@ -201,6 +202,8 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
         Route::post('business-portfolio', [BusinessOnboardingController::class, 'portfolio']);
         Route::patch('business-edit-profile', [BusinessOnboardingController::class, 'editProfile']);
         Route::patch('change-password', [AuthController::class, 'change']);
+
+        Route::post('register/event', [EventController::class, 'registerEvent']);
     });
 
     Route::post('logout', [AuthController::class, 'logout']);

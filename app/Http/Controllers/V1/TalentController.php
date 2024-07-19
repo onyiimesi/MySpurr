@@ -8,10 +8,13 @@ use App\Http\Resources\V1\TalentListResource;
 use App\Http\Resources\V1\TalentResource;
 use App\Models\V1\JobTitle;
 use App\Models\V1\Talent;
+use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 
 class TalentController extends Controller
 {
+    use HttpResponses;
+    
     public function listtalents()
     {
         $talents = Talent::where('status', 'Active')->paginate(25);
@@ -57,5 +60,18 @@ class TalentController extends Controller
             "message" => 'Job Title List',
             "data" => $titles
         ];
+    }
+
+    public function createJobTitle(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string']
+        ]);
+
+        JobTitle::create([
+            'name' => $request->name
+        ]);
+
+        return $this->success(null, "Created successfully");
     }
 }

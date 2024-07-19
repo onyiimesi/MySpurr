@@ -5,10 +5,13 @@ namespace App\Http\Controllers\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\SkillsResource;
 use App\Models\V1\Skill;
+use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 
 class SkillsController extends Controller
 {
+    use HttpResponses;
+
     /**
      * Display a listing of the resource.
      */
@@ -25,33 +28,25 @@ class SkillsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string']
+        ]);
+
+        Skill::create([
+            'name' => $request->name
+        ]);
+
+        return $this->success(null, "Created successfully");
     }
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
     {
         //
     }

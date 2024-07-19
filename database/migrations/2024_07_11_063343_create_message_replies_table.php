@@ -11,21 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('message_replies', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('message_id');
-            $table->bigInteger('sender_id');
-            $table->string('sender_type');
-            $table->bigInteger('receiver_id');
-            $table->string('receiver_type');
-            $table->longText('message');
-            $table->longText('attachment')->nullable();
-            $table->dateTime('replied_at')->nullable();
-            $table->enum('status', ['read', 'unread']);
-
-            $table->foreign('message_id')->references('id')->on('messages')->onDelete('cascade');
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('message_replies')){
+            Schema::create('message_replies', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('message_id');
+                $table->bigInteger('sender_id');
+                $table->string('sender_type');
+                $table->bigInteger('receiver_id');
+                $table->string('receiver_type');
+                $table->longText('message');
+                $table->longText('attachment')->nullable();
+                $table->dateTime('replied_at')->nullable();
+                $table->enum('status', ['read', 'unread']);
+    
+                $table->foreign('message_id')->references('id')->on('messages')->onDelete('cascade');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

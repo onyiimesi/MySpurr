@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('business_reset_tokens', function (Blueprint $table) {
-            $table->string('email');
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
-        });
+        if(!Schema::hasTable('business_reset_tokens')){
+            Schema::create('business_reset_tokens', function (Blueprint $table) {
+                $table->string('email');
+                $table->string('token');
+                $table->timestamp('created_at')->nullable();
+            });
+        }
     }
 
     /**

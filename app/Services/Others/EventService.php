@@ -4,9 +4,12 @@ namespace App\Services\Others;
 
 use App\Http\Resources\Admin\EventResource;
 use App\Models\Admin\Event;
+use App\Traits\HttpResponses;
 
 class EventService
 {
+    use HttpResponses;
+
     public function getAll()
     {
         $events = Event::with('eventBrandPartners')
@@ -69,6 +72,26 @@ class EventService
             'message' => 'Related Event',
             'data' => $data
         ];
+    }
+
+    public function registerEvent($request)
+    {
+        $event = Event::with('registeredEvents')->find($request->event_id);
+
+        if(!$event){
+            return $this->error(null, 404, "Not found");
+        }
+
+        $event->registeredEvents()->create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'creative_profession' => $request->creative_profession,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'description' => $request->description
+        ]);
+
+        return $this->success(null, "Registered successfully");
     }
 }
 
