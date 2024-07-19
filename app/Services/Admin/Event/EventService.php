@@ -93,7 +93,7 @@ class EventService
     public function getAll()
     {
         $perPage = request()->query('per_page', 25);
-        $events = Event::with('eventBrandPartners')
+        $events = Event::with(['eventBrandPartners', 'registeredEvents'])
         ->orderBy('created_at', 'desc')
         ->paginate($perPage);
 
@@ -242,8 +242,6 @@ class EventService
             return $this->error(null, 404, "Not found");
         }
 
-        $count = $event->registeredEvents()->count();
-
         $perPage = request()->query('per_page', 25);
         $info = $event->registeredEvents()
         ->orderBy('created_at', 'desc')
@@ -255,7 +253,6 @@ class EventService
             'status' => true,
             'message' => "List",
             'value' => [
-                'count' => $count,
                 'result' => $data,
                 'current_page' => $info->currentPage(),
                 'page_count' => $info->lastPage(),

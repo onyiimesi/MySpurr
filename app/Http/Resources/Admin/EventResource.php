@@ -40,6 +40,7 @@ class EventResource extends JsonResource
                 ];
                 
             })->toArray() : [],
+            'registration_count' => $this->registeredEvents()->count(),
         ];
     }
 

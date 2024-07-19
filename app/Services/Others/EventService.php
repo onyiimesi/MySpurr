@@ -5,6 +5,7 @@ namespace App\Services\Others;
 use App\Http\Resources\Admin\EventResource;
 use App\Models\Admin\Event;
 use App\Traits\HttpResponses;
+use Illuminate\Support\Facades\Auth;
 
 class EventService
 {
@@ -76,10 +77,19 @@ class EventService
 
     public function registerEvent($request)
     {
+        $user = Auth::user();
         $event = Event::with('registeredEvents')->find($request->event_id);
 
         if(!$event){
             return $this->error(null, 404, "Not found");
+        }
+
+        $check = $event->registeredEvents()
+        ->where('email', $user->email)
+        ->exists();
+
+        if($check){
+            return $this->error(null, 403, "Sorry you have registered for the event");
         }
 
         $event->registeredEvents()->create([
