@@ -261,6 +261,23 @@ class EventService
             ]
         ];
     }
+
+    public function registerEventCount($id)
+    {
+        $event = Event::with('registeredEvents')->find($id);
+
+        if(!$event){
+            return $this->error(null, 404, "Not found");
+        }
+
+        $data = $event->registeredEvents()->count();
+
+        return [
+            'status' => true,
+            'message' => "Count",
+            'value' => $data
+        ];
+    }
 }
 
 

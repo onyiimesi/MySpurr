@@ -51,4 +51,8 @@ class EventController extends Controller
         return $this->service->registerEvent($id);
     }
     
+    public function registerEventCount($id)
+    {
+        return $this->service->registerEventCount($id);
+    }
 }
