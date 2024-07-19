@@ -69,7 +69,7 @@ Route::prefix('v1')->group(function () {
     Route::get('list-jobs/{slug}', [OtherController::class, 'listjobdetail'])
     ->middleware('session');
     Route::get('job-title', [TalentController::class, 'jobtitle']);
-    Route::post('job-title', [TalentController::class, 'createJobTitle']);
+    Route::post('add/jobtitle', [TalentController::class, 'createJobTitle']);
     Route::get('talents', [TalentController::class, 'listtalents']);
     Route::get('talent/{uuid}', [TalentController::class, 'talentbyid']);
     Route::get('talent/portfolio/{id}', [PortfolioController::class, 'noAuth']);
