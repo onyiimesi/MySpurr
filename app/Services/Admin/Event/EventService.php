@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Traits\HttpResponses;
 use App\Services\Upload\UploadService;
 use App\Http\Resources\Admin\EventResource;
+use App\Http\Resources\Admin\RegisteredEventResource;
 
 class EventService
 {
@@ -49,6 +50,7 @@ class EventService
                 'speaker_title' => $request->speaker_title,
                 'event_time' => $request->event_time,
                 'event_date' => $request->event_date,
+                'event_link' => $request->event_link,
                 'timezone' => $request->timezone,
                 'address' => $request->address,
                 'linkedln' => $request->linkedln,
@@ -172,6 +174,7 @@ class EventService
                 'speaker_title' => $request->speaker_title,
                 'event_time' => $request->event_time,
                 'event_date' => $request->event_date,
+                'event_link' => $request->event_link,
                 'timezone' => $request->timezone,
                 'address' => $request->address,
                 'linkedln' => $request->linkedln,
@@ -228,6 +231,37 @@ class EventService
             'status' => true,
             'message' => "All Events",
             'value' => $data
+        ];
+    }
+
+    public function registerEvent($id)
+    {
+        $event = Event::with('registeredEvents')->find($id);
+
+        if(!$event){
+            return $this->error(null, 404, "Not found");
+        }
+
+        $count = $event->registeredEvents()->count();
+
+        $perPage = request()->query('per_page', 25);
+        $info = $event->registeredEvents()
+        ->orderBy('created_at', 'desc')
+        ->paginate($perPage);
+
+        $data = RegisteredEventResource::collection($info);
+
+        return [
+            'status' => true,
+            'message' => "List",
+            'value' => [
+                'count' => $count,
+                'result' => $data,
+                'current_page' => $info->currentPage(),
+                'page_count' => $info->lastPage(),
+                'page_size' => $info->perPage(),
+                'total_records' => $info->total()
+            ]
         ];
     }
 }
