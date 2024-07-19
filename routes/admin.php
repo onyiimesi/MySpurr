@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/edit/{id}', 'editEvent');
         Route::delete('/delete/{id}', 'deleteEvent');
         Route::get('/count', 'count');
+        Route::get('/talent/registered/{event_id}', 'registerEvent');
     });
 
     Route::post('add/user', [AdminAuthController::class, 'addUser']);
