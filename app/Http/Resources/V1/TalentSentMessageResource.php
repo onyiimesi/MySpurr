@@ -35,7 +35,7 @@ class TalentSentMessageResource extends JsonResource
             'message' => (string)$this->body,
             'cc' => (string)$this->cc,
             'bcc' => (string)$this->bcc,
-            'attachment' => (array)$this->attachment,
+            'attachment' => json_decode($this->attachment),
             'sent_at' => Carbon::parse($this->sent_at)->format('d M Y h:i A'),
             'status' => (string)$this->status,
             'replies' => $this->messageReply ? $this->messageReply->map(function ($reply) {
