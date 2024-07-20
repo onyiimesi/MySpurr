@@ -21,11 +21,11 @@ class TalentSentMessageResource extends JsonResource
         return [
             'id' => (int)$this->id,
             'sender_id' => (int)$this->sender_id,
-            'receiver' => (object) [
-                'id' => optional($this->receiver)->id,
-                'first_name' => optional($this->receiver)->first_name,
-                'last_name' => optional($this->receiver)->last_name,
-                'email' => optional($this->receiver)->email,
+            'sender' => (object) [
+                'id' => optional($this->sender)->id,
+                'first_name' => optional($this->sender)->first_name,
+                'last_name' => optional($this->sender)->last_name,
+                'email' => optional($this->sender)->email,
             ],
             'subject' => (string)$this->subject,
             'message' => (string)$this->body,
