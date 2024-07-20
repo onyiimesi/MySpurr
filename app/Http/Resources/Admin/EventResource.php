@@ -24,6 +24,7 @@ class EventResource extends JsonResource
             'speaker_title' => (string)$this->speaker_title,
             'event_time' => (string)$this->event_time,
             'event_date' => Carbon::parse($this->event_date)->format('d M Y'),
+            'event_raw_date' => $this->event_date,
             'event_link' => (string)$this->event_link,
             'timezone' => (string)$this->timezone,
             'address' => (string)$this->address,
@@ -38,7 +39,7 @@ class EventResource extends JsonResource
                 return [
                     'image' => $partner->image
                 ];
-                
+
             })->toArray() : [],
             'registration_count' => $this->registeredEvents()->count(),
         ];
