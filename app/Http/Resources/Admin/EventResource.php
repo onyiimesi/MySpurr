@@ -32,9 +32,9 @@ class EventResource extends JsonResource
             'content' => (string)$this->content,
             'tags' => $this->getTagsAsArray(),
             'featured_speaker' => isset(json_decode($this->featured_speaker)->url) ?
-            (string) json_decode($this->featured_speaker)->url : null,
+            (string) json_decode($this->featured_speaker)->url : $this->featured_speaker,
             'featured_graphics' => isset(json_decode($this->featured_graphics)->url) ?
-            (string) json_decode($this->featured_graphics)->url : null,
+            (string) json_decode($this->featured_graphics)->url : $this->featured_speaker,
             'publish_date' => $this->publish_date,
             'status' => $this->status,
             'brand_partners' => $this->eventBrandPartners ? $this->eventBrandPartners->map(function ($partner) {
