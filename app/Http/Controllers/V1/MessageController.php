@@ -281,7 +281,11 @@ class MessageController extends Controller
         foreach ($attachments as $attachment) {
             $filePath = $this->storeAttachment($attachment['file']);
             if ($filePath) {
-                $processedAttachments[] = ['path' => $filePath];
+                $processedAttachments[] = [
+                    'file' => $filePath,
+                    'file_name' => $attachment['file_name'],
+                    'file_size' => $attachment['file_size']
+                ];
             }
         }
 
