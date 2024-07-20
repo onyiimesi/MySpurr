@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('queue:work --stop-when-empty')->everyMinute();
         $schedule->command('queue:prune-batches --hours=48 --unfinished=72')->daily();
         $schedule->command('app:job-suggestion')->weeklyOn(1, '0:00');
+        $schedule->command('app:event-mail')->daily();
     }
 
     /**

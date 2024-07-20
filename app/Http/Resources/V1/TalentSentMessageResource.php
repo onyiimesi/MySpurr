@@ -2,9 +2,7 @@
 
 namespace App\Http\Resources\V1;
 
-use App\Models\V1\Business;
 use App\Models\V1\MessageReply;
-use App\Models\V1\Talent;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -26,6 +24,12 @@ class TalentSentMessageResource extends JsonResource
                 'first_name' => optional($this->sender)->first_name,
                 'last_name' => optional($this->sender)->last_name,
                 'email' => optional($this->sender)->email,
+            ],
+            'receiver' => (object) [
+                'id' => optional($this->receiver)->id,
+                'first_name' => optional($this->receiver)->first_name,
+                'last_name' => optional($this->receiver)->last_name,
+                'email' => optional($this->receiver)->email,
             ],
             'subject' => (string)$this->subject,
             'message' => (string)$this->body,
