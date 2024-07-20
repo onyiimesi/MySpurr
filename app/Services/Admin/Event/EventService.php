@@ -2,12 +2,14 @@
 
 namespace App\Services\Admin\Event;
 
+use App\Http\Resources\Admin\EventMailSettingsResource;
 use App\Models\Admin\Event;
 use Illuminate\Support\Str;
 use App\Traits\HttpResponses;
 use App\Services\Upload\UploadService;
 use App\Http\Resources\Admin\EventResource;
 use App\Http\Resources\Admin\RegisteredEventResource;
+use App\Models\Admin\EventMailSetting;
 
 class EventService
 {
@@ -271,6 +273,44 @@ class EventService
         }
 
         $data = $event->registeredEvents()->count();
+
+        return [
+            'status' => true,
+            'message' => "Count",
+            'value' => $data
+        ];
+    }
+
+    public function mailSetting($request)
+    {
+        $event = Event::with('eventMailSetting')->find($request->event_id);
+
+        if(!$event){
+            return $this->error(null, 404, "Not found");
+        }
+
+        $event->eventMailSetting()->updateOrCreate(
+            ['event_id' => $request->event_id],
+            [
+                'type' => $request->type,
+                'date' => $request->date,
+                'title' => $request->title,
+                'description' => $request->description
+            ]
+        );
+
+        return $this->success(null, "Settings added successfully");
+    }
+
+    public function getMailSetting($id)
+    {
+        $mailsetting = EventMailSetting::where('event_id', $id)->first();
+
+        if(!$mailsetting){
+            return $this->error(null, 404, "Not found");
+        }
+
+        $data = new EventMailSettingsResource($mailsetting);
 
         return [
             'status' => true,

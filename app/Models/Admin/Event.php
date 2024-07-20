@@ -6,6 +6,7 @@ use App\Models\V1\RegisteredEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Event extends Model
 {
@@ -42,5 +43,10 @@ class Event extends Model
     public function registeredEvents(): HasMany
     {
         return $this->hasMany(RegisteredEvent::class, 'event_id');
+    }
+
+    public function eventMailSetting(): HasOne
+    {
+        return $this->hasOne(EventMailSetting::class, 'event_id');
     }
 }

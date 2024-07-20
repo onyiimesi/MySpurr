@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\EventMailSettingsRequest;
 use App\Http\Requests\Admin\EventRequest;
 use App\Services\Admin\Event\EventService;
 use Illuminate\Http\Request;
@@ -50,9 +51,19 @@ class EventController extends Controller
     {
         return $this->service->registerEvent($id);
     }
-    
+
     public function registerEventCount($id)
     {
         return $this->service->registerEventCount($id);
+    }
+
+    public function mailSetting(EventMailSettingsRequest $request)
+    {
+        return $this->service->mailSetting($request);
+    }
+
+    public function getMailSetting($id)
+    {
+        return $this->service->getMailSetting($id);
     }
 }
