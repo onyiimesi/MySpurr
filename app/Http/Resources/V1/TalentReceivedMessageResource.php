@@ -33,9 +33,19 @@ class TalentReceivedMessageResource extends JsonResource
             'id' => (string)$this->id,
             'attributes' => [
                 'sender_id' => (string)$this->sender_id,
-                'sender' => $sender->last_name . ' ' . $sender->first_name,
+                'sender' => (object) [
+                    'id' => $sender->id,
+                    'first_name' => $sender->first_name,
+                    'last_name' => $sender->last_name,
+                    'email' => $sender->email
+                ],
                 'receiver_id' => (string)$this->receiver_id,
-                'receiver' => $receiver->last_name . ' '. $receiver->first_name,
+                'receiver' => (object) [
+                    'id' => $receiver->id,
+                    'first_name' => $receiver->first_name,
+                    'last_name' => $receiver->last_name,
+                    'email' => $receiver->email
+                ],
                 'send_to' => (string)$this->send_to,
                 'subject' => (string)$this->subject,
                 'body' => (string)$this->body,

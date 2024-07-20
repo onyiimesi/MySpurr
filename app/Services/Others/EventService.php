@@ -2,7 +2,9 @@
 
 namespace App\Services\Others;
 
+use App\Actions\SendMailAction;
 use App\Http\Resources\Admin\EventResource;
+use App\Mail\v1\EventRegisterMail;
 use App\Models\Admin\Event;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
@@ -92,7 +94,7 @@ class EventService
             return $this->error(null, 403, "Sorry you have registered for the event");
         }
 
-        $event->registeredEvents()->create([
+        $info = $event->registeredEvents()->create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'creative_profession' => $request->creative_profession,
@@ -100,6 +102,12 @@ class EventService
             'phone_number' => $request->phone_number,
             'description' => $request->description
         ]);
+
+        try {
+            (new SendMailAction($request->email, new EventRegisterMail($event, $info)))->run();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
 
         return $this->success(null, "Registered successfully");
     }
