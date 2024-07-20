@@ -31,8 +31,10 @@ class EventResource extends JsonResource
             'linkedln' => (string)$this->linkedln,
             'content' => (string)$this->content,
             'tags' => $this->getTagsAsArray(),
-            'featured_speaker' => (string)$this->featured_speaker,
-            'featured_graphics' => (string)$this->featured_graphics,
+            'featured_speaker' => isset(json_decode($this->featured_speaker)->url) ?
+            (string) json_decode($this->featured_speaker)->url : null,
+            'featured_graphics' => isset(json_decode($this->featured_graphics)->url) ?
+            (string) json_decode($this->featured_graphics)->url : null,
             'publish_date' => $this->publish_date,
             'status' => $this->status,
             'brand_partners' => $this->eventBrandPartners ? $this->eventBrandPartners->map(function ($partner) {
