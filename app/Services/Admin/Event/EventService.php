@@ -138,10 +138,11 @@ class EventService
             if ($request->hasFile('featured_speaker')){
                 $file = $request->file('featured_speaker');
                 $folder = 'event/featuredspeaker';
+                $fileId = $event->file_id;
 
-                $data = (new UploadService($folder, $file))->run();
+                $data = (new UploadService($folder, $file, $fileId))->run();
             } else {
-                $data = [
+                $data = (object)[
                     'url' => $event->featured_speaker,
                     'file_id' => $event->file_id
                 ];
@@ -154,7 +155,7 @@ class EventService
                 $featured_graph = (new UploadService($folder, $file))->run();
 
             } else {
-                $featured_graph = [
+                $featured_graph = (object)[
                     'url' => $event->featured_graphics,
                     'file_id' => $event->file_id
                 ];

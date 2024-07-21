@@ -51,7 +51,7 @@ class TalentReceivedMessageResource extends JsonResource
                 'body' => (string)$this->body,
                 'cc' => (string)$this->cc,
                 'bcc' => (string)$this->bcc,
-                'attachment' => (array)json_decode($this->attachment),
+                'attachment' => json_decode($this->attachment),
                 'is_draft' => (string)$this->is_draft,
                 'is_sent' => (string)$this->is_sent,
                 'sent_at' => Carbon::parse($this->sent_at)->format('d M Y'),

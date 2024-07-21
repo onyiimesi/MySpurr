@@ -22,7 +22,7 @@ class MessageResource extends JsonResource
             'message' => (string)$this->body,
             'cc' => (string)$this->cc,
             'bcc' => (string)$this->bcc,
-            'attachment' => $this->attachment,
+            'attachment' => json_decode($this->attachment),
             'sent_at' => Carbon::parse($this->sent_at)->format('d M Y h:i A'),
             'sender' => (object) [
                 'id' => (int)$this->sender->id,

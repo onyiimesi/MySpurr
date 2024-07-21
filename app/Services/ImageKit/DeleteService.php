@@ -2,13 +2,12 @@
 
 namespace App\Services\ImageKit;
 
-use Illuminate\Http\JsonResponse;
 use ImageKit\ImageKit;
 
 class DeleteService {
 
-    public $fileId;
-    public $imageIds;
+    protected $fileId;
+    protected $imageIds;
 
     public function __construct($fileId = null, $imageIds = null)
     {
