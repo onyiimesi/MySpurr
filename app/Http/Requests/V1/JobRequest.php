@@ -35,14 +35,17 @@ class JobRequest extends FormRequest
             'currency' => ['required'],
             'skills' => ['required'],
             'experience' => ['required'],
-            'qualification' => ['required']
+            'qualification' => ['required'],
+            'questions.*' => ['required', 'array'],
+            'questions.*.question' => ['required', 'string']
         ];
     }
 
     public function messages()
     {
         return [
-            'job_type' => 'job type should be either remote, full-time, part-time, internship or contract'
+            'job_type' => 'job type should be either remote, full-time, part-time, internship or contract',
+            'questions.*.question' => 'Question field is required'
         ];
     }
 }
