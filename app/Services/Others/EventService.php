@@ -65,7 +65,7 @@ class EventService
     {
         $events = Event::with('eventBrandPartners')
         ->orderBy('created_at', 'desc')
-        ->take(4)
+        ->take(3)
         ->get();
 
         $data = EventResource::collection($events);
