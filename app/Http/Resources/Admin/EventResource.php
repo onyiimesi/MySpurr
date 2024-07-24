@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources\Admin;
 
+use App\Models\V1\RegisteredEvent;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class EventResource extends JsonResource
 {
@@ -15,6 +17,8 @@ class EventResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $is_registered = $this->checkIfRegistered($this->id);
+
         return [
             'id' => (int)$this->id,
             'title' => (string)$this->title,
@@ -42,6 +46,7 @@ class EventResource extends JsonResource
 
             })->toArray() : [],
             'registration_count' => $this->registeredEvents()->count(),
+            'is_registered' => $is_registered
         ];
     }
 
@@ -67,5 +72,14 @@ class EventResource extends JsonResource
 
         // If decoding fails, return an empty array
         return [];
+    }
+
+    private function checkIfRegistered($id)
+    {
+        $user = Auth::user();
+
+        return RegisteredEvent::where('event_id', $id)
+        ->where('email', $user->email)
+        ->exists();
     }
 }
