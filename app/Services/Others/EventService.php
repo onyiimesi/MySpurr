@@ -16,7 +16,7 @@ class EventService
     public function getAll()
     {
         $events = Event::with('eventBrandPartners')
-        ->orderBy('created_at', 'desc')
+        ->orderBy('event_date', 'asc')
         ->paginate(25);
 
         $data = EventResource::collection($events);
