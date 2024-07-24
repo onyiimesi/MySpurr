@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources\Admin;
 
+use App\Models\V1\RegisteredEvent;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class RegisteredEventResource extends JsonResource
 {

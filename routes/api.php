@@ -99,14 +99,6 @@ Route::prefix('v1/blog')->controller(BlogController::class)->group(function () {
     Route::get('/{slug}', 'getSlug');
 });
 
-// Event
-Route::prefix('v1/event')->controller(EventController::class)->group(function () {
-    Route::get('/all', 'getAll');
-    Route::get('/count', 'count');
-    Route::get('/related', 'related');
-    Route::get('/single/{id}', 'getOne');
-    Route::get('/{slug}', 'getSlug');
-});
 
 Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
 
@@ -189,6 +181,15 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
     Route::get('getuser', [OtherController::class, 'filterByEmail']);
 
     Route::get('profile', [ProfileController::class, 'profile']);
+
+    // Event
+    Route::prefix('event')->controller(EventController::class)->group(function () {
+        Route::get('/all', 'getAll');
+        Route::get('/count', 'count');
+        Route::get('/related', 'related');
+        Route::get('/single/{id}', 'getOne');
+        Route::get('/{slug}', 'getSlug');
+    });
 
     Route::middleware(['throttle:apis'])->group(function () {
         Route::patch('update-photo', [TalentProfileUpdateController::class, 'updatePhoto']);
