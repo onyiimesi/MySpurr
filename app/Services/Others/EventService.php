@@ -79,7 +79,6 @@ class EventService
 
     public function registerEvent($request)
     {
-        $user = Auth::user();
         $event = Event::with('registeredEvents')->find($request->event_id);
 
         if(!$event){
@@ -87,7 +86,7 @@ class EventService
         }
 
         $check = $event->registeredEvents()
-        ->where('email', $user->email)
+        ->where('email', $request->email)
         ->exists();
 
         if($check){

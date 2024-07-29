@@ -79,7 +79,7 @@ class EventResource extends JsonResource
         $user = Auth::user();
 
         return RegisteredEvent::where('event_id', $id)
-        ->where('email', $user->email)
+        ->where('email', $user?->email)
         ->exists();
     }
 }
