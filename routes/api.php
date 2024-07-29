@@ -99,6 +99,16 @@ Route::prefix('v1/blog')->controller(BlogController::class)->group(function () {
     Route::get('/{slug}', 'getSlug');
 });
 
+// Event
+Route::prefix('v1/noauth/event')->controller(EventController::class)->group(function () {
+    Route::get('/all', 'getAll');
+    Route::get('/count', 'count');
+    Route::get('/related', 'related');
+    Route::get('/single/{id}', 'getOne');
+    Route::get('/{slug}', 'getSlug');
+    Route::post('register', 'registerEvent');
+});
+
 
 Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
 
