@@ -90,7 +90,7 @@ class AuthService
             DB::beginTransaction();
 
             $otpExpiresAt = now()->addMinutes(15);
-            $user = Talent::create([
+            Talent::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
@@ -103,9 +103,6 @@ class AuthService
                 'status' => 'Inactive'
             ]);
 
-            // $wallet_no = Utilities::generateNuban($user->id);
-            // (new CreateService($user->id, $wallet_no))->run();
-            Mail::to($request->email)->send(new TalentVerifyEmail($user));
             DB::commit();
         } catch (\Exception $e){
             DB::rollBack();

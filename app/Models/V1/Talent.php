@@ -4,15 +4,16 @@ namespace App\Models\V1;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\V1\ResetPasswordNotification;
+use App\Observers\TalentObserver;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
-
+#[ObservedBy([TalentObserver::class])]
 class Talent extends Authenticatable implements Auditable
 {
     use HasFactory, SoftDeletes, HasApiTokens, Notifiable;

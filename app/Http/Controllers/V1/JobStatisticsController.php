@@ -80,7 +80,7 @@ class JobStatisticsController extends Controller
                 $result[] = [
                     'day' => Carbon::now()->startOfWeek()->addDays($i)->format('D'),
                     'job_views' => $jobViewsByDayOrMonth[$dayIndex],
-                    'job_applied' => $jobAppliesByWeek[$i],
+                    'job_applied' => $jobAppliesByWeek[$dayIndex],
                 ];
             }
         } elseif ($filter === 'month') {
