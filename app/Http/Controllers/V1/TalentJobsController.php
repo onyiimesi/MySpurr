@@ -30,8 +30,10 @@ class TalentJobsController extends Controller
 
     public function jobs()
     {
-        $job = TalentJob::with(['jobapply', 'business', 'questions'])->where('status', 'active')
+        $job = TalentJob::with(['jobapply', 'business', 'questions'])
+        ->where('status', 'active')
         ->orderByDesc('is_highlighted')
+        ->orderBy('created_at', 'desc')
         ->paginate(25);
         $jobs = TalentJobResource::collection($job);
 
