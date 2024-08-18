@@ -324,17 +324,25 @@ class OtherController extends Controller
         return $this->service->postVisitors($request);
     }
 
-    public function filterByEmail(Request $request)
+    public function filterUsers(Request $request)
     {
-        $email = $request->query('email');
+        $search = $request->query('search');
 
-        if (empty($email)) {
+        if (empty($search)) {
             return $this->error(null, 400, "Type in to get result");
         }
 
-        $talents = Talent::where('email', 'LIKE', "%{$email}%")->get(['first_name', 'last_name', 'email']);
+        $talents = Talent::where(function($query) use ($search) {
+            $query->where('email', 'LIKE', "%{$search}%")
+                ->orWhere('first_name', 'LIKE', "%{$search}%")
+                ->orWhere('last_name', 'LIKE', "%{$search}%");
+        })->get(['first_name', 'last_name', 'email']);
 
-        $businesses = Business::where('email', 'LIKE', "%{$email}%")->get(['first_name', 'last_name', 'email']);
+        $businesses = Business::where(function($query) use ($search) {
+            $query->where('email', 'LIKE', "%{$search}%")
+                ->orWhere('first_name', 'LIKE', "%{$search}%")
+                ->orWhere('last_name', 'LIKE', "%{$search}%");
+        })->get(['first_name', 'last_name', 'email']);
 
         $results = $talents->concat($businesses);
 
@@ -344,4 +352,5 @@ class OtherController extends Controller
 
         return $this->success($results, "");
     }
+
 }
