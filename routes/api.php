@@ -188,7 +188,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
     Route::get('get-ticket/{id}', [OtherController::class, 'ticketId']);
     Route::get('talent-ticket/{talent_id}', [OtherController::class, 'ticketTalentId']);
     Route::patch('close-ticket/{id}', [OtherController::class, 'closeticket']);
-    Route::get('getuser', [OtherController::class, 'filterByEmail']);
+    Route::get('getuser', [OtherController::class, 'filterUsers']);
 
     Route::get('profile', [ProfileController::class, 'profile']);
 
