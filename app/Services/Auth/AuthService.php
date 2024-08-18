@@ -307,7 +307,7 @@ class AuthService
     {
         $user = request()->user();
         $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
-        return $this->success('', 'You have successfully logged out and your token has been deleted');
+        return $this->success('', 'You have successfully logged out');
     }
 
     // private function handleLogin($guard, $request)
