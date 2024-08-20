@@ -105,7 +105,7 @@ class BlogService
                 $data = (new UploadService($folder, $file))->run();
 
             } else {
-                $data = [
+                $data = (object)[
                     'url' => $blog->featured_photo,
                     'file_id' => $blog->file_id
                 ];
@@ -117,8 +117,8 @@ class BlogService
                 'description' => $request->description,
                 'content' => $request->content,
                 'tags' => $request->tags,
-                'featured_photo' => $data['url'] ?? $data->url ?? $data,
-                'file_id' => $data['file_id'] ?? $data->file_id ?? null,
+                'featured_photo' => $data->url ?? $data,
+                'file_id' => $data->file_id ?? null,
                 'publish_date' => $request->publish_date,
                 'status' => $request->status
             ]);
