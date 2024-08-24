@@ -5,7 +5,6 @@ namespace App\Models\V1;
 use App\Notifications\V1\ResetPasswordNotification;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -48,6 +47,12 @@ class Business extends Authenticatable implements Auditable
         'country_code'
     ];
 
+    protected $casts = [
+        'industry' => 'array'
+    ];
+
+    protected $with = ['talentjobtypes'];
+
     protected static function boot()
     {
         parent::boot();
@@ -71,10 +76,6 @@ class Business extends Authenticatable implements Auditable
         $this->notify(new ResetPasswordNotification($url));
     }
 
-    protected $casts = [
-        'industry' => 'array'
-    ];
-
     public function talentjob()
     {
         return $this->hasMany(TalentJob::class, 'business_id');
@@ -88,5 +89,10 @@ class Business extends Authenticatable implements Auditable
     public function receivedMessages()
     {
         return $this->hasMany(Message::class, 'receiver_id')->where('receiver_type', 'App\Models\V1\Business');
+    }
+
+    public function talentjobtypes()
+    {
+        return $this->hasMany(TalentJobType::class, 'business_id');
     }
 }

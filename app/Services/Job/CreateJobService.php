@@ -2,6 +2,7 @@
 
 namespace App\Services\Job;
 
+use App\Enum\TalentJobType;
 use App\Models\V1\Business;
 use App\Models\V1\Question;
 use App\Models\V1\TalentJob;
@@ -9,15 +10,17 @@ use Illuminate\Support\Str;
 
 class CreateJobService {
 
-    public $job;
-    public $email;
-    public $highlight;
+    protected $job;
+    protected $email;
+    protected $highlight;
+    protected $type;
 
-    public function __construct($job, $email, $highlight)
+    public function __construct($job, $email, $highlight, $type)
     {
         $this->job = $job;
         $this->email = $email;
         $this->highlight = $highlight;
+        $this->type = $type;
     }
 
     public function run()
@@ -55,6 +58,22 @@ class CreateJobService {
 
         } catch (\Throwable $th) {
             return $th->getMessage();
+        }
+
+        $business->talentjobtypes()->update(['is_active' => 0]);
+
+        if ($this->type === TalentJobType::PREMIUM) {
+            $talentJobType = $business->talentjobtypes()->where('type', TalentJobType::PREMIUM)->first();
+
+            if ($talentJobType) {
+                $talentJobType->update(['is_active' => 1]);
+            } else {
+                $business->talentjobtypes()->create([
+                    'type' => $this->type,
+                    'attempt' => 1,
+                    'is_active' => 1
+                ]);
+            }
         }
     }
 }
