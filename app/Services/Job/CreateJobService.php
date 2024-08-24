@@ -3,9 +3,11 @@
 namespace App\Services\Job;
 
 use App\Enum\TalentJobType;
+use App\Mail\v1\JobInvoiceMail;
 use App\Models\V1\Business;
 use App\Models\V1\Question;
 use App\Models\V1\TalentJob;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class CreateJobService {
@@ -14,13 +16,15 @@ class CreateJobService {
     protected $email;
     protected $highlight;
     protected $type;
+    protected $payment;
 
-    public function __construct($job, $email, $highlight, $type)
+    public function __construct($job, $email, $highlight, $type, $payment)
     {
         $this->job = $job;
         $this->email = $email;
         $this->highlight = $highlight;
         $this->type = $type;
+        $this->payment = $payment;
     }
 
     public function run()
@@ -78,5 +82,7 @@ class CreateJobService {
                 ]);
             }
         }
+
+        Mail::to($this->email)->send(new JobInvoiceMail($business, $this->payment, $data));
     }
 }

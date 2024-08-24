@@ -79,44 +79,32 @@ class PaystackService
         $type = $paymentDetails['data']['metadata']['type'];
 
         try {
-            DB::transaction(function ()
-                use(
-                    $business_id,
-                    $email,
-                    $formattedAmount,
-                    $ref,
-                    $channel,
-                    $currency,
-                    $ip_address,
-                    $payment_portal_url,
-                    $paid_at,
-                    $createdAt,
-                    $transaction_date,
-                    $status
-                    ) {
 
-                $payment = new Payment();
-                $payment->business_id = $business_id;
-                $payment->email = $email;
-                $payment->amount = $formattedAmount;
-                $payment->reference = $ref;
-                $payment->channel = $channel;
-                $payment->currency = $currency;
-                $payment->ip_address = $ip_address;
-                $payment->payment_portal_url = $payment_portal_url;
-                $payment->paid_at = $paid_at;
-                $payment->createdAt = $createdAt;
-                $payment->transaction_date = $transaction_date;
-                $payment->status = $status;
-                $payment->save();
-            });
+            DB::beginTransaction();
 
+            $payment = new Payment();
+            $payment->business_id = $business_id;
+            $payment->email = $email;
+            $payment->amount = $formattedAmount;
+            $payment->reference = $ref;
+            $payment->channel = $channel;
+            $payment->currency = $currency;
+            $payment->ip_address = $ip_address;
+            $payment->payment_portal_url = $payment_portal_url;
+            $payment->paid_at = $paid_at;
+            $payment->createdAt = $createdAt;
+            $payment->transaction_date = $transaction_date;
+            $payment->status = $status;
+            $payment->save();
+
+            DB::commit();
         }catch (\Throwable $th) {
+            DB::rollBack();
             throw $th;
         }
 
         if($status == "success"){
-            (new CreateJobService($job, $email, $highlight, $type))->run();
+            (new CreateJobService($job, $email, $highlight, $type, $payment))->run();
         }
 
         $redirectURLs = "";
