@@ -66,7 +66,10 @@ class CreateJobService {
             $talentJobType = $business->talentjobtypes()->where('type', TalentJobType::PREMIUM)->first();
 
             if ($talentJobType) {
-                $talentJobType->update(['is_active' => 1]);
+                $talentJobType->update([
+                    'is_active' => 1,
+                    'attempt' => $talentJobType->attempt + 1
+                ]);
             } else {
                 $business->talentjobtypes()->create([
                     'type' => $this->type,
