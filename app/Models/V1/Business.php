@@ -30,8 +30,6 @@ class Business extends Authenticatable implements Auditable
         'business_email',
         'company_logo',
         'company_type',
-        'social_media',
-        'social_media_two',
         'password',
         'otp',
         'otp_expires_at',
@@ -44,7 +42,12 @@ class Business extends Authenticatable implements Auditable
         'longitude',
         'latitude',
         'phone_number',
-        'country_code'
+        'country_code',
+        'facebook',
+        'twitter',
+        'instagram',
+        'behance',
+        'size',
     ];
 
     protected $casts = [

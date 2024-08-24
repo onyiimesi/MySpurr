@@ -2,6 +2,7 @@
 
 namespace App\Services\Business;
 
+use App\Http\Resources\V1\BusinessResource;
 use App\Models\V1\Business;
 use App\Services\CountryState\CountryDetailsService;
 use App\Services\CountryState\StateDetailsService;
@@ -100,11 +101,47 @@ class BusinessService
             'business_email' => $request->business_email,
             'company_logo' => $pathss,
             'company_type' => $request->company_type,
-            'social_media' => $request->social_media,
-            'social_media_two' => $request->social_media_two
+            'facebook' => $request->facebook,
+            'twitter' => $request->twitter,
+            'instagram' => $request->instagram,
+            'behance' => $request->behance,
+            'size' => $request->size,
         ]);
 
         return $this->success(null, "Updated Successfully");
+    }
+
+    public function listBusiness()
+    {
+        $businesses = Business::with(['talentjob'])->paginate();
+        $business = BusinessResource::collection($businesses);
+
+        return [
+            'status' => true,
+            'message' => "All Business",
+            'data' => $business,
+            'pagination' => [
+                'current_page' => $businesses->currentPage(),
+                'last_page' => $businesses->lastPage(),
+                'per_page' => $businesses->perPage(),
+                'prev_page_url' => $businesses->previousPageUrl(),
+                'next_page_url' => $businesses->nextPageUrl(),
+                'total' => $businesses->total()
+            ],
+        ];
+    }
+
+    public function businessUUID($uuid)
+    {
+        $business = Business::where('uuid', $uuid)->first();
+
+        if(!$business) {
+            return $this->error(null, 404, "Not found");
+        }
+
+        $data = new BusinessResource($business);
+
+        return $this->success($data, "Business details");
     }
 }
 

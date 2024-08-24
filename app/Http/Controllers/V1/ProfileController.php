@@ -4,12 +4,9 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\BusinessResource;
-use App\Http\Resources\V1\LoginUserResource;
 use App\Http\Resources\V1\TalentResource;
 use App\Models\V1\Business;
 use App\Models\V1\Talent;
-use App\Models\V1\TalentPortfolio;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\HttpResponses;
 
