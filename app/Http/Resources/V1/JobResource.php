@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1;
 
+use App\Models\V1\CountryTwo;
 use App\Models\V1\TalentJob;
 use App\Services\CountryState\CountryDetailsService;
 use App\Services\CountryState\StateDetailsService;
@@ -18,8 +19,16 @@ class JobResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $country = (new CountryDetailsService($this->country_id))->run();
-        $state = (new StateDetailsService($this->country_id, $this->state_id))->run();
+        // $country = (new CountryDetailsService($this->country_id))->run();
+        // $state = (new StateDetailsService($this->country_id, $this->state_id))->run();
+
+        $countries = get_countries();
+        $states = get_states();
+
+        $country = $countries->where('iso2', $this->country_id)->first();
+        $state = $states->where('country_id', $country->id)
+        ->where('iso2', $this->state_id)->first();
+
         $currentDateTime = Carbon::now();
         $sevenDaysAgo = $currentDateTime->subDays(7);
 
