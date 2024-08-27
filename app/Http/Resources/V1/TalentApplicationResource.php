@@ -17,6 +17,14 @@ class TalentApplicationResource extends JsonResource
     public function toArray(Request $request): array
     {
         $job = TalentJob::where('id', $this->job_id)->first();
+
+        $countries = get_countries();
+        $states = get_states();
+
+        $country = $countries->where('iso2', $job?->country_id)->first();
+        $state = $states->where('country_id', $job?->country_id)
+        ->where('iso2', $job?->state_id)->first();
+
         return [
             'id' => (string)$this->id,
             'type' => (string)$this->type,
@@ -35,8 +43,8 @@ class TalentApplicationResource extends JsonResource
                 'salary_max' => (string)$job?->salary_max,
                 'salaray_type' => (string)$job?->salaray_type,
                 'currency' => (string)$job?->currency,
-                'country_id' => (string)$job?->country_id,
-                'state_id' => (string)$job?->state_id,
+                'country' => (string)$country->name,
+                'state' => (string)$state->name,
                 'created_at' => Carbon::parse($job?->created_at)->format('d M Y'),
             ],
             'company' => (object) [

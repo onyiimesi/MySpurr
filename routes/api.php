@@ -86,6 +86,7 @@ Route::prefix('v1')->group(function () {
     //Business
     Route::get('business', [BusinessOnboardingController::class, 'listBusiness']);
     Route::get('business/{uuid}', [BusinessOnboardingController::class, 'businessUUID']);
+    Route::get('business/{id}/opened-jobs', [OtherController::class, 'getOpenedJobs']);
 
     // Visitors
     Route::post('visitors', [OtherController::class, 'visitors']);
@@ -150,6 +151,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
     // Business
 
     Route::resource('job', JobController::class);
+    
     Route::get('job/details/{slug}', [OtherController::class, 'jobdetail']);
     Route::delete('jobs/delete/{id}', [OtherController::class, 'deletejob']);
     Route::patch('job/{id}/close', [OtherController::class, 'closejob']);
