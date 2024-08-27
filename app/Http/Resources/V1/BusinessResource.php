@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1;
 
+use App\Enum\TalentJobType;
 use App\Models\V1\JobApply;
 use App\Models\V1\JobView;
 use App\Models\V1\TalentJob;
@@ -63,6 +64,8 @@ class BusinessResource extends JsonResource
 
         $views = JobView::whereIn('talent_job_id', $jobid)->count();
 
+        $job_post = $this->talentjobtypes()->where('type', TalentJobType::STANDARD)->first();
+
         return [
             'id' => (string)$this->id,
             'uniqueId' => (string)$this->uuid,
@@ -82,8 +85,14 @@ class BusinessResource extends JsonResource
             'business_email' => (string)$this->business_email,
             'company_logo' => (string)$this->company_logo,
             'company_type' => (string)$this->company_type,
-            'social_media' => (string)$this->social_media,
-            'social_media_two' => (string)$this->social_media_two,
+            'size' => (string)$this->size,
+            'social_media' => (object) [
+                'facebook' => $this->facebook,
+                'twitter' => $this->twitter,
+                'instagram' => $this->instagram,
+                'behance' => $this->behance,
+                'linkedin' => $this->linkedin,
+            ],
             'type' => (string)$this->type,
             'total_opened_jobs' => $total_open,
             'completed_jobs' => $total_complete,
@@ -97,7 +106,8 @@ class BusinessResource extends JsonResource
             'total_number_applicants' => $applycount,
             'new_applicants' => $new_applicants,
             'total_number_job_views' => $views,
-            'status' => (string)$this->status
+            'status' => (string)$this->status,
+            'job_standard_post_attempt' => $job_post?->attempt,
         ];
     }
 }

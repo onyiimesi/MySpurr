@@ -35,7 +35,8 @@ class JobRequest extends FormRequest
             'currency' => ['required'],
             'skills' => ['required'],
             'experience' => ['required'],
-            'qualification' => ['required']
+            'qualification' => ['required'],
+            'type' => ['required', 'in:standard'],
         ];
     }
 

@@ -353,4 +353,30 @@ class OtherController extends Controller
         return $this->success($results, "");
     }
 
+    public function getOpenedJobs($id)
+    {
+        $job = TalentJob::with(['business', 'questions', 'jobapply'])
+        ->where('business_id', $id)
+        ->where('status', 'active')
+        ->orderByDesc('is_highlighted')
+        ->orderByDesc('created_at')
+        ->paginate(25);
+
+        $jobs = JobResource::collection($job);
+
+        return [
+            'status' => 'true',
+            'message' => 'Job List',
+            'data' => $jobs,
+            'pagination' => [
+                'current_page' => $job->currentPage(),
+                'last_page' => $job->lastPage(),
+                'per_page' => $job->perPage(),
+                'prev_page_url' => $job->previousPageUrl(),
+                'next_page_url' => $job->nextPageUrl()
+            ],
+        ];
+    
+    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Enum\TalentJobType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\JobRequest;
 use App\Http\Resources\V1\JobResource;
@@ -71,6 +72,27 @@ class JobController extends Controller
             $slug = $slug . '-' . uniqid();
         }
 
+        $business->talentjobtypes()->update(['is_active' => 0]);
+
+        if ($request->type === TalentJobType::STANDARD) {
+            $talentJobType = $business->talentjobtypes()->where('type', TalentJobType::STANDARD)->first();
+
+            if ($talentJobType) {
+                if ($talentJobType->attempt >= 3) {
+                    return $this->error(null, 400, "You have exhausted your 3 free attempts. To continue use premium.");
+                } else {
+                    $talentJobType->increment('attempt');
+                    $talentJobType->update(['is_active' => 1]);
+                }
+            } else {
+                $business->talentjobtypes()->create([
+                    'type' => $request->type,
+                    'attempt' => 1,
+                    'is_active' => 1
+                ]);
+            }
+        }
+
         $job = TalentJob::create([
             'business_id' => $business->id,
             'job_title' => $request->job_title,
@@ -99,11 +121,7 @@ class JobController extends Controller
             }
         }
 
-        return [
-            "status" => 'true',
-            "message" => 'Job Created Successfully'
-        ];
-
+        return $this->success(null, "Job Created Successfully");
     }
 
     /**

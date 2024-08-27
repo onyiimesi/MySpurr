@@ -83,14 +83,23 @@ class MessageController extends Controller
 
             (new SendMailAction($request->to, new MessageMail($message)))->run();
 
-            return [
-                'status' => true,
-                'message' => 'Message sent successfully'
-            ];
+            return $this->success(null, "Sent successfully");
 
         } catch (\Exception $e) {
             return $this->error(null, 500, $e->getMessage());
         }
+    }
+
+    public function editMessage(Request $request, $id)
+    {
+        $message = Message::findOrFail($id);
+
+        $message->update([
+            'subject' => $request->subject,
+            'body' => $request->body,
+        ]);
+
+        return $this->success(null, "Updated successfully");
     }
 
     public function replyMessage(MessageReplyRequest $request)
