@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('states', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('country_id')->constrained('countries');
-            $table->string('name');
-            $table->string('iso2', 2);
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('states')){
+            Schema::create('states', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('country_id')->constrained('countries');
+                $table->string('name');
+                $table->string('iso2', 2);
+                $table->timestamps();
+            });
+        }
     }
 
     /**

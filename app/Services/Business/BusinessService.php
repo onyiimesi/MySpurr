@@ -104,6 +104,7 @@ class BusinessService
             'facebook' => $request->facebook,
             'twitter' => $request->twitter,
             'instagram' => $request->instagram,
+            'linkedin' => $request->linkedin,
             'behance' => $request->behance,
             'size' => $request->size,
         ]);

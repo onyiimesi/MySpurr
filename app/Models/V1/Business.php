@@ -48,6 +48,7 @@ class Business extends Authenticatable implements Auditable
         'instagram',
         'behance',
         'size',
+        'linkedin',
     ];
 
     protected $casts = [
