@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('talent_job_types', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('business_id');
-            $table->enum('type', ['premium', 'standard']);
-            $table->integer('attempt')->default(0);
-            $table->boolean('is_active')->default(0);
+        if(!Schema::hasTable('talent_job_types')){
+            Schema::create('talent_job_types', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('business_id');
+                $table->enum('type', ['premium', 'standard']);
+                $table->integer('attempt')->default(0);
+                $table->boolean('is_active')->default(0);
 
-            $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade');
-            $table->timestamps();
-        });
+                $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

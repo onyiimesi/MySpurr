@@ -86,7 +86,7 @@ Route::prefix('v1')->group(function () {
     //Business
     Route::get('business', [BusinessOnboardingController::class, 'listBusiness']);
     Route::get('business/{uuid}', [BusinessOnboardingController::class, 'businessUUID']);
-    Route::get('business/{id}/opened-jobs', [OtherController::class, 'getOpenedJobs']);
+    Route::get('business/{id}/open-jobs', [OtherController::class, 'getOpenedJobs']);
 
     // Visitors
     Route::post('visitors', [OtherController::class, 'visitors']);
