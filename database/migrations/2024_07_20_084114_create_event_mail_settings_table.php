@@ -11,17 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('event_mail_settings', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('event_id');
-            $table->enum('type', ['reminder', 'canceled', 'postponed']);
-            $table->date('date');
-            $table->string('title')->nullable();
-            $table->longText('description')->nullable();
+        if(!Schema::hasTable('event_mail_settings')){
+            Schema::create('event_mail_settings', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('event_id');
+                $table->enum('type', ['reminder', 'canceled', 'postponed']);
+                $table->date('date');
+                $table->string('title')->nullable();
+                $table->longText('description')->nullable();
 
-            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
-            $table->timestamps();
-        });
+                $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+                $table->timestamps();
+            });
+        }
     }
 
     /**
