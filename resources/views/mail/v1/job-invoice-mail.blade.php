@@ -477,7 +477,7 @@
 
         .table4 .head,
         .table4 .key {
-            font-weight: 500;
+            font-weight: 400;
         }
 
         .table3 .col2,
@@ -560,8 +560,8 @@
         }
 
         .table7 {
-            margin-top: 71.19px;
-            margin-bottom: 119px
+            margin-top: 40px;
+            margin-bottom: 119px;
         }
 
         .table7 p {
@@ -691,8 +691,8 @@
                                                                 <td>₦{{ $payment->amount }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td class="align-left">VAT (0%)</td>
-                                                                <td></td>
+                                                                <td class="align-left">VAT (7.5%)</td>
+                                                                <td>{{ $payment->vat }}</td>
                                                             </tr>
                                                         </table>
                                                     </td>
@@ -736,8 +736,9 @@
                                             <p>© 2024 Trigon Media Limited. MySpurr, the MySpurr logo, are registered
                                                 trademarks of Trigon Media Limited in Nigeria and/or other countries.
                                                 All rights reserved.</p>
-                                            <p>This email was intended for [Business Name] If you need assistance or
-                                                have questions, please contact MySpurr Customer Service.</p>
+                                            <p>This email was intended for {{ $user->business_name }}. If you need assistance or
+                                                have questions, please contact MySpurr Customer Service <a href="mailto:hello@myspurr.net">hello@myspurr.net</a>
+                                            </p>
                                             <p>MySpurr is a registered trade mark of Trigon Media Limited. Registered in
                                                 Abuja Nigeria as a limited liability company , Company Number 1866752.
                                                 Registered Office: Plot 228. 1(R), 32 Road FHA, Lugbe FCT Abuja</p>
