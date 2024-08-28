@@ -86,9 +86,6 @@ class PaystackService
         $main_amount = $paymentDetails['data']['metadata']['main_amount'];
         $vat = $paymentDetails['data']['metadata']['vat'];
 
-        $formattedMainAmount = number_format($main_amount / 100, 2, '.', '');
-        $formattedVatAmount = number_format($vat / 100, 2, '.', '');
-
         try {
 
             DB::beginTransaction();
@@ -96,8 +93,8 @@ class PaystackService
             $payment = new Payment();
             $payment->business_id = $business_id;
             $payment->email = $email;
-            $payment->amount = $formattedMainAmount;
-            $payment->vat = $formattedVatAmount;
+            $payment->amount = $main_amount;
+            $payment->vat = $vat;
             $payment->total_amount = $formattedAmount;
             $payment->reference = $ref;
             $payment->channel = $channel;
