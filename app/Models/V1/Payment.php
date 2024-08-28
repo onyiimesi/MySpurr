@@ -16,6 +16,8 @@ class Payment extends Model
         'email',
         'phone_number',
         'amount',
+        'vat',
+        'total_amount',
         'reference',
         'channel',
         'currency',

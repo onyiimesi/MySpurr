@@ -23,7 +23,11 @@ class PaystackService
         $percentInDecimal = $percent / 100;
         $totAmount = $percentInDecimal * $job['salary_min'];
 
-        $amount = $totAmount;
+        $vatPercent = 7.5;
+        $vatInDecimal = $vatPercent / 100;
+        $vatAmount = $totAmount * $vatInDecimal;
+
+        $amount = $totAmount + $vatAmount;
         $status = 1;
 
         // if($request->is_highlighted == 1){
@@ -33,7 +37,7 @@ class PaystackService
         //     $amount = $totAmount;
         //     $status = 0;
         // }
-        
+
         $paymentDetails = [
             'email' => $request->email,
             'amount' => $amount * 100,
@@ -44,7 +48,9 @@ class PaystackService
                 'payment_redirect_url' => $request->input('payment_redirect_url'),
                 'type' => $request->type,
                 'job' => $request->input('job'),
-                'is_highlighted' => $status
+                'is_highlighted' => $status,
+                'vat' => $vatAmount,
+                'main_amount' => $totAmount,
             ]),
         ];
 
@@ -77,6 +83,8 @@ class PaystackService
         $highlight = $paymentDetails['data']['metadata']['is_highlighted'];
         $email = $paymentDetails['data']['customer']['email'];
         $type = $paymentDetails['data']['metadata']['type'];
+        $main_amount = $paymentDetails['data']['metadata']['main_amount'];
+        $vat = $paymentDetails['data']['metadata']['vat'];
 
         try {
 
@@ -85,7 +93,9 @@ class PaystackService
             $payment = new Payment();
             $payment->business_id = $business_id;
             $payment->email = $email;
-            $payment->amount = $formattedAmount;
+            $payment->amount = $main_amount;
+            $payment->vat = $vat;
+            $payment->total_amount = $formattedAmount;
             $payment->reference = $ref;
             $payment->channel = $channel;
             $payment->currency = $currency;
