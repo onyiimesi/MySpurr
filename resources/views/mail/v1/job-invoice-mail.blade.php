@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/satoshi" rel="stylesheet">
     <style>
         /* -------------------------------------
           GLOBAL RESETS
@@ -262,7 +263,7 @@
 
         .welcome_text {
             color: #011B1F;
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif;
             font-size: 19.628px;
             font-style: normal;
             font-weight: 400;
@@ -435,7 +436,7 @@
         a {
             color: #000;
             font-style: normal;
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif;
             font-weight: 500;
             text-decoration: none;
             line-height: 0;
@@ -468,7 +469,7 @@
         .table7 p {
             color: #000;
             font-feature-settings: 'clig' off, 'liga' off;
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif;
             font-size: 11.181px;
             font-style: normal;
             font-weight: 400;
@@ -504,7 +505,7 @@
             background: #FFFFFD;
             padding: 8.75px;
             color: #000;
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif;
             font-size: 10.25px;
             font-style: normal;
             font-weight: 500;
@@ -518,7 +519,7 @@
         .table5 tbody td,
         .table6 td {
             color: #1B1B1B;
-            font-family: Satoshi;
+            font-family: 'Satoshi', sans-serif;
             font-size: 9.84px;
             font-style: normal;
             font-weight: 400;
@@ -643,7 +644,7 @@
                                                 <tbody class="tableBody">
                                                     <tr>
                                                         <td class="key">Order Total:</td>
-                                                        <td>₦{{ $payment->amount }}</td>
+                                                        <td>₦{{ $payment->total_amount }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="key">Payment Method:</td>
@@ -674,7 +675,7 @@
                                             <td>{{ $job->job_title }}</td>
                                             <td class="align-center">1</td>
                                             <td class="align-center">0.00</td>
-                                            <td class="align-right">₦{{ $payment->amount }}</td>
+                                            <td class="align-right">₦{{ $payment->total_amount }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -707,11 +708,11 @@
                                                         <table>
                                                             <tr>
                                                                 <td class="align-left">Order Total:</td>
-                                                                <td>₦{{ $payment->amount }}</td>
+                                                                <td>₦{{ $payment->total_amount }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="align-left">Payment:</td>
-                                                                <td>₦{{ $payment->amount }}</td>
+                                                                <td>₦{{ $payment->total_amount }}</td>
                                                             </tr>
                                                         </table>
                                                     </td>

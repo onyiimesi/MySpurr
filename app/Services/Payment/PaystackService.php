@@ -50,6 +50,7 @@ class PaystackService
                 'job' => $request->input('job'),
                 'is_highlighted' => $status,
                 'vat' => $vatAmount,
+                'main_amount' => $totAmount,
             ]),
         ];
 
@@ -82,7 +83,11 @@ class PaystackService
         $highlight = $paymentDetails['data']['metadata']['is_highlighted'];
         $email = $paymentDetails['data']['customer']['email'];
         $type = $paymentDetails['data']['metadata']['type'];
+        $main_amount = $paymentDetails['data']['metadata']['main_amount'];
         $vat = $paymentDetails['data']['metadata']['vat'];
+
+        $formattedMainAmount = number_format($main_amount / 100, 2, '.', '');
+        $formattedVatAmount = number_format($vat / 100, 2, '.', '');
 
         try {
 
@@ -91,8 +96,9 @@ class PaystackService
             $payment = new Payment();
             $payment->business_id = $business_id;
             $payment->email = $email;
-            $payment->amount = $formattedAmount;
-            $payment->vat = $vat;
+            $payment->amount = $formattedMainAmount;
+            $payment->vat = $formattedVatAmount;
+            $payment->total_amount = $formattedAmount;
             $payment->reference = $ref;
             $payment->channel = $channel;
             $payment->currency = $currency;
