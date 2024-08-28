@@ -31,11 +31,17 @@ class CreateJobService {
     {
         $business = Business::where('email', $this->email)->first();
 
+        $slug = Str::slug($this->job['job_title']);
+
+        if (TalentJob::where('slug', $slug)->exists()) {
+            $slug = $slug . '-' . uniqid();
+        }
+
         $data = new TalentJob();
 
         $data->business_id = $business->id;
         $data->job_title = $this->job['job_title'];
-        $data->slug = Str::slug($this->job['job_title']);
+        $data->slug = $slug;
         $data->country_id = $this->job['country_id'];
         $data->state_id = $this->job['state_id'];
         $data->job_type = $this->job['job_type'];
@@ -53,7 +59,7 @@ class CreateJobService {
         $data->is_highlighted = $this->highlight;
         $data->status = 'active';
         $data->save();
-        
+
         if (!empty($this->job['questions'])) {
             foreach ($this->job['questions'] as $questionData) {
                 $question = new Question($questionData);
