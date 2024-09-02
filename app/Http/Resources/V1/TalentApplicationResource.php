@@ -43,8 +43,8 @@ class TalentApplicationResource extends JsonResource
                 'salary_max' => (string)$job?->salary_max,
                 'salaray_type' => (string)$job?->salaray_type,
                 'currency' => (string)$job?->currency,
-                'country' => (string)$country->name,
-                'state' => (string)$state->name,
+                'country' => (string)$country?->name,
+                'state' => (string)$state?->name,
                 'created_at' => Carbon::parse($job?->created_at)->format('d M Y'),
             ],
             'company' => (object) [
