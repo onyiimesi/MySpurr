@@ -86,7 +86,7 @@ class TalentJobsController extends Controller
         }
 
         $job = TalentJob::with('business')->findOrFail($request->job_id);
-        $question = Question::where('talent_job_id', $request->job_id)->first();
+
 
         $jobApplied = JobApply::where('talent_id', $talent->id)
         ->where('job_id', $request->job_id)
@@ -94,10 +94,6 @@ class TalentJobsController extends Controller
 
         if($jobApplied){
             return $this->error(null, 403, 'You have applied for this job.');
-        }
-
-        if(! $question){
-            return response()->json(['message' => 'Job not found!'], 404);
         }
 
         if(! empty($request->other_file)){
@@ -133,7 +129,14 @@ class TalentJobsController extends Controller
             'status' => 'pending'
         ]);
 
+        $question = Question::where('talent_job_id', $request->job_id)->first();
+
         if(! empty($request->question_answers)) {
+            
+            if(! $question){
+                return response()->json(['message' => 'Job not found!'], 404);
+            }
+
             foreach ($request->question_answers as $answerData) {
                 $answer = new QuestionAnswer($answerData);
                 $question->answers()->save($answer);
