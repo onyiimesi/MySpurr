@@ -151,7 +151,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
     // Business
 
     Route::resource('job', JobController::class);
-    
+
     Route::get('job/details/{slug}', [OtherController::class, 'jobdetail']);
     Route::delete('jobs/delete/{id}', [OtherController::class, 'deletejob']);
     Route::patch('job/{id}/close', [OtherController::class, 'closejob']);

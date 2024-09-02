@@ -85,10 +85,9 @@ class TalentJobsController extends Controller
             return $this->error('', 401, 'Error');
         }
 
-
         $job = TalentJob::with('business')->findOrFail($request->job_id);
         $question = Question::where('talent_job_id', $request->job_id)->first();
-        
+
         $jobApplied = JobApply::where('talent_id', $talent->id)
         ->where('job_id', $request->job_id)
         ->exists();
@@ -97,11 +96,11 @@ class TalentJobsController extends Controller
             return $this->error(null, 403, 'You have applied for this job.');
         }
 
-        if(!$question){
+        if(! $question){
             return response()->json(['message' => 'Job not found!'], 404);
         }
 
-        if(!empty($request->other_file)){
+        if(! empty($request->other_file)){
             $file = $request->other_file;
             $folderName = config('services.file');
             $extension = explode('/', explode(':', substr($file, 0, strpos($file, ';')))[1])[1];
@@ -134,17 +133,16 @@ class TalentJobsController extends Controller
             'status' => 'pending'
         ]);
 
-        foreach ($request->question_answers as $answerData) {
-            $answer = new QuestionAnswer($answerData);
-            $question->answers()->save($answer);
+        if(! empty($request->question_answers)) {
+            foreach ($request->question_answers as $answerData) {
+                $answer = new QuestionAnswer($answerData);
+                $question->answers()->save($answer);
+            }
         }
 
         $this->sendMails($jobappy, $talent, $job);
 
-        return [
-            "status" => 'true',
-            "message" => 'Job applied successfully'
-        ];
+        return $this->success(null, "Job applied successfully");
     }
 
     public function application()
