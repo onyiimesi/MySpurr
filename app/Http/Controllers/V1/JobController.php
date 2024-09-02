@@ -114,7 +114,7 @@ class JobController extends Controller
             'status' => 'active',
         ]);
 
-        if (!empty($request->questions)) {
+        if (! empty($request->questions)) {
             foreach ($request->questions as $questionData) {
                 $question = new Question($questionData);
                 $job->questions()->save($question);

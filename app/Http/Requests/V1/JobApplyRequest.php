@@ -26,8 +26,6 @@ class JobApplyRequest extends FormRequest
             'rate' => ['required'],
             'available_start' => ['required'],
             'resume' => 'required',
-            'question_answers' => 'required|array|min:1',
-            'question_answers.*.answer' => 'required|string',
         ];
     }
 }
