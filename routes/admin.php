@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\OthersController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminTalentsController;
 use App\Http\Controllers\Admin\AdminBusinessController;
+use App\Http\Controllers\Admin\AdminJobsController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\MailController;
 
@@ -76,6 +77,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/talent/registered/{event_id}', 'registerEvent');
         Route::post('/mail/settings', 'mailSetting');
         Route::get('/mail/settings/{event_id}', 'getMailSetting');
+    });
+
+    Route::prefix('jobs')->controller(AdminJobsController::class)->group(function () {
+        Route::get('/all', 'index');
     });
 
     Route::post('add/user', [AdminAuthController::class, 'addUser']);

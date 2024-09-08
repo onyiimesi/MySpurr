@@ -35,7 +35,7 @@ class TalentsResource extends JsonResource
             'email' => (string)$this->email,
             'category' => (string)$this->skill_title,
             'plan' => "free",
-            'balance' => 0,
+            'rate' => (string)$this->rate,
             'total_earning' => 0,
             'executed_jobs' => 0,
             'active_jobs' => 0,
