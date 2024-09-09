@@ -28,6 +28,29 @@ class JobService
             ]
         ];
     }
+
+    public function getOne($slug)
+    {
+        $job = TalentJob::where('slug', $slug)->firstOrFail();
+        $data = new AdminJobResource($job);
+
+        return [
+            'status' => true,
+            'message' => "Job Details",
+            'value' => $data
+        ];
+    }
+
+    public function count()
+    {
+        $data = TalentJob::count();
+
+        return [
+            'status' => true,
+            'message' => "All Jobs count",
+            'value' => $data
+        ];
+    }
 }
 
 

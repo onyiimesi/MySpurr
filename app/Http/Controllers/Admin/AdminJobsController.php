@@ -19,4 +19,14 @@ class AdminJobsController extends Controller
     {
         return $this->service->index();
     }
+
+    public function getOne($slug)
+    {
+        return $this->service->getOne($slug);
+    }
+
+    public function count()
+    {
+        return $this->service->count();
+    }
 }

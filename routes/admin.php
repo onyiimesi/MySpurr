@@ -81,6 +81,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::prefix('jobs')->controller(AdminJobsController::class)->group(function () {
         Route::get('/all', 'index');
+        Route::get('/single/{slug}', 'getOne');
+        Route::get('/count', 'count');
     });
 
     Route::post('add/user', [AdminAuthController::class, 'addUser']);
