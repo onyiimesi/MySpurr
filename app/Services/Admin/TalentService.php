@@ -14,7 +14,27 @@ class TalentService
     public function index()
     {
         $perPage = request()->query('per_page', 25);
-        $talents = Talent::with(['jobapply'])->paginate($perPage);
+        $searchFilter = request()->query('searchFilter', []);
+
+        $query = Talent::with(['jobapply']);
+
+        if (is_string($searchFilter)) {
+            $searchFilter = json_decode($searchFilter, true);
+        }
+        
+        if (isset($searchFilter['name'])) {
+            $query->where(function ($query) use ($searchFilter) {
+                $query->where('first_name', 'like', '%' . $searchFilter['name'] . '%')
+                      ->orWhere('last_name', 'like', '%' . $searchFilter['name'] . '%');
+            });
+        }
+
+        if (isset($searchFilter['email'])) {
+            $query->where('email', 'like', '%' . $searchFilter['email'] . '%');
+        }
+
+        $talents = $query->paginate($perPage);
+
         $talents = TalentsResource::collection($talents);
 
         return [

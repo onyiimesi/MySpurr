@@ -13,7 +13,30 @@ class BusinessService
     public function index()
     {
         $perPage = request()->query('per_page', 25);
-        $business = Business::with(['talentjob'])->paginate($perPage);
+        $searchFilter = request()->query('searchFilter', []);
+
+        $query = Business::with(['talentjob']);
+
+        if (is_string($searchFilter)) {
+            $searchFilter = json_decode($searchFilter, true);
+        }
+
+        if (isset($searchFilter['name'])) {
+            $query->where(function ($query) use ($searchFilter) {
+                $query->where('first_name', 'like', '%' . $searchFilter['name'] . '%')
+                      ->orWhere('last_name', 'like', '%' . $searchFilter['name'] . '%');
+            });
+        }
+
+        if (isset($searchFilter['email'])) {
+            $query->where('email', 'like', '%' . $searchFilter['email'] . '%');
+        }
+
+        if (isset($searchFilter['business_name'])) {
+            $query->where('business_name', 'like', '%' . $searchFilter['business_name'] . '%');
+        }
+
+        $business = $query->paginate($perPage);
         $business = BusinessResource::collection($business);
 
         return [
