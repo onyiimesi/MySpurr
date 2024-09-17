@@ -72,5 +72,7 @@ return [
     'reset_password_url' => env('RESET_PASSWORD_URL'),
     'baseurl' => env('BASEURL'),
     'paystack_payment_url' => env('PAYSTACK_PAYMENT_URL'),
+    'email_sender_base_url' => env('EMAIL_SENDER_BASE_URL'),
+    'email_sender_token' => env('EMAIL_SENDER_TOKEN'),
 
 ];

@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Mail\v1\TalentVerifyEmail;
 use App\Models\V1\Talent;
+use App\Services\Others\EmailSender;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Support\Facades\Mail;
 
@@ -15,6 +16,15 @@ class TalentObserver implements ShouldHandleEventsAfterCommit
     public function created(Talent $talent): void
     {
         Mail::to($talent->email)->send(new TalentVerifyEmail($talent));
+
+        $data = (object)[
+            'first_name' =>$talent->first_name,
+            'last_name' =>$talent->last_name,
+            'email' =>$talent->email,
+            'phone_number' =>$talent->phone_number,
+        ];
+
+        (new EmailSender($data))->run();
     }
 
     /**
