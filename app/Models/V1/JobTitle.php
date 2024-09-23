@@ -10,6 +10,8 @@ class JobTitle extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
+        'min_rate',
+        'max_rate',
     ];
 }

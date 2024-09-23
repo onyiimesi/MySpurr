@@ -21,7 +21,7 @@ class TalentService
         if (is_string($searchFilter)) {
             $searchFilter = json_decode($searchFilter, true);
         }
-        
+
         if (isset($searchFilter['name'])) {
             $query->where(function ($query) use ($searchFilter) {
                 $query->where('first_name', 'like', '%' . $searchFilter['name'] . '%')
@@ -31,6 +31,10 @@ class TalentService
 
         if (isset($searchFilter['email'])) {
             $query->where('email', 'like', '%' . $searchFilter['email'] . '%');
+        }
+
+        if(isset($searchFilter['skill_title'])) {
+            $query->where('skill_title', 'like', '%' . $searchFilter['skill_title'] . '%');
         }
 
         $talents = $query->paginate($perPage);

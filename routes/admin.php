@@ -50,6 +50,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::prefix('others')->controller(OthersController::class)->group(function () {
         Route::post('/forgot-password', 'forgot');
         Route::post('/business/forgot-password', 'businessForgot');
+
+        Route::post('/create/jobtitle', 'createJobtitle');
+        Route::get('/job-titles', 'allJobTitles');
+        Route::get('/job-title/{id}', 'jobTitle');
+        Route::patch('/edit/jobtitle/{id}', 'editJobTitle');
+        Route::delete('/delete/jobtitle/{id}', 'deleteJobTitle');
     });
 
     Route::prefix('blog')->controller(BlogController::class)->group(function () {

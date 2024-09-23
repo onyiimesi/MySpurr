@@ -16,7 +16,9 @@ class JobTitleResource extends JsonResource
     {
         return [
             'id' => (string)$this->id,
-            'name' => (string)$this->name
+            'name' => (string)$this->name,
+            'min_rate' => (string)$this->min_rate,
+            'max_rate' => (string)$this->max_rate,
         ];
     }
 }

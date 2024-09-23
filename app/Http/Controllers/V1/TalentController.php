@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class TalentController extends Controller
 {
     use HttpResponses;
-    
+
     public function listtalents()
     {
         $talents = Talent::where('status', 'Active')->paginate(25);
