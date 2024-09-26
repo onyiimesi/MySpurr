@@ -2,10 +2,7 @@
 
 namespace App\Http\Resources\V1;
 
-use App\Models\V1\CountryTwo;
 use App\Models\V1\TalentJob;
-use App\Services\CountryState\CountryDetailsService;
-use App\Services\CountryState\StateDetailsService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
@@ -19,9 +16,6 @@ class JobResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // $country = (new CountryDetailsService($this->country_id))->run();
-        // $state = (new StateDetailsService($this->country_id, $this->state_id))->run();
-
         $countries = get_countries();
         $states = get_states();
 

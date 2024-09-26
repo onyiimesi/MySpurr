@@ -2,12 +2,8 @@
 
 namespace App\Http\Resources\Admin;
 
-use App\Models\V1\TalentJob;
-use App\Services\CountryState\CountryDetailsService;
-use App\Services\CountryState\StateDetailsService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Carbon;
 
 class JobResource extends JsonResource
 {
@@ -18,8 +14,12 @@ class JobResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $country = (new CountryDetailsService($this->country_id))->run();
-        $state = (new StateDetailsService($this->country_id, $this->state_id))->run();
+        $countries = get_countries();
+        $states = get_states();
+
+        $country = $countries->where('iso2', $this->country_id)->first();
+        $state = $states->where('country_id', $country->id)
+        ->where('iso2', $this->state_id)->first();
 
         return [
             'title' => (string)$this->job_title,
