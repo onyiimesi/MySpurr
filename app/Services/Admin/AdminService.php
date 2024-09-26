@@ -17,24 +17,30 @@ class AdminService
 
     public function overview()
     {
-        $startOfMonth = Carbon::now()->startOfMonth();
-        $endOfMonth = Carbon::now()->endOfMonth();
+        $now = Carbon::now();
+        $startOfMonth = $now->startOfMonth();
+        $endOfMonth = $now->endOfMonth();
 
         $monthly_active_users = Talent::where('status', 'active')
-        ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-        ->count() + Business::where('status', 'active')
-        ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-        ->count();
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->count()
+            + Business::where('status', 'active')
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->count();
 
-        $total_active_users = Talent::where('status', 'active')->count() + Business::where('status', 'active')->count();
-        $total_jobs = TalentJob::where('status', 'active')->count();
-        $total_applications = JobApply::count();
+        $total_active_users = Talent::where('status', 'active')->count()
+            + Business::where('status', 'active')->count();
+
+        $totals = [
+            'total_jobs' => TalentJob::where('status', 'active')->count(),
+            'total_applications' => JobApply::count(),
+        ];
 
         return $this->success([
             'total_active_users' => (int)$total_active_users,
             'monthly_active_users' => (int)$monthly_active_users,
-            'total_jobs' => (int)$total_jobs,
-            'total_applications' => (int)$total_applications
+            'total_jobs' => (int)$totals['total_jobs'],
+            'total_applications' => (int)$totals['total_applications'],
         ]);
     }
 

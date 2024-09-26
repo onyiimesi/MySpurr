@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\MailController;
 */
 
 Route::post('connect/token', [AdminAuthController::class, 'connect']);
+Route::post('/file/upload', [OthersController::class, 'uploadFile']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 

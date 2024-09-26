@@ -7,6 +7,7 @@ use App\Http\Resources\V1\JobTitleResource;
 use App\Models\V1\Business;
 use App\Models\V1\JobTitle;
 use App\Models\V1\Talent;
+use App\Services\Upload\UploadService;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Password;
 class OthersController extends Controller
 {
     use HttpResponses;
-    
+
     public function forgot(Request $request)
     {
         $request->validate(['email' => 'required|email']);
@@ -69,7 +70,7 @@ class OthersController extends Controller
 
         return $this->success(null, "Created successfully");
     }
-    
+
     public function allJobTitles()
     {
         $perPage = request()->query('per_page', 25);
@@ -122,6 +123,22 @@ class OthersController extends Controller
         JobTitle::findOrFail($id)->delete();
 
         return $this->success(null, "Deleted successfully");
+    }
+
+    public function uploadFile(Request $request)
+    {
+        if ($request->hasFile('file')){
+            $file = $request->file('file');
+            $folder = $request->input('folder', 'default/folder');
+
+            $data = (new UploadService($folder, $file))->run();
+        }
+
+        $data = (object)[
+            'url' => $data->url ?? $data
+        ];
+
+        return $this->success($data, "Successful");
     }
 
 }
