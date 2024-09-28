@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Actions\SendMailAction;
+use App\Enum\BusinessStatus;
+use App\Enum\TalentStatus;
+use App\Enum\UserStatus;
+use App\Mail\v1\AccountSuspendMail;
+use App\Mail\v1\AccountWarningMail;
 use App\Mail\v1\event\TestEventCanceledMail;
 use App\Mail\v1\event\TestEventPostponedMail;
 use App\Mail\v1\event\TestEventRegisterMail;
@@ -11,6 +16,7 @@ use App\Mail\v1\TestBusinessApplicationMail;
 use App\Mail\v1\TestJobSuggestionMail;
 use App\Mail\v1\TestTalentApplyMail;
 use App\Models\Admin\Event;
+use App\Models\V1\Business;
 use App\Models\V1\JobApply;
 use App\Models\V1\Talent;
 use App\Models\V1\TalentJob;
@@ -209,5 +215,81 @@ class Controller extends BaseController
             'status' => true,
             'message' => "Mail sent!"
         ], 200);
+    }
+
+    protected function warningTalentEmail($request)
+    {
+        $user = Talent::where('email', $request->email)
+        ->firstOrFail();
+
+        defer(fn() => sendMail($request->email, new AccountWarningMail($user)))->always();
+
+        return $this->success(null, 'Mail sent');
+    }
+
+    protected function warningBusinessEmail($request)
+    {
+        $user = Business::where('email', $request->email)
+        ->firstOrFail();
+
+        defer(fn() => sendMail($request->email, new AccountWarningMail($user)))->always();
+
+        return $this->success(null, 'Mail sent');
+    }
+
+    protected function suspendTalent($request)
+    {
+        $user = Talent::where('email', $request->email)
+        ->firstOrFail();
+
+        $user->update([
+            'status' => UserStatus::SUSPENDED,
+        ]);
+
+        defer(fn() => sendMail($request->email, new AccountSuspendMail($user)))->always();
+
+        return $this->success(null, 'User suspended successfully');
+    }
+
+    protected function suspendBusiness($request)
+    {
+        $user = Business::where('email', $request->email)
+        ->firstOrFail();
+
+        $user->update([
+            'status' => UserStatus::SUSPENDED,
+        ]);
+
+        defer(fn() => sendMail($request->email, new AccountSuspendMail($user)))->always();
+
+        return $this->success(null, 'User suspended successfully');
+    }
+
+    protected function reactivateTalent($request)
+    {
+        $user = Talent::where('email', $request->email)
+        ->firstOrFail();
+
+        $user->update([
+            'status' => UserStatus::ACTIVE,
+        ]);
+
+        //defer(fn() => sendMail($request->email, new AccountSuspendMail($user)))->always();
+
+        return $this->success(null, 'User reactivated successfully');
+    }
+
+    protected function reactivateBusiness($request)
+    {
+        $user = Business::where('email', $request->email)
+        ->firstOrFail();
+
+        $user->update([
+            'status' => UserStatus::ACTIVE,
+        ]);
+
+        //defer(fn() => sendMail($request->email, new AccountSuspendMail($user)))->always();
+
+        return $this->success(null, 'User reactivated successfully');
     }
 }

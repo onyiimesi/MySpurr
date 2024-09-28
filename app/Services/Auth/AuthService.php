@@ -2,17 +2,15 @@
 
 namespace App\Services\Auth;
 
+use App\Enum\UserStatus;
 use App\Events\v1\BusinessWelcomeEvent;
 use App\Events\v1\TalentWelcomeEvent;
 use App\Http\Resources\V1\LoginUserResource;
-use App\Libraries\Utilities;
 use App\Mail\v1\BusinessVerifyEmail;
 use App\Mail\v1\LoginVerify;
 use App\Mail\v1\TalentResendVerifyMail;
-use App\Mail\v1\TalentVerifyEmail;
 use App\Models\V1\Business;
 use App\Models\V1\Talent;
-use App\Services\Wallet\CreateService;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -42,8 +40,17 @@ class AuthService
 
         if ($authenticatedGuard) {
             $user = $authenticatedGuard->user();
-            if ($user->status !== "active") {
+
+            if ($user->status === UserStatus::INACTIVE) {
                 return $this->error('', 400, 'Account is inactive. Check Email to verify.');
+            }
+
+            if ($user->status === UserStatus::SUSPENDED) {
+                return $this->error('', 400, 'Account is suspended. Contact customer service.');
+            }
+
+            if ($user->status === UserStatus::BLOCKED) {
+                return $this->error('', 400, 'Account has been blocked. Contact customer service.');
             }
 
             $userType = strtolower(substr($authenticatedGuard->getProvider()->getModel(), strrpos($authenticatedGuard->getProvider()->getModel(), '\\') + 1));

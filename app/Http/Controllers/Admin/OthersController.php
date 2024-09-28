@@ -141,4 +141,71 @@ class OthersController extends Controller
         return $this->success($data, "Successful");
     }
 
+    public function warningMail(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email'],
+            'type' => ['required', 'in:talent,business']
+        ]);
+
+        switch ($request->type) {
+            case 'talent':
+                return $this->warningTalentEmail($request);
+                break;
+
+            case 'business':
+                return $this->warningBusinessEmail($request);
+                break;
+            
+            default:
+                return $this->error(null, 400, 'Type does not exist');
+                break;
+        }
+
+    }
+
+    public function suspendUser(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email'],
+            'type' => ['required', 'in:talent,business']
+        ]);
+
+        switch ($request->type) {
+            case 'talent':
+                return $this->suspendTalent($request);
+                break;
+
+            case 'business':
+                return $this->suspendBusiness($request);
+                break;
+            
+            default:
+                return $this->error(null, 400, 'Type does not exist');
+                break;
+        }
+    }
+
+    public function reactivateUser(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email'],
+            'type' => ['required', 'in:talent,business']
+        ]);
+
+        switch ($request->type) {
+            case 'talent':
+                return $this->reactivateTalent($request);
+                break;
+
+            case 'business':
+                return $this->reactivateBusiness($request);
+                break;
+            
+            default:
+                return $this->error(null, 400, 'Type does not exist');
+                break;
+        }
+    }
+
 }
