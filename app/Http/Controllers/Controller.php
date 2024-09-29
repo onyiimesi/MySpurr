@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Actions\SendMailAction;
-use App\Enum\BusinessStatus;
-use App\Enum\TalentStatus;
 use App\Enum\UserStatus;
 use App\Mail\v1\AccountSuspendMail;
 use App\Mail\v1\AccountWarningMail;
@@ -25,6 +23,8 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+
+use function Illuminate\Support\defer;
 
 class Controller extends BaseController
 {
@@ -222,7 +222,7 @@ class Controller extends BaseController
         $user = Talent::where('email', $request->email)
         ->firstOrFail();
 
-        defer(fn() => sendMail($request->email, new AccountWarningMail($user)))->always();
+        sendMail($request->email, new AccountWarningMail($user));
 
         return $this->success(null, 'Mail sent');
     }
@@ -232,7 +232,7 @@ class Controller extends BaseController
         $user = Business::where('email', $request->email)
         ->firstOrFail();
 
-        defer(fn() => sendMail($request->email, new AccountWarningMail($user)))->always();
+        sendMail($request->email, new AccountWarningMail($user));
 
         return $this->success(null, 'Mail sent');
     }
@@ -246,7 +246,7 @@ class Controller extends BaseController
             'status' => UserStatus::SUSPENDED,
         ]);
 
-        defer(fn() => sendMail($request->email, new AccountSuspendMail($user)))->always();
+        sendMail($request->email, new AccountSuspendMail($user));
 
         return $this->success(null, 'User suspended successfully');
     }
@@ -260,7 +260,7 @@ class Controller extends BaseController
             'status' => UserStatus::SUSPENDED,
         ]);
 
-        defer(fn() => sendMail($request->email, new AccountSuspendMail($user)))->always();
+        sendMail($request->email, new AccountSuspendMail($user));
 
         return $this->success(null, 'User suspended successfully');
     }
@@ -274,7 +274,7 @@ class Controller extends BaseController
             'status' => UserStatus::ACTIVE,
         ]);
 
-        //defer(fn() => sendMail($request->email, new AccountSuspendMail($user)))->always();
+        //defer(fn() => sendMail($request->email, new AccountSuspendMail($user)));
 
         return $this->success(null, 'User reactivated successfully');
     }
@@ -288,7 +288,7 @@ class Controller extends BaseController
             'status' => UserStatus::ACTIVE,
         ]);
 
-        //defer(fn() => sendMail($request->email, new AccountSuspendMail($user)))->always();
+        //defer(fn() => sendMail($request->email, new AccountSuspendMail($user)));
 
         return $this->success(null, 'User reactivated successfully');
     }

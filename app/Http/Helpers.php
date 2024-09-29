@@ -3,6 +3,7 @@
 use App\Models\V1\CountryTwo;
 use App\Models\V1\State;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 if (!function_exists('get_countries')) {
@@ -27,5 +28,9 @@ if (!function_exists('sendMail')) {
     }
 }
 
-
+if (!function_exists('logAction')) {
+    function logAction() {
+        Log::info('Log working!');
+    }
+}
 
