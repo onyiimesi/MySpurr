@@ -156,7 +156,7 @@ class OthersController extends Controller
             case 'business':
                 return $this->warningBusinessEmail($request);
                 break;
-            
+
             default:
                 return $this->error(null, 400, 'Type does not exist');
                 break;
@@ -179,7 +179,7 @@ class OthersController extends Controller
             case 'business':
                 return $this->suspendBusiness($request);
                 break;
-            
+
             default:
                 return $this->error(null, 400, 'Type does not exist');
                 break;
@@ -201,7 +201,7 @@ class OthersController extends Controller
             case 'business':
                 return $this->reactivateBusiness($request);
                 break;
-            
+
             default:
                 return $this->error(null, 400, 'Type does not exist');
                 break;
