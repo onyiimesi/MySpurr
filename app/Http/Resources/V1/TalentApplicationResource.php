@@ -19,7 +19,7 @@ class TalentApplicationResource extends JsonResource
         $job = TalentJob::where('id', $this->job_id)->first();
 
         $countries = get_countries();
-        $states = get_states();
+        $states = collect(get_states());
 
         $country = $countries->where('iso2', $job?->country_id)->first();
         $state = $states->where('country_id', $job?->country_id)
@@ -44,7 +44,7 @@ class TalentApplicationResource extends JsonResource
                 'salaray_type' => (string)$job?->salaray_type,
                 'currency' => (string)$job?->currency,
                 'country' => (string)$country?->name,
-                'state' => (string)$state?->name,
+                'state' => isset($state['name']) ? (string) $state['name'] : '',
                 'created_at' => Carbon::parse($job?->created_at)->format('d M Y'),
             ],
             'company' => (object) [

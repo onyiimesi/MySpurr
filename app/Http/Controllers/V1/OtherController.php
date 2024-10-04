@@ -36,14 +36,18 @@ class OtherController extends Controller
 
     public function country()
     {
-        $country = (new CountryService())->run();
+        $country = get_countries();
 
         return $this->success($country, "", 200);
     }
 
     public function states($ciso)
     {
-        $states = (new StateService($ciso))->run();
+        $countries = get_countries();
+        $states = collect(get_states());
+
+        $country = $countries->where('iso2', $ciso)->first();
+        $states = $states->where('country_id', $country->id);
 
         return $this->success($states, "", 200);
     }
@@ -376,7 +380,7 @@ class OtherController extends Controller
                 'next_page_url' => $job->nextPageUrl()
             ],
         ];
-    
+
     }
 
 }

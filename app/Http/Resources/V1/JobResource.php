@@ -17,7 +17,7 @@ class JobResource extends JsonResource
     public function toArray(Request $request): array
     {
         $countries = get_countries();
-        $states = get_states();
+        $states = collect(get_states());
 
         $country = $countries->where('iso2', $this->country_id)->first();
         $state = $states->where('country_id', $country->id)
@@ -43,7 +43,7 @@ class JobResource extends JsonResource
             'job_title' => (string)$this->job_title,
             'slug' => (string)$this->slug,
             'country' => (string)$country?->name,
-            'state' => (string)$state?->name,
+            'state' => isset($state['name']) ? (string) $state['name'] : '',
             'job_type' => (string)$this->job_type,
             'description' => (string)$this->description,
             'responsibilities' => (string)$this->responsibilities,
