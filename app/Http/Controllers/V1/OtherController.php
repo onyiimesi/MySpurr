@@ -47,10 +47,7 @@ class OtherController extends Controller
         $states = collect(get_states());
 
         $country = $countries->where('iso2', $ciso)->first();
-
-        $states = $states->where('country_id', $country->id)->toArray();
-
-        // $states = (new StateService($ciso))->run();
+        $states = $states->where('country_id', $country->id);
 
         return $this->success($states, "", 200);
     }
