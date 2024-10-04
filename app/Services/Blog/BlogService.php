@@ -29,7 +29,7 @@ class BlogService
 
         return [
             'status' => 'true',
-            'message' => 'Job List',
+            'message' => 'Blog List',
             'data' => $data,
             'pagination' => [
                 'current_page' => $blogs->currentPage(),
