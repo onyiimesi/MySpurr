@@ -21,7 +21,7 @@ class TalentJobResourceNoAuth extends JsonResource
         // $state = (new StateDetailsService($this->country_id, $this->state_id))->run();
 
         $countries = get_countries();
-        $states = collect(get_states());
+        $states = get_states();
 
         $country = $countries->where('iso2', $this->country_id)->first();
         $state = $states->where('country_id', $country->id)
@@ -33,7 +33,7 @@ class TalentJobResourceNoAuth extends JsonResource
         return [
             'id' => (string)$this->id,
             'country' => (string)$country->name,
-            'state' => isset($state['name']) ? (string) $state['name'] : '',
+            'state' => (string)$state?->name,
             'job_title' => (string)$this->job_title,
             'slug' => (string)$this->slug,
             'commitment' => (string)$this->commitment,

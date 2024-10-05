@@ -17,10 +17,7 @@ if (!function_exists('get_countries')) {
 if (!function_exists('get_states')) {
     function get_states() {
         return Cache::rememberForever('all_states', function () {
-            return State::select(['id', 'country_id', 'name', 'iso2'])
-                ->get()
-                ->values()
-                ->toArray();
+            return State::all();
         });
     }
 }
