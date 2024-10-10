@@ -19,7 +19,7 @@ class BookMarkJobResource extends JsonResource
     public function toArray(Request $request): array
     {
         $countries = get_countries();
-        $states = collect(get_states());
+        $states = get_states();
 
         $country = $countries->where('iso2', $this->talentjob->first()->country_id)->first();
         $state = $states->where('country_id', $country->id)
@@ -41,7 +41,7 @@ class BookMarkJobResource extends JsonResource
                     'job_title' => (string)$job->job_title,
                     'slug' => (string)$job->slug,
                     'country' => (string)$country->name,
-                    'state' => (string)$state['name'],
+                    'state' => (string)$state?->name,
                     'job_type' => (string)$job->job_type,
                     'description' => (string)$job->description,
                     'responsibilities' => (string)$job->responsibilities,

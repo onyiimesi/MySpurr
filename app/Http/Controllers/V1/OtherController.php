@@ -44,12 +44,13 @@ class OtherController extends Controller
     public function states($ciso)
     {
         $countries = get_countries();
-        $states = collect(get_states());
+        $states = get_states();
 
         $country = $countries->where('iso2', $ciso)->first();
-        $states = $states->where('country_id', $country->id);
+        $filteredStates = $states->where('country_id', $country->id);
+        $result = array_values($filteredStates->toArray());
 
-        return $this->success($states, "", 200);
+        return $this->success($result, "", 200);
     }
 
     public function ticket(Request $request)
