@@ -51,6 +51,25 @@ class TalentController extends Controller
             $query->where('employment_type', $request->employment_type);
         }
 
+        $query->withCount([
+            'portfolios',
+            'topskills',
+            'educations',
+            'employments',
+            'certificates'
+        ])
+        ->orderByRaw('
+            CASE
+                WHEN image IS NOT NULL THEN 1
+                ELSE 0
+            END DESC,
+            portfolios_count DESC,
+            topskills_count DESC,
+            educations_count DESC,
+            employments_count DESC,
+            certificates_count DESC
+        ');
+
         $talents = $query->paginate(25);
 
         $talent = TalentListResource::collection($talents);
@@ -69,7 +88,6 @@ class TalentController extends Controller
             ],
         ];
     }
-
 
     public function talentbyid(Request $request)
     {
