@@ -15,9 +15,44 @@ class TalentController extends Controller
 {
     use HttpResponses;
 
-    public function listtalents()
+    public function listTalents(Request $request)
     {
-        $talents = Talent::where('status', 'Active')->paginate(25);
+        $query = Talent::where('status', 'Active');
+
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('first_name', 'like', '%' . $request->search . '%')
+                ->orWhere('last_name', 'like', '%' . $request->search . '%')
+                ->orWhere('email', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->filled('skill')) {
+            $query->where('skill_title', $request->skill);
+        }
+
+        if ($request->filled('location')) {
+            $query->where('location', 'like', '%' . $request->location . '%');
+        }
+
+        if ($request->filled('experience')) {
+            $query->where('experience_level', 'like', '%' . $request->experience . '%');
+        }
+
+        if ($request->filled('qualification')) {
+            $query->where('highest_education', 'like', '%' . $request->qualification . '%');
+        }
+
+        if ($request->filled('salary_min') && $request->filled('salary_max')) {
+            $query->whereBetween('rate', [$request->salary_min, $request->salary_max]);
+        }
+
+        if ($request->filled('employment_type')) {
+            $query->where('employment_type', $request->employment_type);
+        }
+
+        $talents = $query->paginate(25);
+
         $talent = TalentListResource::collection($talents);
 
         return [
@@ -34,6 +69,7 @@ class TalentController extends Controller
             ],
         ];
     }
+
 
     public function talentbyid(Request $request)
     {

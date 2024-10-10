@@ -20,10 +20,10 @@ class TalentObserver implements ShouldHandleEventsAfterCommit
 
         if(App::environment('production')) {
             $data = (object)[
-                'first_name' =>$talent->first_name,
-                'last_name' =>$talent->last_name,
-                'email' =>$talent->email,
-                'phone_number' =>$talent->phone_number,
+                'first_name' => $talent->first_name,
+                'last_name' => $talent->last_name,
+                'email' => $talent->email,
+                'phone_number' => $talent->phone_number,
             ];
 
             (new EmailSender($data))->run();

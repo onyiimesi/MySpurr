@@ -155,7 +155,10 @@ class TalentJobsController extends Controller
         if(!$talent){
             return $this->error('', 401, 'Error');
         }
-        $jobappy = JobApply::where('talent_id', $talent->id)->get();
+        $jobappy = JobApply::where('talent_id', $talent->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+            
         $applications = TalentApplicationResource::collection($jobappy);
 
         return $this->success($applications, "All applications", 200);

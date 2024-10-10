@@ -113,7 +113,7 @@ class AuthService
             DB::commit();
         } catch (\Exception $e){
             DB::rollBack();
-            throw $this->error('error', 400, $e->getMessage());
+            return $this->error('error', 400, $e->getMessage());
         }
 
         return $this->success('', 'Account created successfully');
