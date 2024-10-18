@@ -21,7 +21,7 @@ class ApplicantsResource extends JsonResource
             'slug' => $this->slug,
             'salary_min' => $this->salary_min,
             'salary_max' => $this->salary_max,
-            'applicants' => $this->jobapply->map(function ($applicant) {
+            'applicants' => $this->jobapply ? $this->jobapply->map(function ($applicant) {
                 return [
                     'id' => $applicant->id,
                     'talent_id' => $applicant->talent_id,
@@ -89,7 +89,7 @@ class ApplicantsResource extends JsonResource
                         ];
                     })->toArray()
                 ];
-            })->toArray()
+            })->toArray() : [],
         ];
     }
 }

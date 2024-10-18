@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\JobTitleResource;
 use App\Models\V1\Business;
+use App\Models\V1\Country;
 use App\Models\V1\JobTitle;
 use App\Models\V1\Talent;
 use App\Services\Upload\UploadService;
@@ -206,6 +207,17 @@ class OthersController extends Controller
                 return $this->error(null, 400, 'Type does not exist');
                 break;
         }
+    }
+
+    public function getCountries()
+    {
+        $countries = Country::select('id', 'name', 'code')->get();
+
+        return [
+            'status' => true,
+            'message' => "Country",
+            'value' => $countries
+        ];
     }
 
 }
