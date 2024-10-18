@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\JobTitleResource;
 use App\Models\V1\Business;
-use App\Models\V1\Country;
+use App\Models\V1\CountryTwo;
 use App\Models\V1\JobTitle;
+use App\Models\V1\Skill;
+use App\Models\V1\State;
 use App\Models\V1\Talent;
 use App\Services\Upload\UploadService;
 use App\Traits\HttpResponses;
@@ -211,12 +213,37 @@ class OthersController extends Controller
 
     public function getCountries()
     {
-        $countries = Country::select('id', 'name', 'code')->get();
+        $countries = CountryTwo::select('id', 'name', 'iso2')->get();
 
         return [
             'status' => true,
             'message' => "Country",
             'value' => $countries
+        ];
+    }
+
+    public function getStates($id)
+    {
+        $states = State::where('country_id', $id)
+        ->select('id', 'name')
+        ->get();
+
+        return [
+            'status' => true,
+            'message' => "States",
+            'value' => $states
+        ];
+    }
+
+    public function getSkills()
+    {
+        $skills = Skill::select('id', 'name')
+        ->get();
+
+        return [
+            'status' => true,
+            'message' => "Skills",
+            'value' => $skills
         ];
     }
 

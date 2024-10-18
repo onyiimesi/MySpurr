@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\AdminJobRequest;
 use App\Services\Admin\Jobs\JobService;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,11 @@ class AdminJobsController extends Controller
     public function __construct(JobService $talentService)
     {
         $this->service = $talentService;
+    }
+
+    public function jobCreate(AdminJobRequest $request)
+    {
+        return $this->service->jobCreate($request);
     }
 
     public function index()
