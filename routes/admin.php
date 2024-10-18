@@ -26,6 +26,11 @@ use App\Http\Controllers\Admin\MailController;
 Route::post('connect/token', [AdminAuthController::class, 'connect']);
 Route::post('/file/upload', [OthersController::class, 'uploadFile']);
 
+Route::prefix('lookups')->controller(OthersController::class)
+->group(function () {
+    Route::get('/countries', 'getCountries');
+});
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('overview', [AdminController::class, 'overview']);
