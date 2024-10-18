@@ -29,6 +29,8 @@ Route::post('/file/upload', [OthersController::class, 'uploadFile']);
 Route::prefix('lookups')->controller(OthersController::class)
 ->group(function () {
     Route::get('/countries', 'getCountries');
+    Route::get('/state/{country_id}', 'getStates');
+    Route::get('/skills', 'getSkills');
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
