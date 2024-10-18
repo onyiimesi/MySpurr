@@ -23,24 +23,24 @@ class ApplicantsResource extends JsonResource
             'salary_max' => $this->salary_max,
             'applicants' => $this->jobapply ? $this->jobapply->map(function ($applicant) {
                 return [
-                    'id' => $applicant->id,
-                    'talent_id' => $applicant->talent_id,
-                    'first_name' => $applicant->talent->first_name,
-                    'last_name' => $applicant->talent->last_name,
-                    'email' => $applicant->talent->email,
-                    'phone_number' => $applicant->talent->phone_number,
-                    'image' => $applicant->talent->image,
-                    'location' => $applicant->talent->location,
-                    'experience_level' => $applicant->talent->experience_level,
-                    'availaibility' => $applicant->talent->availaibility,
-                    'rate' => $applicant->talent->rate,
-                    'rating' => $applicant->talent?->ratingsReceived?->first()?->rating,
-                    'top_skills' => $applicant->talent->topskills->map(function($skill) {
+                    'id' => $applicant?->id,
+                    'talent_id' => $applicant?->talent_id,
+                    'first_name' => $applicant?->talent?->first_name,
+                    'last_name' => $applicant?->talent?->last_name,
+                    'email' => $applicant?->talent?->email,
+                    'phone_number' => $applicant?->talent?->phone_number,
+                    'image' => $applicant?->talent?->image,
+                    'location' => $applicant?->talent?->location,
+                    'experience_level' => $applicant?->talent?->experience_level,
+                    'availaibility' => $applicant?->talent?->availaibility,
+                    'rate' => $applicant?->talent?->rate,
+                    'rating' => $applicant?->talent?->ratingsReceived?->first()?->rating,
+                    'top_skills' => $applicant?->talent?->topskills->map(function($skill) {
                         return [
                             'name' => $skill->name
                         ];
                     })->toArray(),
-                    'education' => $applicant->talent->educations->map(function($edu) {
+                    'education' => $applicant?->talent?->educations->map(function($edu) {
                         return [
                             'id' => $edu->id,
                             'school_name' => $edu->school_name,
