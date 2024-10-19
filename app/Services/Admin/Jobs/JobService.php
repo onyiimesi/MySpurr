@@ -60,7 +60,8 @@ class JobService
     public function index()
     {
         $perPage = request()->query('per_page', 25);
-        $jobs = TalentJob::with(['jobapply'])->paginate($perPage);
+
+        $jobs = TalentJob::with(['jobapply', 'business', 'questions'])->paginate($perPage);
         $alljobs = AdminJobResource::collection($jobs);
 
         return [
