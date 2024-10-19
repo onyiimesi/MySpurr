@@ -225,7 +225,7 @@ class OthersController extends Controller
     public function getStates($id)
     {
         $states = State::where('country_id', $id)
-        ->select('id', 'name')
+        ->select('id', 'name', 'iso2')
         ->get();
 
         return [
