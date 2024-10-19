@@ -2,9 +2,10 @@
 
 namespace App\Http\Resources\Admin;
 
-use App\Models\V1\TalentJob;
 use Carbon\Carbon;
+use App\Models\V1\TalentJob;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AdminJobResource extends JsonResource
@@ -21,19 +22,13 @@ class AdminJobResource extends JsonResource
 
         $country = $countries->where('iso2', $this->country_id)->first();
         $state = $states->where('country_id', $country?->id)
-        ->where('iso2', $this->state_id)->first();
+                        ->where('iso2', $this->state_id)->first();
 
-        $jobs = TalentJob::where('business_id', $this?->business->id)
-        ->where('status', 'active')->get();
-        $total_open = $jobs->count();
-
-        $cjobs = TalentJob::where('business_id', $this?->business->id)
-        ->where('status', 'completed')->get();
-        $total_complete = $cjobs->count();
-
-        $hjobs = TalentJob::where('business_id', $this?->business->id)
-        ->where('status', 'hired')->get();
-        $total_hire = $hjobs->count();
+        $jobsByStatus = TalentJob::where('business_id', $this?->business->id)
+            ->select('status', DB::raw('COUNT(*) as count'))
+            ->groupBy('status')
+            ->get()
+            ->keyBy('status');
 
         return [
             'id' => (string)$this->id,
@@ -57,20 +52,17 @@ class AdminJobResource extends JsonResource
             'is_highlighted' => (string)$this->is_highlighted,
             'status' => (string)$this->status,
             'date_created' => Carbon::parse($this->created_at)->format('j M Y'),
-            'questions' => $this->questions->map(function($quest) {
-                return [
-                    'question' => $quest->question
-                ];
-            }),
-            'company' => (object) [
-                'business_name' => $this->business->business_name,
-                'industry' => (array)$this->business->industry,
-                'about_business' => $this->business->about_business,
-                'company_logo' => $this->business->company_logo,
+            'questions' => $this->questions->map(fn($quest) => ['question' => $quest->question]),
+            'business_name' => $this->business?->business_name,
+            'company' => [
+                'business_name' => $this->business?->business_name,
+                'industry' => (array)$this->business?->industry,
+                'about_business' => $this->business?->about_business,
+                'company_logo' => $this->business?->company_logo,
             ],
-            'total_opened_jobs' => $total_open,
-            'completed_jobs' => $total_complete,
-            'hired_jobs' => $total_hire
+            'total_opened_jobs' => $jobsByStatus->get('active')?->count ?? 0,
+            'completed_jobs' => $jobsByStatus->get('completed')?->count ?? 0,
+            'hired_jobs' => $jobsByStatus->get('hired')?->count ?? 0,
         ];
     }
 }
