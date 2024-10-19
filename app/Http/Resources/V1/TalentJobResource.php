@@ -26,7 +26,7 @@ class TalentJobResource extends JsonResource
         $states = get_states();
 
         $country = $countries->where('iso2', $this->country_id)->first();
-        $state = $states->where('country_id', $country->id)
+        $state = $states->where('country_id', $country?->id)
         ->where('iso2', $this->state_id)->first();
 
         $currentDateTime = Carbon::now();
