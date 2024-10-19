@@ -3,8 +3,6 @@
 namespace App\Http\Resources\V1;
 
 use App\Models\V1\JobApply;
-use App\Services\CountryState\CountryDetailsService;
-use App\Services\CountryState\StateDetailsService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
@@ -19,36 +17,40 @@ class TalentJobResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // $country = (new CountryDetailsService($this->country_id))->run();
-        // $state = (new StateDetailsService($this->country_id, $this->state_id))->run();
-
         $countries = get_countries();
         $states = get_states();
 
         $country = $countries->where('iso2', $this->country_id)->first();
-        $state = $states->where('country_id', $country?->id)
-        ->where('iso2', $this->state_id)->first();
+        $state = null;
+
+        if ($country) {
+            $state = $states->where('country_id', $country->id)
+                ->where('iso2', $this->state_id)->first();
+        }
 
         $currentDateTime = Carbon::now();
         $sevenDaysAgo = $currentDateTime->subDays(7);
+
         $user = Auth::user();
 
         $status = null;
-        foreach($this->jobapply as $apply){
-            $talentapply = JobApply::where('job_id', $apply->job_id)
-            ->where('talent_id', $user->id)->first();
+        if ($user) {
+            foreach ($this->jobapply as $apply) {
+                $talentapply = JobApply::where('job_id', $apply->job_id)
+                    ->where('talent_id', $user->id)
+                    ->first();
 
-            if($talentapply){
-                $status = "applied";
-            }else{
-                $status = null;
+                if ($talentapply) {
+                    $status = "applied";
+                    break;
+                }
             }
         }
 
         return [
             'id' => (string)$this->id,
-            'country' => (string)$country->name,
-            'state' => (string)$state?->name,
+            'country' => (string)($country?->name ?? 'Unknown'),
+            'state' => (string)($state?->name ?? 'Unknown'),
             'job_title' => (string)$this->job_title,
             'slug' => (string)$this->slug,
             'commitment' => (string)$this->commitment,
@@ -82,3 +84,4 @@ class TalentJobResource extends JsonResource
         ];
     }
 }
+

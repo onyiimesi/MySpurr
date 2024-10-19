@@ -17,23 +17,24 @@ class TalentJobResourceNoAuth extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // $country = (new CountryDetailsService($this->country_id))->run();
-        // $state = (new StateDetailsService($this->country_id, $this->state_id))->run();
-
         $countries = get_countries();
         $states = get_states();
 
         $country = $countries->where('iso2', $this->country_id)->first();
-        $state = $states->where('country_id', $country?->id)
-        ->where('iso2', $this->state_id)->first();
+        $state = null;
+
+        if ($country) {
+            $state = $states->where('country_id', $country->id)
+                ->where('iso2', $this->state_id)->first();
+        }
 
         $currentDateTime = Carbon::now();
         $sevenDaysAgo = $currentDateTime->subDays(7);
 
         return [
             'id' => (string)$this->id,
-            'country' => (string)$country->name,
-            'state' => (string)$state?->name,
+            'country' => (string)($country?->name ?? 'Unknown'),
+            'state' => (string)($state?->name ?? 'Unknown'),
             'job_title' => (string)$this->job_title,
             'slug' => (string)$this->slug,
             'commitment' => (string)$this->commitment,
@@ -66,3 +67,4 @@ class TalentJobResourceNoAuth extends JsonResource
         ];
     }
 }
+
