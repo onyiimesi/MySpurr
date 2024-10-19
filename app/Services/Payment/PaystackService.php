@@ -3,11 +3,21 @@
 namespace App\Services\Payment;
 
 use App\Enum\Amount;
-use App\Enum\TalentJobType;
 use App\Models\V1\Payment;
-use App\Services\Job\CreateJobService;
+use App\Enum\PaymentOption;
+use App\Enum\PaystackEvent;
+use App\Enum\TalentJobStatus;
+use App\Enum\TalentJobType;
+use App\Models\V1\Business;
+use Illuminate\Support\Str;
 use App\Traits\HttpResponses;
+use App\Mail\v1\JobInvoiceMail;
+use App\Mail\v1\JobPaymentInvoiceMail;
+use App\Models\V1\Question;
+use App\Models\V1\TalentJob;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Services\Job\CreateJobService;
 use Unicodeveloper\Paystack\Facades\Paystack;
 
 
@@ -38,6 +48,11 @@ class PaystackService
         //     $status = 0;
         // }
 
+        $callbackUrl = $request->input('payment_redirect_url');
+        if (!filter_var($callbackUrl, FILTER_VALIDATE_URL)) {
+            return response()->json(['error' => 'Invalid callback URL'], 400);
+        }
+
         $paymentDetails = [
             'email' => $request->email,
             'amount' => $amount * 100,
@@ -45,26 +60,86 @@ class PaystackService
             'metadata' => json_encode([
                 'business_id' => $request->business_id,
                 'payment_portal_url' => config('services.paystack_payment_url'),
-                'payment_redirect_url' => $request->input('payment_redirect_url'),
                 'type' => $request->type,
+                'payment_option' => $request->payment_option,
                 'job' => $request->input('job'),
                 'is_highlighted' => $status,
                 'vat' => $vatAmount,
                 'main_amount' => $totAmount,
             ]),
+            'callback_url' => $request->input('payment_redirect_url'),
         ];
 
         $paystackInstance = Paystack::getAuthorizationUrl($paymentDetails);
 
-        return response()->json($paystackInstance);
+        switch ($request->payment_option) {
+            case PaymentOption::ONLINE:
+                return response()->json($paystackInstance);
+                break;
+            case PaymentOption::INVOICE:
+
+                $job = $this->createJob($request);
+
+                if($job) {
+                    $paymentDetails = [
+                        'email' => $request->email,
+                        'amount' => $amount * 100,
+                        "currency" => "NGN",
+                        'metadata' => json_encode([
+                            'business_id' => $request->business_id,
+                            'job_id' => $job->id,
+                            'payment_portal_url' => config('services.paystack_payment_url'),
+                            'job' => $job,
+                            'is_highlighted' => 1,
+                            'type' => $request->type,
+                            'payment_option' => PaymentOption::INVOICE,
+                            'vat' => $vatAmount,
+                            'main_amount' => $totAmount,
+                        ]),
+                        'callback_url' => $request->input('payment_redirect_url'),
+                    ];
+            
+                    $paystackInstance = Paystack::getAuthorizationUrl($paymentDetails);
+                    $url = $paystackInstance->url;
+
+                    $cost = (object)[
+                        'amount' => $amount,
+                        'totalAmount' => $totAmount,
+                        'vat' => $vatAmount,
+                    ];
+                }
+
+                return $this->invoicePayment($url, $request, $job, $cost);
+                break;
+            default:
+                return $this->error(null, 'Invalid option!');
+                break;
+        }
     }
 
-    public function callback()
+    public function webhook($request)
     {
-        $paymentDetails = Paystack::getPaymentData();
+        $secretKey = config('paystack.secretKey');
+        $signature = $request->header('x-paystack-signature');
+        $payload = $request->getContent();
 
-        $data = $paymentDetails['data'];
+        if (!$signature || $signature !== hash_hmac('sha512', $payload, $secretKey)) {
+            return $this->error(null, 'Invalid signature', 400);
+        }
 
+        $event = json_decode($payload, true);
+
+        if (isset($event['event']) && $event['event'] === PaystackEvent::CHARGE_SUCCESS) {
+            $data = $event['data'];
+
+            $this->storePayment($data, $event['event']);
+        }
+
+        return response()->json(['status' => true], 200);
+    }
+
+    private function storePayment($data, $status)
+    {
         $ref = $data['reference'];
         $amount = $data['amount'];
         $formattedAmount = number_format($amount / 100, 2, '.', '');
@@ -72,19 +147,21 @@ class PaystackService
         $currency = $data['currency'];
         $ip_address = $data['ip_address'];
         $paid_at = $data['paid_at'];
-        $createdAt = $data['createdAt'];
-        $transaction_date = $data['transaction_date'];
-        $status = $data['status'];
+        $createdAt = $data['created_at'];
+        $transaction_date = $data['paid_at'];
 
-        $redirectURL = $paymentDetails['data']['metadata']['payment_redirect_url'];
-        $business_id = $paymentDetails['data']['metadata']['business_id'];
-        $payment_portal_url = $paymentDetails['data']['metadata']['payment_portal_url'];
-        $job = $paymentDetails['data']['metadata']['job'];
-        $highlight = $paymentDetails['data']['metadata']['is_highlighted'];
-        $email = $paymentDetails['data']['customer']['email'];
-        $type = $paymentDetails['data']['metadata']['type'];
-        $main_amount = $paymentDetails['data']['metadata']['main_amount'];
-        $vat = $paymentDetails['data']['metadata']['vat'];
+        $business_id = $data['metadata']['business_id'];
+        $payment_portal_url = $data['metadata']['payment_portal_url'];
+        $job = $data['metadata']['job'];
+        $highlight = $data['metadata']['is_highlighted'];
+        $email = $data['customer']['email'];
+        $type = $data['metadata']['type'];
+        $payment_option = $data['metadata']['payment_option'];
+        $main_amount = $data['metadata']['main_amount'];
+        $vat = $data['metadata']['vat'];
+        $job_id = $data['metadata']['job_id'];
+
+        $business = Business::findOrFail($business_id);
 
         try {
 
@@ -92,6 +169,9 @@ class PaystackService
 
             $payment = new Payment();
             $payment->business_id = $business_id;
+            $payment->first_name = $business->first_name;
+            $payment->last_name = $business->last_name;
+            $payment->phone_number = $business->phone_number;
             $payment->email = $email;
             $payment->amount = $main_amount;
             $payment->vat = $vat;
@@ -113,17 +193,66 @@ class PaystackService
             throw $th;
         }
 
-        if($status == "success"){
-            (new CreateJobService($job, $email, $highlight, $type, $payment))->run();
+        if($status === PaystackEvent::CHARGE_SUCCESS){
+            (new CreateJobService($job, $email, $highlight, $type, $payment, $payment_option, $job_id))->run();
+        }
+    }
+
+    private function createJob($request)
+    {
+        $slug = Str::slug($request->job['job_title']);
+
+        if (TalentJob::where('slug', $slug)->exists()) {
+            $slug = $slug . '-' . uniqid();
         }
 
-        $redirectURLs = "";
+        $job = TalentJob::create([
+            'business_id' => $request->business_id,
+            'job_title' => $request->job['job_title'],
+            'slug' => $slug,
+            'country_id' => $request->job['country_id'],
+            'state_id' => $request->job['state_id'],
+            'job_type' => $request->job['job_type'],
+            'description' => $request->job['description'],
+            'responsibilities' => $request->job['responsibilities'],
+            'required_skills' => $request->job['required_skills'],
+            'benefits' => $request->job['benefits'],
+            'salaray_type' => $request->job['salaray_type'],
+            'salary_min' => $request->job['salary_min'],
+            'salary_max' => $request->job['salary_max'],
+            'currency' => $request->job['currency'],
+            'skills' => $request->job['skills'],
+            'experience' => $request->job['experience'],
+            'qualification' => $request->job['qualification'],
+            'status' => TalentJobStatus::PENDING,
+        ]);
 
-        if ($paymentDetails) {
-            return redirect()->to($redirectURL);
-        } else {
-            return redirect()->to($redirectURLs);
+
+        if (! empty($request->job['questions'])) {
+            foreach ($request->job['questions'] as $questionData) {
+                $question = new Question($questionData);
+                $job->questions()->save($question);
+            }
         }
+
+        return $job;
+    }
+
+    private function invoicePayment($paymentLink, $request, $job, $cost)
+    {
+        $business = Business::findOrFail($request->business_id);
+        $payment = (object)[
+            'reference' => Str::random(20),
+            'total_amount' => $cost->totalAmount,
+            'amount' => $cost->amount,
+            'vat' => $cost->vat,
+            'created_at' => $job->created_at,
+        ];
+
+        Mail::to($request->email)
+        ->send(new JobPaymentInvoiceMail($business, $payment, $job, $paymentLink));
+
+        return $this->success(null, 'Invoice sent successful!');
     }
 }
 

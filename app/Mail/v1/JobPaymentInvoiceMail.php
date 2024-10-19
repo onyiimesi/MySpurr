@@ -9,22 +9,24 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class JobInvoiceMail extends Mailable
+class JobPaymentInvoiceMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     protected $user;
     protected $payment;
     protected $job;
+    protected $link;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($user, $payment, $job)
+    public function __construct($user, $payment, $job, $link = null)
     {
         $this->user = $user;
         $this->payment = $payment;
         $this->job = $job;
+        $this->link = $link;
     }
 
     /**
@@ -33,7 +35,7 @@ class JobInvoiceMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Payment Invoice',
+            subject: 'Job Payment Invoice Mail',
         );
     }
 
@@ -43,11 +45,12 @@ class JobInvoiceMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.v1.job-invoice-mail',
+            markdown: 'mail.v1.job-payment-invoice-mail',
             with: [
                 'user' => $this->user,
                 'payment' => $this->payment,
                 'job' => $this->job,
+                'link' => $this->link,
             ]
         );
     }

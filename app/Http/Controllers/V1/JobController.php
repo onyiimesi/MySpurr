@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Enum\TalentJobStatus;
 use App\Enum\TalentJobType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\JobRequest;
@@ -111,7 +112,7 @@ class JobController extends Controller
             'skills' => $request->skills,
             'experience' => $request->experience,
             'qualification' => $request->qualification,
-            'status' => 'active',
+            'status' => TalentJobStatus::ACTIVE,
         ]);
 
         if (! empty($request->questions)) {
