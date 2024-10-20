@@ -114,8 +114,9 @@ Route::prefix('v1/noauth/event')->controller(EventController::class)->group(func
     Route::post('register', 'registerEvent');
 });
 
-
 Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
+
+    Route::get('/verify/payment/{user_id}/{reference}', [PaymentController::class, 'verifyPayment']);
 
     // Talent
     Route::post('talent-work-details', [TalentOnboardingController::class, 'workDetails']);

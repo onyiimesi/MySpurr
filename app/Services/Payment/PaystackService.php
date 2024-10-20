@@ -2,24 +2,24 @@
 
 namespace App\Services\Payment;
 
-use App\Enum\Amount;
 use App\Models\V1\Payment;
 use App\Enum\PaymentOption;
 use App\Enum\PaystackEvent;
 use App\Enum\TalentJobStatus;
-use App\Enum\TalentJobType;
+use App\Http\Resources\V1\PaymentVerifyResource;
 use App\Models\V1\Business;
 use Illuminate\Support\Str;
 use App\Traits\HttpResponses;
-use App\Mail\v1\JobInvoiceMail;
 use App\Mail\v1\JobPaymentInvoiceMail;
 use App\Models\V1\Question;
 use App\Models\V1\TalentJob;
+use App\Services\Curl\GetCurlService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Services\Job\CreateJobService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Unicodeveloper\Paystack\Facades\Paystack;
-
 
 class PaystackService
 {
@@ -66,6 +66,7 @@ class PaystackService
                 'is_highlighted' => $status,
                 'vat' => $vatAmount,
                 'main_amount' => $totAmount,
+                'job_id' => 0,
             ]),
             'callback_url' => $request->input('payment_redirect_url'),
         ];
@@ -98,7 +99,7 @@ class PaystackService
                         ]),
                         'callback_url' => $request->input('payment_redirect_url'),
                     ];
-            
+
                     $paystackInstance = Paystack::getAuthorizationUrl($paymentDetails);
                     $url = $paystackInstance->url;
 
@@ -132,10 +133,35 @@ class PaystackService
         if (isset($event['event']) && $event['event'] === PaystackEvent::CHARGE_SUCCESS) {
             $data = $event['data'];
 
+            if (Payment::where('reference', $data['reference'])->exists()) {
+                Log::warning('Payment already processed', ['reference' => $data['reference']]);
+                return response()->json(['status' => 'Payment already processed'], 200);
+            }
+
             $this->storePayment($data, $event['event']);
         }
 
         return response()->json(['status' => true], 200);
+    }
+
+    public function verifyPayment($userId, $ref)
+    {
+        $currentUserId = Auth::id();
+
+        if ($currentUserId != $userId) {
+            return $this->error(null, 401, "Unauthorized action.");
+        }
+
+        if (!preg_match('/^[A-Za-z0-9]{10,30}$/', $ref)) {
+            return $this->error(null, 400, "Invalid payment reference.");
+        }
+
+        Business::findOrFail($userId);
+
+        $verify = (new GetCurlService($ref))->run();
+        $data = new PaymentVerifyResource($verify);
+
+        return $this->success($data, "Payment verify status");
     }
 
     private function storePayment($data, $status)

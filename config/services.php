@@ -75,4 +75,13 @@ return [
     'email_sender_base_url' => env('EMAIL_SENDER_BASE_URL'),
     'email_sender_token' => env('EMAIL_SENDER_TOKEN'),
 
+    'paystack' => [
+        'mode' => env('PAYSTACK'),
+        'live_sk' => env('PAYSTACK_LIVE_SECRET_KEY'),
+        'test_sk' => env('PAYSTACK_SECRET_KEY'),
+
+        'test_pk' => env('PAYSTACK_PUBLIC_KEY'),
+        'live_pk' => env('PAYSTACK_LIVE_PUBLIC_KEY'),
+    ]
+
 ];
