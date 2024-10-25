@@ -1155,15 +1155,15 @@
                                             </tr>
                                             <tr>
                                                 <td class="text2">
-                                                    Join our telegram group channel to stay updated on new jobs
+                                                    Join our whatsapp group channel to stay updated on new jobs
                                                     available.
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="text3">
                                                     <div class="btn btn-primary">
-                                                        <a href="https://t.me/+tT1PkFVhBnA0NWVk" target="_blank">
-                                                            Join Telegram
+                                                        <a href="https://chat.whatsapp.com/J5QwboAPIQj5vUM5J69Cya" target="_blank">
+                                                            Join Talent Community
                                                         </a>
                                                     </div>
                                                 </td>

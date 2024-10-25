@@ -26,7 +26,15 @@ class ProcessPaymentRequest extends FormRequest
             'email' => 'required|email|string',
             'payment_redirect_url' => 'required',
             'job' => 'required',
-            'type' => 'required|in:premium'
+            'type' => 'required|in:premium',
+            'payment_option' => 'required|in:online,invoice'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'payment_option' => 'The selected payment option should either be online or invoice.'
         ];
     }
 }

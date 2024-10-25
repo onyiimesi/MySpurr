@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\ProcessPaymentRequest;
 use App\Services\Payment\PaystackService;
 use App\Traits\HttpResponses;
+use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
@@ -23,8 +24,15 @@ class PaymentController extends Controller
         return $this->service->processPayment($request);
     }
 
-    public function callback()
+    public function webhook(Request $request)
     {
-        return $this->service->callback();
+        return $this->service->webhook($request);
     }
+
+    public function verifyPayment($userId, $ref)
+    {
+        return $this->service->verifyPayment($userId, $ref);
+    }
+
+
 }

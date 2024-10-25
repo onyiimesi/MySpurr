@@ -48,7 +48,7 @@ Broadcast::routes(['prefix' => 'api', 'middleware' => ['auth:api']]);
 Route::get('/verify/{token}', [AuthController::class, 'verify'])->name('verification.verify');
 Route::get('/business-verify/{token}', [AuthController::class, 'verifys'])->name('verification.verifys');
 Route::post('/payment/pay', [PaymentController::class, 'processPayment']);
-Route::get('/payment/callback', [PaymentController::class, 'callback']);
+Route::post('/payment/webhook', [PaymentController::class, 'webhook']);
 
 Route::prefix('v1')->group(function () {
 
@@ -114,8 +114,9 @@ Route::prefix('v1/noauth/event')->controller(EventController::class)->group(func
     Route::post('register', 'registerEvent');
 });
 
-
 Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
+
+    Route::get('/verify/payment/{user_id}/{reference}', [PaymentController::class, 'verifyPayment']);
 
     // Talent
     Route::post('talent-work-details', [TalentOnboardingController::class, 'workDetails']);
