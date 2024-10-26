@@ -98,11 +98,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::prefix('jobs')->controller(AdminJobsController::class)->group(function () {
-        Route::post('/create', 'jobCreate');
         Route::get('/all', 'index');
         Route::get('/single/{slug}', 'getOne');
         Route::get('/count', 'count');
+    
+        Route::post('/create', 'jobCreate');
+        Route::patch('/close/{slug}', 'closeJob');
+        Route::patch('/edit/{slug}', 'editJob');
     });
+    
 
     Route::post('add/user', [AdminAuthController::class, 'addUser']);
     Route::post('mail/sendmail', [MailController::class, 'sendMail']);

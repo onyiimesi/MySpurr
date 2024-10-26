@@ -35,4 +35,14 @@ class AdminJobsController extends Controller
     {
         return $this->service->count();
     }
+
+    public function editJob(Request $request, $slug)
+    {
+        return $this->service->editJob($request, $slug);
+    }
+
+    public function closeJob($slug)
+    {
+        return $this->service->closeJob($slug);
+    }
 }
