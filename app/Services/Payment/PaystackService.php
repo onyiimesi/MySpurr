@@ -15,7 +15,6 @@ use App\Models\V1\Question;
 use App\Models\V1\TalentJob;
 use App\Services\Curl\GetCurlService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use App\Services\Job\CreateJobService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -275,8 +274,7 @@ class PaystackService
             'created_at' => $job->created_at,
         ];
 
-        Mail::to($request->email)
-        ->send(new JobPaymentInvoiceMail($business, $payment, $job, $paymentLink));
+        sendMail($request->email, new JobPaymentInvoiceMail($business, $payment, $job, $paymentLink));
 
         return $this->success(null, 'Invoice sent successful!');
     }

@@ -9,7 +9,6 @@ use App\Mail\v1\JobInvoiceMail;
 use App\Models\V1\Business;
 use App\Models\V1\Question;
 use App\Models\V1\TalentJob;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class CreateJobService {
@@ -92,7 +91,7 @@ class CreateJobService {
                 }
             }
 
-            Mail::to($this->email)->send(new JobInvoiceMail($business, $this->payment, $data));
+            sendMail($this->email, new JobInvoiceMail($business, $this->payment, $data));
             
         } else {
             $jobs = TalentJob::findOrFail($this->job_id);
@@ -105,7 +104,7 @@ class CreateJobService {
 
             $data = (object) $this->job;
 
-            Mail::to($this->email)->send(new JobInvoiceMail($business, $this->payment, $data));
+            sendMail($this->email, new JobInvoiceMail($business, $this->payment, $data));
         }
     }
 }
