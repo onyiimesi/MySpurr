@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin\Jobs;
 
+use App\Enum\TalentJobStatus;
 use Illuminate\Support\Str;
 use App\Models\V1\TalentJob;
 use App\Traits\HttpResponses;
@@ -100,6 +101,65 @@ class JobService
             'message' => "All Jobs count",
             'value' => $data
         ];
+    }
+
+    public function editJob($request, $slug)
+    {
+        $job = TalentJob::with('questions')
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        $slug = $job->job_title === $request->job_title
+            ? $job->slug
+            : Str::slug($request->job_title);
+
+        if ($slug !== $job->slug && TalentJob::where('slug', $slug)->exists()) {
+            $slug = $slug . '-' . uniqid();
+        }
+
+        $job->update([
+            'business_id' => $request->business_id,
+            'job_title' => $request->job_title,
+            'slug' => $slug,
+            'country_id' => $request->country_id,
+            'state_id' => $request->state_id,
+            'job_type' => $request->job_type,
+            'responsibilities' => $request->responsibilities,
+            'required_skills' => $request->required_skills,
+            'benefits' => $request->benefits,
+            'salaray_type' => $request->salaray_type,
+            'salary_min' => $request->salary_min,
+            'salary_max' => $request->salary_max,
+            'currency' => $request->currency,
+            'skills' => $request->skills,
+            'description' => $request->description,
+            'experience' => $request->experience,
+            'qualification' => $request->qualification,
+            'is_highlighted' => 1,
+            'status' => $request->status,
+        ]);
+
+        if (! empty($request->questions)) {
+            $job->questions()->delete();
+            foreach ($request->questions as $questionData) {
+                $question = new Question($questionData);
+                $job->questions()->save($question);
+            }
+        }
+
+        return $this->success(null, 'Created successfully');
+    }
+
+    public function closeJob($slug)
+    {
+        $job = TalentJob::where('slug', $slug)
+            ->firstOrFail();
+
+        $job->update([
+            'status' => TalentJobStatus::CLOSED,
+        ]);
+
+        return $this->success(null, 'Closed successfully');
     }
 }
 
