@@ -29,7 +29,7 @@ class JobController extends Controller
 
         $job = TalentJob::with(['business', 'questions', 'jobapply'])
         ->where('business_id', $user->id)
-        ->where('status', 'active')
+        ->whereIn('status', [TalentJobStatus::ACTIVE, TalentJobStatus::PENDING])
         ->orderByDesc('is_highlighted')
         ->orderByDesc('created_at')
         ->paginate(25);

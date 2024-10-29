@@ -62,16 +62,18 @@ class JobResource extends JsonResource
             'is_highlighted' => (string)$this->is_highlighted,
             'status' => (string)$this->status,
             'date_created' => Carbon::parse($this->created_at)->format('j M Y'),
-            'questions' => $this->questions->map(function($quest) {
+            'questions' => $this->questions ? $this->questions->map(function($quest) {
                 return [
                     'question' => $quest->question
                 ];
-            }),
+            })->toArray() : [],
             'company' => (object) [
-                'business_name' => $this->business->business_name,
-                'industry' => (array)$this->business->industry,
-                'about_business' => $this->business->about_business,
-                'company_logo' => $this->business->company_logo,
+                'id' => $this->business?->id,
+                'uuid' => $this->business?->uuid,
+                'business_name' => $this->business?->business_name,
+                'industry' => (array)$this->business?->industry,
+                'about_business' => $this->business?->about_business,
+                'company_logo' => $this->business?->company_logo,
             ],
             'total_opened_jobs' => $total_open,
             'completed_jobs' => $total_complete,

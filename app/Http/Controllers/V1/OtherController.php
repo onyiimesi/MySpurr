@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Enum\TalentJobStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\ApplicantsResource;
 use App\Http\Resources\V1\ApplicationResource;
@@ -224,14 +225,23 @@ class OtherController extends Controller
         $jobs->delete();
     }
 
-    public function closejob($id)
+    public function closejob(Request $request, $id)
     {
+        $request->validate([
+            'get_candidate' => ['required', 'boolean'],
+            'reason' => ['required_if:get_candidate,false']
+        ]);
+        
         $job = TalentJob::where('id', $id)
         ->first();
 
-        $job->update([
-            'status' => 'expired'
-        ]);
+        $updateData = ['status' => TalentJobStatus::CLOSED];
+    
+        if (!$request->get_candidate) {
+            $updateData['reason'] = $request->reason;
+        }
+        
+        $job->update($updateData);
 
         return $this->success(null, "Job closed", 200);
     }
