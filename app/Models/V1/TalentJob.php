@@ -34,7 +34,8 @@ class TalentJob extends Model implements Auditable
         'status',
         'deleted_at',
         'is_bookmark',
-        'is_highlighted'
+        'is_highlighted',
+        'reason',
     ];
 
     protected $casts = [

@@ -153,14 +153,18 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
 
     Route::resource('job', JobController::class);
 
-    Route::get('job/details/{slug}', [OtherController::class, 'jobdetail']);
-    Route::delete('jobs/delete/{id}', [OtherController::class, 'deletejob']);
-    Route::patch('job/{id}/close', [OtherController::class, 'closejob']);
-    Route::get('job/{id}/applicants', [OtherController::class, 'applicants']);
-    Route::get('get/job/{slug}/applicants', [OtherController::class, 'applicantsSlug']);
-    Route::get('application/{talent_id}/{job_id}', [OtherController::class, 'application']);
-    Route::get('get/application/{talent_id}/{slug}', [OtherController::class, 'applicationSlug']);
-    Route::get('jobs/picks', [OtherController::class, 'jobpicks']);
+    Route::controller(OtherController::class)->group(function () {
+        Route::get('job/details/{slug}', 'jobdetail');
+        Route::delete('jobs/delete/{id}', 'deletejob');
+        Route::patch('job/{id}/close', 'closejob');
+        Route::get('job/{id}/applicants', 'applicants');
+        Route::get('get/job/{slug}/applicants', 'applicantsSlug');
+        Route::get('application/{talent_id}/{job_id}', 'application');
+        Route::get('get/application/{talent_id}/{slug}', 'applicationSlug');
+        Route::get('jobs/picks', 'jobpicks');
+
+    });
+    
     Route::get('statistics', [JobStatisticsController::class, 'stats']);
 
     //Rating
