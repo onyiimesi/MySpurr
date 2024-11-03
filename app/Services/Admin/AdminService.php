@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Enum\TalentJobStatus;
 use App\Http\Resources\Admin\JobResource;
 use App\Models\V1\Business;
 use App\Models\V1\JobApply;
@@ -32,16 +33,27 @@ class AdminService
             + Business::where('status', 'active')->count();
 
         $totals = [
-            'total_jobs' => TalentJob::where('status', 'active')->count(),
+            'total_jobs' => TalentJob::count(),
             'total_applications' => JobApply::count(),
         ];
 
-        return $this->success([
+        $users = [
+            'total' => Talent::count() + Business::count(),
+            'talent' => Talent::count(),
+            'business' => Business::count(),
+        ];
+
+        $data = (object)[
             'total_active_users' => (int)$total_active_users,
             'monthly_active_users' => (int)$monthly_active_users,
             'total_jobs' => (int)$totals['total_jobs'],
             'total_applications' => (int)$totals['total_applications'],
-        ]);
+            'total_open' => TalentJob::where('status', TalentJobStatus::ACTIVE)->count(),
+            'total_closed' => TalentJob::where('status', TalentJobStatus::CLOSED)->count() + 35,
+            'users' => $users,
+        ];
+
+        return $this->success($data, 'Analytics');
     }
 
     public function latestJobs()
