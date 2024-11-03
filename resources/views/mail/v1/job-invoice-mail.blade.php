@@ -337,7 +337,7 @@
         table.body ol,
         table.body td,
         table.body span {
-          font-size: 16px !important; 
+          font-size: 16px !important;
         } */
       table.body .wrapper,
       table.body .article {
@@ -698,7 +698,7 @@
                   <tbody>
                     <tr class="top-row">
                       <td class="align-center">1</td>
-                      <td>{{ $job->job_title }}</td>
+                      <td>{{ $job->job_title }} Hiring</td>
                       <td class="align-center">0.00</td>
                       <td class="align-center">0.00</td>
                       <td class="align-right">₦{{ $payment->total_amount }}</td>

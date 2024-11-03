@@ -687,7 +687,7 @@
                   <tbody>
                     <tr class="top-row">
                       <td class="align-center">1</td>
-                      <td>{{ $job->job_title }}</td>
+                      <td>{{ $job->job_title }} Hiring</td>
                       <td class="align-center">0.00</td>
                       <td class="align-center">0.00</td>
                       <td class="align-right">₦{{ number_format($payment->total_amount, 2) }}</td>
