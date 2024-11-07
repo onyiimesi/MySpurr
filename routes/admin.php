@@ -68,6 +68,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/warning', 'warningMail');
         Route::post('/suspend', 'suspendUser');
         Route::post('/reactivate', 'reactivateUser');
+
+        // Skills
+        Route::get('/skills', 'allSkills');
+        Route::post('/create/skill', 'createSkill');
+        Route::get('/skill/{id}', 'skillDetail');
+        Route::patch('/edit/skill/{id}', 'editSkill');
+        Route::delete('/delete/skill/{id}', 'deleteSkill');
     });
 
     Route::prefix('blog')->controller(BlogController::class)->group(function () {

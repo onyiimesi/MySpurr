@@ -36,6 +36,7 @@ class TalentJob extends Model implements Auditable
         'is_bookmark',
         'is_highlighted',
         'reason',
+        'get_candidate',
     ];
 
     protected $casts = [

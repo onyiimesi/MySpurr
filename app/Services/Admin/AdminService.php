@@ -49,7 +49,10 @@ class AdminService
             'total_jobs' => (int)$totals['total_jobs'],
             'total_applications' => (int)$totals['total_applications'],
             'total_open' => TalentJob::where('status', TalentJobStatus::ACTIVE)->count(),
-            'total_closed' => TalentJob::where('status', TalentJobStatus::CLOSED)->count() + 35,
+            'total_closed' => TalentJob::where('status', TalentJobStatus::CLOSED)->count(),
+            'total_successful_closed' => TalentJob::where('status', TalentJobStatus::CLOSED)
+            ->where('get_candidate', 'yes')
+            ->count() + 35,
             'users' => $users,
         ];
 
