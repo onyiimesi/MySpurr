@@ -235,10 +235,14 @@ class OtherController extends Controller
         $job = TalentJob::where('id', $id)
         ->first();
 
-        $updateData = ['status' => TalentJobStatus::CLOSED];
+        $updateData = [
+            'get_candidate' => 'yes',
+            'status' => TalentJobStatus::CLOSED
+        ];
     
         if (!$request->get_candidate) {
             $updateData['reason'] = $request->reason;
+            $updateData['get_candidate'] = 'no';
         }
         
         $job->update($updateData);

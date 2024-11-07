@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\JobTitleResource;
+use App\Http\Resources\V1\SkillsResource;
 use App\Models\V1\Business;
 use App\Models\V1\CountryTwo;
 use App\Models\V1\JobTitle;
@@ -245,6 +246,71 @@ class OthersController extends Controller
             'message' => "Skills",
             'value' => $skills
         ];
+    }
+
+    public function allSkills()
+    {
+        $perPage = request()->query('per_page', 25);
+        $skill = Skill::select(['id', 'name'])
+        ->orderBy('created_at', 'desc')
+        ->paginate($perPage);
+
+        $skills = SkillsResource::collection($skill);
+
+        return [
+            "status" => 'true',
+            "message" => 'Skills List',
+            "value" => [
+                'result' => $skills,
+                'current_page' => $skill->currentPage(),
+                'page_count' => $skill->lastPage(),
+                'page_size' => $skill->perPage(),
+                'total_records' => $skill->total()
+            ]
+        ];
+    }
+
+    public function createSkill(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'unique:skills,name'],
+        ]);
+
+        Skill::create([
+            'name' => $request->name
+        ]);
+
+        return $this->success(null, "Created successfully");
+    }
+
+    public function skillDetail($id)
+    {
+        $skill = Skill::findOrFail($id);
+        $data = new SkillsResource($skill);
+
+        return [
+            'status' => true,
+            'message' => "Skill Details",
+            'value' => $data
+        ];
+    }
+
+    public function editSkill(Request $request, $id)
+    {
+        $skill = Skill::findOrFail($id);
+
+        $skill->update([
+            'name' => $request->name
+        ]);
+
+        return $this->success(null, "Updated successfully");
+    }
+
+    public function deleteSkill($id)
+    {
+        Skill::findOrFail($id)->delete();
+
+        return $this->success(null, "Deleted successfully");
     }
 
 }
