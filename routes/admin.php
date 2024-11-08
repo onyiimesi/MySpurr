@@ -112,6 +112,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/create', 'jobCreate');
         Route::patch('/close/{slug}', 'closeJob');
         Route::patch('/edit/{slug}', 'editJob');
+
+        // Job charges
+        Route::get('/charges', 'allCharges');
+        Route::post('/create/charge', 'createCharge');
+        Route::get('/charge/{id}', 'chargeDetail');
+        Route::patch('/edit/charge/{id}', 'editCharge');
+        Route::delete('/delete/charge/{id}', 'deleteCharge');
     });
 
 

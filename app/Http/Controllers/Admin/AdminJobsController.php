@@ -45,4 +45,37 @@ class AdminJobsController extends Controller
     {
         return $this->service->closeJob($slug);
     }
+
+    public function allCharges()
+    {
+        return $this->service->allCharges();
+    }
+
+    public function createCharge(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:100'],
+            'percentage' => ['required', 'numeric', 'min:0', 'max:100']
+        ]);
+
+        return $this->service->createCharge($request);
+    }
+
+    public function chargeDetail($id)
+    {
+        return $this->service->chargeDetail($id);
+    }
+
+    public function editCharge(Request $request, $id)
+    {
+        $request->validate(['status', 'in:active,in-active']);
+
+        return $this->service->editCharge($request, $id);
+    }
+
+    public function deleteCharge($id)
+    {
+        return $this->service->deleteCharge($id);
+    }
+
 }
