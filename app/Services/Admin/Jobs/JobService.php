@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use App\Models\V1\TalentJob;
 use App\Traits\HttpResponses;
 use App\Http\Resources\Admin\AdminJobResource;
+use App\Http\Resources\Admin\JobChargeResource;
+use App\Models\V1\JobCharge;
 use App\Models\V1\Question;
 
 class JobService
@@ -147,7 +149,7 @@ class JobService
             }
         }
 
-        return $this->success(null, 'Created successfully');
+        return $this->success(null, 'Updated successfully');
     }
 
     public function closeJob($slug)
@@ -160,6 +162,93 @@ class JobService
         ]);
 
         return $this->success(null, 'Closed successfully');
+    }
+
+    public function allCharges()
+    {
+        $perPage = request()->query('per_page', 25);
+
+        $charges = JobCharge::where('status', 'active')
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage);
+
+        $data = JobChargeResource::collection($charges);
+
+        return [
+            'status' => true,
+            'message' => "All Charges",
+            'value' => [
+                'result' => $data,
+                'current_page' => $charges->currentPage(),
+                'page_count' => $charges->lastPage(),
+                'page_size' => $charges->perPage(),
+                'total_records' => $charges->total()
+            ]
+        ];
+    }
+
+    public function createCharge($request)
+    {
+        try {
+            $slug = Str::slug($request->name);
+
+            if (JobCharge::where('slug', $slug)->exists()) {
+                $slug = $slug . '-' . uniqid();
+            }
+
+            JobCharge::create([
+                'name' => $request->name,
+                'slug' => $slug,
+                'percentage' => $request->percentage
+            ]);
+
+            return $this->success(null, 'Created successfully');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function chargeDetail($id)
+    {
+        $charge = JobCharge::findOrFail($id);
+
+        $data = new JobChargeResource($charge);
+
+        return [
+            'status' => true,
+            'message' => "Job Charge Details",
+            'value' => $data
+        ];
+    }
+
+    public function editCharge($request, $id)
+    {
+        $charge = JobCharge::findOrFail($id);
+
+        $slug = $charge->name === $request->name
+            ? $charge->slug
+            : Str::slug($request->name);
+
+        if ($slug !== $charge->slug && JobCharge::where('slug', $slug)->exists()) {
+            $slug = $slug . '-' . uniqid();
+        }
+
+        $charge->update([
+            'name' => $request->name,
+            'slug' => $slug,
+            'percentage' => $request->percentage,
+            'status' => 'active',
+        ]);
+
+        return $this->success(null, 'Updated successfully');
+    }
+
+    public function deleteCharge($id)
+    {
+        $charge = JobCharge::findOrFail($id);
+        $charge->delete();
+
+        return $this->success(null, 'Deleted successfully');
     }
 }
 
