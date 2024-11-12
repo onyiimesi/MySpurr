@@ -6,7 +6,7 @@ use App\Models\V1\Message;
 
 class MessageRepository
 {
-    public function getMessages(int $userId1, int $userId2)
+    public function getMessages($userId1, $userId2)
     {
         return Message::where(function ($query) use ($userId1, $userId2) {
             $query->where('sender_id', $userId1)

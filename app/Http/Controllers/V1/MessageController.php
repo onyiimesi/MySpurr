@@ -28,7 +28,7 @@ class MessageController extends Controller
         $this->messageRepository = $messageRepository;
     }
 
-    public function index(Request $request, ?int $userId = null)
+    public function index(Request $request, $userId = null)
     {
         $messages = empty($userId) ? [] : $this->messageRepository->getMessages($request->user()->id, $userId);
 
