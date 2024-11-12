@@ -164,7 +164,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
         Route::get('jobs/picks', 'jobpicks');
 
     });
-    
+
     Route::get('statistics', [JobStatisticsController::class, 'stats']);
 
     //Rating

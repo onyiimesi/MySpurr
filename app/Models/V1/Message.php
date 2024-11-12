@@ -30,6 +30,11 @@ class Message extends Model
         'attachment' => 'array'
     ];
 
+    public function getHasRepliedAttribute()
+    {
+        return $this->messageReply()->count() > 0;
+    }
+
     public function sender()
     {
         if ($this->sender_type === 'App\Models\V1\Business') {
