@@ -130,7 +130,7 @@
             <a href="https://app.myspurr.net/login" class="button">UPDATE YOUR PROFILE</a>
         </div>
         <p>
-            P.S. Lets connect on LinkedIn, I’d love you hear of your incredible journey with us
+            Join the MySpurr <a href="https://chat.whatsapp.com/J5QwboAPIQj5vUM5J69Cya" target="_blanj">WhatsApp Community</a> today for the latest job posts, and access to mentorship, resources and updates from MySpurr
         </p>
 
         <div style="margin: 30px 0;">

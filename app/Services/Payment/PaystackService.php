@@ -2,6 +2,7 @@
 
 namespace App\Services\Payment;
 
+use App\Enum\JobChargeType;
 use App\Models\V1\Payment;
 use App\Enum\PaymentOption;
 use App\Enum\PaystackEvent;
@@ -11,6 +12,7 @@ use App\Models\V1\Business;
 use Illuminate\Support\Str;
 use App\Traits\HttpResponses;
 use App\Mail\v1\JobPaymentInvoiceMail;
+use App\Models\V1\JobCharge;
 use App\Models\V1\Question;
 use App\Models\V1\TalentJob;
 use App\Services\Curl\GetCurlService;
@@ -27,8 +29,16 @@ class PaystackService
     public function processPayment($request)
     {
         $job = $request->input('job');
+        
+        $type = JobChargeType::SINGLE_HIRING;
+        $charge = JobCharge::where('slug', $type)->first();
 
-        $percent = 15;
+        if($charge) {
+            $percent = $charge->percentage;
+        } else {
+            $percent = 15;
+        }
+
         $percentInDecimal = $percent / 100;
         $totAmount = $percentInDecimal * $job['salary_min'];
 
