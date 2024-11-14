@@ -29,15 +29,11 @@ class PaystackService
     public function processPayment($request)
     {
         $job = $request->input('job');
-        
+
         $type = JobChargeType::SINGLE_HIRING;
         $charge = JobCharge::where('slug', $type)->first();
 
-        if($charge) {
-            $percent = $charge->percentage;
-        } else {
-            $percent = 15;
-        }
+        $percent = $charge ? $charge->percentage : 15;
 
         $percentInDecimal = $percent / 100;
         $totAmount = $percentInDecimal * $job['salary_min'];
