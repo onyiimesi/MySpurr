@@ -12,6 +12,7 @@ use App\Http\Resources\V1\TalentSentMessageResource;
 use App\Mail\v1\MessageMail;
 use App\Models\V1\Business;
 use App\Models\V1\Message;
+use App\Models\V1\MessageReply;
 use App\Models\V1\Talent;
 use App\Repositories\MessageRepository;
 use App\Traits\HttpResponses;
@@ -325,5 +326,16 @@ class MessageController extends Controller
         }
 
         return $folderName . '/' . $fileName;
+    }
+
+    public function editReplyMessage(Request $request, $id)
+    {
+        $reply = MessageReply::findOrFail($id);
+
+        $reply->update([
+            'message' => $request->message
+        ]);
+
+        return $this->success(null, 'Replied successful');
     }
 }
