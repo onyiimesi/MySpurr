@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\V1\Country;
 use App\Models\V1\CountryTwo;
 use App\Models\V1\State;
 use Illuminate\Support\Facades\Cache;
@@ -31,6 +32,14 @@ if (!function_exists('sendMail')) {
 if (!function_exists('logAction')) {
     function logAction() {
         Log::info('Log working!');
+    }
+}
+
+if (!function_exists('getCountry')) {
+    function getCountry() {
+        return Cache::rememberForever('countries', function () {
+            return Country::all();
+        });
     }
 }
 

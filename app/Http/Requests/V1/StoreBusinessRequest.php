@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\V1;
 
+use App\Rules\UniqueEmailAcrossTables;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules;
 
@@ -25,9 +26,7 @@ class StoreBusinessRequest extends FormRequest
         return [
             'first_name' => ['required', 'string',],
             'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'email:rfc,dns', 'string', 'max:255', 'unique:businesses'],
-            // 'country_code' => ['required', 'numeric'],
-            // 'phone_number' => ['required', 'numeric'],
+            'email' => ['required', 'email', 'email:rfc,dns', 'string', 'max:255', new UniqueEmailAcrossTables,],
             'password' => ['string', Rules\Password::defaults()],
             'status' => ['string', 'max:20']
         ];

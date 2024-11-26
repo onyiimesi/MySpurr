@@ -80,6 +80,7 @@ Route::prefix('v1')->group(function () {
     Route::get('subscribe', [ContactController::class, 'getsubscribe']);
     Route::get('get-country', [OtherController::class, 'getCountry']);
     Route::get('country', [OtherController::class, 'country']);
+    Route::get('countries', [OtherController::class, 'countries']);
     Route::get('country/{ciso}/states', [OtherController::class, 'states']);
     Route::get('all-portfolios', [PortfolioController::class, 'allport']);
 
