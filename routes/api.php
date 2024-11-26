@@ -180,6 +180,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'v1'], function () {
         Route::post('reply', 'replyMessage');
         Route::get('detail/{message_id}', 'msgdetail');
         Route::patch('edit/{message_id}', 'editMessage');
+        Route::patch('reply/edit/{id}', 'editReplyMessage');
     });
 
     Route::get('sent/message', [MessageController::class, 'talentsentmsgs']);
