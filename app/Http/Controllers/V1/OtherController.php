@@ -42,6 +42,13 @@ class OtherController extends Controller
         return $this->success($country, "", 200);
     }
 
+    public function countries()
+    {
+        $country = getCountry();
+
+        return $this->success($country, "", 200);
+    }
+
     public function states($ciso)
     {
         $countries = get_countries();
@@ -231,7 +238,7 @@ class OtherController extends Controller
             'get_candidate' => ['required', 'boolean'],
             'reason' => ['required_if:get_candidate,false']
         ]);
-        
+
         $job = TalentJob::where('id', $id)
         ->first();
 
@@ -239,12 +246,12 @@ class OtherController extends Controller
             'get_candidate' => 'yes',
             'status' => TalentJobStatus::CLOSED
         ];
-    
+
         if (!$request->get_candidate) {
             $updateData['reason'] = $request->reason;
             $updateData['get_candidate'] = 'no';
         }
-        
+
         $job->update($updateData);
 
         return $this->success(null, "Job closed", 200);

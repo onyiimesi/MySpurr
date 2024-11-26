@@ -28,11 +28,12 @@ class JobController extends Controller
         $user = Auth::user();
 
         $job = TalentJob::with(['business', 'questions', 'jobapply'])
-        ->where('business_id', $user->id)
-        ->whereIn('status', [TalentJobStatus::ACTIVE, TalentJobStatus::PENDING])
-        ->orderByDesc('is_highlighted')
-        ->orderByDesc('created_at')
-        ->paginate(25);
+            ->where('business_id', $user->id)
+            ->whereIn('status', [TalentJobStatus::ACTIVE, TalentJobStatus::PENDING, TalentJobStatus::CLOSED])
+            ->orderByRaw("FIELD(status, '".TalentJobStatus::ACTIVE."', '".TalentJobStatus::PENDING."', '".TalentJobStatus::CLOSED."')")
+            ->orderByDesc('is_highlighted')
+            ->orderByDesc('created_at')
+            ->paginate(25);
 
         $jobs = JobResource::collection($job);
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\V1;
 
+use App\Rules\UniqueEmailAcrossTables;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules;
 
@@ -25,10 +26,8 @@ class StoreTalentRequest extends FormRequest
         return [
             'first_name' => ['required', 'string',],
             'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'email:rfc,dns', 'string', 'max:255', 'unique:talent'],
+            'email' => ['required', 'email', 'email:rfc,dns', 'string', 'max:255', new UniqueEmailAcrossTables,],
             'password' => ['string', Rules\Password::defaults()],
-            // 'country_code' => ['required', 'numeric'],
-            // 'phone_number' => ['required', 'numeric'],
             'status' => ['string', 'max:20']
         ];
     }
