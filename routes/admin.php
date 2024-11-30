@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\OthersController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminTalentsController;
 use App\Http\Controllers\Admin\AdminBusinessController;
+use App\Http\Controllers\Admin\AdminExternalJobController;
 use App\Http\Controllers\Admin\AdminJobsController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\MailController;
@@ -119,6 +120,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/charge/{id}', 'chargeDetail');
         Route::patch('/edit/charge/{id}', 'editCharge');
         Route::delete('/delete/charge/{id}', 'deleteCharge');
+    });
+
+    Route::prefix('external/job')->controller(AdminExternalJobController::class)->group(function () {
+        Route::get('/all', 'index');
+        Route::get('/single/{slug}', 'getOne');
+        Route::get('/count', 'count');
+
+        Route::post('/create', 'jobCreate');
+        Route::patch('/edit/{slug}', 'editJob');
     });
 
 
