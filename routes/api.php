@@ -91,6 +91,10 @@ Route::prefix('v1')->group(function () {
 
     // Visitors
     Route::post('visitors', [OtherController::class, 'visitors']);
+
+    // External Job
+    Route::get('/external-job', [TalentJobsController::class, 'externalJobs']);
+    Route::get('/external-job/{slug}', [OtherController::class, 'externalJobDetail']);
 });
 
 // Blog

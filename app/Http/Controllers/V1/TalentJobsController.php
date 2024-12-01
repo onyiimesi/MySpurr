@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Enum\TalentJobStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\JobApplyRequest;
+use App\Http\Resources\Admin\AdminExternalJobResource;
 use App\Http\Resources\V1\BookMarkJobResource;
 use App\Http\Resources\V1\JobResource;
 use App\Http\Resources\V1\TalentApplicationResource;
@@ -11,6 +13,7 @@ use App\Http\Resources\V1\TalentJobResource;
 use App\Http\Resources\V1\TalentJobResourceNoAuth;
 use App\Mail\v1\BusinessApplicationMail;
 use App\Mail\v1\TalentApplyMail;
+use App\Models\Admin\ExternalJob;
 use App\Models\V1\BookmarkJob;
 use App\Models\V1\Job;
 use App\Models\V1\JobApply;
@@ -53,14 +56,15 @@ class TalentJobsController extends Controller
 
     public function listjobs()
     {
-        $job = TalentJob::with(['jobapply', 'business', 'questions'])->where('status', 'active')
-        ->orderBy('is_highlighted', 'desc')
-        ->orderBy('created_at', 'desc')
-        ->paginate(25);
+        $job = TalentJob::with(['jobapply', 'business', 'questions'])
+            ->where('status', TalentJobStatus::ACTIVE)
+            ->orderBy('is_highlighted', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->paginate(25);
         $jobs = TalentJobResourceNoAuth::collection($job);
 
         return [
-            'status' => 'true',
+            'status' => true,
             'message' => 'Job List',
             'data' => $jobs,
             'pagination' => [
@@ -71,6 +75,57 @@ class TalentJobsController extends Controller
                 'next_page_url' => $job->nextPageUrl()
             ],
         ];
+    }
+
+    public function listjobdetail($slug)
+    {
+        $job = TalentJob::where('slug', $slug)
+            ->where('status', TalentJobStatus::ACTIVE)
+            ->first();
+
+        if(!$job){
+            return $this->error(null, 404, "Job not found");
+        }
+
+        $data = new JobResource($job);
+
+        return $this->success($data, "Details", 200);
+    }
+
+    public function externalJobs()
+    {
+        $job = ExternalJob::where('status', TalentJobStatus::ACTIVE)
+            ->orderBy('created_at', 'desc')
+            ->paginate(25);
+        $jobs = AdminExternalJobResource::collection($job);
+
+        return [
+            'status' => true,
+            'message' => 'Job List',
+            'data' => $jobs,
+            'pagination' => [
+                'current_page' => $job->currentPage(),
+                'last_page' => $job->lastPage(),
+                'per_page' => $job->perPage(),
+                'prev_page_url' => $job->previousPageUrl(),
+                'next_page_url' => $job->nextPageUrl()
+            ],
+        ];
+    }
+
+    public function externalJobDetail($slug)
+    {
+        $job = ExternalJob::where('slug', $slug)
+            ->where('status', TalentJobStatus::ACTIVE)
+            ->first();
+
+        if(!$job){
+            return $this->error(null, 404, "Job not found");
+        }
+
+        $data = new AdminExternalJobResource($job);
+
+        return $this->success($data, "Details", 200);
     }
 
     public function apply(JobApplyRequest $request)
@@ -178,21 +233,6 @@ class TalentJobsController extends Controller
         $applications = new TalentApplicationResource($jobappy);
 
         return $this->success($applications, "", 200);
-    }
-
-    public function listjobdetail($slug)
-    {
-        $job = TalentJob::where('slug', $slug)
-        ->where('status', 'active')
-        ->first();
-
-        if(!$job){
-            return $this->error(null, 400, "Error slug required");
-        }
-
-        $data = new JobResource($job);
-
-        return $this->success($data, "Details", 200);
     }
 
     public function bookmark($id)
