@@ -129,6 +129,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::post('/create', 'jobCreate');
         Route::patch('/edit/{slug}', 'editJob');
+        Route::patch('/close/{slug}', 'closeJob');
     });
 
 
