@@ -25,7 +25,8 @@ class AdminExternalJobResource extends JsonResource
             'description' => (string)$this->description,
             'responsibilities' => (string)$this->responsibilities,
             'required_skills' => (string)$this->required_skills,
-            'salary' => (string)$this->salary,
+            'salary_min' => (string)$this->salary_min,
+            'salary_max' => (string)$this->salary_max,
             'link' => (string)$this->link,
             'status' => (string)$this->status,
             'date_created' => Carbon::parse($this->created_at)->format('j M Y')

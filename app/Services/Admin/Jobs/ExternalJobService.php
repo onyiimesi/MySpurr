@@ -30,7 +30,8 @@ class ExternalJobService
                 'description' => $request->description,
                 'responsibilities' => $request->responsibilities,
                 'required_skills' => $request->required_skills,
-                'salary' => $request->salary,
+                'salary_min' => $request->salary_min,
+                'salary_max' => $request->salary_max,
                 'link' => $request->link,
                 'status' => $request->status,
             ]);
@@ -96,7 +97,8 @@ class ExternalJobService
             'description' => $request->description,
             'responsibilities' => $request->responsibilities,
             'required_skills' => $request->required_skills,
-            'salary' => $request->salary,
+            'salary_min' => $request->salary_min,
+            'salary_max' => $request->salary_max,
             'link' => $request->link,
             'status' => $request->status,
         ]);
