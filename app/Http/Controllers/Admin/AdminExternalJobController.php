@@ -35,4 +35,9 @@ class AdminExternalJobController extends Controller
     {
         return $this->service->editJob($request, $slug);
     }
+
+    public function closeJob($slug)
+    {
+        return $this->service->closeJob($slug);
+    }
 }

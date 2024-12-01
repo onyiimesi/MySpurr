@@ -105,4 +105,16 @@ class ExternalJobService
 
         return $this->success(null, 'Updated successfully');
     }
+
+    public function closeJob($slug)
+    {
+        $job = ExternalJob::where('slug', $slug)
+            ->firstOrFail();
+
+        $job->update([
+            'status' => TalentJobStatus::CLOSED,
+        ]);
+
+        return $this->success(null, 'Closed successfully');
+    }
 }
