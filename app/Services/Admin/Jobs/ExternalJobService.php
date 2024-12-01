@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin\Jobs;
 
+use App\Enum\TalentJobStatus;
 use App\Http\Resources\Admin\AdminExternalJobResource;
 use App\Models\Admin\ExternalJob;
 use Illuminate\Support\Str;
