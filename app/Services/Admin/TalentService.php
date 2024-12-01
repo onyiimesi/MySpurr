@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Enum\UserStatus;
 use App\Events\v1\TalentWelcomeEvent;
 use App\Http\Resources\Admin\TalentsResource;
 use App\Models\V1\Talent;
@@ -74,6 +75,18 @@ class TalentService
             event(new TalentWelcomeEvent($talent));
         }
 
+        $status = $request->status;
+
+        if($request->verified == "yes") {
+            $otp = null;
+            $otp_expires_at = null;
+            $status = UserStatus::ACTIVE;
+        } elseif($request->verified == "no") {
+            $otp = $talent->otp;
+            $otp_expires_at = $talent->otp_expires_at;
+            $status = UserStatus::INACTIVE;
+        }
+
         $talent->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -81,7 +94,9 @@ class TalentService
             'location' => $request->location,
             'skill_title' => $request->category,
             'phone_number' => $request->phone_number,
-            'status' => $request->status
+            'otp' => $otp,
+            'otp_expires_at' => $otp_expires_at,
+            'status' => $status,
         ]);
 
         return $this->success(null, "Updated successfully");

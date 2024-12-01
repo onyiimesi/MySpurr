@@ -15,7 +15,8 @@ class ExternalJob extends Model
         'description',
         'responsibilities',
         'required_skills',
-        'salary',
+        'salary_min',
+        'salary_max',
         'link',
         'status',
     ];
