@@ -61,9 +61,10 @@ class AdminService
 
     public function latestJobs()
     {
-        $job = TalentJob::where('status', 'active')
-        ->orderByDesc('is_highlighted')
-        ->paginate(25);
+        $job = TalentJob::with(['business', 'jobapply'])
+            ->where('status', 'active')
+            ->orderByDesc('is_highlighted')
+            ->paginate(25);
 
         $jobs = JobResource::collection($job);
 
