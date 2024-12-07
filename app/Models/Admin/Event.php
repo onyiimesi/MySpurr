@@ -26,13 +26,14 @@ class Event extends Model
         'linkedln',
         'content',
         'tags',
+        'youtube_link',
         'featured_speaker',
         'file_id',
         'featured_graphics',
         'featured_graphic_file_id',
         'publish_date',
         'is_published',
-        'status'
+        'status',
     ];
 
     public function eventBrandPartners(): HasMany

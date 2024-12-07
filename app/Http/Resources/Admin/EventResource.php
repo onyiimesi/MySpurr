@@ -35,6 +35,7 @@ class EventResource extends JsonResource
             'linkedln' => (string)$this->linkedln,
             'content' => (string)$this->content,
             'tags' => $this->getTagsAsArray(),
+            'youtube_link' => (string)$this->youtube_link,
             'featured_speaker' => (string)$this->featured_speaker,
             'featured_graphics' => (string) $this->featured_graphics,
             'publish_date' => $this->publish_date,

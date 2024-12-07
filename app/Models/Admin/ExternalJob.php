@@ -19,5 +19,7 @@ class ExternalJob extends Model
         'salary_max',
         'link',
         'status',
+        'salary_type',
+        'currency',
     ];
 }

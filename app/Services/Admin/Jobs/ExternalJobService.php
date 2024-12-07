@@ -33,6 +33,8 @@ class ExternalJobService
                 'required_skills' => $request->required_skills,
                 'salary_min' => $request->salary_min,
                 'salary_max' => $request->salary_max,
+                'salary_type' => $request->salary_type,
+                'currency' => $request->currency,
                 'link' => $request->link,
                 'status' => $request->status,
             ]);
@@ -100,6 +102,8 @@ class ExternalJobService
             'required_skills' => $request->required_skills,
             'salary_min' => $request->salary_min,
             'salary_max' => $request->salary_max,
+            'salary_type' => $request->salary_type,
+            'currency' => $request->currency,
             'link' => $request->link,
             'status' => $request->status,
         ]);

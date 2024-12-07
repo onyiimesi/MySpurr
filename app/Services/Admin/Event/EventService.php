@@ -58,6 +58,7 @@ class EventService
                 'linkedln' => $request->linkedln,
                 'content' => $request->content,
                 'tags' => $request->tags,
+                'youtube_link' => $request->youtube_link,
                 'featured_speaker' => $data ? $data->url : $data,
                 'file_id' => $data ? $data->file_id : null,
                 'featured_graphics' => $featured_graph->url ?? $featured_graph,
@@ -116,7 +117,7 @@ class EventService
 
     public function getOne($id)
     {
-        $event = Event::findOrFail($id);
+        $event = Event::with(['eventBrandPartners', 'registeredEvents'])->findOrFail($id);
         $data = new EventResource($event);
 
         return [
@@ -183,6 +184,7 @@ class EventService
                 'linkedln' => $request->linkedln,
                 'content' => $request->content,
                 'tags' => $request->tags,
+                'youtube_link' => $request->youtube_link,
                 'featured_speaker' => $data ? $data->url : $data,
                 'file_id' => $data ? $data->file_id : null,
                 'featured_graphics' => $featured_graph->url ?? $featured_graph,
