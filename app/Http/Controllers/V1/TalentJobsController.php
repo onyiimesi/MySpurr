@@ -187,7 +187,7 @@ class TalentJobsController extends Controller
         $question = Question::where('talent_job_id', $request->job_id)->first();
 
         if(! empty($request->question_answers)) {
-            
+
             if(! $question){
                 return response()->json(['message' => 'Job not found!'], 404);
             }
@@ -213,7 +213,7 @@ class TalentJobsController extends Controller
         $jobappy = JobApply::where('talent_id', $talent->id)
             ->orderBy('created_at', 'desc')
             ->get();
-            
+
         $applications = TalentApplicationResource::collection($jobappy);
 
         return $this->success($applications, "All applications", 200);
