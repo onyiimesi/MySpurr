@@ -38,7 +38,6 @@ class TalentJobResourceNoAuth extends JsonResource
             'job_title' => (string)$this->job_title,
             'slug' => (string)$this->slug,
             'job_type' => (string)$this->job_type,
-            'capacity' => (string)$this->capacity,
             'experience' => (string)$this->experience,
             'description' => (string)$this->description,
             'salaray_type' => (string)$this->salaray_type,
