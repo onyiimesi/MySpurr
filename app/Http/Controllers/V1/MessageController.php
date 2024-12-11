@@ -149,7 +149,10 @@ class MessageController extends Controller
                 ->first();
 
             $messagesQuery = $talent->sentMessages()
-                ->with(['sender', 'receiver'])
+                ->with([
+                    'messageReply.sender',
+                    'messageReply.receiver',
+                ])
                 ->orderBy('created_at', 'desc');
 
         } elseif ($auth->type === "business") {
@@ -158,7 +161,10 @@ class MessageController extends Controller
                 ->first();
 
             $messagesQuery = $business->sentMessages()
-                ->with(['sender', 'receiver'])
+                ->with([
+                    'messageReply.sender',
+                    'messageReply.receiver', 
+                ])
                 ->orderBy('created_at', 'desc');
 
         } else {

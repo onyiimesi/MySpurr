@@ -362,13 +362,13 @@ class OtherController extends Controller
             $query->where('email', 'LIKE', "%{$search}%")
                 ->orWhere('first_name', 'LIKE', "%{$search}%")
                 ->orWhere('last_name', 'LIKE', "%{$search}%");
-        })->get(['first_name', 'last_name', 'email']);
+        })->get(['id', 'first_name', 'last_name', 'email']);
 
         $businesses = Business::where(function($query) use ($search) {
             $query->where('email', 'LIKE', "%{$search}%")
                 ->orWhere('first_name', 'LIKE', "%{$search}%")
                 ->orWhere('last_name', 'LIKE', "%{$search}%");
-        })->get(['first_name', 'last_name', 'email']);
+        })->get(['id', 'first_name', 'last_name', 'email']);
 
         $results = $talents->concat($businesses);
 
