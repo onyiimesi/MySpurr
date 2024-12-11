@@ -55,7 +55,7 @@ class JobResource extends JsonResource
             'currency' => (string)$this->currency,
             'skills' => (array)$this->skills,
             'experience' => (string)$this->experience,
-            'qualification' => (string)$this->commitment,
+            'qualification' => (string)$this->qualification,
             'applicants' => $this->jobapply->groupBy(['talent_id'])->count(),
             'recent_applicants' => $this->jobapply->where('created_at', '>=', $sevenDaysAgo)->groupBy('talent_id')->count(),
             'is_bookmark' => (string)$this->is_bookmark,
