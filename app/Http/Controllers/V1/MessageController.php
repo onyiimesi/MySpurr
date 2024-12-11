@@ -143,21 +143,23 @@ class MessageController extends Controller
     {
         $auth = Auth::user();
 
-        if($auth->type === "talent"){
-
+        if ($auth->type === "talent") {
             $talent = Talent::with(['sentMessages'])
-            ->where('id', $auth->id)
-            ->first();
+                ->where('id', $auth->id)
+                ->first();
 
-            $messagesQuery = $talent->sentMessages()->orderBy('created_at', 'desc');
+            $messagesQuery = $talent->sentMessages()
+                ->with(['sender', 'receiver'])
+                ->orderBy('created_at', 'desc');
 
-        } elseif($auth->type === "business"){
-
+        } elseif ($auth->type === "business") {
             $business = Business::with(['sentMessages'])
-            ->where('id', $auth->id)
-            ->first();
+                ->where('id', $auth->id)
+                ->first();
 
-            $messagesQuery = $business->sentMessages()->orderBy('created_at', 'desc');
+            $messagesQuery = $business->sentMessages()
+                ->with(['sender', 'receiver'])
+                ->orderBy('created_at', 'desc');
 
         } else {
             return $this->error(null, 404, "User not found!");
@@ -182,7 +184,12 @@ class MessageController extends Controller
 
     public function msgdetail($id)
     {
-        $message = Message::with('messageReply')->find($id);
+        $message = Message::with([
+            'messageReply.sender', 
+            'messageReply.receiver', 
+            'sender', 
+            'receiver'
+        ])->find($id);
 
         if (!$message) {
             return $this->error(null, 404, "Not found!");

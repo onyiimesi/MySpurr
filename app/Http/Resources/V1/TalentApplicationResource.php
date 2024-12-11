@@ -31,12 +31,9 @@ class TalentApplicationResource extends JsonResource
             'status' => (string)$this->status,
             'job_info' => (object) [
                 'job_title' => (string)$job?->job_title,
-                'location' => (string)$job?->location,
                 'skills' => (array)$job?->skills,
                 'rate' => (string)$job?->rate,
-                'commitment' => (string)$job?->commitment,
                 'job_type' => (string)$job?->job_type,
-                'capacity' => (string)$job?->capacity,
                 'experience' => (string)$job?->experience,
                 'description' => (string)$job?->description,
                 'salary_min' => (string)$job?->salary_min,
