@@ -8,9 +8,10 @@ class MessageRepository
 {
     public function getMessages($userId1, $userId2)
     {
-        return Message::where(function ($query) use ($userId1, $userId2) {
-            $query->where('sender_id', $userId1)
-                ->where('receiver_id', $userId2);
+        return Message::with(['sender', 'receiver'])
+            ->where(function ($query) use ($userId1, $userId2) {
+                $query->where('sender_id', $userId1)
+                    ->where('receiver_id', $userId2);
         })
             ->orWhere(function ($query) use ($userId1, $userId2) {
                 $query->where('sender_id', $userId2)

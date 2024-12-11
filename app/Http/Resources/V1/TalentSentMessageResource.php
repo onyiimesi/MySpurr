@@ -55,7 +55,7 @@ class TalentSentMessageResource extends JsonResource
                     ],
                     'id' => $reply->id,
                     'message' => $reply->message,
-                    'attachments' => $reply->attachments,
+                    'attachments' => $reply->attachment,
                     'replied_at' => Carbon::parse($reply->replied_at)->format('d M Y h:i A'),
                     'status' => $reply->status,
                 ];
