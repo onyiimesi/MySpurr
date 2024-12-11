@@ -23,8 +23,17 @@ class ProfileController extends Controller
         }
 
         if ($user->type === 'talent') {
-            $data = Talent::with(['topskills', 'educations', 'employments', 'certificates', 'portfolios'])
-            ->findOrFail($user->id);
+            $data = Talent::with(
+                [
+                    'topskills',
+                    'educations',
+                    'employments',
+                    'certificates',
+                    'portfolios.portfolioprojectimage',
+                    'talentbillingaddress',
+                ]
+                )
+                ->findOrFail($user->id);
 
             return $this->handleTalentProfile($data);
         }
