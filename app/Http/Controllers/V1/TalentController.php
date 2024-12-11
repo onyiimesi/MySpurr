@@ -17,7 +17,7 @@ class TalentController extends Controller
 
     public function listTalents(Request $request)
     {
-        $query = Talent::with(['portfolios'])
+        $query = Talent::with(['portfolios.portfolioprojectimage'])
             ->where('status', 'Active');
 
         if ($request->filled('search')) {
