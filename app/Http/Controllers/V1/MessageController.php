@@ -163,7 +163,7 @@ class MessageController extends Controller
             $messagesQuery = $business->sentMessages()
                 ->with([
                     'messageReply.sender',
-                    'messageReply.receiver', 
+                    'messageReply.receiver',
                 ])
                 ->orderBy('created_at', 'desc');
 
@@ -191,9 +191,9 @@ class MessageController extends Controller
     public function msgdetail($id)
     {
         $message = Message::with([
-            'messageReply.sender', 
-            'messageReply.receiver', 
-            'sender', 
+            'messageReply.sender',
+            'messageReply.receiver',
+            'sender',
             'receiver'
         ])->find($id);
 
