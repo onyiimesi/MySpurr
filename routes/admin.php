@@ -3,15 +3,16 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\MailController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ChartController;
+use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\OthersController;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AdminJobsController;
 use App\Http\Controllers\Admin\AdminTalentsController;
 use App\Http\Controllers\Admin\AdminBusinessController;
 use App\Http\Controllers\Admin\AdminExternalJobController;
-use App\Http\Controllers\Admin\AdminJobsController;
-use App\Http\Controllers\Admin\EventController;
-use App\Http\Controllers\Admin\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -131,6 +132,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::patch('/edit/{slug}', 'editJob');
         Route::patch('/close/{slug}', 'closeJob');
     });
+
+    Route::prefix('chart')
+        ->controller(ChartController::class)
+        ->group(function () {
+            Route::get('/revenue', 'getRevenueChart');
+            Route::get('/visitors', 'getVisitors');
+        });
 
 
     Route::post('add/user', [AdminAuthController::class, 'addUser']);
