@@ -7,7 +7,6 @@ use App\Http\Resources\Admin\EventResource;
 use App\Mail\v1\EventRegisterMail;
 use App\Models\Admin\Event;
 use App\Traits\HttpResponses;
-use Illuminate\Support\Facades\Auth;
 
 class EventService
 {
@@ -16,7 +15,7 @@ class EventService
     public function getAll()
     {
         $events = Event::with('eventBrandPartners')
-        ->orderBy('event_date', 'asc')
+        ->orderBy('event_date', 'desc')
         ->paginate(25);
 
         $data = EventResource::collection($events);
