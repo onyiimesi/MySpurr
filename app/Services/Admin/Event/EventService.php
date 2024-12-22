@@ -97,7 +97,7 @@ class EventService
     {
         $perPage = request()->query('per_page', 25);
         $events = Event::with(['eventBrandPartners', 'registeredEvents'])
-        ->orderBy('created_at', 'desc')
+        ->orderBy('event_date', 'desc')
         ->paginate($perPage);
 
         $data = EventResource::collection($events);
