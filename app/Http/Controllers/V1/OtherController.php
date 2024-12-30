@@ -15,13 +15,9 @@ use App\Models\V1\JobView;
 use App\Models\V1\OpenTicket;
 use App\Models\V1\Talent;
 use App\Models\V1\TalentJob;
-use App\Services\CountryState\CountryService;
-use App\Services\CountryState\StateDetailsService;
-use App\Services\CountryState\StateService;
 use App\Services\Others\Service;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class OtherController extends Controller
@@ -283,7 +279,7 @@ class OtherController extends Controller
 
         $job = TalentJob::where('slug', $slug)
         ->where('business_id', $business->id)
-        ->with('jobapply')
+        ->with(['jobapply.talent'])
         ->first();
 
         if(!$job){
