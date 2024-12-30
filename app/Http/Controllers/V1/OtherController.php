@@ -277,10 +277,20 @@ class OtherController extends Controller
         $user = Auth::user();
         $business = Business::findOrFail($user->id);
 
-        $job = TalentJob::where('slug', $slug)
-        ->where('business_id', $business->id)
-        ->with(['jobapply.talent'])
-        ->first();
+        $job = TalentJob::with([
+            'jobapply.talent' => function($query) {
+                $query->with([
+                    'ratingsReceived', 
+                    'topskills', 
+                    'educations', 
+                    'employments', 
+                    'certificates', 
+                    'portfolios'
+                ]);
+            }
+        ])->where('slug', $slug)
+          ->where('business_id', $business->id)
+          ->first();
 
         if(!$job){
             return $this->error(null, 400, "Not found");
