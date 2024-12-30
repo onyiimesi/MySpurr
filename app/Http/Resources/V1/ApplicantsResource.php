@@ -70,21 +70,18 @@ class ApplicantsResource extends JsonResource
                             'certificate_date' => Carbon::parse($cert->certificate_date)->format('j M Y'),
                             'certificate_year' => $cert->certificate_year,
                             'certificate_link' => $cert->certificate_link,
-                            'curently_working_here' => $cert->curently_working_here
+                            'curently_working_here' => $cert->currently_working_here
                         ];
                     })->toArray(),
                     'portfolio' => $applicant->talent->portfolios->map(function($port) {
                         return [
                             'id' => $port->id,
                             'title' => $port->title,
-                            'client_name' => $port->client_name,
-                            'job_type' => $port->job_type,
-                            'location' => $port->location,
-                            'max_rate' => $port->max_rate,
-                            'min_rate' => $port->min_rate,
+                            'category_id' => $port->category_id,
+                            'featured_image' => $port->featured_image,
+                            'link' => $port->link,
+                            'description' => $port->description,
                             'tags' => json_decode($port->tags),
-                            'cover_image' => $port->cover_image,
-                            'body' =>  $port->body,
                             'is_draft' =>  $port->is_draft,
                         ];
                     })->toArray()
