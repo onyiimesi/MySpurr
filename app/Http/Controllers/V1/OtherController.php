@@ -318,7 +318,14 @@ class OtherController extends Controller
 
     public function applicationSlug($talentId, $slug)
     {
-        $job = JobApply::with(['talent'])->where('talent_id', $talentId)
+        $job = JobApply::with([
+            'talent',
+            'talent.topskills',
+            'talent.educations',
+            'talent.employments',
+            'talent.certificates',
+            'talent.ratingsReceived'
+        ])->where('talent_id', $talentId)
         ->where('slug', $slug)
         ->first();
 

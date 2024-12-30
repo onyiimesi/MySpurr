@@ -86,7 +86,7 @@ class ApplicationResource extends JsonResource
                     'certificate_date' => Carbon::parse($cert->certificate_date)->format('j M Y'),
                     'certificate_year' => $cert->certificate_year,
                     'certificate_link' => $cert->certificate_link,
-                    'curently_working_here' => $cert->curently_working_here
+                    'curently_working_here' => $cert->currently_working_here
                 ];
             })->toArray(),
             'questions' => $questions->map(function($quest) {
