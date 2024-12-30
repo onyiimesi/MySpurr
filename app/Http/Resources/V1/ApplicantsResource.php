@@ -32,7 +32,7 @@ class ApplicantsResource extends JsonResource
                     'image' => $applicant?->talent?->image,
                     'location' => $applicant?->talent?->location,
                     'experience_level' => $applicant?->talent?->experience_level,
-                    'availaibility' => $applicant?->talent?->availaibility,
+                    'availaibility' => $applicant?->talent?->availability,
                     'rate' => $applicant?->talent?->rate,
                     'rating' => $applicant?->talent?->ratingsReceived?->first()?->rating,
                     'top_skills' => $applicant?->talent?->topskills->map(function($skill) {
