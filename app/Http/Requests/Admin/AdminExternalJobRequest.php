@@ -25,8 +25,6 @@ class AdminExternalJobRequest extends FormRequest
             'title' => ['required', 'string'],
             'company_name' => ['required', 'string'],
             'job_type' => ['required', 'in:remote,full-time,part-time,internship,contract'],
-            'responsibilities' => ['required'],
-            'required_skills' => ['required'],
         ];
     }
 
