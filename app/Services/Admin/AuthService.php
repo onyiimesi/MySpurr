@@ -47,13 +47,16 @@ class AuthService
                 return $this->error('', 'Account is not verified, check email', 400);
             }
 
-            $user = Admin::where('email', $request->email)->first();
+            $user = Admin::select('id', 'first_name', 'last_name', 'email', 'is_active', 'status')
+                ->where('email', $request->email)
+                ->first();
             $token = $user->createToken('API Token of '. $user->email);
 
             return $this->success([
                 'is_active' => (int)$user->is_active,
                 'status' => (int)$user->status,
-                'token' => $token->plainTextToken
+                'token' => $token->plainTextToken,
+                'user' => $user,
             ]);
         }
 

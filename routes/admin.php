@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\OthersController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminJobsController;
+use App\Http\Controllers\Admin\AdminMessageController;
 use App\Http\Controllers\Admin\AdminTalentsController;
 use App\Http\Controllers\Admin\AdminBusinessController;
 use App\Http\Controllers\Admin\AdminExternalJobController;
@@ -132,6 +133,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::patch('/edit/{slug}', 'editJob');
         Route::patch('/close/{slug}', 'closeJob');
     });
+
+    Route::prefix('message')->controller(AdminMessageController::class)
+        ->group(function () {
+            Route::post('/send', 'sendMessage');
+        });
 
     Route::prefix('chart')
         ->controller(ChartController::class)

@@ -2,27 +2,28 @@
 
 namespace App\Http\Controllers\V1;
 
+use Carbon\Carbon;
+use App\Models\V1\Talent;
+use App\Models\V1\Message;
+use App\Models\V1\Business;
+use App\Mail\v1\MessageMail;
+use App\Traits\MessageTrait;
+use Illuminate\Http\Request;
+use App\Traits\HttpResponses;
 use App\Actions\SendMailAction;
-use App\Http\Controllers\Controller;
+use App\Models\V1\MessageReply;
 use App\Events\V1\MessagingEvent;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Repositories\MessageRepository;
 use App\Http\Requests\MessageReplyRequest;
 use App\Http\Resources\V1\MessageResource;
-use App\Http\Resources\V1\TalentReceivedMessageResource;
 use App\Http\Resources\V1\TalentSentMessageResource;
-use App\Mail\v1\MessageMail;
-use App\Models\V1\Business;
-use App\Models\V1\Message;
-use App\Models\V1\MessageReply;
-use App\Models\V1\Talent;
-use App\Repositories\MessageRepository;
-use App\Traits\HttpResponses;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\V1\TalentReceivedMessageResource;
 
 class MessageController extends Controller
 {
-    use HttpResponses;
+    use HttpResponses, MessageTrait;
 
     public function __construct(private MessageRepository $messageRepository)
     {
@@ -40,14 +41,9 @@ class MessageController extends Controller
                     'status' => 'read'
                 ]);
         }
-
         $msg = MessageResource::collection($messages);
 
-        return [
-            'status' => 'true',
-            'message' => '',
-            'data' => $msg
-        ];
+        return $this->success($msg, "All messages", 200);
     }
 
     public function store(Request $request)
@@ -85,7 +81,6 @@ class MessageController extends Controller
             (new SendMailAction($request->to, new MessageMail($message)))->run();
 
             return $this->success(null, "Sent successfully");
-
         } catch (\Exception $e) {
             return $this->error(null, 500, $e->getMessage());
         }
@@ -277,21 +272,6 @@ class MessageController extends Controller
             'body' => 'required|string',
             'attachments' => 'nullable|array'
         ]);
-    }
-
-    private function determineReceiverType($email)
-    {
-        return Talent::where('email', $email)->exists() ? Talent::class : Business::class;
-    }
-
-    private function findReceiver($email, $receiverType)
-    {
-        return $receiverType::where('email', $email)->first();
-    }
-
-    private function determineSenderType()
-    {
-        return auth()->user() instanceof Business ? Business::class : Talent::class;
     }
 
     private function processAttachments($attachments)

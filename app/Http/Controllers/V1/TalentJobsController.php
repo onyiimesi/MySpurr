@@ -208,9 +208,13 @@ class TalentJobsController extends Controller
         $user = Auth::user();
         $talent = Talent::where('uuid', $user->uuid)->first();
         if(!$talent){
-            return $this->error('', 401, 'Error');
+            return $this->error(null, 404, 'Not found!');
         }
+
+        $type = request()->query('type', 'open');
+        
         $jobappy = JobApply::where('talent_id', $talent->id)
+            ->where('type', $type)
             ->orderBy('created_at', 'desc')
             ->get();
 
