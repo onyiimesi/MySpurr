@@ -37,6 +37,7 @@ class MessageResource extends JsonResource
                 'last_name' => $this->receiver->last_name,
                 'email' => $this->receiver->email,
             ],
+            'type' => $this->sender_type === 'App\Models\Admin\Admin' ? 'admin' : 'primary',
             'status' => (string)$this->status
         ];
     }
