@@ -2,6 +2,7 @@
 
 namespace App\Models\V1;
 
+use App\Models\Admin\Admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,22 +36,36 @@ class Message extends Model
         return $this->messageReply()->count() > 0;
     }
 
+    // public function sender()
+    // {
+    //     if ($this->sender_type === 'App\Models\V1\Business') {
+    //         return $this->belongsTo(Business::class, 'sender_id');
+    //     } elseif ($this->sender_type === 'App\Models\V1\Talent') {
+    //         return $this->belongsTo(Talent::class, 'sender_id');
+    //     } else {
+    //         return $this->belongsTo(Admin::class, 'sender_id');
+    //     }
+    // }
+
     public function sender()
     {
-        if ($this->sender_type === 'App\Models\V1\Business') {
-            return $this->belongsTo(Business::class, 'sender_id');
-        } else {
-            return $this->belongsTo(Talent::class, 'sender_id');
-        }
+        return $this->morphTo();
     }
+
+    // public function receiver()
+    // {
+    //     if ($this->receiver_type === 'App\Models\V1\Business') {
+    //         return $this->belongsTo(Business::class, 'receiver_id');
+    //     } elseif ($this->receiver_type === 'App\Models\V1\Talent') {
+    //         return $this->belongsTo(Talent::class, 'receiver_id');
+    //     } else {
+    //         return $this->belongsTo(Admin::class, 'receiver_id');
+    //     }
+    // }
 
     public function receiver()
     {
-        if ($this->receiver_type === 'App\Models\V1\Business') {
-            return $this->belongsTo(Business::class, 'receiver_id');
-        } else {
-            return $this->belongsTo(Talent::class, 'receiver_id');
-        }
+        return $this->morphTo();
     }
 
     public function messageReply()
