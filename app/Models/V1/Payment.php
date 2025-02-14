@@ -2,12 +2,13 @@
 
 namespace App\Models\V1;
 
+use App\Traits\ClearsResponseCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
-    use HasFactory;
+    use HasFactory, ClearsResponseCache;
 
     protected $fillable = [
         'business_id',

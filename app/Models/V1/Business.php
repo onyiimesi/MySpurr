@@ -3,6 +3,7 @@
 namespace App\Models\V1;
 
 use App\Notifications\V1\ResetPasswordNotification;
+use App\Traits\ClearsResponseCache;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +14,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Business extends Authenticatable implements Auditable
 {
-    use HasFactory, SoftDeletes, HasApiTokens, Notifiable;
+    use HasFactory, SoftDeletes, HasApiTokens, Notifiable, ClearsResponseCache;
     use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [

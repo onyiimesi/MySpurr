@@ -10,13 +10,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\V1\ResetPasswordNotification;
 use App\Observers\TalentObserver;
+use App\Traits\ClearsResponseCache;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
 #[ObservedBy([TalentObserver::class])]
 class Talent extends Authenticatable implements Auditable
 {
-    use HasFactory, SoftDeletes, HasApiTokens, Notifiable;
+    use HasFactory, SoftDeletes, HasApiTokens, Notifiable, ClearsResponseCache;
     use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
