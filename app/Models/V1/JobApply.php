@@ -2,13 +2,14 @@
 
 namespace App\Models\V1;
 
+use App\Traits\ClearsResponseCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class JobApply extends Model implements Auditable
 {
-    use HasFactory;
+    use HasFactory, ClearsResponseCache;
     use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [

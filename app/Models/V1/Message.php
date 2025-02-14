@@ -2,13 +2,13 @@
 
 namespace App\Models\V1;
 
-use App\Models\Admin\Admin;
+use App\Traits\ClearsResponseCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
-    use HasFactory;
+    use HasFactory, ClearsResponseCache;
 
     protected $fillable = [
         'sender_id',
@@ -24,7 +24,9 @@ class Message extends Model
         'is_draft',
         'is_sent',
         'sent_at',
-        'status'
+        'status',
+        'broad_cast_message_id',
+        'type',
     ];
 
     protected $casts = [
@@ -36,32 +38,10 @@ class Message extends Model
         return $this->messageReply()->count() > 0;
     }
 
-    // public function sender()
-    // {
-    //     if ($this->sender_type === 'App\Models\V1\Business') {
-    //         return $this->belongsTo(Business::class, 'sender_id');
-    //     } elseif ($this->sender_type === 'App\Models\V1\Talent') {
-    //         return $this->belongsTo(Talent::class, 'sender_id');
-    //     } else {
-    //         return $this->belongsTo(Admin::class, 'sender_id');
-    //     }
-    // }
-
     public function sender()
     {
         return $this->morphTo();
     }
-
-    // public function receiver()
-    // {
-    //     if ($this->receiver_type === 'App\Models\V1\Business') {
-    //         return $this->belongsTo(Business::class, 'receiver_id');
-    //     } elseif ($this->receiver_type === 'App\Models\V1\Talent') {
-    //         return $this->belongsTo(Talent::class, 'receiver_id');
-    //     } else {
-    //         return $this->belongsTo(Admin::class, 'receiver_id');
-    //     }
-    // }
 
     public function receiver()
     {
@@ -71,5 +51,10 @@ class Message extends Model
     public function messageReply()
     {
         return $this->hasMany(MessageReply::class, 'message_id');
+    }
+
+    public function broadCastMessages()
+    {
+        return $this->hasMany(BroadCastMessage::class, 'broad_cast_message_id');
     }
 }
