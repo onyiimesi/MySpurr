@@ -60,7 +60,7 @@ class TalentJobsController extends Controller
             ->where('status', TalentJobStatus::ACTIVE)
             ->orderBy('is_highlighted', 'desc')
             ->orderBy('created_at', 'desc')
-            ->paginate(25);
+            ->paginate(15);
         $jobs = TalentJobResourceNoAuth::collection($job);
 
         return [
@@ -96,7 +96,7 @@ class TalentJobsController extends Controller
     {
         $job = ExternalJob::where('status', TalentJobStatus::ACTIVE)
             ->orderBy('created_at', 'desc')
-            ->paginate(25);
+            ->paginate(15);
         $jobs = AdminExternalJobResource::collection($job);
 
         return [
@@ -212,7 +212,7 @@ class TalentJobsController extends Controller
         }
 
         $type = request()->query('type', 'open');
-        
+
         $jobappy = JobApply::where('talent_id', $talent->id)
             ->where('type', $type)
             ->orderBy('created_at', 'desc')
