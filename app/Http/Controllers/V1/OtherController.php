@@ -235,7 +235,7 @@ class OtherController extends Controller
             'reason' => ['required_if:get_candidate,false']
         ]);
 
-        $job = TalentJob::where('id', $id)
+        $job = TalentJob::with('jobapply')->where('id', $id)
         ->first();
 
         $updateData = [
@@ -249,6 +249,7 @@ class OtherController extends Controller
         }
 
         $job->update($updateData);
+        $job->jobapply()->update(['status' => TalentJobStatus::CLOSED]);
 
         return $this->success(null, "Job closed", 200);
     }
@@ -280,11 +281,11 @@ class OtherController extends Controller
         $job = TalentJob::with([
             'jobapply.talent' => function($query) {
                 $query->with([
-                    'ratingsReceived', 
-                    'topskills', 
-                    'educations', 
-                    'employments', 
-                    'certificates', 
+                    'ratingsReceived',
+                    'topskills',
+                    'educations',
+                    'employments',
+                    'certificates',
                     'portfolios'
                 ]);
             }

@@ -2,6 +2,7 @@
 
 namespace App\Models\V1;
 
+use App\Mail\v1\TalentBroadcast;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
@@ -187,5 +188,10 @@ class Talent extends Authenticatable implements Auditable
     public function ratingsReceived()
     {
         return $this->hasMany(Rating::class, 'talent_id');
+    }
+
+    public function sendOnboardingEmail()
+    {
+        sendMail($this->email, new TalentBroadcast($this));
     }
 }

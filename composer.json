@@ -9,7 +9,7 @@
         "geoip2/geoip2": "^3.0",
         "guzzlehttp/guzzle": "^7.9.2",
         "imagekit/imagekit": "^4.0.2",
-        "laravel/framework": "^11.41.0",
+        "laravel/framework": "^11.44",
         "laravel/sanctum": "^4.0.8",
         "laravel/socialite": "^5.17.1",
         "laravel/tinker": "^2.10",

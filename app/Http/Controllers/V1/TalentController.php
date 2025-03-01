@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Enum\UserStatus;
+use App\Models\V1\Talent;
+use App\Models\V1\JobTitle;
+use Illuminate\Http\Request;
+use App\Traits\HttpResponses;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\TalentResource;
 use App\Http\Resources\V1\JobTitleResource;
 use App\Http\Resources\V1\TalentListResource;
-use App\Http\Resources\V1\TalentResource;
-use App\Models\V1\JobTitle;
-use App\Models\V1\Talent;
-use App\Traits\HttpResponses;
-use Illuminate\Http\Request;
 
 class TalentController extends Controller
 {
@@ -18,7 +19,7 @@ class TalentController extends Controller
     public function listTalents(Request $request)
     {
         $query = Talent::with(['portfolios.portfolioprojectimage'])
-            ->where('status', 'Active');
+            ->where('status', UserStatus::ACTIVE);
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
@@ -92,17 +93,23 @@ class TalentController extends Controller
 
     public function talentbyid(Request $request)
     {
-        $talents = Talent::where('status', 'Active')
-        ->where('uuid', $request->uuid)
-        ->firstOrFail();
+        $talents = Talent::with([
+                'topskills',
+                'educations',
+                'employments',
+                'certificates',
+                'portfolios',
+                'talentwallet',
+                'talentbillingaddress',
+                'talentidentity',
+            ])
+            ->where('uuid', $request->uuid)
+            ->where('status', UserStatus::ACTIVE)
+            ->firstOrFail();
 
-        $talent = new TalentResource($talents);
+        $data = new TalentResource($talents);
 
-        return [
-            'status' => 'true',
-            'message' => 'Talent Details',
-            'data' => $talent
-        ];
+        return $this->success($data, "Talent detail");
     }
 
     public function jobtitle()
@@ -110,11 +117,7 @@ class TalentController extends Controller
         $title = JobTitle::get();
         $titles = JobTitleResource::collection($title);
 
-        return [
-            "status" => 'true',
-            "message" => 'Job Title List',
-            "data" => $titles
-        ];
+        return $this->success($titles, "Job title list");
     }
 
     public function createJobTitle(Request $request)
@@ -127,6 +130,6 @@ class TalentController extends Controller
             'name' => $request->name
         ]);
 
-        return $this->success(null, "Created successfully");
+        return $this->success(null, "Created successfully", 201);
     }
 }

@@ -36,6 +36,7 @@ class ChartController extends Controller
             ['month' => 9, 'year' => 2024, 'salesRevenue' => 400000, 'mySpurrFee' => 60000],
             ['month' => 10, 'year' => 2024, 'salesRevenue' => 2750000, 'mySpurrFee' => 412500],
             ['month' => 11, 'year' => 2024, 'salesRevenue' => 300000, 'mySpurrFee' => 45000],
+            ['month' => 1, 'year' => 2025, 'salesRevenue' => 350000, 'mySpurrFee' => 52500],
         ];
 
         $labels = [];
