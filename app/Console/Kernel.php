@@ -17,6 +17,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('queue:prune-batches --hours=48 --unfinished=72')->daily();
         $schedule->command('app:job-suggestion')->weeklyOn(1, '0:00');
         $schedule->command('app:event-mail')->daily();
+        $schedule->command('talent-onboarding:email')
+            ->withoutOverlapping()
+            ->cron('0 0 */3 * *');
     }
 
     /**

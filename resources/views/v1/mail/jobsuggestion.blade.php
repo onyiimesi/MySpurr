@@ -928,7 +928,7 @@
                                                                         <table>
                                                                             <tr class="topRow">
                                                                                 @php
-                                                                                    $image = $job->business->company_logo !== null ? $job->business->company_logo : "https://backend-api.myspurr.net/public/assets/userplaceholder.jpg";
+                                                                                    $image = $job->business?->company_logo !== null ? $job->business?->company_logo : "https://backend-api.myspurr.net/public/assets/userplaceholder.jpg";
                                                                                 @endphp
                                                                                 <td class="img">
                                                                                     <img src="{{ $image }}" alt="job logo">
@@ -942,7 +942,7 @@
                                                                                                         <td>
                                                                                                             <h3
                                                                                                                 class="company">
-                                                                                                                {{ $job->business->business_name }}
+                                                                                                                {{ $job->business?->business_name }}
                                                                                                             </h3>
                                                                                                             <h3
                                                                                                                 class="role">

@@ -2,10 +2,12 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\v1\JobSuggestionMail;
+use App\Enum\UserStatus;
 use App\Models\V1\Talent;
 use App\Models\V1\TalentJob;
+use App\Enum\TalentJobStatus;
 use Illuminate\Console\Command;
+use App\Mail\v1\JobSuggestionMail;
 use Illuminate\Support\Facades\Mail;
 
 class JobSuggestion extends Command
@@ -29,21 +31,21 @@ class JobSuggestion extends Command
      */
     public function handle()
     {
-        $talents = Talent::where('status', 'active')->get();
+        $talents = Talent::where('status', UserStatus::ACTIVE)->get();
 
-        foreach ($talents as $talent) {
-            $jobs = TalentJob::with(['jobapply', 'business', 'questions'])
-                ->where('status', 'active')
-                ->inRandomOrder()
-                ->orderBy('is_highlighted', 'desc')
-                ->orderBy('created_at', 'desc')
-                ->take(3)
-                ->get();
+        $jobs = TalentJob::with(['jobapply', 'business', 'questions'])
+            ->whereStatus(TalentJobStatus::ACTIVE)
+            ->inRandomOrder()
+            ->orderBy('is_highlighted', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
 
-            if ($jobs->isNotEmpty()) {
-                Mail::to([$talent->email])
-                    ->send(new JobSuggestionMail($talent, $jobs));
+        if ($jobs->isNotEmpty()) {
+            foreach ($talents as $talent) {
+                Mail::to($talent->email)->send(new JobSuggestionMail($talent, $jobs));
             }
         }
     }
+
 }
