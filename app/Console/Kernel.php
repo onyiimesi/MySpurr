@@ -20,6 +20,18 @@ class Kernel extends ConsoleKernel
         $schedule->command('talent-onboarding:email')
             ->withoutOverlapping()
             ->cron('0 0 */3 * *');
+
+        $schedule->command('business-account:setup')
+            ->withoutOverlapping()
+            ->cron('0 0 */3 * *');
+
+        $schedule->command('business-post:job')
+            ->withoutOverlapping()
+            ->cron('0 0 */3 * *');
+
+        $schedule->command('business-search:talent')
+            ->withoutOverlapping()
+            ->cron('0 0 */3 * *');
     }
 
     /**
