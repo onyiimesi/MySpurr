@@ -1,5 +1,5 @@
 <!DOCTYPE html>
- <html lang=”en-US”>
+ <html lang="en-US">
  <head>
     <title></title>
  <meta charset="utf-8">
@@ -82,26 +82,34 @@
         <img src="https://backend-api.myspurr.net/public/logo/logo.png" alt="">
     </div>
     <div class="main">
-        <h3>Hi {{ $talent->first_name }}</h3>
+        <h3>Hi {{ $business->first_name }}</h3>
         <p>
-            Here’s how to make the most of your experience on MySpurr, the platform where African talents like you connect with top local and global businesses:
+            Finding the right creative talent is essential for your business success. Here’s how you can effectively search and evaluate candidates on MySpurr.
         </p>
 
-        <p>1. Complete Your Profile – A well-detailed profile increases your chances of getting hired.</p>
-        <p>2. Upload Your Best Work – Showcase your skills with portfolio samples.</p>
-        <p>3. Start Browsing Jobs – Opportunities in tech, marketing, and design are waiting for you.</p>
+        <p><strong>Using Our Platform:</strong></p>
+        <ul>
+            <li><strong>Advanced Filters:</strong> Use our search tools to filter candidates by skill set, experience, location, and availability.</li>
+            <li><strong>Profile Review:</strong> Dive into each candidate’s portfolio, review their past projects, and check ratings and testimonials.</li>
+            <li><strong>Tailored Recommendations:</strong> Our platform’s algorithm provides personalized candidate suggestions based on your job requirements.</li>
+        </ul>
+
+        <p><strong>Best Practices:</strong></p>
+        <ul>
+            <li>Look for consistency in quality and presentation.</li>
+            <li>Prioritize candidates with strong portfolios and clear professional narratives.</li>
+        </ul>
 
         <p>
-            Watch this video to get started: <br />
-            <a href="https://www.youtube.com/watch?v=XQA7S93Jv20&t=5s">https://www.youtube.com/watch?v=XQA7S93Jv20&t=5s</a>
+            Watch this video to learn more: <br />
+            <a href="https://www.youtube.com/watch?v=wOKNNYPdOzg">https://www.youtube.com/watch?v=wOKNNYPdOzg</a>
         </p>
         <p>
-            Need help? We’re always here for you! <br>
-            Reach out anytime at <a href="hello@myspurr.net">hello@myspurr.net</a>. Excited to see you thrive,
+            Need further guidance? Our support team is here to help at <a href="mailto:hello@myspurr.net">hello@myspurr.net</a>.
         </p>
         <p>
-            Best, <br>
-            Michael from MySpurr
+            Best regards,<br>
+            The MySpurr Team
         </p>
     </div>
 </body>

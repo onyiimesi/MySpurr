@@ -2,6 +2,9 @@
 
 namespace App\Models\V1;
 
+use App\Mail\V1\BusinessAccountSetupEmail;
+use App\Mail\V1\BusinessPostJobEmail;
+use App\Mail\V1\BusinessSearchTalentEmail;
 use App\Notifications\V1\ResetPasswordNotification;
 use App\Traits\ClearsResponseCache;
 use Illuminate\Support\Str;
@@ -99,5 +102,20 @@ class Business extends Authenticatable implements Auditable
     public function talentjobtypes()
     {
         return $this->hasMany(TalentJobType::class, 'business_id');
+    }
+
+    public function sendAccountSetupEmail()
+    {
+        sendMail($this->email, new BusinessAccountSetupEmail($this));
+    }
+
+    public function sendPostJobEmail()
+    {
+        sendMail($this->email, new BusinessPostJobEmail($this));
+    }
+
+    public function sendSearchTalentEmail()
+    {
+        sendMail($this->email, new BusinessSearchTalentEmail($this));
     }
 }

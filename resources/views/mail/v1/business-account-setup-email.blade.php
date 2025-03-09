@@ -82,18 +82,22 @@
         <img src="https://backend-api.myspurr.net/public/logo/logo.png" alt="">
     </div>
     <div class="main">
-        <h3>Hi {{ $talent->first_name }}</h3>
+        <h3>Hi {{ $business->first_name }}</h3>
         <p>
-            Here’s how to make the most of your experience on MySpurr, the platform where African talents like you connect with top local and global businesses:
+            Welcome to MySpurr! We’re excited to have you on board as you start connecting with Africa’s top creative talents. In this email, we’ll guide you step-by-step on how to create and set up your business account.
         </p>
 
-        <p>1. Complete Your Profile – A well-detailed profile increases your chances of getting hired.</p>
-        <p>2. Upload Your Best Work – Showcase your skills with portfolio samples.</p>
-        <p>3. Start Browsing Jobs – Opportunities in tech, marketing, and design are waiting for you.</p>
+        <p><strong>Getting Started:</strong></p>
+
+        <ul>
+            <li>Registration: Visit our landing page and select "Business" from the sign-up options. Fill out the registration form with your company name, industry, email, website, social media links, and contact number.</li>
+            <li>Verification: Once registered, you'll receive a confirmation email. Simply click the verification link to activate your account.</li>
+            <li>Company Profile: Head over to your dashboard and complete your company profile. Add your logo, a compelling overview of your brand, and details about your services. A polished profile is key to attracting top talent.</li>
+        </ul>
 
         <p>
             Watch this video to get started: <br />
-            <a href="https://www.youtube.com/watch?v=XQA7S93Jv20&t=5s">https://www.youtube.com/watch?v=XQA7S93Jv20&t=5s</a>
+            <a href="https://www.youtube.com/watch?v=kjj5m4NFCVk">https://www.youtube.com/watch?v=kjj5m4NFCVk</a>
         </p>
         <p>
             Need help? We’re always here for you! <br>
