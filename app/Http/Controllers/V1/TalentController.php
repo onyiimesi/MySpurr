@@ -98,7 +98,7 @@ class TalentController extends Controller
                 'educations',
                 'employments',
                 'certificates',
-                'portfolios',
+                'portfolios.portfolioprojectimage',
                 'talentwallet',
                 'talentbillingaddress',
                 'talentidentity',
