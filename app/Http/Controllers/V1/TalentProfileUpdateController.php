@@ -118,19 +118,19 @@ class TalentProfileUpdateController extends Controller
 
     public function updateSkills(Request $request)
     {
-
         $user = Auth::user();
 
         if(!$user){
             return $this->error('', 401, 'Unauthorized');
         }
 
-        $talent = Talent::where('email', $user->email)->first();
+        $talent = Talent::where('email', $user->email)->firstOrFail();
 
         $talent->topskills()->delete();
-        foreach ($request->top_skills as $skills) {
-            $skill = new TopSkill($skills);
-            $talent->topskills()->save($skill);
+        foreach ($request->top_skills as $skillData) {
+            $talent->topskills()->create([
+                'name' => $skillData['name']
+            ]);
         }
 
         return [
