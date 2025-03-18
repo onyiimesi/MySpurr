@@ -61,7 +61,7 @@ class PaystackService
         $paymentDetails = [
             'email' => $request->email,
             'amount' => $amount * 100,
-            "currency" => "NGN",
+            "currency" => $job['currency'],
             'metadata' => json_encode([
                 'business_id' => $request->business_id,
                 'payment_portal_url' => config('services.paystack_payment_url'),
