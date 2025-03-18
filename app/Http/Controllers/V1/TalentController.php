@@ -93,7 +93,7 @@ class TalentController extends Controller
 
     public function talentbyid(Request $request)
     {
-        $talents = Talent::with([
+        $talent = Talent::with([
                 'topskills',
                 'educations',
                 'employments',
@@ -105,9 +105,13 @@ class TalentController extends Controller
             ])
             ->where('uuid', $request->uuid)
             ->where('status', UserStatus::ACTIVE)
-            ->firstOrFail();
+            ->first();
 
-        $data = new TalentResource($talents);
+        if (! $talent) {
+            return $this->error('', 404, 'Talent not found or inactive');
+        }
+
+        $data = new TalentResource($talent);
 
         return $this->success($data, "Talent detail");
     }
