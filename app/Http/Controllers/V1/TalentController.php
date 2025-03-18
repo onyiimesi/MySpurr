@@ -104,7 +104,6 @@ class TalentController extends Controller
                 'talentidentity',
             ])
             ->where('uuid', $request->uuid)
-            ->where('status', UserStatus::ACTIVE)
             ->first();
 
         if (! $talent) {
