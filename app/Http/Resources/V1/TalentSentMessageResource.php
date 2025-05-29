@@ -17,7 +17,7 @@ class TalentSentMessageResource extends JsonResource
     public function toArray(Request $request): array
     {
         $this->load(['sender', 'receiver']);
-        
+
         return [
             'id' => (int)$this->id,
             'sender_id' => (int)$this->sender_id,

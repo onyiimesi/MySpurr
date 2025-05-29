@@ -45,6 +45,13 @@ class PaystackService
         $amount = $totAmount + $vatAmount;
         $status = 1;
 
+        $currency = strtoupper($job['currency']);
+        $isNaira = $currency === 'NGN';
+
+        $paystackAmount = $isNaira
+            ? (int) round($amount * 100)
+            : (int) round($amount);
+
         // if($request->is_highlighted == 1){
         //     $amount = $totAmount + $this->highlight;
         //     $status = 1;
@@ -60,7 +67,7 @@ class PaystackService
 
         $paymentDetails = [
             'email' => $request->email,
-            'amount' => $amount * 100,
+            'amount' => $paystackAmount,
             "currency" => $job['currency'],
             'metadata' => json_encode([
                 'business_id' => $request->business_id,
