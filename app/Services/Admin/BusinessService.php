@@ -14,27 +14,35 @@ class BusinessService
     {
         $perPage = request()->query('per_page', 25);
         $searchFilter = request()->query('searchFilter', []);
-
-        $query = Business::with(['talentjob']);
+        $search = request()->query('q');
 
         if (is_string($searchFilter)) {
             $searchFilter = json_decode($searchFilter, true);
         }
 
-        if (isset($searchFilter['name'])) {
-            $query->where(function ($query) use ($searchFilter) {
-                $query->where('first_name', 'like', '%' . $searchFilter['name'] . '%')
-                      ->orWhere('last_name', 'like', '%' . $searchFilter['name'] . '%');
+        $query = Business::with(['talentjob'])
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('first_name', 'like', '%' . $search . '%')
+                        ->orWhere('last_name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%')
+                        ->orWhere('business_name', 'like', '%' . $search . '%');
+                });
+            })
+            ->when($searchFilter, function ($query) use ($searchFilter) {
+                if (isset($searchFilter['name'])) {
+                    $query->where(function ($query) use ($searchFilter) {
+                        $query->where('first_name', 'like', '%' . $searchFilter['name'] . '%')
+                            ->orWhere('last_name', 'like', '%' . $searchFilter['name'] . '%');
+                    });
+                }
+                if (isset($searchFilter['email'])) {
+                    $query->where('email', 'like', '%' . $searchFilter['email'] . '%');
+                }
+                if (isset($searchFilter['business_name'])) {
+                    $query->where('business_name', 'like', '%' . $searchFilter['business_name'] . '%');
+                }
             });
-        }
-
-        if (isset($searchFilter['email'])) {
-            $query->where('email', 'like', '%' . $searchFilter['email'] . '%');
-        }
-
-        if (isset($searchFilter['business_name'])) {
-            $query->where('business_name', 'like', '%' . $searchFilter['business_name'] . '%');
-        }
 
         $business = $query->paginate($perPage);
         $business = BusinessResource::collection($business);
