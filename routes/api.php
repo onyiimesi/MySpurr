@@ -3,7 +3,6 @@
 use App\Http\Controllers\V1\AuthController;
 use App\Http\Controllers\V1\BankAccountController;
 use App\Http\Controllers\V1\BlogController;
-use App\Http\Controllers\V1\BusinessMessageController;
 use App\Http\Controllers\V1\BusinessOnboardingController;
 use App\Http\Controllers\V1\ContactController;
 use App\Http\Controllers\V1\EventController;
