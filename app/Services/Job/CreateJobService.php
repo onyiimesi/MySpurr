@@ -42,7 +42,7 @@ class CreateJobService {
             $slug = $slug . '-' . uniqid();
         }
 
-        if($this->payment_option === PaymentOption::ONLINE) {
+        if ($this->payment_option === PaymentOption::ONLINE) {
             $data = new TalentJob();
 
             $data->business_id = $business->id;
@@ -92,7 +92,7 @@ class CreateJobService {
             }
 
             sendMail($this->email, new JobInvoiceMail($business, $this->payment, $data));
-            
+
         } else {
             $jobs = TalentJob::findOrFail($this->job_id);
 
