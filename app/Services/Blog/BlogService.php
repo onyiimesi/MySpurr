@@ -4,7 +4,6 @@ namespace App\Services\Blog;
 
 use App\Http\Resources\Admin\BlogCategoryResource;
 use App\Models\Admin\Blog;
-use Illuminate\Support\Str;
 use App\Traits\HttpResponses;
 use App\Http\Resources\Admin\BlogResource;
 use App\Models\Admin\BlogCategory;
@@ -18,7 +17,10 @@ class BlogService
     {
         $category = request()->query('category');
 
-        $query = Blog::with('blogcategory');
+        $query = Blog::select(
+                'id', 'title', 'slug', 'description', 'featured_photo', 'status', 'tags', 'blog_category_id', 'publish_date', 'created_at', 'content'
+            )
+            ->with('blogcategory');
 
         if ($category && $category !== 'ALL') {
             $query->where('blog_category_id', $category);
@@ -43,7 +45,11 @@ class BlogService
 
     public function getOne($id)
     {
-        $blog = Blog::findOrFail($id);
+        $blog = Blog::select(
+                'id', 'title', 'slug', 'description', 'featured_photo', 'status', 'tags', 'blog_category_id', 'publish_date', 'created_at', 'content'
+            )
+            ->with('blogcategory')
+            ->findOrFail($id);
         $data = new BlogResource($blog);
 
         return [
@@ -55,7 +61,12 @@ class BlogService
 
     public function getSlug($slug)
     {
-        $blog = Blog::where('slug', $slug)->firstOrFail();
+        $blog = Blog::select(
+                'id', 'title', 'slug', 'description', 'featured_photo', 'status', 'tags', 'blog_category_id', 'publish_date', 'created_at', 'content'
+            )
+            ->with('blogcategory')
+            ->where('slug', $slug)
+            ->firstOrFail();
         $data = new BlogResource($blog);
 
         return [
@@ -90,10 +101,13 @@ class BlogService
 
     public function recent()
     {
-        $blogs = Blog::with('blogcategory')
-        ->orderBy('created_at', 'desc')
-        ->take(3)
-        ->get();
+        $blogs = Blog::select(
+                'id', 'title', 'slug', 'description', 'featured_photo', 'status', 'tags', 'blog_category_id', 'publish_date', 'created_at', 'content'
+            )
+            ->with('blogcategory')
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
 
         $data = BlogResource::collection($blogs);
 
