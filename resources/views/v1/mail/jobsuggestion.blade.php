@@ -1132,7 +1132,7 @@
                                                                                             </td> --}}
                                                                                             <td class="text viewText"
                                                                                                 style="background-color: #43D0DF !important; color: #000; border: none; border-radius: 50px; text-align: center !important; padding: 8px 5px;">
-                                                                                                <a href="https://www.myspurr.net/{{ $job?->business?->business_name }}/{{ $job->slug }}"target="_blank">VIEW JOB</a>
+                                                                                                <a href="https://www.myspurr.net/{{ strtolower($job?->business?->business_name) ?? "" }}/{{ $job->slug }}"target="_blank">VIEW JOB</a>
                                                                                             </td>
                                                                                         </tr>
                                                                                     </table>
