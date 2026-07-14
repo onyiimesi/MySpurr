@@ -2,7 +2,6 @@
 
 namespace App\Models\V1;
 
-use App\Traits\ClearsResponseCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,7 +9,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class TalentJob extends Model implements Auditable
 {
-    use HasFactory, SoftDeletes, ClearsResponseCache;
+    use HasFactory, SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [

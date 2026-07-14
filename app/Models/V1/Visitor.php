@@ -2,13 +2,12 @@
 
 namespace App\Models\V1;
 
-use App\Traits\ClearsResponseCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Visitor extends Model
 {
-    use HasFactory, ClearsResponseCache;
+    use HasFactory;
 
     protected $fillable = [
         'ip_address',

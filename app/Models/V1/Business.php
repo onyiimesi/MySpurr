@@ -6,7 +6,6 @@ use App\Mail\V1\BusinessAccountSetupEmail;
 use App\Mail\V1\BusinessPostJobEmail;
 use App\Mail\V1\BusinessSearchTalentEmail;
 use App\Notifications\V1\ResetPasswordNotification;
-use App\Traits\ClearsResponseCache;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,7 +16,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Business extends Authenticatable implements Auditable
 {
-    use HasFactory, SoftDeletes, HasApiTokens, Notifiable, ClearsResponseCache;
+    use HasFactory, SoftDeletes, HasApiTokens, Notifiable;
     use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [

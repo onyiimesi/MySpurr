@@ -38,12 +38,9 @@ Route::prefix('lookups')->controller(OthersController::class)
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
-    Route::get('overview', [AdminController::class, 'overview'])
-        ->middleware('cacheResponse:600');
-    Route::get('latest/jobs', [AdminController::class, 'latestJobs'])
-        ->middleware('cacheResponse:600');
-    Route::get('visitors', [AdminController::class, 'visitors'])
-        ->middleware('cacheResponse:600');
+    Route::get('overview', [AdminController::class, 'overview']);
+    Route::get('latest/jobs', [AdminController::class, 'latestJobs']);
+    Route::get('visitors', [AdminController::class, 'visitors']);
 
     Route::prefix('talents')->controller(AdminTalentsController::class)->group(function () {
         Route::get('/all', 'index');
@@ -143,8 +140,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
             // Talents
             Route::post('/talent/broadcast', 'talentBroadcastMessage');
-            Route::get('/talent/messages', 'talentMessages')
-                ->middleware('cacheResponse:600');
+            Route::get('/talent/messages', 'talentMessages');
             Route::get('/talent/message/{id}', 'talentMessageDetails');
             Route::patch('/update/talent/message/{id}', 'updateTalentMessage');
             Route::delete('/delete/talent/message/{id}', 'deleteTalentMessage');
@@ -158,7 +154,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
 
     Route::prefix('chart')
-        ->middleware('cacheResponse:600')
         ->controller(ChartController::class)
         ->group(function () {
             Route::get('/revenue', 'getRevenueChart');
