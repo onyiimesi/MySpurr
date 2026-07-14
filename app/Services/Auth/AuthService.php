@@ -301,7 +301,7 @@ class AuthService
                 DB::commit();
             } catch (\Exception $e){
                 DB::rollBack();
-                throw $this->error('error', 400, 'Email sending failed!. Try again');
+                return $this->error('error', 400, 'Email sending failed!. Try again');
             }
             return $this->success('', 'Code sent successfully');
 
